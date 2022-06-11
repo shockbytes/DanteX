@@ -1,0 +1,134 @@
+{
+  "backupMetadata": {
+    "books": 4,
+    "device": "sdk_gphone64_x86_64",
+    "fileName": "dante-backup-1654939927011.json",
+    "id": "dante-backup-1654939927011.json",
+    "storageProvider": "ext_storage",
+    "timestamp": 1654939927011
+  },
+  "books": [
+    {
+      "author": "Daniel Kahneman",
+      "currentPage": 303,
+      "endDate": 0,
+      "googleBooksLink": "https://play.google.com/store/books/details?id\u003dZuKTvERuPG8C\u0026source\u003dgbs_api",
+      "id": 3,
+      "isbn": "9781429969352",
+      "labels": [
+        {
+          "bookId": 3,
+          "hexColor": "#ffff9800",
+          "title": "Philosophy"
+        },
+        {
+          "bookId": 3,
+          "hexColor": "#ff03a9f4",
+          "title": "Science"
+        }
+      ],
+      "language": "en",
+      "notes": "Good book",
+      "pageCount": 512,
+      "position": 0,
+      "publishedDate": "2011-10-25",
+      "rating": 3,
+      "startDate": 1654939672907,
+      "state": "READING",
+      "subTitle": "",
+      "summary": "Major New York Times bestseller Winner of the National Academy of Sciences Best Book Award in 2012 Selected by the New York Times Book Review as one of the ten best books of 2011 A Globe and Mail Best Books of the Year 2011 Title One of The Economist\u0027s 2011 Books of the Year One of The Wall Street Journal\u0027s Best Nonfiction Books of the Year 2011 2013 Presidential Medal of Freedom Recipient Kahneman\u0027s work with Amos Tversky is the subject of Michael Lewis\u0027s The Undoing Project: A Friendship That Changed Our Minds In the international bestseller, Thinking, Fast and Slow, Daniel Kahneman, the renowned psychologist and winner of the Nobel Prize in Economics, takes us on a groundbreaking tour of the mind and explains the two systems that drive the way we think. System 1 is fast, intuitive, and emotional; System 2 is slower, more deliberative, and more logical. The impact of overconfidence on corporate strategies, the difficulties of predicting what will make us happy in the future, the profound effect of cognitive biases on everything from playing the stock market to planning our next vacation—each of these can be understood only by knowing how the two systems shape our judgments and decisions. Engaging the reader in a lively conversation about how we think, Kahneman reveals where we can and cannot trust our intuitions and how we can tap into the benefits of slow thinking. He offers practical and enlightening insights into how choices are made in both our business and our personal lives—and how we can use different techniques to guard against the mental glitches that often get us into trouble. Winner of the National Academy of Sciences Best Book Award and the Los Angeles Times Book Prize and selected by The New York Times Book Review as one of the ten best books of 2011, Thinking, Fast and Slow is destined to be a classic.",
+      "thumbnailAddress": "http://books.google.com/books/content?id\u003dZuKTvERuPG8C\u0026printsec\u003dfrontcover\u0026img\u003d1\u0026zoom\u003d1\u0026edge\u003dcurl\u0026source\u003dgbs_api",
+      "title": "Thinking, Fast and Slow",
+      "wishlistDate": 0
+    },
+    {
+      "author": "Adam Grant",
+      "currentPage": 0,
+      "endDate": 1654939634858,
+      "googleBooksLink": "https://play.google.com/store/books/details?id\u003dLeBGEAAAQBAJ\u0026source\u003dgbs_api",
+      "id": 2,
+      "isbn": "9783492600804",
+      "labels": [],
+      "language": "de",
+      "pageCount": 368,
+      "position": 0,
+      "publishedDate": "2022-01-27",
+      "rating": 0,
+      "startDate": 0,
+      "state": "READ",
+      "subTitle": "Was wir gewinnen, wenn wir unsere Pläne umschmeißen",
+      "summary": "Wer noch mal nachdenkt, geht schlauer durchs Leben Intelligenz wird üblicherweise verstanden als die Fähigkeit, zu denken und zu lernen. Doch in einer Welt, die sich rasant verändert, brauchen wir etwas ganz anderes genauso dringend: die Fähigkeit, Gedachtes zu überdenken und sich von Erlerntem wieder zu lösen. Anhand zahlreicher Beispiele aus dem täglichen Leben zeigt der internationale Bestsellerautor Adam Grant: Nur wer die Komfortzone fester Überzeugungen verlässt, wer Zweifel und unterschiedliche Ansichten zulässt, ohne sich in seinem Ego bedroht zu fühlen, eröffnet sich die großartige Chance, wirklich neue Erkenntnisse zu gewinnen. Wissen ist Macht. Erkennen, was wir nicht wissen können, ist Weisheit »Adam Grant ist der Meinung, dass geistige Offenheit eine Fähigkeit ist, die man lernen kann. Und von keinem kann man diese immens nützliche Fähigkeit besser lernen als von ihm. Die bemerkenswerten Einsichten seines brillanten Buches werden dazu führen, dass Sie Ihre Ansichten und Ihre wichtigsten Entscheidungen überdenken. Garantiert.« Daniel Kahneman, Nobelpreisträger und Bestsellerautor (Schnelles Denken, langsames Denken)",
+      "thumbnailAddress": "http://books.google.com/books/content?id\u003dLeBGEAAAQBAJ\u0026printsec\u003dfrontcover\u0026img\u003d1\u0026zoom\u003d1\u0026edge\u003dcurl\u0026source\u003dgbs_api",
+      "title": "Think Again – Die Kraft des flexiblen Denkens",
+      "wishlistDate": 0
+    },
+    {
+      "author": "Ernest Hemingway",
+      "currentPage": 0,
+      "endDate": 0,
+      "googleBooksLink": "http://books.google.at/books?id\u003dU_sBmXLwasYC\u0026dq\u003dto%2Bwhom%2Bthe%2Bbell%2Btolls\u0026hl\u003d\u0026source\u003dgbs_api",
+      "id": 1,
+      "isbn": "9780099908609",
+      "labels": [],
+      "language": "en",
+      "pageCount": 490,
+      "position": 0,
+      "publishedDate": "1994",
+      "rating": 0,
+      "startDate": 0,
+      "state": "READ_LATER",
+      "subTitle": "",
+      "summary": "Hemingway\u0027s evocation of the pride and the tragedy of the civil war that tore Spain apart. A young American volunteer is sent to handle the dynamiting of a bridge behind the lines of Franco\u0027s army. In the mountains he find the dangers and the intense comradeship of war - and he discovers Maria.",
+      "thumbnailAddress": "http://books.google.com/books/content?id\u003dU_sBmXLwasYC\u0026printsec\u003dfrontcover\u0026img\u003d1\u0026zoom\u003d1\u0026source\u003dgbs_api",
+      "title": "For Whom the Bell Tolls",
+      "wishlistDate": 1654939609407
+    },
+    {
+      "author": "Ryan Holiday, Stephen Hanselman",
+      "currentPage": 111,
+      "endDate": 0,
+      "googleBooksLink": "https://play.google.com/store/books/details?id\u003dOlWHDQAAQBAJ\u0026source\u003dgbs_api",
+      "id": 0,
+      "isbn": "9783960920717",
+      "labels": [
+        {
+          "bookId": 0,
+          "hexColor": "#ffff9800",
+          "title": "Philosophy"
+        }
+      ],
+      "language": "de",
+      "pageCount": 432,
+      "position": 0,
+      "publishedDate": "2017-03-20",
+      "rating": 0,
+      "startDate": 1654939594873,
+      "state": "READING",
+      "subTitle": "366 nachdenkliche Betrachtungen über Weisheit, Beharrlichkeit und Lebensstil",
+      "summary": "Wie findet man das wahre Glück? Wie lässt sich Erfolg wirklich bemessen? Und wie geht man mit den Herausforderungen des Alltags wie Wut, Trauer und der Frage nach dem Sinn des Ganzen um? Was große Geister wie George Washington, Friedrich der Große, Weltklassesportler oder Top-Performer längst für sich entdeckt haben, liegt mit \"Der tägliche Stoiker\" erstmals gesammelt vor. New York Times-Bestsellerautor Ryan Holiday und Stephen Hanselman haben das Wissen der Stoiker in 366 zeitlose Lektionen verpackt und zeigen, dass die Philosophie des Stoizismus nicht nur zeitlos, sondern gerade für unsere hektische und unsichere Zeit ein Segen ist. Weisheit, Mut, Gerechtigkeitssinn und Selbstbeherrschung sowie Gelassenheit lassen sich erlernen und helfen uns, in der zunehmenden Komplexität unserer Welt zu bestehen. Die uralten Weisheiten der Stoiker, gesammelt und kommentiert, unterstützen bei diesen alltäglichen Herausforderungen.",
+      "thumbnailAddress": "http://books.google.com/books/content?id\u003dOlWHDQAAQBAJ\u0026printsec\u003dfrontcover\u0026img\u003d1\u0026zoom\u003d1\u0026edge\u003dcurl\u0026source\u003dgbs_api",
+      "title": "Der tägliche Stoiker",
+      "wishlistDate": 0
+    }
+  ],
+  "records": [
+    {
+      "bookId": 0,
+      "fromPage": 0,
+      "timestamp": 1654939644407,
+      "toPage": 33
+    },
+    {
+      "bookId": 0,
+      "fromPage": 33,
+      "timestamp": 1654939649590,
+      "toPage": 111
+    },
+    {
+      "bookId": 3,
+      "fromPage": 0,
+      "timestamp": 1654939725526,
+      "toPage": 303
+    }
+  ]
+}

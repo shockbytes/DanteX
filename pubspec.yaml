@@ -1,0 +1,75 @@
+name: dantex
+description: Dante - Book Tracker Cross Platform implementation.
+
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.16.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  get: ^4.6.1
+  intl: ^0.17.0
+  shared_preferences: ^2.0.0
+  http: ^0.13.4
+  flutter_platform_widgets: ^1.20.0
+  flutter_svg: ^1.0.0
+  lottie: ^1.0.1
+  rxdart: ^0.27.0
+  google_fonts: ^3.0.1
+  # Firebase
+  firebase_core: ^1.17.0
+  firebase_crashlytics: ^2.8.1
+  firebase_database: ^9.0.15
+  firebase_auth: ^3.3.19
+  expandable: ^5.0.1
+  url_launcher: ^6.0.9
+  firebase_analytics: ^8.2.0
+  cached_network_image: ^3.1.0+1
+  uuid: ^3.0.5
+  open_mail_app: ^0.4.1
+  maps_launcher: ^2.0.1
+  dio: ^4.0.4
+  pretty_dio_logger: ^1.2.0-beta-1
+  connectivity_plus: ^2.2.1
+  app_tracking_transparency: ^2.0.2+1
+  flutter_staggered_grid_view: ^0.6.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_launcher_icons: ^0.9.0
+
+flutter_icons:
+  android: false
+  ios: true
+  image_path: 'assets/logo/ic-launcher.png'
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
