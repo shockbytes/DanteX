@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DanteSearchBar extends StatelessWidget {
   @override
@@ -14,7 +15,7 @@ class DanteSearchBar extends StatelessWidget {
         children: [
           Center(
             child: Text(
-              'Search your library...',
+              AppLocalizations.of(context)!.hint_search,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.black87
