@@ -4,5 +4,8 @@
   "tab_for_later": "For later",
   "tab_reading": "Reading",
   "tab_read": "Read",
-  "hint_search": "Search your library..."
+  "hint_search": "Search your library...",
+  "add_scan": "Scan book",
+  "add_query": "Title search",
+  "add_manual": "Add manual"
 }

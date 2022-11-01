@@ -1,6 +1,9 @@
 import 'package:dantex/com.shockbytes.dante/ui/core/dante_search_bar.dart';
 import 'package:dantex/com.shockbytes.dante/util/dante_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+enum AddBookAction { scan, query, manual }
 
 class DanteAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
@@ -13,11 +16,44 @@ class DanteAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
         child: Row(
           children: [
-            Icon(
-              Icons.add,
-              color: DanteColors.accent,
+            PopupMenuButton<AddBookAction>(
+              padding: const EdgeInsets.all(0),
+              icon: Icon(
+                Icons.add,
+                color: DanteColors.accent,
+              ),
+              onSelected: (AddBookAction action) {
+                // TODO Run action
+                print(action.name);
+              },
+              itemBuilder: (BuildContext context) => <PopupMenuEntry<AddBookAction>>[
+                PopupMenuItem<AddBookAction>(
+                  value: AddBookAction.scan,
+                  child: _AddActionItem(
+                    text: AppLocalizations.of(context)!.add_scan,
+                    iconData: Icons.camera_alt_outlined,
+                    color: DanteColors.tabForLater,
+                  ),
+                ),
+                PopupMenuItem<AddBookAction>(
+                  value: AddBookAction.query,
+                  child: _AddActionItem(
+                    text: AppLocalizations.of(context)!.add_query,
+                    iconData: Icons.search,
+                    color: DanteColors.tabReading,
+                  ),
+                ),
+                PopupMenuItem<AddBookAction>(
+                  value: AddBookAction.manual,
+                  child: _AddActionItem(
+                    text: AppLocalizations.of(context)!.add_manual,
+                    iconData: Icons.edit_outlined,
+                    color: DanteColors.tabRead,
+                  ),
+                ),
+              ],
             ),
-            SizedBox(width: 32),
+            SizedBox(width: 12),
             Expanded(
               child: DanteSearchBar(),
             ),
@@ -30,6 +66,7 @@ class DanteAppBar extends StatelessWidget implements PreferredSizeWidget {
               enableFeedback: true,
               onTap: () => _openBottomSheet(context),
             ),
+            SizedBox(width: 16),
           ],
         ),
       ),
@@ -59,9 +96,7 @@ class DanteAppBar extends StatelessWidget implements PreferredSizeWidget {
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    mainAxisSpacing: 32,
-                    childAspectRatio: 2),
+                    crossAxisCount: 3, mainAxisSpacing: 32, childAspectRatio: 2),
                 children: [
                   _MenuItem(
                     text: 'Statistics',
@@ -104,6 +139,37 @@ class DanteAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight);
+}
+
+class _AddActionItem extends StatelessWidget {
+  final String text;
+  final IconData iconData;
+  final Color color;
+
+  const _AddActionItem({
+    required this.text,
+    required this.iconData,
+    required this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Icon(
+          iconData,
+          color: color,
+        ),
+        SizedBox(width: 8),
+        Text(
+          text,
+          style: TextStyle(
+            color: color,
+          ),
+        ),
+      ],
+    );
+  }
 }
 
 class _MenuItem extends StatelessWidget {
