@@ -2,18 +2,17 @@
 
 Dante - Book Tracker Cross Platform implementation.
 
-### Things to do before development can start
+### Core functionality
 - [x] Setup dependency injection
-- [ ] Setup translation
+- [x] Setup translation
 - [x] Enable Firebase
-- [ ] DanteX color palette
-
-### Backlog
-- [ ] DanteX launcher icon
+- [x] DanteX color palette
 - [ ] Basic book loading facilities
-- [ ] Firebase DB for books
-- [ ] Realm for initial data loading
 - [ ] Firebase Login/Auth
+- [ ] DanteX launcher icon
+- [ ] Firebase DB for books
+
+### Features
 - [ ] Search functionality
 - [ ] Book details page
   - [ ] Book Labels
@@ -31,3 +30,6 @@ Dante - Book Tracker Cross Platform implementation.
 - [ ] Recommendations
 - [ ] Backups
 - [ ] Imports (Goodreads, etc...)
+
+### Android Migration
+- [ ] Realm for initial data loading
