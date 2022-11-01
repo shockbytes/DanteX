@@ -13,15 +13,14 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
 
-  int _barIndex = 0;
-  BookState _state = BookState.READ;
+  int _barIndex = 1;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: DanteAppBar(),
       body: Center(
-        child: BookStatePage(_state),
+        child: BookStatePage(_resolveState()),
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _barIndex,
@@ -51,5 +50,9 @@ class _MainPageState extends State<MainPage> {
         ],
       ),
     );
+  }
+
+  BookState _resolveState() {
+    return BookState.values[_barIndex];
   }
 }
