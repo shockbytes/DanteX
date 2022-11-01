@@ -1,4 +1,5 @@
 import 'package:dantex/com.shockbytes.dante/ui/core/dante_search_bar.dart';
+import 'package:dantex/com.shockbytes.dante/util/dante_colors.dart';
 import 'package:flutter/material.dart';
 
 class DanteAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -14,7 +15,7 @@ class DanteAppBar extends StatelessWidget implements PreferredSizeWidget {
           children: [
             Icon(
               Icons.add,
-              color: Colors.black,
+              color: DanteColors.accent,
             ),
             SizedBox(width: 32),
             Expanded(
@@ -24,7 +25,7 @@ class DanteAppBar extends StatelessWidget implements PreferredSizeWidget {
             InkWell(
               child: Icon(
                 Icons.account_circle_outlined,
-                color: Colors.black,
+                color: DanteColors.textPrimary,
               ),
               enableFeedback: true,
               onTap: () => _openBottomSheet(context),
@@ -43,12 +44,12 @@ class DanteAppBar extends StatelessWidget implements PreferredSizeWidget {
         color: Colors.transparent,
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: DanteColors.textPrimaryLight,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(12),
               topRight: Radius.circular(12),
             ),
-            border: Border.all(color: Colors.black),
+            border: Border.all(color: DanteColors.textPrimary),
           ),
           height: 260,
           child: Column(

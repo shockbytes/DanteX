@@ -23,6 +23,7 @@ Dante - Book Tracker Cross Platform implementation.
 - [ ] Add books by Title/ISBN
 - [ ] Add books manually
 - [ ] Add books with Camera
+- [ ] Dark Mode
 - [ ] Settings
 - [ ] Statistics
 - [ ] Timeline

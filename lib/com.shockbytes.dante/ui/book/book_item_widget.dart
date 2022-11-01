@@ -1,4 +1,5 @@
 import 'package:dantex/com.shockbytes.dante/data/book/entity/book.dart';
+import 'package:dantex/com.shockbytes.dante/util/dante_colors.dart';
 import 'package:flutter/material.dart';
 
 class BookItemWidget extends StatelessWidget {
@@ -12,8 +13,8 @@ class BookItemWidget extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
         border: Border.all(
-          color: Colors.black26,
-          width: .5,
+          color: DanteColors.textSecondary,
+          width: .4,
         ),
         borderRadius: BorderRadius.circular(5.0),
       ),
