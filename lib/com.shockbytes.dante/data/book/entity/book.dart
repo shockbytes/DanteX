@@ -13,7 +13,6 @@ class Book {
   final int position;
   final String isbn;
   final String? thumbnailAddress;
-  final String? googleBooksLink;
   final int startDate;
   final int endDate;
 
@@ -41,7 +40,6 @@ class Book {
     required this.position,
     required this.isbn,
     required this.thumbnailAddress,
-    required this.googleBooksLink,
     required this.startDate,
     required this.endDate,
     required this.wishlistDate,

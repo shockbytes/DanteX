@@ -1,4 +1,4 @@
-import 'package:dantex/src/ui/core/dante_search_bar.dart';
+import 'package:dantex/com.shockbytes.dante/ui/core/dante_search_bar.dart';
 import 'package:flutter/material.dart';
 
 class DanteAppBar extends StatelessWidget implements PreferredSizeWidget {

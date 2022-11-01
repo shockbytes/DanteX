@@ -5,7 +5,7 @@ class DanteSearchBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Color(0xFFBDBDBD),
+        color: Color(0xFFEEEEEE),
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: Row(
@@ -14,8 +14,11 @@ class DanteSearchBar extends StatelessWidget {
         children: [
           Center(
             child: Text(
-              'Search your library',
+              'Search your library...',
               textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.black87
+              ),
             ),
           ),
         ],

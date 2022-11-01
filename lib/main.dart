@@ -1,4 +1,6 @@
-import 'package:dantex/src/ui/core/dante_app_bar.dart';
+import 'package:dantex/com.shockbytes.dante/data/book/entity/book_state.dart';
+import 'package:dantex/com.shockbytes.dante/ui/core/dante_app_bar.dart';
+import 'package:dantex/com.shockbytes.dante/ui/main/book_state_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -34,13 +36,14 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   int _barIndex = 0;
+  BookState _state = BookState.READ;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: DanteAppBar(),
       body: Center(
-        child: Text('Here we come'),
+        child: BookStatePage(_state),
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _barIndex,
