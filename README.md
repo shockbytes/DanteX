@@ -6,6 +6,7 @@ Dante - Book Tracker Cross Platform implementation.
 - [ ] Setup dependency injection
 - [ ] Setup translation
 - [ ] DanteX launcher icon
+- [ ] Enable Firebase
 - [ ] DanteX color palette
 
 ### Backlog

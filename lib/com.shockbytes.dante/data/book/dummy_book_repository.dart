@@ -11,8 +11,11 @@ class DummyBookRepository implements BookRepository {
   }
 
   List<Book> _getBooks(BookState state) {
-    return [
-      Book(
+    return List.generate(16, (index) => _getBook(state));
+  }
+
+  Book _getBook(BookState state) {
+    return Book(
         id: '1',
         title: 'La Divina Comedia',
         subTitle: 'Best book',
@@ -34,7 +37,6 @@ class DummyBookRepository implements BookRepository {
         labels: [
           BookLabel(bookId: '1', title: 'Classics', hexColor: '#aaddee')
         ]
-      )
-    ];
+    );
   }
 }
