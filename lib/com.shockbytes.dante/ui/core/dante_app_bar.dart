@@ -1,7 +1,10 @@
+import 'package:dantex/com.shockbytes.dante/bloc/add/add_book_bloc.dart';
+import 'package:dantex/com.shockbytes.dante/data/book/book_repository.dart';
 import 'package:dantex/com.shockbytes.dante/ui/core/dante_search_bar.dart';
 import 'package:dantex/com.shockbytes.dante/util/dante_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 
 enum AddBookAction { scan, query, manual }
 
@@ -23,6 +26,14 @@ class DanteAppBar extends StatelessWidget implements PreferredSizeWidget {
                 color: DanteColors.accent,
               ),
               onSelected: (AddBookAction action) {
+
+                // TODO Cleanup just for testing
+                Get.find<AddBookBloc>().downloadBook('Im Westen nichts Neues').then(
+                      (bookSuggestion) {
+                        Get.find<BookRepository>().create(bookSuggestion.target);
+                      },
+                    );
+
                 // TODO Run action
                 print(action.name);
               },

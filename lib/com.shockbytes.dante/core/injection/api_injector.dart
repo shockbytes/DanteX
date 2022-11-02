@@ -1,3 +1,7 @@
+import 'package:dantex/com.shockbytes.dante/data/bookdownload/api/book_api.dart';
+import 'package:dantex/com.shockbytes.dante/data/bookdownload/api/google_books_api.dart';
+import 'package:get/get.dart';
+
 class ApiInjector {
   ApiInjector._();
 
@@ -6,9 +10,9 @@ class ApiInjector {
   }
 
   static void _setupBookApiClient() {
-    // Get.put<FbsApiClient>(
-    //   FbsApiClient(),
-    //   permanent: true,
-    // );
+    Get.put<BookApi>(
+      GoogleBooksApi(),
+      permanent: true,
+    );
   }
 }

@@ -2,9 +2,12 @@ import 'package:dantex/com.shockbytes.dante/core/book_core.dart';
 import 'package:dantex/com.shockbytes.dante/data/book/book_repository.dart';
 import 'package:dantex/com.shockbytes.dante/data/book/entity/book.dart';
 import 'package:dantex/com.shockbytes.dante/data/book/entity/book_state.dart';
+import 'package:rxdart/rxdart.dart';
 
 class InMemoryBookRepository implements BookRepository {
   List<Book> _books = List.empty(growable: true);
+
+  BehaviorSubject<List<Book>> _bookSubject = BehaviorSubject();
 
   @override
   Stream<List<Book>> getBooksForState(BookState state) {
@@ -20,6 +23,7 @@ class InMemoryBookRepository implements BookRepository {
   @override
   Future<void> create(Book book) async {
     _books.add(book);
+    _bookSubject.add(_books);
   }
 
   @override
@@ -29,7 +33,7 @@ class InMemoryBookRepository implements BookRepository {
 
   @override
   Stream<List<Book>> getAllBooks() {
-    return Stream.value(_books);
+    return _bookSubject.stream;
   }
 
   @override
