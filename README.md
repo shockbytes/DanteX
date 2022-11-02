@@ -31,5 +31,7 @@ Dante - Book Tracker Cross Platform implementation.
 - [ ] Backups
 - [ ] Imports (Goodreads, etc...)
 
-### Android Migration
+### Migrations before Go-Live
 - [ ] Realm for initial data loading
+- [ ] Prepare DanteWeb
+- [ ] Change bundle identifier for ios and Android from .dantex to .dante and update Firebase
