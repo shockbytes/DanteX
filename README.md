@@ -7,7 +7,7 @@ Dante - Book Tracker Cross Platform implementation.
 - [x] Setup translation
 - [x] Enable Firebase
 - [x] DanteX color palette
-- [ ] Basic book loading facilities
+- [x] Basic book loading facilities
 - [ ] Firebase Login/Auth
 - [ ] DanteX launcher icon
 - [ ] Firebase DB for books

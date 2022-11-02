@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dantex/com.shockbytes.dante/core/injection/dependency_injector.dart';
+import 'package:dantex/com.shockbytes.dante/ui/login/login_page.dart';
 import 'package:dantex/com.shockbytes.dante/ui/main/main_page.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +39,7 @@ class DanteXApp extends StatelessWidget {
           if (!snapshot.hasData) {
             return Material(child: CircularProgressIndicator.adaptive());
           }
-          return MainPage();
+          return LoginPage();
         },
       ),
     );
