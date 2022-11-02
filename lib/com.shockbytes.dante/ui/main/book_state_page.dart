@@ -30,6 +30,11 @@ class BookStatePage extends StatelessWidget {
   }
 
   Widget _buildBookScreen(List<Book> books) {
+
+    if (books.isEmpty) {
+      return _buildEmptyScreen();
+    }
+
     return ListView.separated(
       padding: const EdgeInsets.all(16.0),
       physics: BouncingScrollPhysics(),
@@ -48,6 +53,12 @@ class BookStatePage extends StatelessWidget {
   Widget _buildLoadingScreen() {
     return Center(
       child: CircularProgressIndicator.adaptive(),
+    );
+  }
+
+  Widget _buildEmptyScreen() {
+    return Center(
+      child: Text('No books for the state ' + _state.name),
     );
   }
 }
