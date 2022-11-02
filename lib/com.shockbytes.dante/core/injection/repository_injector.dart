@@ -1,5 +1,5 @@
 import 'package:dantex/com.shockbytes.dante/data/book/book_repository.dart';
-import 'package:dantex/com.shockbytes.dante/data/book/dummy_book_repository.dart';
+import 'package:dantex/com.shockbytes.dante/data/book/in_memory_book_repository.dart';
 import 'package:get/get.dart';
 
 class RepositoryInjector {
@@ -11,7 +11,7 @@ class RepositoryInjector {
 
   static _setupBookRepository() {
     Get.put<BookRepository>(
-      DummyBookRepository(),
+      InMemoryBookRepository(),
       permanent: true,
     );
   }
