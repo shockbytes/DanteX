@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dantex/com.shockbytes.dante/bloc/login/login_bloc.dart';
 import 'package:dantex/com.shockbytes.dante/core/injection/dependency_injector.dart';
 import 'package:dantex/com.shockbytes.dante/ui/login/login_page.dart';
 import 'package:dantex/com.shockbytes.dante/ui/main/main_page.dart';
@@ -34,14 +35,26 @@ class DanteXApp extends StatelessWidget {
         textTheme: GoogleFonts.nunitoTextTheme(),
       ),
       home: FutureBuilder<bool>(
-        future: DependencyInjector.setupDependencyInjection(),
+        future: _launcher(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Material(child: CircularProgressIndicator.adaptive());
           }
-          return LoginPage();
+
+          if (snapshot.data == true) {
+            return MainPage();
+          } else {
+            return LoginPage();
+          }
         },
       ),
     );
+  }
+
+  Future<bool> _launcher() async {
+    await DependencyInjector.setupDependencyInjection();
+
+    LoginBloc _bloc = DependencyInjector.get<LoginBloc>();
+    return _bloc.isLoggedIn();
   }
 }

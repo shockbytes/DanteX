@@ -1,7 +1,12 @@
+import 'package:dantex/com.shockbytes.dante/bloc/login/login_bloc.dart';
+import 'package:dantex/com.shockbytes.dante/core/injection/dependency_injector.dart';
 import 'package:dantex/com.shockbytes.dante/util/dante_colors.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
+
+  final LoginBloc _bloc = DependencyInjector.get<LoginBloc>();
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -42,7 +47,7 @@ class LoginPage extends StatelessWidget {
                 ),
                 SizedBox(height: 24),
                 OutlinedButton(
-                  onPressed: () {},
+                  onPressed: () => _bloc.loginWithGoogle(),
                   child: Row(
                     children: [
                       Icon(
@@ -62,7 +67,7 @@ class LoginPage extends StatelessWidget {
                   ),
                 ),
                 OutlinedButton(
-                  onPressed: () {},
+                  onPressed: () => _bloc.loginWithEmail(),
                   child: Row(
                     children: [
                       Icon(Icons.mail_outline),
@@ -82,7 +87,7 @@ class LoginPage extends StatelessWidget {
                 ),
                 SizedBox(height: 16),
                 OutlinedButton(
-                  onPressed: () {},
+                  onPressed: () => _bloc.loginAnonymously(),
                   child: Row(
                     children: [
                       Icon(
