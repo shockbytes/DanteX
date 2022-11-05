@@ -41,6 +41,7 @@ dependencies:
   firebase_analytics: ^10.0.3
   firebase_auth: 4.1.0
   firebase_core: 2.1.1
+  firebase_storage: ^11.0.4
   expandable: ^5.0.1
   url_launcher: ^6.0.9
   cached_network_image: ^3.1.0+1
@@ -62,7 +63,7 @@ flutter_icons:
   android: true
   ios: true
   remove_alpha_ios: true
-  image_path: 'assets/logo/ic-launcher.png'
+  image_path: 'assets/logo/ic-launcher.jpg'
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

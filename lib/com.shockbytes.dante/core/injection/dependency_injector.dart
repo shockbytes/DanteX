@@ -17,12 +17,10 @@ class DependencyInjector {
     await BlockingComponentsInjector.setup();
   }
 
-  static Future<bool> setupDependencyInjection() async {
+  static Future<void> setupDependencyInjection() async {
     ApiInjector.setup();
     await ServiceInjector.setup();
     RepositoryInjector.setup();
     BlocInjector.setup();
-
-    return true;
   }
 }
