@@ -1,4 +1,6 @@
-class BookLabel {
+import 'package:dantex/com.shockbytes.dante/core/jsonizable.dart';
+
+class BookLabel with Jsonizable {
   final String bookId;
   final String title;
 
@@ -14,4 +16,15 @@ class BookLabel {
     required this.title,
     required this.hexColor,
   });
+
+  @override
+  Map<String, dynamic> toMap() {
+    var data = Map<String, dynamic>();
+
+    data['bookId'] = bookId;
+    data['title'] = title;
+    data['hexColor'] = hexColor;
+
+    return data;
+  }
 }

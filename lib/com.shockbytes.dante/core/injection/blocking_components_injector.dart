@@ -14,6 +14,9 @@ class BlockingComponentsInjector {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+    // Don't record errors with Crashlytics on Web
+    if (!kIsWeb) {
+      FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+    }
   }
 }

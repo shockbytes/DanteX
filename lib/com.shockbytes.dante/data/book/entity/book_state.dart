@@ -6,11 +6,23 @@ enum BookState {
 }
 
 extension BookStateExtension on BookState {
-  // TODO
-  String fromString(
+
+  static BookState fromString(
     String? name, {
     BookState defaultValue = BookState.READ_LATER,
   }) {
-    return '';
+
+    switch (name) {
+      case 'READ_LATER':
+        return BookState.READ_LATER;
+      case 'READING':
+        return BookState.READING;
+      case 'READ':
+        return BookState.READ;
+      case 'WISHLIST':
+        return BookState.WISHLIST;
+      default:
+        return defaultValue;
+    }
   }
 }
