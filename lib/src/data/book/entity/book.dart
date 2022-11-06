@@ -19,11 +19,9 @@ class Book with Jsonizable {
   final int startDate;
   final int endDate;
 
-  /**
-   * Actually `forLaterDate` and should not be confused with BookState.WISHLIST. This mishap
-   * is due to the initial naming and cannot be changed without breaking prior backups. So, just
-   * treat this as `forLaterDate` and everything is fine
-   */
+  /// Actually `forLaterDate` and should not be confused with BookState.WISHLIST. This mishap
+  /// is due to the initial naming and cannot be changed without breaking prior backups. So, just
+  /// treat this as `forLaterDate` and everything is fine
   final int wishlistDate;
   final String language;
   final int rating;
@@ -55,7 +53,7 @@ class Book with Jsonizable {
 
   @override
   Map<String, dynamic> toMap() {
-    var data = Map<String, dynamic>();
+    var data = <String, dynamic>{};
 
     data['id'] = id;
     data['title'] = title;
@@ -88,7 +86,7 @@ class Book with Jsonizable {
     return data;
   }
 
-  Book copyWith({BookId? newId = null, int? newCurrentPage = null}) {
+  Book copyWith({BookId? newId, int? newCurrentPage}) {
     return Book(
       id: newId ?? id,
       title: title,

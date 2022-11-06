@@ -6,7 +6,7 @@ import 'package:dantex/src/data/bookdownload/entity/remote/GoogleBooksResponse.d
 import 'package:dio/dio.dart';
 
 class GoogleBooksApi implements BookApi {
-  static final _ENDPOINT = 'https://www.googleapis.com/books/v1';
+  static const _ENDPOINT = 'https://www.googleapis.com/books/v1';
 
   final Dio _dio = Dio(BaseOptions(baseUrl: _ENDPOINT));
 

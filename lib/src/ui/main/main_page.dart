@@ -18,7 +18,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DanteAppBar(),
+      appBar: const DanteAppBar(),
       body: Center(
         child: BookStatePage(_resolveState()),
       ),
@@ -33,24 +33,24 @@ class _MainPageState extends State<MainPage> {
         },
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark_outline),
-            activeIcon: Icon(
+            icon: const Icon(Icons.bookmark_outline),
+            activeIcon: const Icon(
               Icons.bookmark,
               color: DanteColors.tabForLater,
             ),
             label: AppLocalizations.of(context)!.tab_for_later,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.book_outlined),
-            activeIcon: Icon(
+            icon: const Icon(Icons.book_outlined),
+            activeIcon: const Icon(
               Icons.book,
               color: DanteColors.tabReading,
             ),
             label: AppLocalizations.of(context)!.tab_reading,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.check_outlined),
-            activeIcon: Icon(
+            icon: const Icon(Icons.check_outlined),
+            activeIcon: const Icon(
               Icons.check_outlined,
               color: DanteColors.tabRead,
             ),

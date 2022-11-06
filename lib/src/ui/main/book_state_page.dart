@@ -10,8 +10,9 @@ class BookStatePage extends StatelessWidget {
 
   final BookStateBloc _bloc = DependencyInjector.get();
 
-  BookStatePage(this._state);
+  BookStatePage(this._state, {Key? key}) : super(key: key);
 
+  @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<Book>>(
       stream: _bloc.getBooksForState(_state),
@@ -36,11 +37,11 @@ class BookStatePage extends StatelessWidget {
 
     return ListView.separated(
       padding: const EdgeInsets.all(16.0),
-      physics: BouncingScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       itemCount: books.length,
       itemBuilder: (context, index) => BookItemWidget(books[index]),
       separatorBuilder: (BuildContext context, int index) =>
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
     );
   }
 
@@ -51,7 +52,7 @@ class BookStatePage extends StatelessWidget {
   }
 
   Widget _buildLoadingScreen() {
-    return Center(
+    return const Center(
       child: CircularProgressIndicator.adaptive(),
     );
   }

@@ -6,9 +6,9 @@ import 'package:rxdart/rxdart.dart';
 
 @Deprecated('Only use for certain debug cases!')
 class InMemoryBookRepository implements BookRepository {
-  List<Book> _books = List.empty(growable: true);
+  final List<Book> _books = List.empty(growable: true);
 
-  BehaviorSubject<List<Book>> _bookSubject = BehaviorSubject();
+  final BehaviorSubject<List<Book>> _bookSubject = BehaviorSubject();
 
   @override
   Stream<List<Book>> getBooksForState(BookState state) {

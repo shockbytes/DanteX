@@ -3,7 +3,7 @@ import 'package:dantex/src/data/book/entity/book.dart';
 import 'package:dantex/src/data/book/entity/book_state.dart';
 
 class BookStateBloc {
-  BookRepository _repository;
+  final BookRepository _repository;
 
   BookStateBloc(this._repository);
 

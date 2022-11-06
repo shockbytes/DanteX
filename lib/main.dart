@@ -45,9 +45,9 @@ class DanteXApp extends StatelessWidget {
         future: _launcher(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return snapshot.data! ? MainPage() : LoginPage();
+            return snapshot.data! ? const MainPage() : LoginPage();
           } else {
-            return Material(child: CircularProgressIndicator.adaptive());
+            return const Material(child: CircularProgressIndicator.adaptive());
           }
         },
       ),

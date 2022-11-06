@@ -11,7 +11,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 class BookItemWidget extends StatelessWidget {
   final Book _book;
 
-  BookItemWidget(this._book);
+  const BookItemWidget(this._book, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class BookItemWidget extends StatelessWidget {
                   width: 48,
                 ),
               ),
-              SizedBox(width: 16),
+              const SizedBox(width: 16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,25 +43,25 @@ class BookItemWidget extends StatelessWidget {
                   children: [
                     Text(
                       _book.title,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.w900,
                         fontSize: 14,
                         color: DanteColors.textPrimary,
                       ),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     Text(
                       _book.subTitle,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 12,
                         color: DanteColors.textSecondary,
                       ),
                     ),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     Text(
                       _book.author,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 12,
                         color: DanteColors.textSecondary,
@@ -78,7 +78,7 @@ class BookItemWidget extends StatelessWidget {
                     onPressed: () {
                       // TODO Show overflow menu
                     },
-                    icon: Icon(Icons.more_horiz),
+                    icon: const Icon(Icons.more_horiz),
                   ),
                   if (_book.state == BookState.READING)
                     _buildProgressCircle(_book.currentPage, _book.pageCount)
@@ -86,7 +86,7 @@ class BookItemWidget extends StatelessWidget {
               )
             ],
           ),
-          SizedBox(height: 8),
+          const SizedBox(height: 8),
           Align(
             alignment: Alignment.topLeft,
             child: Wrap(
@@ -126,9 +126,9 @@ class BookItemWidget extends StatelessWidget {
       radius: 20.0,
       lineWidth: 2.0,
       percent: percentage,
-      center: new Text(
+      center: Text(
         doublePercentageToString(percentage),
-        style: TextStyle(color: DanteColors.textPrimary, fontSize: 11),
+        style: const TextStyle(color: DanteColors.textPrimary, fontSize: 11),
       ),
       backgroundColor: DanteColors.backgroundSearch,
       progressColor: DanteColors.accent,

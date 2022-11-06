@@ -9,6 +9,8 @@ import 'package:get/get.dart';
 enum AddBookAction { scan, query, manual }
 
 class DanteAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const DanteAppBar({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -21,7 +23,7 @@ class DanteAppBar extends StatelessWidget implements PreferredSizeWidget {
           children: [
             PopupMenuButton<AddBookAction>(
               padding: const EdgeInsets.all(0),
-              icon: Icon(
+              icon: const Icon(
                 Icons.add,
                 color: DanteColors.accent,
               ),
@@ -66,20 +68,20 @@ class DanteAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ],
             ),
-            SizedBox(width: 12),
-            Expanded(
+            const SizedBox(width: 12),
+            const Expanded(
               child: DanteSearchBar(),
             ),
-            SizedBox(width: 32),
+            const SizedBox(width: 32),
             InkWell(
-              child: Icon(
+              child: const Icon(
                 Icons.account_circle_outlined,
                 color: DanteColors.textPrimary,
               ),
               enableFeedback: true,
               onTap: () => _openBottomSheet(context),
             ),
-            SizedBox(width: 16),
+            const SizedBox(width: 16),
           ],
         ),
       ),
@@ -95,7 +97,7 @@ class DanteAppBar extends StatelessWidget implements PreferredSizeWidget {
         child: Container(
           decoration: BoxDecoration(
             color: DanteColors.textPrimaryLight,
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(12),
               topRight: Radius.circular(12),
             ),
@@ -104,14 +106,15 @@ class DanteAppBar extends StatelessWidget implements PreferredSizeWidget {
           height: 260,
           child: Column(
             children: [
-              Text('Customer Header (TBD)'),
+              const Text('Customer Header (TBD)'),
               GridView(
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    mainAxisSpacing: 32,
-                    childAspectRatio: 2),
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  mainAxisSpacing: 32,
+                  childAspectRatio: 2,
+                ),
                 children: [
                   _MenuItem(
                     text: 'Statistics',
@@ -153,7 +156,7 @@ class DanteAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
 class _AddActionItem extends StatelessWidget {
@@ -175,7 +178,7 @@ class _AddActionItem extends StatelessWidget {
           iconData,
           color: color,
         ),
-        SizedBox(width: 8),
+        const SizedBox(width: 8),
         Text(
           text,
           style: TextStyle(
@@ -208,7 +211,7 @@ class _MenuItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(icon),
-            SizedBox(height: 4),
+            const SizedBox(height: 4),
             Text(
               text,
               textAlign: TextAlign.center,

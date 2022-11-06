@@ -4,11 +4,9 @@ class BookLabel with Jsonizable {
   final String bookId;
   final String title;
 
-  /**
-   * This private field is required to ensure backwards compatibility with already
-   * existing backups. Callers use now [labelHexColor] of type [HexColor] instead
-   * of working with the raw string.
-   */
+  /// This private field is required to ensure backwards compatibility with already
+  /// existing backups. Callers use now [labelHexColor] of type [HexColor] instead
+  /// of working with the raw string.
   final String hexColor;
 
   BookLabel({
@@ -19,7 +17,7 @@ class BookLabel with Jsonizable {
 
   @override
   Map<String, dynamic> toMap() {
-    var data = Map<String, dynamic>();
+    var data = <String, dynamic>{};
 
     data['bookId'] = bookId;
     data['title'] = title;
