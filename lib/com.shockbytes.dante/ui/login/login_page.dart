@@ -26,7 +26,7 @@ class LoginPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Image.asset(
-                  'assets/logo/ic-launcher.png',
+                  'assets/logo/ic-launcher.jpg',
                   width: 92,
                 ),
                 SizedBox(height: 16),
