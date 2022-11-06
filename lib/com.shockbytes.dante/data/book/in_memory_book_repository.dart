@@ -4,6 +4,7 @@ import 'package:dantex/com.shockbytes.dante/data/book/entity/book.dart';
 import 'package:dantex/com.shockbytes.dante/data/book/entity/book_state.dart';
 import 'package:rxdart/rxdart.dart';
 
+@Deprecated('Only use for certain debug cases!')
 class InMemoryBookRepository implements BookRepository {
   List<Book> _books = List.empty(growable: true);
 

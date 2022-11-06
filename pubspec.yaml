@@ -64,6 +64,10 @@ flutter_icons:
   ios: true
   remove_alpha_ios: true
   image_path: 'assets/logo/ic-launcher.jpg'
+  web:
+    generate: true
+    image_path: 'assets/logo/ic-launcher.jpg'
+    theme_color: '#2196f3'
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

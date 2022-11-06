@@ -6,8 +6,7 @@ class LoginBloc {
   LoginBloc(this._repository);
 
   Future<bool> isLoggedIn() async {
-    return true; // TODO Remove after login is complete
-    // return (await _repository.getAccount()) != null;
+    return (await _repository.getAccount()) != null;
   }
 
   void loginWithGoogle() {

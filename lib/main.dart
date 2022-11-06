@@ -5,6 +5,7 @@ import 'package:dantex/com.shockbytes.dante/core/injection/dependency_injector.d
 import 'package:dantex/com.shockbytes.dante/ui/login/login_page.dart';
 import 'package:dantex/com.shockbytes.dante/ui/main/main_page.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -16,7 +17,12 @@ void main() async {
 
   runZonedGuarded(
     () => runApp(const DanteXApp()),
-    FirebaseCrashlytics.instance.recordError,
+    (error, stackTrace) {
+      // If not web, record the errors
+      if (!kIsWeb) {
+        FirebaseCrashlytics.instance.recordError(error, stackTrace, fatal: true);
+      }
+    },
   );
 }
 
@@ -37,14 +43,10 @@ class DanteXApp extends StatelessWidget {
       home: FutureBuilder<bool>(
         future: _launcher(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return Material(child: CircularProgressIndicator.adaptive());
-          }
-
-          if (snapshot.data == true) {
-            return MainPage();
+          if (snapshot.hasData) {
+            return snapshot.data! ? MainPage() : LoginPage();
           } else {
-            return LoginPage();
+            return Material(child: CircularProgressIndicator.adaptive());
           }
         },
       ),
