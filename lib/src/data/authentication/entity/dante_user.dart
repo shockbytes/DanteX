@@ -16,11 +16,34 @@ class DanteUser {
     required this.userId,
     required this.source,
   });
+
+  @override
+  bool operator ==(Object other) {
+    return other is DanteUser &&
+        other.givenName == givenName &&
+        other.displayName == displayName &&
+        other.email == email &&
+        other.photoUrl == photoUrl &&
+        other.authToken == authToken &&
+        other.userId == userId &&
+        other.source == source;
+  }
+
+  @override
+  int get hashCode => Object.hash(
+        givenName,
+        displayName,
+        email,
+        photoUrl,
+        authToken,
+        userId,
+        source,
+      );
 }
 
 enum AuthenticationSource {
-  GOOGLE,
-  MAIL,
-  ANONYMOUS,
-  UNKNOWN,
+  google,
+  mail,
+  anonymous,
+  unknown,
 }

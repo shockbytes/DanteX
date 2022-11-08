@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:dantex/src/bloc/login/login_bloc.dart';
+import 'package:dantex/src/bloc/auth/login_bloc.dart';
 import 'package:dantex/src/core/injection/dependency_injector.dart';
 import 'package:dantex/src/ui/login/login_page.dart';
 import 'package:dantex/src/ui/main/main_page.dart';
@@ -8,6 +8,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
@@ -32,7 +33,7 @@ class DanteXApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Dante',
       debugShowCheckedModeBanner: false,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -45,7 +46,7 @@ class DanteXApp extends StatelessWidget {
         future: _launcher(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return snapshot.data! ? const MainPage() : LoginPage();
+            return snapshot.data! ? const MainPage() : const LoginPage();
           } else {
             return const Material(child: CircularProgressIndicator.adaptive());
           }

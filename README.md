@@ -75,6 +75,12 @@ The source code has a single sensitive dependency, which is the `GoogleService.j
 `GoogleService.plist` file and in `firebase_options.dart`.
 **The configuration files will be provided by @shockbytes upon request**.
 
+### Testing
+
+Developers should be aiming for tests to cover all the major functionality. We are using `Mockito` to
+generate mocks required for testing. To be able to run the tests, you'll need to run
+`flutter pub run build_runner build` from the repo root to generate the mocks required for the tests.
+
 The overview of the features to be worked on can be found in the following Github project:
 https://github.com/users/shockbytes/projects/1/views/1
 
