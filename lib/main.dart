@@ -1,14 +1,14 @@
 import 'dart:async';
 
-import 'package:dantex/com.shockbytes.dante/bloc/login/login_bloc.dart';
-import 'package:dantex/com.shockbytes.dante/core/injection/dependency_injector.dart';
-import 'package:dantex/com.shockbytes.dante/ui/login/login_page.dart';
-import 'package:dantex/com.shockbytes.dante/ui/main/main_page.dart';
+import 'package:dantex/src/bloc/login/login_bloc.dart';
+import 'package:dantex/src/core/injection/dependency_injector.dart';
+import 'package:dantex/src/ui/login/login_page.dart';
+import 'package:dantex/src/ui/main/main_page.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,7 +20,8 @@ void main() async {
     (error, stackTrace) {
       // If not web, record the errors
       if (!kIsWeb) {
-        FirebaseCrashlytics.instance.recordError(error, stackTrace, fatal: true);
+        FirebaseCrashlytics.instance
+            .recordError(error, stackTrace, fatal: true);
       }
     },
   );
@@ -44,9 +45,9 @@ class DanteXApp extends StatelessWidget {
         future: _launcher(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return snapshot.data! ? MainPage() : LoginPage();
+            return snapshot.data! ? const MainPage() : LoginPage();
           } else {
-            return Material(child: CircularProgressIndicator.adaptive());
+            return const Material(child: CircularProgressIndicator.adaptive());
           }
         },
       ),
