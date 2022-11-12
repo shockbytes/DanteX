@@ -1,10 +1,9 @@
 import 'dart:async';
 
-import 'package:dantex/src/bloc/add/add_book_bloc.dart';
 import 'package:dantex/src/bloc/auth/logout_bloc.dart';
 import 'package:dantex/src/bloc/auth/logout_event.dart';
 import 'package:dantex/src/core/injection/dependency_injector.dart';
-import 'package:dantex/src/data/book/book_repository.dart';
+import 'package:dantex/src/ui/add/add_book_sheet.dart';
 import 'package:dantex/src/ui/core/dante_search_bar.dart';
 import 'package:dantex/src/ui/login/login_page.dart';
 import 'package:dantex/src/util/dante_colors.dart';
@@ -63,18 +62,12 @@ class DanteAppBarState extends State<DanteAppBar> {
                 Icons.add,
                 color: DanteColors.accent,
               ),
-              onSelected: (AddBookAction action) {
+              onSelected: (AddBookAction action) async {
                 // TODO Cleanup just for testing
-                Get.find<AddBookBloc>()
-                    .downloadBook('Im Westen nichts Neues')
-                    .then(
-                  (bookSuggestion) {
-                    Get.find<BookRepository>().create(bookSuggestion.target);
-                  },
-                );
 
-                // TODO Run action
-                print(action.name);
+                // TODO Ask for query
+                String query = 'Im Westen nichts Neues';
+                await openAddBookSheet(context, query);
               },
               itemBuilder: (BuildContext context) =>
                   <PopupMenuEntry<AddBookAction>>[
