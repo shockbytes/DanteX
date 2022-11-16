@@ -1,5 +1,6 @@
 import 'package:dantex/src/bloc/add/add_book_bloc.dart';
-import 'package:dantex/src/bloc/login/login_bloc.dart';
+import 'package:dantex/src/bloc/auth/login_bloc.dart';
+import 'package:dantex/src/bloc/auth/logout_bloc.dart';
 import 'package:dantex/src/bloc/main/book_state_bloc.dart';
 import 'package:dantex/src/data/authentication/authentication_repository.dart';
 import 'package:dantex/src/data/book/book_repository.dart';
@@ -13,6 +14,7 @@ class BlocInjector {
     _setupBookStateBloc();
     _setupAddBookBloc();
     _setupLoginBloc();
+    _setupLogoutBloc();
   }
 
   static _setupBookStateBloc() {
@@ -36,6 +38,15 @@ class BlocInjector {
   static _setupLoginBloc() {
     Get.put<LoginBloc>(
       LoginBloc(
+        Get.find<AuthenticationRepository>(),
+      ),
+      permanent: true,
+    );
+  }
+
+  static _setupLogoutBloc() {
+    Get.put<LogoutBloc>(
+      LogoutBloc(
         Get.find<AuthenticationRepository>(),
       ),
       permanent: true,

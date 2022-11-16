@@ -18,7 +18,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const DanteAppBar(),
+      appBar: DanteAppBar(),
       body: Center(
         child: BookStatePage(_resolveState()),
       ),

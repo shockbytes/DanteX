@@ -1,4 +1,6 @@
 import 'package:dantex/src/bloc/add/add_book_bloc.dart';
+import 'package:dantex/src/bloc/auth/logout_bloc.dart';
+import 'package:dantex/src/core/injection/dependency_injector.dart';
 import 'package:dantex/src/data/book/book_repository.dart';
 import 'package:dantex/src/ui/core/dante_search_bar.dart';
 import 'package:dantex/src/util/dante_colors.dart';
@@ -9,7 +11,8 @@ import 'package:get/get.dart';
 enum AddBookAction { scan, query, manual }
 
 class DanteAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const DanteAppBar({Key? key}) : super(key: key);
+  DanteAppBar({Key? key}) : super(key: key);
+  final LogoutBloc _bloc = DependencyInjector.get<LogoutBloc>();
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +82,8 @@ class DanteAppBar extends StatelessWidget implements PreferredSizeWidget {
                 color: DanteColors.textPrimary,
               ),
               enableFeedback: true,
-              onTap: () => _openBottomSheet(context),
+              // TODO: Replace with onTap: () => _openBottomSheet(context),
+              onTap: () => _bloc.logout(),
             ),
             const SizedBox(width: 16),
           ],

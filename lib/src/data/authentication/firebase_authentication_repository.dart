@@ -29,21 +29,22 @@ class FirebaseAuthenticationRepository implements AuthenticationRepository {
 
   AuthenticationSource _retrieveAuthenticationSource(User user) {
     if (_isAnonymous(user)) {
-      return AuthenticationSource.ANONYMOUS;
+      return AuthenticationSource.anonymous;
     } else if (_isGoogleUser(user)) {
-      return AuthenticationSource.GOOGLE;
+      return AuthenticationSource.google;
     } else if (_isMailUser(user)) {
-      return AuthenticationSource.MAIL;
+      return AuthenticationSource.mail;
     } else {
-      return AuthenticationSource.UNKNOWN;
+      return AuthenticationSource.unknown;
     }
   }
 
   bool _isAnonymous(User user) => user.isAnonymous;
 
   bool _isGoogleUser(User user) =>
-      user.providerData
-          .firstWhereOrNull((provider) => provider == 'google.com') !=
+      user.providerData.firstWhereOrNull(
+        (provider) => provider.providerId == 'google.com',
+      ) !=
       null;
 
   bool _isMailUser(User user) =>
@@ -52,12 +53,12 @@ class FirebaseAuthenticationRepository implements AuthenticationRepository {
       null;
 
   @override
-  Future<void> loginAnonymously() {
+  Future<UserCredential> loginAnonymously() {
     return _fbAuth.signInAnonymously();
   }
 
   @override
-  Future<void> loginWithEmail({
+  Future<UserCredential> loginWithEmail({
     required String email,
     required String password,
   }) {
@@ -68,7 +69,7 @@ class FirebaseAuthenticationRepository implements AuthenticationRepository {
   }
 
   @override
-  Future<void> loginWithGoogle() {
+  Future<UserCredential> loginWithGoogle() {
     return _fbAuth.signInWithProvider(
       GoogleAuthProvider(),
     );

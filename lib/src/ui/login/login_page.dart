@@ -1,12 +1,46 @@
-import 'package:dantex/src/bloc/login/login_bloc.dart';
+import 'dart:async';
+
+import 'package:dantex/src/bloc/auth/login_bloc.dart';
+import 'package:dantex/src/bloc/auth/login_event.dart';
 import 'package:dantex/src/core/injection/dependency_injector.dart';
+import 'package:dantex/src/ui/main/main_page.dart';
 import 'package:dantex/src/util/dante_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
+
+  @override
+  createState() => LoginPageState();
+}
+
+class LoginPageState extends State<LoginPage> {
   final LoginBloc _bloc = DependencyInjector.get<LoginBloc>();
+  late StreamSubscription<LoginEvent> _loginSubscription;
 
-  LoginPage({Key? key}) : super(key: key);
+  @override
+  void initState() {
+    super.initState();
+    _loginSubscription = _bloc.loginEvents.listen(
+      _loginEventReceived,
+      onError: (error, stackTrace) => _loginErrorReceived(error, stackTrace),
+    );
+  }
+
+  @override
+  void dispose() {
+    _loginSubscription.cancel();
+    super.dispose();
+  }
+
+  void _loginErrorReceived(Error error, StackTrace stackTrace) {
+    // TODO: Handle login errors
+  }
+
+  void _loginEventReceived(LoginEvent event) {
+    Get.to(() => const MainPage());
+  }
 
   @override
   Widget build(BuildContext context) {
