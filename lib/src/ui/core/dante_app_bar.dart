@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:dantex/src/bloc/add/add_book_bloc.dart';
 import 'package:dantex/src/bloc/auth/logout_bloc.dart';
+import 'package:dantex/src/bloc/auth/logout_event.dart';
 import 'package:dantex/src/core/injection/dependency_injector.dart';
 import 'package:dantex/src/data/book/book_repository.dart';
 import 'package:dantex/src/ui/core/dante_search_bar.dart';
+import 'package:dantex/src/ui/login/login_page.dart';
 import 'package:dantex/src/util/dante_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -10,9 +14,38 @@ import 'package:get/get.dart';
 
 enum AddBookAction { scan, query, manual }
 
-class DanteAppBar extends StatelessWidget implements PreferredSizeWidget {
-  DanteAppBar({Key? key}) : super(key: key);
+class DanteAppBar extends StatefulWidget implements PreferredSizeWidget {
+  const DanteAppBar({Key? key}) : super(key: key);
+
+  @override
+  createState() => DanteAppBarState();
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}
+
+class DanteAppBarState extends State<DanteAppBar> {
   final LogoutBloc _bloc = DependencyInjector.get<LogoutBloc>();
+  late StreamSubscription<LogoutEvent> _logoutSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    _logoutSubscription = _bloc.logoutEvents.listen(
+      _logoutEventReceived,
+    );
+  }
+
+  @override
+  void dispose() {
+    _logoutSubscription.cancel();
+    super.dispose();
+  }
+
+  void _logoutEventReceived(LogoutEvent event) {
+    // Navigate to login and remove everything from navigation stack.
+    Get.offAll(() => const LoginPage());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,8 +115,7 @@ class DanteAppBar extends StatelessWidget implements PreferredSizeWidget {
                 color: DanteColors.textPrimary,
               ),
               enableFeedback: true,
-              // TODO: Replace with onTap: () => _openBottomSheet(context),
-              onTap: () => _bloc.logout(),
+              onTap: () => _openBottomSheet(context),
             ),
             const SizedBox(width: 16),
           ],
@@ -110,7 +142,13 @@ class DanteAppBar extends StatelessWidget implements PreferredSizeWidget {
           height: 260,
           child: Column(
             children: [
-              const Text('Customer Header (TBD)'),
+              OutlinedButton(
+                onPressed: () => _bloc.logout(),
+                child: const Text(
+                  'Logout',
+                  textAlign: TextAlign.center,
+                ),
+              ),
               GridView(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -158,9 +196,6 @@ class DanteAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
     );
   }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
 class _AddActionItem extends StatelessWidget {
