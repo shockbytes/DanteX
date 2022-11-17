@@ -49,7 +49,7 @@ void main() {
   });
 
   group('Login', () {
-    test('loginWithGoogle returns User Credential on success', () async {
+    test('Login with Google returns user credential on success', () async {
       final _fbAuth = MockFirebaseAuth();
       final firebaseAuthRepo = FirebaseAuthenticationRepository(_fbAuth);
       final userCred = MockUserCredential();
@@ -58,6 +58,17 @@ void main() {
 
       expect(await firebaseAuthRepo.loginWithGoogle(), userCred);
       verify(_fbAuth.signInWithProvider(any)).called(1);
+    });
+
+    test('Login anonymously returns User Credential on success', () async {
+      final _fbAuth = MockFirebaseAuth();
+      final firebaseAuthRepo = FirebaseAuthenticationRepository(_fbAuth);
+      final userCred = MockUserCredential();
+
+      when(_fbAuth.signInAnonymously()).thenAnswer((_) async => userCred);
+
+      expect(await firebaseAuthRepo.loginAnonymously(), userCred);
+      verify(_fbAuth.signInAnonymously()).called(1);
     });
   });
 

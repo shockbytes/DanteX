@@ -16,6 +16,7 @@ class LoginBloc {
   }
 
   void loginWithGoogle() {
+    _loginSubject.add(LoginEvent.loggingIn);
     _repository.loginWithGoogle().then(
       (_) {
         _loginSubject.add(LoginEvent.googleLogin);
@@ -27,12 +28,15 @@ class LoginBloc {
   }
 
   void loginAnonymously() {
+    _loginSubject.add(LoginEvent.loggingIn);
     _repository.loginAnonymously().then(
-          (value) => {
-            print('Logged in anonymously')
-            // TODO Update UI
-          },
-        );
+      (_) {
+        _loginSubject.add(LoginEvent.anonymousLogin);
+      },
+      onError: (error, stacktrace) {
+        _loginSubject.addError(error, stacktrace);
+      },
+    );
   }
 
   void loginWithEmail() {
