@@ -7,9 +7,13 @@ class GenericErrorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        _error?.toString() ?? 'Unknown error',
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Center(
+        child: Text(
+          _error?.toString() ?? 'Unknown error',
+          textAlign: TextAlign.center,
+        ),
       ),
     );
   }

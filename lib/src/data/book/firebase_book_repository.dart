@@ -39,7 +39,8 @@ class FirebaseBookRepository implements BookRepository {
         return data
             .map(
               (key, value) {
-                Book bookValue = BookExtension.fromMap(value as Map<String, dynamic>);
+                Map<String, dynamic> bookData = (value as Map<dynamic, dynamic>).cast();
+                Book bookValue = BookExtension.fromMap(bookData);
                 return MapEntry(key, bookValue);
               },
             )
@@ -102,6 +103,6 @@ class FirebaseBookRepository implements BookRepository {
 
 extension DataSnapshotExtension on DataSnapshot {
   Map<String, dynamic>? toMap() {
-    return (value != null) ? (value as Map<String, dynamic>) : null;
+    return (value != null) ? (value as Map<dynamic, dynamic>).cast() : null;
   }
 }
