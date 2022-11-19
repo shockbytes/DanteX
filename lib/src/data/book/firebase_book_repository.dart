@@ -30,14 +30,16 @@ class FirebaseBookRepository implements BookRepository {
   Stream<List<Book>> getAllBooks() {
     return _rootRef().onValue.map(
       (DatabaseEvent event) {
-        Map<String, dynamic> data =
-            event.snapshot.value as Map<String, dynamic>;
+        Map<String, dynamic>? data = event.snapshot.toMap();
+
+        if (data == null) {
+          return [];
+        }
 
         return data
             .map(
               (key, value) {
-                Book bookValue =
-                    BookExtension.fromMap(value as Map<String, dynamic>);
+                Book bookValue = BookExtension.fromMap(value as Map<String, dynamic>);
                 return MapEntry(key, bookValue);
               },
             )
@@ -50,9 +52,16 @@ class FirebaseBookRepository implements BookRepository {
   @override
   Future<Book> getBook(BookId id) {
     return _rootRef().child(id).get().then(
-          (snapshot) =>
-              BookExtension.fromMap(snapshot.value as Map<String, dynamic>),
-        );
+      (snapshot) {
+        Map<String, dynamic>? data = snapshot.toMap();
+
+        if (data == null) {
+          throw Exception('Cannot read book with id $id as it does not exist!');
+        }
+
+        return BookExtension.fromMap(data);
+      },
+    );
   }
 
   @override
@@ -88,5 +97,11 @@ class FirebaseBookRepository implements BookRepository {
     // At this point we can assume that the customer is already logged in, even as anonymous user
     var user = _fbAuth.currentUser!.uid;
     return _fbDb.ref('users/$user/');
+  }
+}
+
+extension DataSnapshotExtension on DataSnapshot {
+  Map<String, dynamic>? toMap() {
+    return (value != null) ? (value as Map<String, dynamic>) : null;
   }
 }

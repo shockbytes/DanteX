@@ -4,6 +4,8 @@
   "tab_for_later": "For later",
   "tab_reading": "Reading",
   "tab_read": "Read",
+  "tab_wishlist": "Wishlist",
+  "not_my_book": "Not my book",
   "hint_search": "Search your library...",
   "add_scan": "Scan book",
   "add_query": "Title search",

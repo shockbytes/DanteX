@@ -86,13 +86,13 @@ class Book with Jsonizable {
     return data;
   }
 
-  Book copyWith({BookId? newId, int? newCurrentPage}) {
+  Book copyWith({BookId? newId, int? newCurrentPage, BookState? newState}) {
     return Book(
       id: newId ?? id,
       title: title,
       subTitle: subTitle,
       author: author,
-      state: state,
+      state: newState ?? state,
       pageCount: pageCount,
       currentPage: newCurrentPage ?? currentPage,
       publishedDate: publishedDate,
