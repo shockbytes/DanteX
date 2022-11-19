@@ -9,8 +9,8 @@ class AddBookBloc {
   final BookDownloader _downloader;
   final BookRepository _repository;
 
-  final PublishSubject<Book> _onCreatedSubject = PublishSubject();
-  Stream<Book> get onBookCreated => _onCreatedSubject.stream;
+  final PublishSubject<Book> _onAddedSubject = PublishSubject();
+  Stream<Book> get onBookAdded => _onAddedSubject.stream;
 
   AddBookBloc(this._downloader, this._repository);
 
@@ -37,7 +37,7 @@ class AddBookBloc {
   void _addBook(Book book, BookState state) {
     Book updatedBook = book.copyWith(newState: state);
     _repository.create(updatedBook)
-        .then((value) => _onCreatedSubject.add(book));
+        .then((value) => _onAddedSubject.add(book));
   }
 
 }

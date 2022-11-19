@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dantex/src/bloc/add/add_book_bloc.dart';
 import 'package:dantex/src/core/injection/dependency_injector.dart';
@@ -8,16 +10,41 @@ import 'package:dantex/src/ui/core/handle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class AddBookSheet extends StatelessWidget {
-  final AddBookBloc _bloc = DependencyInjector.get<AddBookBloc>();
-
-  final double _height = 320.0;
+class AddBookSheet extends StatefulWidget {
   final String _query;
 
-  AddBookSheet(
+  const AddBookSheet(
     this._query, {
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _AddBookSheetState();
+}
+
+class _AddBookSheetState extends State<AddBookSheet> {
+  final AddBookBloc _bloc = DependencyInjector.get<AddBookBloc>();
+
+  final double _height = 400.0;
+
+  StreamSubscription<Book>? _onBookAddedStream;
+
+  @override
+  void initState() {
+    super.initState();
+    _onBookAddedStream = _bloc.onBookAdded.listen(
+      (event) {
+        // Just pop the screen here, no need to handle something else
+        Navigator.of(context).pop();
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _onBookAddedStream?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +52,7 @@ class AddBookSheet extends StatelessWidget {
       children: [
         const Handle(),
         FutureBuilder<BookSuggestion>(
-          future: _bloc.downloadBook(_query),
+          future: _bloc.downloadBook(widget._query),
           builder: (context, snapshot) {
             Widget child;
             if (snapshot.hasData) {
@@ -51,10 +78,17 @@ class AddBookSheet extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         _buildImage(bookSuggestion.target),
-        Text(
-          bookSuggestion.target.title,
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+            bookSuggestion.target.title,
+            textAlign: TextAlign.center,
+          ),
         ),
-        Text(bookSuggestion.target.author),
+        Text(
+          bookSuggestion.target.author,
+          textAlign: TextAlign.center,
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
@@ -93,7 +127,6 @@ class AddBookSheet extends StatelessWidget {
             // TODO Show bookSuggestion.suggestions in another ticket
           },
         ),
-        const SizedBox(height: 16),
       ],
     );
   }
@@ -119,7 +152,10 @@ class AddBookSheet extends StatelessWidget {
   }
 }
 
-openAddBookSheet(BuildContext context, String query) async {
+openAddBookSheet(
+  BuildContext context, {
+  required String query,
+}) async {
   await showModalBottomSheet(
     context: context,
     shape: const RoundedRectangleBorder(
