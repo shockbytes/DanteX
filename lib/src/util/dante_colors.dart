@@ -3,6 +3,9 @@ import 'dart:ui';
 class DanteColors {
   DanteColors._();
 
+  static const Color white = Color(0xFFFFFFFF);
+  static const Color grey = Color(0xFFAAAAAA);
+
   static const Color background = Color(0xFFFFFFFF);
   static const Color backgroundSearch = Color(0xFFEDEDED);
 
