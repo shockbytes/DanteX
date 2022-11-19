@@ -46,9 +46,9 @@ class BlocInjector {
   }
 
   static _setupLogoutBloc() {
-    Get.put<LogoutBloc>(
+    DependencyInjector.put<LogoutBloc>(
       LogoutBloc(
-        Get.find<AuthenticationRepository>(),
+        DependencyInjector.get<AuthenticationRepository>(),
       ),
       permanent: true,
     );
