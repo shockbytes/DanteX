@@ -109,4 +109,12 @@ class Book with Jsonizable {
       labels: labels,
     );
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Book && runtimeType == other.runtimeType && id == other.id && state == other.state;
+
+  @override
+  int get hashCode => id.hashCode + state.hashCode;
 }

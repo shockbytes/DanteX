@@ -37,7 +37,7 @@ class AddBookBloc {
   void _addBook(Book book, BookState state) {
     Book updatedBook = book.copyWith(newState: state);
     _repository.create(updatedBook)
-        .then((value) => _onAddedSubject.add(book));
+        .then((value) => _onAddedSubject.add(updatedBook));
   }
 
 }
