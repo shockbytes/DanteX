@@ -19,10 +19,10 @@ jobs:
       - name: Run tests
         run: flutter test --coverage
         
-      - name: Build Android APK
-        run: flutter build apk
+      - name: Create google-services.json file
+        run: touch ./app/google-services.json && echo $GOOGLE_SERVICES_JSON | base64 -d > ./app/google-services.json
         
-      - name: Build Android Appbundle
+      - name: Build Android appbundle
         run: flutter build appbundle
         
       - name: Build iOS
