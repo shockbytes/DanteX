@@ -20,11 +20,9 @@ class DanteColors {
   static const Color textTertiary = Color(0xFF323232);
   static const Color textPrimaryLight = Color(0xFFFFFFFF);
   static const Color textSecondaryLight = Color(0xFFEEEEEE);
+  static const Color textError = Color(0xFFFF0000);
 
   static const Color tabForLater = Color(0xFF4caf50);
   static const Color tabReading = Color(0xFF03a9f4);
   static const Color tabRead = Color(0xFFff9800);
-
-
-
 }

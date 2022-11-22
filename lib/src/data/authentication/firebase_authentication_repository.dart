@@ -48,8 +48,9 @@ class FirebaseAuthenticationRepository implements AuthenticationRepository {
       null;
 
   bool _isMailUser(User user) =>
-      user.providerData
-          .firstWhereOrNull((provider) => provider == 'password') !=
+      user.providerData.firstWhereOrNull(
+        (provider) => provider.providerId == 'password',
+      ) !=
       null;
 
   @override
@@ -78,5 +79,33 @@ class FirebaseAuthenticationRepository implements AuthenticationRepository {
   @override
   Future<void> logout() {
     return _fbAuth.signOut();
+  }
+
+  @override
+  Future<List<AuthenticationSource>> fetchSignInMethodsForEmail({
+    required String email,
+  }) {
+    return _fbAuth.fetchSignInMethodsForEmail(email).then(
+          (signInMethods) => signInMethods.map((signInMethod) {
+            if (signInMethod == 'password') {
+              return AuthenticationSource.mail;
+            }
+            if (signInMethod == 'google.com') {
+              return AuthenticationSource.google;
+            }
+            return AuthenticationSource.unknown;
+          }).toList(),
+        );
+  }
+
+  @override
+  Future<UserCredential> createAccountWithMail({
+    required String email,
+    required String password,
+  }) {
+    return _fbAuth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
   }
 }

@@ -95,6 +95,158 @@ void main() {
     });
   });
 
+  group('Email login', () {
+    const String testEmail = 'test@mail.com';
+    const String testPassword = 'password';
+
+    test('Login emits email login event', () async {
+      final _repository = MockAuthenticationRepository();
+      final loginBloc = LoginBloc(_repository);
+
+      when(_repository.loginWithEmail(email: testEmail, password: testPassword))
+          .thenAnswer((_) async => Future<void>);
+
+      expectLater(
+        loginBloc.loginEvents,
+        emitsInOrder([
+          LoginEvent.loggingIn,
+          LoginEvent.emailLogin,
+        ]),
+      );
+      loginBloc.loginWithEmail(email: testEmail, password: testPassword);
+
+      verify(
+        _repository.loginWithEmail(
+          email: testEmail,
+          password: testPassword,
+        ),
+      ).called(1);
+    });
+
+    test('Login error emits the same error', () async {
+      final _repository = MockAuthenticationRepository();
+      final loginBloc = LoginBloc(_repository);
+      final exception = FirebaseAuthException(code: '1');
+
+      when(_repository.loginWithEmail(email: testEmail, password: testPassword))
+          .thenAnswer((_) async => throw exception);
+
+      expectLater(
+        loginBloc.loginEvents,
+        emitsInOrder([
+          LoginEvent.loggingIn,
+          emitsError(exception),
+        ]),
+      );
+      loginBloc.loginWithEmail(email: testEmail, password: testPassword);
+
+      verify(
+        _repository.loginWithEmail(
+          email: testEmail,
+          password: testPassword,
+        ),
+      ).called(1);
+    });
+
+    test('fetchSignInMethodsForEmail returns sign in methods', () async {
+      final _repository = MockAuthenticationRepository();
+      final loginBloc = LoginBloc(_repository);
+
+      when(_repository.fetchSignInMethodsForEmail(email: testEmail)).thenAnswer(
+        (_) async => [AuthenticationSource.google],
+      );
+      final signInMethods =
+          await loginBloc.fetchSignInMethodsForEmail(email: testEmail);
+
+      expect(signInMethods, [AuthenticationSource.google]);
+      verify(_repository.fetchSignInMethodsForEmail(email: testEmail))
+          .called(1);
+    });
+
+    test(
+      'Create account emits creating account event then login event',
+      () async {
+        final _repository = MockAuthenticationRepository();
+        final loginBloc = LoginBloc(_repository);
+
+        when(
+          _repository.createAccountWithMail(
+            email: testEmail,
+            password: testPassword,
+          ),
+        ).thenAnswer((_) async => Future<void>);
+        when(
+          _repository.loginWithEmail(
+            email: testEmail,
+            password: testPassword,
+          ),
+        ).thenAnswer((_) async => Future<void>);
+
+        expectLater(
+          loginBloc.loginEvents,
+          emitsInOrder([
+            LoginEvent.creatingAccount,
+            LoginEvent.loggingIn,
+            LoginEvent.emailLogin,
+          ]),
+        );
+        loginBloc.createAccountWithMail(
+          email: testEmail,
+          password: testPassword,
+        );
+
+        await untilCalled(
+          _repository.loginWithEmail(
+            email: testEmail,
+            password: testPassword,
+          ),
+        );
+
+        verify(
+          _repository.createAccountWithMail(
+            email: testEmail,
+            password: testPassword,
+          ),
+        ).called(1);
+        verify(
+          _repository.loginWithEmail(
+            email: testEmail,
+            password: testPassword,
+          ),
+        ).called(1);
+      },
+    );
+
+    test('Create account error emits the same error', () async {
+      final _repository = MockAuthenticationRepository();
+      final loginBloc = LoginBloc(_repository);
+      final exception = FirebaseAuthException(code: '1');
+
+      when(
+        _repository.createAccountWithMail(
+          email: testEmail,
+          password: testPassword,
+        ),
+      ).thenAnswer((_) async => throw exception);
+
+      expectLater(
+        loginBloc.loginEvents,
+        emitsInOrder([
+          LoginEvent.creatingAccount,
+          emitsError(exception),
+        ]),
+      );
+      loginBloc.createAccountWithMail(email: testEmail, password: testPassword);
+
+      verify(
+        _repository.createAccountWithMail(
+          email: testEmail,
+          password: testPassword,
+        ),
+      ).called(1);
+    });
+  });
+
   test('isLoggedIn returns login state', () async {
     final _repository = MockAuthenticationRepository();
     final loginBloc = LoginBloc(_repository);

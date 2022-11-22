@@ -13,4 +13,13 @@ abstract class AuthenticationRepository {
   Future<void> loginAnonymously();
 
   Future<void> logout();
+
+  Future<List<AuthenticationSource>> fetchSignInMethodsForEmail({
+    required String email,
+  });
+
+  Future<void> createAccountWithMail({
+    required String email,
+    required String password,
+  });
 }
