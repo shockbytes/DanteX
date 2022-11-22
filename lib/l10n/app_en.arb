@@ -1,11 +1,17 @@
 {
   "version": "Version",
-  "version_number": "0.1b",
+  "version_number": "5.0 Alpha",
   "tab_for_later": "For later",
   "tab_reading": "Reading",
   "tab_read": "Read",
+  "tab_wishlist": "Wishlist",
+  "not_my_book": "Not my book",
   "hint_search": "Search your library...",
   "add_scan": "Scan book",
   "add_query": "Title search",
-  "add_manual": "Add manual"
+  "add_manual": "Add manual",
+  "cancel": "Cancel",
+  "search": "Search",
+  "query_search_hint": "Title or ISBN",
+  "query_search_title": "Title search"
 }
