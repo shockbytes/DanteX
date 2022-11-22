@@ -3,6 +3,7 @@ import 'package:dantex/src/core/injection/dependency_injector.dart';
 import 'package:dantex/src/data/book/entity/book.dart';
 import 'package:dantex/src/data/book/entity/book_state.dart';
 import 'package:dantex/src/ui/book/book_item_widget.dart';
+import 'package:dantex/src/ui/core/generic_error_widget.dart';
 import 'package:flutter/material.dart';
 
 class BookStatePage extends StatelessWidget {
@@ -22,7 +23,7 @@ class BookStatePage extends StatelessWidget {
         if (snapshot.hasData && data != null) {
           return _buildBookScreen(data);
         } else if (snapshot.hasError) {
-          return _buildErrorScreen(snapshot.error!);
+          return GenericErrorWidget(snapshot.error);
         } else {
           return _buildLoadingScreen();
         }
@@ -42,12 +43,6 @@ class BookStatePage extends StatelessWidget {
       itemBuilder: (context, index) => BookItemWidget(books[index]),
       separatorBuilder: (BuildContext context, int index) =>
           const SizedBox(height: 16),
-    );
-  }
-
-  Widget _buildErrorScreen(Object error) {
-    return Center(
-      child: Text(error.toString()),
     );
   }
 

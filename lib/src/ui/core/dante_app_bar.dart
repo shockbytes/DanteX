@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:dantex/src/bloc/add/add_book_bloc.dart';
 import 'package:dantex/src/bloc/auth/logout_bloc.dart';
 import 'package:dantex/src/bloc/auth/logout_event.dart';
 import 'package:dantex/src/core/injection/dependency_injector.dart';
-import 'package:dantex/src/data/book/book_repository.dart';
+import 'package:dantex/src/ui/add/add_book_sheet.dart';
 import 'package:dantex/src/ui/core/dante_search_bar.dart';
+import 'package:dantex/src/ui/core/platform_components.dart';
 import 'package:dantex/src/ui/login/login_page.dart';
 import 'package:dantex/src/util/dante_colors.dart';
 import 'package:flutter/material.dart';
@@ -63,21 +63,8 @@ class DanteAppBarState extends State<DanteAppBar> {
                 Icons.add,
                 color: DanteColors.accent,
               ),
-              onSelected: (AddBookAction action) {
-                // TODO Cleanup just for testing
-                Get.find<AddBookBloc>()
-                    .downloadBook('Im Westen nichts Neues')
-                    .then(
-                  (bookSuggestion) {
-                    Get.find<BookRepository>().create(bookSuggestion.target);
-                  },
-                );
-
-                // TODO Run action
-                print(action.name);
-              },
-              itemBuilder: (BuildContext context) =>
-                  <PopupMenuEntry<AddBookAction>>[
+              onSelected: (AddBookAction action) async => _handleAddBookAction(context, action),
+              itemBuilder: (BuildContext context) => <PopupMenuEntry<AddBookAction>>[
                 PopupMenuItem<AddBookAction>(
                   value: AddBookAction.scan,
                   child: _AddActionItem(
@@ -121,6 +108,49 @@ class DanteAppBarState extends State<DanteAppBar> {
           ],
         ),
       ),
+    );
+  }
+
+  _handleAddBookAction(BuildContext context, AddBookAction action) async {
+    switch (action) {
+      case AddBookAction.scan:
+        // TODO Support book code scanning
+        break;
+      case AddBookAction.query:
+        await _handleQueryAction(context, action);
+        break;
+      case AddBookAction.manual:
+        // TODO Support manually adding books
+        break;
+    }
+  }
+
+  _handleQueryAction(BuildContext context, AddBookAction action) async {
+    var controller = TextEditingController();
+    await PlatformComponents.showPlatformInputDialog(
+      context,
+      title: AppLocalizations.of(context)!.query_search_title,
+      maxLines: 1,
+      hint: AppLocalizations.of(context)!.query_search_hint,
+      textInputAction: TextInputAction.search,
+      textInputType: TextInputType.text,
+      actions: [
+        PlatformDialogAction(
+          name: AppLocalizations.of(context)!.cancel,
+          action: (BuildContext context) => Navigator.of(context).pop(),
+        ),
+        PlatformDialogAction(
+          name: AppLocalizations.of(context)!.search,
+          action: (BuildContext context) async {
+            Navigator.of(context).pop();
+            await openAddBookSheet(
+              context,
+              query: controller.text,
+            );
+          },
+        ),
+      ],
+      controller: controller,
     );
   }
 

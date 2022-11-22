@@ -6,11 +6,20 @@ import 'package:get/get.dart';
 
 import 'blocking_components_injector.dart';
 
+/// Nice little wrapper for Dependency Injection code.
+/// Allows to switch the underlying dependency injection library, if needed.
 class DependencyInjector {
   DependencyInjector._();
 
   static T get<T extends Object>() {
     return Get.find<T>();
+  }
+
+  static void put<T extends Object>(
+    T dependency, {
+    bool permanent = false,
+  }) {
+    Get.put(dependency);
   }
 
   static Future<void> initializeCriticalComponents() async {

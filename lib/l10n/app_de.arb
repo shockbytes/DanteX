@@ -3,8 +3,14 @@
   "tab_for_later": "Für später",
   "tab_reading": "Lesen",
   "tab_read": "Gelesen",
+  "tab_wishlist": "Wunschliste",
+  "not_my_book": "Nicht mein Buch",
   "hint_search": "Dursuche deine Bibliothek...",
   "add_scan": "Buchcode scannen",
   "add_query": "Titelsuche",
-  "add_manual": "Manuell eingeben"
+  "add_manual": "Manuell eingeben",
+  "cancel": "Zurück",
+  "search": "Suchen",
+  "query_search_hint": "Titel oder ISBN",
+  "query_search_title": "Titelsuche"
 }

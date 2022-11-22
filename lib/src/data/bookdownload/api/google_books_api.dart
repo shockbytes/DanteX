@@ -19,7 +19,7 @@ class GoogleBooksApi implements BookApi {
       GoogleBooksResponse parsedResponse =
           GoogleBooksResponse.fromJson(response.data);
 
-      if (parsedResponse.items == 0) {
+      if (parsedResponse.items.isEmpty) {
         throw Exception('No books to view!');
       }
 
