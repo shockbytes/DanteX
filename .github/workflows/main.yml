@@ -7,6 +7,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: '11'
 
       - name: Install Flutter
         uses: subosito/flutter-action@v2
@@ -26,10 +32,6 @@ jobs:
         run: touch ${GITHUB_WORKSPACE}/android/app/google-services.json && echo $GOOGLE_SERVICES_JSON > ${GITHUB_WORKSPACE}/android/app/google-services.json
         
       - name: Build Android appbundle
-        uses: actions/setup-java@v2
-          with:
-            distribution: 'zulu'
-            java-version: '11'
         run: flutter build appbundle
         
       - name: Build iOS
