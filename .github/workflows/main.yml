@@ -34,6 +34,11 @@ jobs:
       - name: Build Android appbundle
         run: flutter build appbundle
         
+      - name: Create GoogleService-Info.plist file
+        env:
+          GOOGLE_SERVICES_INFO_PLIST: ${{ secrets.GOOGLE_SERVICES_INFO_PLIST }}
+        run: touch ${GITHUB_WORKSPACE}/ios/Runner/GoogleService-Info.plist && echo $GOOGLE_SERVICES_INFO_PLIST > ${GITHUB_WORKSPACE}/ios/Runner/GoogleService-Info.plist      
+        
       - name: Build iOS
         run: flutter build ios --release --no-codesign
         
