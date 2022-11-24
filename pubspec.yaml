@@ -87,6 +87,5 @@ flutter:
   generate: true
 
   assets:
-    - assets/images/
     - assets/data/
     - assets/logo/
