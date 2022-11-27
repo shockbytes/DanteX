@@ -82,6 +82,35 @@ class MockAuthenticationRepository extends _i1.Mock
         returnValue: _i3.Future<void>.value(),
         returnValueForMissingStub: _i3.Future<void>.value(),
       ) as _i3.Future<void>);
+  @override
+  _i3.Future<List<_i4.AuthenticationSource>> fetchSignInMethodsForEmail(
+          {required String? email}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #fetchSignInMethodsForEmail,
+          [],
+          {#email: email},
+        ),
+        returnValue: _i3.Future<List<_i4.AuthenticationSource>>.value(
+            <_i4.AuthenticationSource>[]),
+      ) as _i3.Future<List<_i4.AuthenticationSource>>);
+  @override
+  _i3.Future<void> createAccountWithMail({
+    required String? email,
+    required String? password,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #createAccountWithMail,
+          [],
+          {
+            #email: email,
+            #password: password,
+          },
+        ),
+        returnValue: _i3.Future<void>.value(),
+        returnValueForMissingStub: _i3.Future<void>.value(),
+      ) as _i3.Future<void>);
 }
 
 /// A class which mocks [DanteUser].

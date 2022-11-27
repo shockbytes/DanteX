@@ -81,6 +81,12 @@ Developers should be aiming for tests to cover all the major functionality. We a
 generate mocks required for testing. To be able to run the tests, you'll need to run
 `flutter pub run build_runner build` from the repo root to generate the mocks required for the tests.
 
+### String translations
+
+All static text strings should be in the translations files located at `/lib/l10n`.
+To use the translations, add the key value pair to the translation files and then run `flutter pub get`.
+You can then access the translation value by doing `AppLocalizations.of(context)!.your_key`.
+
 The overview of the features to be worked on can be found in the following Github project:
 https://github.com/users/shockbytes/projects/1/views/1
 

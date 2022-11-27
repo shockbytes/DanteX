@@ -3,9 +3,11 @@ import 'dart:async';
 import 'package:dantex/src/bloc/auth/login_bloc.dart';
 import 'package:dantex/src/bloc/auth/login_event.dart';
 import 'package:dantex/src/core/injection/dependency_injector.dart';
+import 'package:dantex/src/ui/login/login_bottom_sheet.dart';
 import 'package:dantex/src/ui/main/main_page.dart';
 import 'package:dantex/src/util/dante_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
@@ -19,12 +21,12 @@ class LoginPage extends StatefulWidget {
 class LoginPageState extends State<LoginPage> {
   final LoginBloc _bloc = DependencyInjector.get<LoginBloc>();
   late StreamSubscription<LoginEvent> _loginSubscription;
-  late bool _isLoggingIn;
+  late bool _isLoading;
 
   @override
   void initState() {
     super.initState();
-    _isLoggingIn = false;
+    _isLoading = false;
     _loginSubscription = _bloc.loginEvents.listen(
       _loginEventReceived,
       onError: (exception, stackTrace) =>
@@ -35,17 +37,16 @@ class LoginPageState extends State<LoginPage> {
   @override
   void dispose() {
     _loginSubscription.cancel();
-    _isLoggingIn = false;
+    _isLoading = false;
     super.dispose();
   }
 
   void _loginErrorReceived(Exception exception, StackTrace stackTrace) {
     setState(() {
-      _isLoggingIn = false;
+      _isLoading = false;
     });
     Fluttertoast.showToast(
-      // TODO: Translate here.
-      msg: 'Failed to login',
+      msg: AppLocalizations.of(context)!.login_failed,
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
       timeInSecForIosWeb: 3,
@@ -56,9 +57,9 @@ class LoginPageState extends State<LoginPage> {
   }
 
   void _loginEventReceived(LoginEvent event) {
-    if (event == LoginEvent.loggingIn) {
+    if (event == LoginEvent.loggingIn || event == LoginEvent.creatingAccount) {
       setState(() {
-        _isLoggingIn = true;
+        _isLoading = true;
       });
     } else {
       // Navigate to main page and remove this page from the navigation stack.
@@ -72,7 +73,7 @@ class LoginPageState extends State<LoginPage> {
       child: Container(
         decoration: const BoxDecoration(color: DanteColors.accent),
         child: Center(
-          child: _isLoggingIn
+          child: _isLoading
               ? const CircularProgressIndicator(
                   color: DanteColors.background,
                 )
@@ -93,33 +94,33 @@ class LoginPageState extends State<LoginPage> {
                         width: 92,
                       ),
                       const SizedBox(height: 16),
-                      const Text(
-                        'Welcome back!',
-                        style: TextStyle(
+                      Text(
+                        AppLocalizations.of(context)!.welcome_back,
+                        style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       const SizedBox(height: 12),
-                      const Text(
-                        'Login with your account to synchronize your books with other devices.',
+                      Text(
+                        AppLocalizations.of(context)!.login_with_account,
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 12),
+                        style: const TextStyle(fontSize: 12),
                       ),
                       const SizedBox(height: 24),
                       OutlinedButton(
                         onPressed: () => _bloc.loginWithGoogle(),
                         child: Row(
-                          children: const [
-                            Icon(
+                          children: [
+                            const Icon(
                               Icons.g_mobiledata,
                               color: Colors.red,
                             ),
                             Expanded(
                               child: Text(
-                                'Login with Google',
+                                AppLocalizations.of(context)!.login_with_google,
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.red,
                                 ),
                               ),
@@ -128,13 +129,13 @@ class LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       OutlinedButton(
-                        onPressed: () => _bloc.loginWithEmail(),
+                        onPressed: () => _openLoginBottomSheet(),
                         child: Row(
-                          children: const [
-                            Icon(Icons.mail_outline),
+                          children: [
+                            const Icon(Icons.mail_outline),
                             Expanded(
                               child: Text(
-                                'Login with Email',
+                                AppLocalizations.of(context)!.login_with_email,
                                 textAlign: TextAlign.center,
                               ),
                             ),
@@ -150,16 +151,16 @@ class LoginPageState extends State<LoginPage> {
                       OutlinedButton(
                         onPressed: () => _bloc.loginAnonymously(),
                         child: Row(
-                          children: const [
-                            Icon(
+                          children: [
+                            const Icon(
                               Icons.no_accounts_outlined,
                               color: DanteColors.textPrimary,
                             ),
                             Expanded(
                               child: Text(
-                                'Stay anonymous',
+                                AppLocalizations.of(context)!.stay_anonymous,
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: DanteColors.textPrimary,
                                 ),
                               ),
@@ -172,6 +173,15 @@ class LoginPageState extends State<LoginPage> {
                 ),
         ),
       ),
+    );
+  }
+
+  void _openLoginBottomSheet() {
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return const LoginBottomSheet();
+      },
     );
   }
 }

@@ -3,4 +3,5 @@ enum LoginEvent {
   emailLogin,
   anonymousLogin,
   loggingIn,
+  creatingAccount
 }

@@ -14,6 +14,9 @@ import 'firebase_authentication_repository_test.mocks.dart';
   UserInfo,
 ])
 void main() {
+  const String testEmail = 'test@mail.com';
+  const String testPassword = 'password';
+
   test('Get account returns DanteUser', () async {
     final _fbAuth = MockFirebaseAuth();
     final fbAuthRepo = FirebaseAuthenticationRepository(_fbAuth);
@@ -26,10 +29,10 @@ void main() {
       photoUrl: 'https://photo-url.com',
       authToken: 'authToken',
       userId: '1',
-      source: AuthenticationSource.google,
+      source: AuthenticationSource.mail,
     );
 
-    when(userInfo.providerId).thenReturn('google.com');
+    when(userInfo.providerId).thenReturn('password');
     when(user.displayName).thenReturn('Dante User');
     when(user.email).thenReturn('dante.user@gmail.com');
     when(user.photoURL).thenReturn('https://photo-url.com');
@@ -70,6 +73,33 @@ void main() {
       expect(await firebaseAuthRepo.loginAnonymously(), userCred);
       verify(_fbAuth.signInAnonymously()).called(1);
     });
+
+    test('Login with email returns User Credential on success', () async {
+      final _fbAuth = MockFirebaseAuth();
+      final firebaseAuthRepo = FirebaseAuthenticationRepository(_fbAuth);
+      final userCred = MockUserCredential();
+
+      when(
+        _fbAuth.signInWithEmailAndPassword(
+          email: testEmail,
+          password: testPassword,
+        ),
+      ).thenAnswer((_) async => userCred);
+
+      expect(
+        await firebaseAuthRepo.loginWithEmail(
+          email: testEmail,
+          password: testPassword,
+        ),
+        userCred,
+      );
+      verify(
+        _fbAuth.signInWithEmailAndPassword(
+          email: testEmail,
+          password: testPassword,
+        ),
+      ).called(1);
+    });
   });
 
   test('logout returns void on success', () async {
@@ -80,5 +110,53 @@ void main() {
 
     firebaseAuthRepo.logout();
     verify(_fbAuth.signOut()).called(1);
+  });
+
+  test(
+    'fetchSignInMethodsForEmail maps sign in methods to AuthenticationSource',
+    () async {
+      final _fbAuth = MockFirebaseAuth();
+      final firebaseAuthRepo = FirebaseAuthenticationRepository(_fbAuth);
+
+      when(_fbAuth.fetchSignInMethodsForEmail(testEmail))
+          .thenAnswer((_) async => ['google.com', 'password', 'apple.com']);
+
+      final signInMethods =
+          await firebaseAuthRepo.fetchSignInMethodsForEmail(email: testEmail);
+
+      expect(signInMethods, [
+        AuthenticationSource.google,
+        AuthenticationSource.mail,
+        AuthenticationSource.unknown,
+      ]);
+      verify(_fbAuth.fetchSignInMethodsForEmail(testEmail)).called(1);
+    },
+  );
+
+  test('Create mail account returns User Credential on success', () async {
+    final _fbAuth = MockFirebaseAuth();
+    final firebaseAuthRepo = FirebaseAuthenticationRepository(_fbAuth);
+    final userCred = MockUserCredential();
+
+    when(
+      _fbAuth.createUserWithEmailAndPassword(
+        email: testEmail,
+        password: testPassword,
+      ),
+    ).thenAnswer((_) async => userCred);
+
+    expect(
+      await firebaseAuthRepo.createAccountWithMail(
+        email: testEmail,
+        password: testPassword,
+      ),
+      userCred,
+    );
+    verify(
+      _fbAuth.createUserWithEmailAndPassword(
+        email: testEmail,
+        password: testPassword,
+      ),
+    ).called(1);
   });
 }
