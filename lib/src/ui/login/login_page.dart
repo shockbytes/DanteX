@@ -21,12 +21,12 @@ class LoginPage extends StatefulWidget {
 class LoginPageState extends State<LoginPage> {
   final LoginBloc _bloc = DependencyInjector.get<LoginBloc>();
   late StreamSubscription<LoginEvent> _loginSubscription;
-  late bool _loading;
+  late bool _isLoading;
 
   @override
   void initState() {
     super.initState();
-    _loading = false;
+    _isLoading = false;
     _loginSubscription = _bloc.loginEvents.listen(
       _loginEventReceived,
       onError: (exception, stackTrace) =>
@@ -37,13 +37,13 @@ class LoginPageState extends State<LoginPage> {
   @override
   void dispose() {
     _loginSubscription.cancel();
-    _loading = false;
+    _isLoading = false;
     super.dispose();
   }
 
   void _loginErrorReceived(Exception exception, StackTrace stackTrace) {
     setState(() {
-      _loading = false;
+      _isLoading = false;
     });
     Fluttertoast.showToast(
       msg: AppLocalizations.of(context)!.login_failed,
@@ -59,7 +59,7 @@ class LoginPageState extends State<LoginPage> {
   void _loginEventReceived(LoginEvent event) {
     if (event == LoginEvent.loggingIn || event == LoginEvent.creatingAccount) {
       setState(() {
-        _loading = true;
+        _isLoading = true;
       });
     } else {
       // Navigate to main page and remove this page from the navigation stack.
@@ -73,7 +73,7 @@ class LoginPageState extends State<LoginPage> {
       child: Container(
         decoration: const BoxDecoration(color: DanteColors.accent),
         child: Center(
-          child: _loading
+          child: _isLoading
               ? const CircularProgressIndicator(
                   color: DanteColors.background,
                 )
@@ -129,7 +129,6 @@ class LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       OutlinedButton(
-                        // onPressed: () => _bloc.loginWithEmail(),
                         onPressed: () => _openLoginBottomSheet(),
                         child: Row(
                           children: [
