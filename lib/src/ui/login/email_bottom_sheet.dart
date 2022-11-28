@@ -8,15 +8,26 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 
-class LoginBottomSheet extends StatefulWidget {
-  const LoginBottomSheet({Key? key}) : super(key: key);
+class EmailBottomSheet extends StatefulWidget {
+  final bool allowExistingEmails;
+  final void Function({
+    required String email,
+    required String password,
+  }) unknownEmailAction;
+
+  const EmailBottomSheet({
+    Key? key,
+    required this.unknownEmailAction,
+    required this.allowExistingEmails,
+  }) : super(key: key);
 
   @override
-  createState() => LoginBottomSheetState();
+  createState() => EmailBottomSheetState();
 }
 
-class LoginBottomSheetState extends State<LoginBottomSheet> {
+class EmailBottomSheetState extends State<EmailBottomSheet> {
   final LoginBloc _bloc = DependencyInjector.get<LoginBloc>();
 
   String? _emailErrorMessage;
@@ -144,21 +155,22 @@ class LoginBottomSheetState extends State<LoginBottomSheet> {
       }
     } else if (_phase == LoginPhase.passwordExistingUser) {
       return () {
-        Navigator.of(context).pop();
+        Get.back();
         _bloc.loginWithEmail(
           email: _emailController.text,
           password: _passwordController.text,
         );
       };
     } else {
-      if (_isValidPassword()) {}
-      return () {
-        Navigator.of(context).pop();
-        _bloc.createAccountWithMail(
-          email: _emailController.text,
-          password: _passwordController.text,
-        );
-      };
+      if (_isValidPassword()) {
+        return () {
+          Get.back();
+          widget.unknownEmailAction(
+            email: _emailController.text,
+            password: _passwordController.text,
+          );
+        };
+      }
     }
     return null;
   }
@@ -179,7 +191,7 @@ class LoginBottomSheetState extends State<LoginBottomSheet> {
         content: Text(AppLocalizations.of(context)!.email_in_use_description),
         actions: <Widget>[
           OutlinedButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Get.back(),
             child: Text(AppLocalizations.of(context)!.got_it),
           ),
         ],
@@ -188,14 +200,18 @@ class LoginBottomSheetState extends State<LoginBottomSheet> {
   }
 
   bool _isValidPassword() {
-    return _emailErrorMessage == null && _passwordController.text != '';
+    return _passwordErrorMessage == null && _passwordController.text != '';
   }
 
   bool _isValidEmail() {
     return _emailErrorMessage == null && _emailController.text != '';
   }
 
-  void _validateEmail(String val) {
+  void _validateEmail(String val) async {
+    final signInMethod = await _bloc.fetchSignInMethodsForEmail(
+      email: _emailController.text,
+    );
+
     if (val.isEmpty) {
       setState(() {
         _emailErrorMessage = AppLocalizations.of(context)!.email_empty;
@@ -203,6 +219,10 @@ class LoginBottomSheetState extends State<LoginBottomSheet> {
     } else if (!EmailValidator.validate(val)) {
       setState(() {
         _emailErrorMessage = AppLocalizations.of(context)!.email_invalid;
+      });
+    } else if (!widget.allowExistingEmails && signInMethod.isNotEmpty) {
+      setState(() {
+        _emailErrorMessage = AppLocalizations.of(context)!.email_in_use_title;
       });
     } else {
       setState(() {

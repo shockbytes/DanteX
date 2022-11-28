@@ -159,4 +159,47 @@ void main() {
       ),
     ).called(1);
   });
+
+  test('Upgrade anonymous account returns User Credential on success',
+      () async {
+    final _fbAuth = MockFirebaseAuth();
+    final firebaseAuthRepo = FirebaseAuthenticationRepository(_fbAuth);
+    final user = MockUser();
+    final userCred = MockUserCredential();
+
+    when(
+      _fbAuth.currentUser,
+    ).thenReturn(user);
+    when(user.linkWithCredential(any)).thenAnswer((_) async => userCred);
+
+    expect(
+      await firebaseAuthRepo.upgradeAnonymousAccount(
+        email: testEmail,
+        password: testPassword,
+      ),
+      userCred,
+    );
+    verify(
+      user.linkWithCredential(any),
+    ).called(1);
+  });
+
+  test(
+      'Upgrade anonymous account throws FirebaseAuthException error when user not found',
+      () async {
+    final _fbAuth = MockFirebaseAuth();
+    final firebaseAuthRepo = FirebaseAuthenticationRepository(_fbAuth);
+
+    when(
+      _fbAuth.currentUser,
+    ).thenReturn(null);
+
+    expect(
+      () async => await firebaseAuthRepo.upgradeAnonymousAccount(
+        email: testEmail,
+        password: testPassword,
+      ),
+      throwsA(isA<FirebaseAuthException>()),
+    );
+  });
 }

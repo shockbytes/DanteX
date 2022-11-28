@@ -9,6 +9,7 @@ import 'package:dantex/src/ui/core/generic_error_widget.dart';
 import 'package:dantex/src/ui/core/handle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:get/get.dart';
 
 class AddBookSheet extends StatefulWidget {
   final String _query;
@@ -35,7 +36,7 @@ class _AddBookSheetState extends State<AddBookSheet> {
     _onBookAddedStream = _bloc.onBookAdded.listen(
       (event) {
         // Just pop the screen here, no need to handle something else
-        Navigator.of(context).pop();
+        Get.back();
       },
     );
   }

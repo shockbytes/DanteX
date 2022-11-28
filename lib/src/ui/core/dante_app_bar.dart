@@ -1,12 +1,16 @@
 import 'dart:async';
 
+import 'package:dantex/src/bloc/auth/login_bloc.dart';
 import 'package:dantex/src/bloc/auth/logout_bloc.dart';
 import 'package:dantex/src/bloc/auth/logout_event.dart';
 import 'package:dantex/src/core/injection/dependency_injector.dart';
+import 'package:dantex/src/data/authentication/entity/dante_user.dart';
 import 'package:dantex/src/ui/add/add_book_sheet.dart';
+import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/dante_search_bar.dart';
 import 'package:dantex/src/ui/core/platform_components.dart';
 import 'package:dantex/src/ui/login/login_page.dart';
+import 'package:dantex/src/ui/settings/settings_page.dart';
 import 'package:dantex/src/util/dante_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -25,13 +29,17 @@ class DanteAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class DanteAppBarState extends State<DanteAppBar> {
-  final LogoutBloc _bloc = DependencyInjector.get<LogoutBloc>();
+  final LogoutBloc _logoutBloc = DependencyInjector.get<LogoutBloc>();
+  final LoginBloc _loginBloc = DependencyInjector.get<LoginBloc>();
+
   late StreamSubscription<LogoutEvent> _logoutSubscription;
+  late DanteUser? user;
 
   @override
   void initState() {
     super.initState();
-    _logoutSubscription = _bloc.logoutEvents.listen(
+    _getUser();
+    _logoutSubscription = _logoutBloc.logoutEvents.listen(
       _logoutEventReceived,
     );
   }
@@ -40,6 +48,13 @@ class DanteAppBarState extends State<DanteAppBar> {
   void dispose() {
     _logoutSubscription.cancel();
     super.dispose();
+  }
+
+  void _getUser() async {
+    final currentUser = await _loginBloc.getAccount();
+    setState(() {
+      user = currentUser;
+    });
   }
 
   void _logoutEventReceived(LogoutEvent event) {
@@ -63,8 +78,10 @@ class DanteAppBarState extends State<DanteAppBar> {
                 Icons.add,
                 color: DanteColors.accent,
               ),
-              onSelected: (AddBookAction action) async => _handleAddBookAction(context, action),
-              itemBuilder: (BuildContext context) => <PopupMenuEntry<AddBookAction>>[
+              onSelected: (AddBookAction action) async =>
+                  _handleAddBookAction(context, action),
+              itemBuilder: (BuildContext context) =>
+                  <PopupMenuEntry<AddBookAction>>[
                 PopupMenuItem<AddBookAction>(
                   value: AddBookAction.scan,
                   child: _AddActionItem(
@@ -137,12 +154,12 @@ class DanteAppBarState extends State<DanteAppBar> {
       actions: [
         PlatformDialogAction(
           name: AppLocalizations.of(context)!.cancel,
-          action: (BuildContext context) => Navigator.of(context).pop(),
+          action: (BuildContext context) => Get.back(),
         ),
         PlatformDialogAction(
           name: AppLocalizations.of(context)!.search,
           action: (BuildContext context) async {
-            Navigator.of(context).pop();
+            Get.back();
             await openAddBookSheet(
               context,
               query: controller.text,
@@ -169,16 +186,14 @@ class DanteAppBarState extends State<DanteAppBar> {
             ),
             border: Border.all(color: DanteColors.textPrimary),
           ),
-          height: 260,
+          height: 280,
           child: Column(
             children: [
-              OutlinedButton(
-                onPressed: () => _bloc.logout(),
-                child: const Text(
-                  'Logout',
-                  textAlign: TextAlign.center,
-                ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: _buildUserTag(user),
               ),
+              DanteComponents.divider(),
               GridView(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -216,7 +231,15 @@ class DanteAppBarState extends State<DanteAppBar> {
                   _MenuItem(
                     text: 'Settings',
                     icon: Icons.settings_outlined,
-                    onItemClicked: () {},
+                    onItemClicked: () {
+                      Get.to(
+                        () => SettingsPage(
+                          isAnonymousUser:
+                              user?.source == AuthenticationSource.anonymous,
+                        ),
+                        transition: Transition.downToUp,
+                      );
+                    },
                   ),
                 ],
               ),
@@ -225,6 +248,57 @@ class DanteAppBarState extends State<DanteAppBar> {
         ),
       ),
     );
+  }
+
+  Widget _buildUserTag(DanteUser? user) {
+    // TODO: fill out with user details
+    return Row(
+      children: [
+        const Icon(
+          Icons.account_circle_outlined,
+          color: DanteColors.textPrimary,
+        ),
+        const SizedBox(width: 4),
+        const Expanded(
+          child: Text('Anonymous Bookworm'),
+        ),
+        OutlinedButton(
+          onPressed: () => _handleLogout(),
+          child: const Text(
+            'Logout',
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _handleLogout() async {
+    if (user?.source == AuthenticationSource.anonymous) {
+      showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: Text(AppLocalizations.of(context)!.anonymous_logout_title),
+          content:
+              Text(AppLocalizations.of(context)!.anonymous_logout_description),
+          actions: <Widget>[
+            OutlinedButton(
+              onPressed: () => Get.back(),
+              child: Text(AppLocalizations.of(context)!.cancel),
+            ),
+            OutlinedButton(
+              onPressed: () {
+                Get.back();
+                _logoutBloc.logout();
+              },
+              child: Text(AppLocalizations.of(context)!.logout),
+            ),
+          ],
+        ),
+      );
+    } else {
+      _logoutBloc.logout();
+    }
   }
 }
 
@@ -275,18 +349,16 @@ class _MenuItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onItemClicked,
-      child: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon),
-            const SizedBox(height: 4),
-            Text(
-              text,
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(icon),
+          const SizedBox(height: 4),
+          Text(
+            text,
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
     );
   }

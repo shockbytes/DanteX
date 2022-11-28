@@ -14,6 +14,9 @@ import 'login_bloc_test.mocks.dart';
   DanteUser,
 ])
 void main() {
+  const String testEmail = 'test@mail.com';
+  const String testPassword = 'password';
+
   group('Google Login', () {
     test('Login emits Google login event', () async {
       final _repository = MockAuthenticationRepository();
@@ -96,9 +99,6 @@ void main() {
   });
 
   group('Email login', () {
-    const String testEmail = 'test@mail.com';
-    const String testPassword = 'password';
-
     test('Login emits email login event', () async {
       final _repository = MockAuthenticationRepository();
       final loginBloc = LoginBloc(_repository);
@@ -257,5 +257,105 @@ void main() {
 
     expect(await loginBloc.isLoggedIn(), true);
     verify(_repository.getAccount()).called(1);
+  });
+
+  test('Get account returns user', () async {
+    final _repository = MockAuthenticationRepository();
+    final loginBloc = LoginBloc(_repository);
+    final user = MockDanteUser();
+
+    when(_repository.getAccount()).thenAnswer(
+      (_) async => user,
+    );
+    when(user.source).thenReturn(AuthenticationSource.anonymous);
+
+    expect(await loginBloc.getAccount(), user);
+    verify(_repository.getAccount()).called(1);
+  });
+
+  group('Upgrading account', () {
+    test('Upgrading anonymous account emits upgrading event then login event',
+        () async {
+      final _repository = MockAuthenticationRepository();
+      final loginBloc = LoginBloc(_repository);
+
+      when(
+        _repository.upgradeAnonymousAccount(
+          email: testEmail,
+          password: testPassword,
+        ),
+      ).thenAnswer((_) async => Future<void>);
+      when(
+        _repository.loginWithEmail(
+          email: testEmail,
+          password: testPassword,
+        ),
+      ).thenAnswer((_) async => Future<void>);
+
+      expectLater(
+        loginBloc.loginEvents,
+        emitsInOrder([
+          LoginEvent.upgradingAnonymousAccount,
+          LoginEvent.loggingIn,
+          LoginEvent.emailLogin,
+        ]),
+      );
+      loginBloc.upgradeAnonymousAccount(
+        email: testEmail,
+        password: testPassword,
+      );
+
+      await untilCalled(
+        _repository.loginWithEmail(
+          email: testEmail,
+          password: testPassword,
+        ),
+      );
+
+      verify(
+        _repository.upgradeAnonymousAccount(
+          email: testEmail,
+          password: testPassword,
+        ),
+      ).called(1);
+      verify(
+        _repository.loginWithEmail(
+          email: testEmail,
+          password: testPassword,
+        ),
+      ).called(1);
+    });
+
+    test('Create account error emits the same error', () async {
+      final _repository = MockAuthenticationRepository();
+      final loginBloc = LoginBloc(_repository);
+      final exception = FirebaseAuthException(code: '1');
+
+      when(
+        _repository.upgradeAnonymousAccount(
+          email: testEmail,
+          password: testPassword,
+        ),
+      ).thenAnswer((_) async => throw exception);
+
+      expectLater(
+        loginBloc.loginEvents,
+        emitsInOrder([
+          LoginEvent.upgradingAnonymousAccount,
+          emitsError(exception),
+        ]),
+      );
+      loginBloc.upgradeAnonymousAccount(
+        email: testEmail,
+        password: testPassword,
+      );
+
+      verify(
+        _repository.upgradeAnonymousAccount(
+          email: testEmail,
+          password: testPassword,
+        ),
+      ).called(1);
+    });
   });
 }

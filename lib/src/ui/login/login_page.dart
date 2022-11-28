@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:dantex/src/bloc/auth/login_bloc.dart';
 import 'package:dantex/src/bloc/auth/login_event.dart';
 import 'package:dantex/src/core/injection/dependency_injector.dart';
-import 'package:dantex/src/ui/login/login_bottom_sheet.dart';
+import 'package:dantex/src/ui/login/email_bottom_sheet.dart';
 import 'package:dantex/src/ui/main/main_page.dart';
 import 'package:dantex/src/util/dante_colors.dart';
 import 'package:flutter/material.dart';
@@ -62,6 +62,9 @@ class LoginPageState extends State<LoginPage> {
         _isLoading = true;
       });
     } else {
+      setState(() {
+        _isLoading = false;
+      });
       // Navigate to main page and remove this page from the navigation stack.
       Get.off(() => const MainPage());
     }
@@ -149,7 +152,7 @@ class LoginPageState extends State<LoginPage> {
                       ),
                       const SizedBox(height: 16),
                       OutlinedButton(
-                        onPressed: () => _bloc.loginAnonymously(),
+                        onPressed: () => _buildAnonymousLoginDialog(),
                         child: Row(
                           children: [
                             const Icon(
@@ -180,8 +183,42 @@ class LoginPageState extends State<LoginPage> {
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
-        return const LoginBottomSheet();
+        return SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
+            child: EmailBottomSheet(
+              unknownEmailAction: _bloc.createAccountWithMail,
+              allowExistingEmails: true,
+            ),
+          ),
+        );
       },
+    );
+  }
+
+  void _buildAnonymousLoginDialog() {
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: Text(AppLocalizations.of(context)!.anonymous_login_title),
+        content:
+            Text(AppLocalizations.of(context)!.anonymous_login_description),
+        actions: <Widget>[
+          OutlinedButton(
+            onPressed: () => Get.back(),
+            child: Text(AppLocalizations.of(context)!.dismiss),
+          ),
+          OutlinedButton(
+            onPressed: () {
+              Get.back();
+              _bloc.loginAnonymously();
+            },
+            child: Text(AppLocalizations.of(context)!.login),
+          ),
+        ],
+      ),
     );
   }
 }
