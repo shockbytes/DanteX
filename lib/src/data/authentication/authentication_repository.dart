@@ -22,4 +22,9 @@ abstract class AuthenticationRepository {
     required String email,
     required String password,
   });
+
+  Future<void> upgradeAnonymousAccount({
+    required String email,
+    required String password,
+  });
 }

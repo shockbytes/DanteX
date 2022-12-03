@@ -108,4 +108,23 @@ class FirebaseAuthenticationRepository implements AuthenticationRepository {
       password: password,
     );
   }
+
+  @override
+  Future<UserCredential> upgradeAnonymousAccount({
+    required String email,
+    required String password,
+  }) {
+    final currentUser = _fbAuth.currentUser;
+    if (currentUser == null) {
+      throw FirebaseAuthException(
+        message:
+            'Customer not logged in while trying to perform anonymous upgrade',
+        code: 'user-not-found',
+      );
+    }
+
+    final credential =
+        EmailAuthProvider.credential(email: email, password: password);
+    return currentUser.linkWithCredential(credential);
+  }
 }

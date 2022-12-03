@@ -75,4 +75,23 @@ class LoginBloc {
       },
     );
   }
+
+  Future<DanteUser?> getAccount() async {
+    return _repository.getAccount();
+  }
+
+  void upgradeAnonymousAccount({
+    required String email,
+    required String password,
+  }) {
+    _loginSubject.add(LoginEvent.upgradingAnonymousAccount);
+    _repository.upgradeAnonymousAccount(email: email, password: password).then(
+      (_) {
+        loginWithEmail(email: email, password: password);
+      },
+      onError: (error, stacktrace) {
+        _loginSubject.addError(error, stacktrace);
+      },
+    );
+  }
 }
