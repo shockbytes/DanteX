@@ -1,41 +1,40 @@
+import 'package:dantex/src/bloc/auth/auth_event.dart';
 import 'package:dantex/src/data/authentication/authentication_repository.dart';
 import 'package:dantex/src/data/authentication/entity/dante_user.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'login_event.dart';
-
-class LoginBloc {
+class AuthBloc {
   final AuthenticationRepository _repository;
-  final PublishSubject<LoginEvent> _loginSubject = PublishSubject();
+  final PublishSubject<AuthEvent> _authSubject = PublishSubject();
 
-  LoginBloc(this._repository);
+  AuthBloc(this._repository);
 
-  Stream<LoginEvent> get loginEvents => _loginSubject.stream;
+  Stream<AuthEvent> get authEvents => _authSubject.stream;
 
   Future<bool> isLoggedIn() async {
     return (await _repository.getAccount()) != null;
   }
 
   void loginWithGoogle() {
-    _loginSubject.add(LoginEvent.loggingIn);
+    _authSubject.add(AuthEvent.loggingIn);
     _repository.loginWithGoogle().then(
       (_) {
-        _loginSubject.add(LoginEvent.googleLogin);
+        _authSubject.add(AuthEvent.googleLogin);
       },
       onError: (error, stacktrace) {
-        _loginSubject.addError(error, stacktrace);
+        _authSubject.addError(error, stacktrace);
       },
     );
   }
 
   void loginAnonymously() {
-    _loginSubject.add(LoginEvent.loggingIn);
+    _authSubject.add(AuthEvent.loggingIn);
     _repository.loginAnonymously().then(
       (_) {
-        _loginSubject.add(LoginEvent.anonymousLogin);
+        _authSubject.add(AuthEvent.anonymousLogin);
       },
       onError: (error, stacktrace) {
-        _loginSubject.addError(error, stacktrace);
+        _authSubject.addError(error, stacktrace);
       },
     );
   }
@@ -44,13 +43,13 @@ class LoginBloc {
     required String email,
     required String password,
   }) {
-    _loginSubject.add(LoginEvent.loggingIn);
+    _authSubject.add(AuthEvent.loggingIn);
     _repository.loginWithEmail(email: email, password: password).then(
       (_) {
-        _loginSubject.add(LoginEvent.emailLogin);
+        _authSubject.add(AuthEvent.emailLogin);
       },
       onError: (error, stacktrace) {
-        _loginSubject.addError(error, stacktrace);
+        _authSubject.addError(error, stacktrace);
       },
     );
   }
@@ -65,13 +64,13 @@ class LoginBloc {
     required String email,
     required String password,
   }) {
-    _loginSubject.add(LoginEvent.creatingAccount);
+    _authSubject.add(AuthEvent.creatingAccount);
     _repository.createAccountWithMail(email: email, password: password).then(
       (_) {
         loginWithEmail(email: email, password: password);
       },
       onError: (error, stacktrace) {
-        _loginSubject.addError(error, stacktrace);
+        _authSubject.addError(error, stacktrace);
       },
     );
   }
@@ -84,13 +83,31 @@ class LoginBloc {
     required String email,
     required String password,
   }) {
-    _loginSubject.add(LoginEvent.upgradingAnonymousAccount);
+    _authSubject.add(AuthEvent.upgradingAnonymousAccount);
     _repository.upgradeAnonymousAccount(email: email, password: password).then(
       (_) {
         loginWithEmail(email: email, password: password);
       },
       onError: (error, stacktrace) {
-        _loginSubject.addError(error, stacktrace);
+        _authSubject.addError(error, stacktrace);
+      },
+    );
+  }
+
+  void changePassword({required String password}) {
+    _authSubject.add(AuthEvent.changingPassword);
+    _repository.updateMailPassword(password: password).then(
+      (_) {},
+      onError: (error, stacktrace) {
+        _authSubject.addError(error, stacktrace);
+      },
+    );
+  }
+
+  void logout() {
+    _repository.logout().then(
+      (_) {
+        _authSubject.add(AuthEvent.logout);
       },
     );
   }

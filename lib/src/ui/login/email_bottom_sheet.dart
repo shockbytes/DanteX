@@ -1,4 +1,4 @@
-import 'package:dantex/src/bloc/auth/login_bloc.dart';
+import 'package:dantex/src/bloc/auth/auth_bloc.dart';
 import 'package:dantex/src/core/injection/dependency_injector.dart';
 import 'package:dantex/src/data/authentication/entity/dante_user.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
@@ -28,7 +28,7 @@ class EmailBottomSheet extends StatefulWidget {
 }
 
 class EmailBottomSheetState extends State<EmailBottomSheet> {
-  final LoginBloc _bloc = DependencyInjector.get<LoginBloc>();
+  final AuthBloc _bloc = DependencyInjector.get<AuthBloc>();
 
   String? _emailErrorMessage;
   String? _passwordErrorMessage;

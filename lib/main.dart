@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:dantex/src/bloc/auth/login_bloc.dart';
+import 'package:dantex/src/bloc/auth/auth_bloc.dart';
 import 'package:dantex/src/core/injection/dependency_injector.dart';
 import 'package:dantex/src/ui/login/login_page.dart';
 import 'package:dantex/src/ui/main/main_page.dart';
@@ -58,7 +58,7 @@ class DanteXApp extends StatelessWidget {
   Future<bool> _launcher() async {
     await DependencyInjector.setupDependencyInjection();
 
-    LoginBloc _bloc = DependencyInjector.get<LoginBloc>();
+    AuthBloc _bloc = DependencyInjector.get<AuthBloc>();
     return _bloc.isLoggedIn();
   }
 }

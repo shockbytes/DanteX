@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:dantex/src/bloc/auth/login_bloc.dart';
-import 'package:dantex/src/bloc/auth/login_event.dart';
+import 'package:dantex/src/bloc/auth/auth_bloc.dart';
+import 'package:dantex/src/bloc/auth/auth_event.dart';
 import 'package:dantex/src/core/injection/dependency_injector.dart';
 import 'package:dantex/src/ui/login/email_bottom_sheet.dart';
 import 'package:dantex/src/ui/main/main_page.dart';
@@ -19,29 +19,30 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
-  final LoginBloc _bloc = DependencyInjector.get<LoginBloc>();
-  late StreamSubscription<LoginEvent> _loginSubscription;
+  final AuthBloc _bloc = DependencyInjector.get<AuthBloc>();
+  late StreamSubscription<AuthEvent> _authSubscription;
   late bool _isLoading;
 
   @override
   void initState() {
     super.initState();
     _isLoading = false;
-    _loginSubscription = _bloc.loginEvents.listen(
-      _loginEventReceived,
+    _authSubscription = _bloc.authEvents.listen(
+      _authEventReceived,
       onError: (exception, stackTrace) =>
-          _loginErrorReceived(exception, stackTrace),
+          _authErrorReceived(exception, stackTrace),
     );
   }
 
   @override
   void dispose() {
-    _loginSubscription.cancel();
+    _authSubscription.cancel();
     _isLoading = false;
     super.dispose();
   }
 
-  void _loginErrorReceived(Exception exception, StackTrace stackTrace) {
+  void _authErrorReceived(Exception exception, StackTrace stackTrace) {
+    // TODO: Check that exception is login exception before showing this toast.
     setState(() {
       _isLoading = false;
     });
@@ -56,12 +57,14 @@ class LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _loginEventReceived(LoginEvent event) {
-    if (event == LoginEvent.loggingIn || event == LoginEvent.creatingAccount) {
+  void _authEventReceived(AuthEvent event) {
+    if (event == AuthEvent.loggingIn || event == AuthEvent.creatingAccount) {
       setState(() {
         _isLoading = true;
       });
-    } else {
+    } else if (event == AuthEvent.googleLogin ||
+        event == AuthEvent.anonymousLogin ||
+        event == AuthEvent.emailLogin) {
       setState(() {
         _isLoading = false;
       });

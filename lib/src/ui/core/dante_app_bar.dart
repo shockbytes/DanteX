@@ -1,8 +1,7 @@
 import 'dart:async';
 
-import 'package:dantex/src/bloc/auth/login_bloc.dart';
-import 'package:dantex/src/bloc/auth/logout_bloc.dart';
-import 'package:dantex/src/bloc/auth/logout_event.dart';
+import 'package:dantex/src/bloc/auth/auth_bloc.dart';
+import 'package:dantex/src/bloc/auth/auth_event.dart';
 import 'package:dantex/src/core/injection/dependency_injector.dart';
 import 'package:dantex/src/data/authentication/entity/dante_user.dart';
 import 'package:dantex/src/ui/add/add_book_sheet.dart';
@@ -10,6 +9,7 @@ import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/dante_search_bar.dart';
 import 'package:dantex/src/ui/core/platform_components.dart';
 import 'package:dantex/src/ui/login/login_page.dart';
+import 'package:dantex/src/ui/profile/profile_page.dart';
 import 'package:dantex/src/ui/settings/settings_page.dart';
 import 'package:dantex/src/util/dante_colors.dart';
 import 'package:flutter/material.dart';
@@ -29,37 +29,38 @@ class DanteAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class DanteAppBarState extends State<DanteAppBar> {
-  final LogoutBloc _logoutBloc = DependencyInjector.get<LogoutBloc>();
-  final LoginBloc _loginBloc = DependencyInjector.get<LoginBloc>();
+  final AuthBloc _bloc = DependencyInjector.get<AuthBloc>();
 
-  late StreamSubscription<LogoutEvent> _logoutSubscription;
+  late StreamSubscription<AuthEvent> _authSubscription;
   late DanteUser? user;
 
   @override
   void initState() {
     super.initState();
     _getUser();
-    _logoutSubscription = _logoutBloc.logoutEvents.listen(
-      _logoutEventReceived,
+    _authSubscription = _bloc.authEvents.listen(
+      _authEventReceived,
     );
   }
 
   @override
   void dispose() {
-    _logoutSubscription.cancel();
+    _authSubscription.cancel();
     super.dispose();
   }
 
   void _getUser() async {
-    final currentUser = await _loginBloc.getAccount();
+    final currentUser = await _bloc.getAccount();
     setState(() {
       user = currentUser;
     });
   }
 
-  void _logoutEventReceived(LogoutEvent event) {
-    // Navigate to login and remove everything from navigation stack.
-    Get.offAll(() => const LoginPage());
+  void _authEventReceived(AuthEvent event) {
+    if (event == AuthEvent.logout) {
+      // Navigate to login and remove everything from navigation stack.
+      Get.offAll(() => const LoginPage());
+    }
   }
 
   @override
@@ -233,10 +234,7 @@ class DanteAppBarState extends State<DanteAppBar> {
                     icon: Icons.settings_outlined,
                     onItemClicked: () {
                       Get.to(
-                        () => SettingsPage(
-                          isAnonymousUser:
-                              user?.source == AuthenticationSource.anonymous,
-                        ),
+                        () => const SettingsPage(),
                         transition: Transition.downToUp,
                       );
                     },
@@ -254,9 +252,17 @@ class DanteAppBarState extends State<DanteAppBar> {
     // TODO: fill out with user details
     return Row(
       children: [
-        const Icon(
-          Icons.account_circle_outlined,
-          color: DanteColors.textPrimary,
+        IconButton(
+          onPressed: () {
+            Get.to(
+              () => const ProfilePage(),
+              transition: Transition.downToUp,
+            );
+          },
+          icon: const Icon(
+            Icons.account_circle_outlined,
+            color: DanteColors.textPrimary,
+          ),
         ),
         const SizedBox(width: 4),
         const Expanded(
@@ -289,7 +295,7 @@ class DanteAppBarState extends State<DanteAppBar> {
             OutlinedButton(
               onPressed: () {
                 Get.back();
-                _logoutBloc.logout();
+                _bloc.logout();
               },
               child: Text(AppLocalizations.of(context)!.logout),
             ),
@@ -297,7 +303,7 @@ class DanteAppBarState extends State<DanteAppBar> {
         ),
       );
     } else {
-      _logoutBloc.logout();
+      _bloc.logout();
     }
   }
 }
