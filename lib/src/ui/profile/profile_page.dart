@@ -7,8 +7,8 @@ import 'package:dantex/src/core/injection/dependency_injector.dart';
 import 'package:dantex/src/data/authentication/entity/dante_user.dart';
 import 'package:dantex/src/ui/core/themed_app_bar.dart';
 import 'package:dantex/src/ui/login/email_bottom_sheet.dart';
-import 'package:dantex/src/ui/profile/ProfileRowItem.dart';
 import 'package:dantex/src/ui/profile/change_password_bottom_sheet.dart';
+import 'package:dantex/src/ui/profile/profile_row_item.dart';
 import 'package:dantex/src/util/dante_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -38,12 +38,12 @@ class ProfilePageSate extends State<ProfilePage> {
     _managementSubscription = _bloc.managementEvents.listen(
       _managementEventReceived,
       onError: (exception, stackTrace) =>
-          _authErrorReceived(exception, stackTrace),
+          _managementErrorReceived(exception, stackTrace),
     );
     _loginSubscription = _bloc.loginEvents.listen(
       _loginEventReceived,
       onError: (exception, stackTrace) =>
-          _authErrorReceived(exception, stackTrace),
+          _loginErrorReceived(exception, stackTrace),
     );
     _getUser();
   }
@@ -55,13 +55,27 @@ class ProfilePageSate extends State<ProfilePage> {
     });
   }
 
-  void _authErrorReceived(Exception exception, StackTrace stackTrace) {
+  void _managementErrorReceived(Exception exception, StackTrace stackTrace) {
     setState(() {
       _isLoading = false;
     });
-    // TODO: Check if error is from upgrading email before showing this toast.
     Fluttertoast.showToast(
       msg: AppLocalizations.of(context)!.upgrade_failed,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 3,
+      backgroundColor: DanteColors.background,
+      textColor: Colors.red,
+      fontSize: 16.0,
+    );
+  }
+
+  void _loginErrorReceived(Exception exception, StackTrace stackTrace) {
+    setState(() {
+      _isLoading = false;
+    });
+    Fluttertoast.showToast(
+      msg: AppLocalizations.of(context)!.login_failed,
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
       timeInSecForIosWeb: 3,

@@ -1,4 +1,5 @@
 {
+  "account_creation_failed": "Failed to create account",
   "add_manual": "Add manual",
   "add_query": "Title search",
   "add_scan": "Scan book",

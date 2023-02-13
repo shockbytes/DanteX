@@ -22,7 +22,7 @@ class LoginPage extends StatefulWidget {
 class LoginPageState extends State<LoginPage> {
   final AuthBloc _bloc = DependencyInjector.get<AuthBloc>();
   late StreamSubscription<LoginEvent> _loginSubscription;
-  late StreamSubscription<ManagementEvent> _managementSubscription;
+
   late bool _isLoading;
 
   @override
@@ -34,7 +34,7 @@ class LoginPageState extends State<LoginPage> {
       onError: (exception, stackTrace) =>
           _loginErrorReceived(exception, stackTrace),
     );
-    _managementSubscription = _bloc.managementEvents.listen(
+    _bloc.managementEvents.listen(
       _managementEventReceived,
       onError: (exception, stackTrace) =>
           _managementErrorReceived(exception, stackTrace),
@@ -68,9 +68,7 @@ class LoginPageState extends State<LoginPage> {
       _isLoading = false;
     });
     Fluttertoast.showToast(
-      // TODO: Localise
-      // msg: AppLocalizations.of(context)!.login_failed,
-      msg: 'Error creating account',
+      msg: AppLocalizations.of(context)!.account_creation_failed,
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
       timeInSecForIosWeb: 3,
