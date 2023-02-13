@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:dantex/src/bloc/auth/auth_bloc.dart';
-import 'package:dantex/src/bloc/auth/auth_event.dart';
+import 'package:dantex/src/bloc/auth/logout_event.dart';
 import 'package:dantex/src/core/injection/dependency_injector.dart';
 import 'package:dantex/src/data/authentication/entity/dante_user.dart';
 import 'package:dantex/src/ui/add/add_book_sheet.dart';
@@ -31,21 +31,21 @@ class DanteAppBar extends StatefulWidget implements PreferredSizeWidget {
 class DanteAppBarState extends State<DanteAppBar> {
   final AuthBloc _bloc = DependencyInjector.get<AuthBloc>();
 
-  late StreamSubscription<AuthEvent> _authSubscription;
+  late StreamSubscription<LogoutEvent> _logoutSubscription;
   late DanteUser? user;
 
   @override
   void initState() {
     super.initState();
     _getUser();
-    _authSubscription = _bloc.authEvents.listen(
-      _authEventReceived,
+    _logoutSubscription = _bloc.logoutEvents.listen(
+      _logoutEventReceived,
     );
   }
 
   @override
   void dispose() {
-    _authSubscription.cancel();
+    _logoutSubscription.cancel();
     super.dispose();
   }
 
@@ -56,8 +56,8 @@ class DanteAppBarState extends State<DanteAppBar> {
     });
   }
 
-  void _authEventReceived(AuthEvent event) {
-    if (event == AuthEvent.logout) {
+  void _logoutEventReceived(LogoutEvent event) {
+    if (event == LogoutEvent.logout) {
       // Navigate to login and remove everything from navigation stack.
       Get.offAll(() => const LoginPage());
     }

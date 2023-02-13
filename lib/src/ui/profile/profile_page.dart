@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:dantex/src/bloc/auth/auth_bloc.dart';
-import 'package:dantex/src/bloc/auth/auth_event.dart';
+import 'package:dantex/src/bloc/auth/login_event.dart';
+import 'package:dantex/src/bloc/auth/management_event.dart';
 import 'package:dantex/src/core/injection/dependency_injector.dart';
 import 'package:dantex/src/data/authentication/entity/dante_user.dart';
 import 'package:dantex/src/ui/core/themed_app_bar.dart';
@@ -25,7 +26,8 @@ class ProfilePage extends StatefulWidget {
 
 class ProfilePageSate extends State<ProfilePage> {
   final AuthBloc _bloc = DependencyInjector.get<AuthBloc>();
-  late StreamSubscription<AuthEvent> _authSubscription;
+  late StreamSubscription<ManagementEvent> _managementSubscription;
+  late StreamSubscription<LoginEvent> _loginSubscription;
   late bool _isLoading;
   late DanteUser? _user;
 
@@ -33,8 +35,13 @@ class ProfilePageSate extends State<ProfilePage> {
   void initState() {
     super.initState();
     _isLoading = false;
-    _authSubscription = _bloc.authEvents.listen(
-      _authEventReceived,
+    _managementSubscription = _bloc.managementEvents.listen(
+      _managementEventReceived,
+      onError: (exception, stackTrace) =>
+          _authErrorReceived(exception, stackTrace),
+    );
+    _loginSubscription = _bloc.loginEvents.listen(
+      _loginEventReceived,
       onError: (exception, stackTrace) =>
           _authErrorReceived(exception, stackTrace),
     );
@@ -64,12 +71,16 @@ class ProfilePageSate extends State<ProfilePage> {
     );
   }
 
-  void _authEventReceived(AuthEvent event) {
-    if (event == AuthEvent.upgradingAnonymousAccount) {
+  void _managementEventReceived(ManagementEvent event) {
+    if (event == ManagementEvent.upgradingAnonymousAccount) {
       setState(() {
         _isLoading = true;
       });
-    } else if (event == AuthEvent.emailLogin) {
+    }
+  }
+
+  void _loginEventReceived(LoginEvent event) {
+    if (event == LoginEvent.emailLogin) {
       setState(() {
         _isLoading = false;
       });
@@ -79,7 +90,8 @@ class ProfilePageSate extends State<ProfilePage> {
 
   @override
   void dispose() {
-    _authSubscription.cancel();
+    _loginSubscription.cancel();
+    _managementSubscription.cancel();
     _isLoading = false;
     super.dispose();
   }

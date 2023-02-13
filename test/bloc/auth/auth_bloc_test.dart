@@ -1,5 +1,7 @@
 import 'package:dantex/src/bloc/auth/auth_bloc.dart';
-import 'package:dantex/src/bloc/auth/auth_event.dart';
+import 'package:dantex/src/bloc/auth/login_event.dart';
+import 'package:dantex/src/bloc/auth/logout_event.dart';
+import 'package:dantex/src/bloc/auth/management_event.dart';
 import 'package:dantex/src/data/authentication/authentication_repository.dart';
 import 'package:dantex/src/data/authentication/entity/dante_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -27,10 +29,10 @@ void main() {
             .thenAnswer((_) async => Future<void>);
 
         expectLater(
-          authBloc.authEvents,
+          authBloc.loginEvents,
           emitsInOrder([
-            AuthEvent.loggingIn,
-            AuthEvent.googleLogin,
+            LoginEvent.loggingIn,
+            LoginEvent.googleLogin,
           ]),
         );
         authBloc.loginWithGoogle();
@@ -47,9 +49,9 @@ void main() {
             .thenAnswer((_) async => throw exception);
 
         expectLater(
-          authBloc.authEvents,
+          authBloc.loginEvents,
           emitsInOrder([
-            AuthEvent.loggingIn,
+            LoginEvent.loggingIn,
             emitsError(exception),
           ]),
         );
@@ -68,10 +70,10 @@ void main() {
             .thenAnswer((_) async => Future<void>);
 
         expectLater(
-          authBloc.authEvents,
+          authBloc.loginEvents,
           emitsInOrder([
-            AuthEvent.loggingIn,
-            AuthEvent.anonymousLogin,
+            LoginEvent.loggingIn,
+            LoginEvent.anonymousLogin,
           ]),
         );
         authBloc.loginAnonymously();
@@ -88,9 +90,9 @@ void main() {
             .thenAnswer((_) async => throw exception);
 
         expectLater(
-          authBloc.authEvents,
+          authBloc.loginEvents,
           emitsInOrder([
-            AuthEvent.loggingIn,
+            LoginEvent.loggingIn,
             emitsError(exception),
           ]),
         );
@@ -113,10 +115,10 @@ void main() {
         ).thenAnswer((_) async => Future<void>);
 
         expectLater(
-          authBloc.authEvents,
+          authBloc.loginEvents,
           emitsInOrder([
-            AuthEvent.loggingIn,
-            AuthEvent.emailLogin,
+            LoginEvent.loggingIn,
+            LoginEvent.emailLogin,
           ]),
         );
         authBloc.loginWithEmail(email: testEmail, password: testPassword);
@@ -142,9 +144,9 @@ void main() {
         ).thenAnswer((_) async => throw exception);
 
         expectLater(
-          authBloc.authEvents,
+          authBloc.loginEvents,
           emitsInOrder([
-            AuthEvent.loggingIn,
+            LoginEvent.loggingIn,
             emitsError(exception),
           ]),
         );
@@ -179,15 +181,15 @@ void main() {
   group('Logout', () {
     test('logout emits logout Event', () {
       final _repository = MockAuthenticationRepository();
-      final logoutBloc = AuthBloc(_repository);
+      final authBloc = AuthBloc(_repository);
 
       when(_repository.logout()).thenAnswer((_) async => Future<void>);
-      logoutBloc.logout();
+      authBloc.logout();
 
       expect(
-        logoutBloc.authEvents,
+        authBloc.logoutEvents,
         emitsInOrder([
-          AuthEvent.logout,
+          LogoutEvent.logout,
         ]),
       );
       verify(_repository.logout()).called(1);
@@ -240,11 +242,16 @@ void main() {
       ).thenAnswer((_) async => Future<void>);
 
       expectLater(
-        authBloc.authEvents,
+        authBloc.managementEvents,
         emitsInOrder([
-          AuthEvent.upgradingAnonymousAccount,
-          AuthEvent.loggingIn,
-          AuthEvent.emailLogin,
+          ManagementEvent.upgradingAnonymousAccount,
+        ]),
+      );
+      expectLater(
+        authBloc.loginEvents,
+        emitsInOrder([
+          LoginEvent.loggingIn,
+          LoginEvent.emailLogin,
         ]),
       );
       authBloc.upgradeAnonymousAccount(
@@ -293,11 +300,16 @@ void main() {
         ).thenAnswer((_) async => Future<void>);
 
         expectLater(
-          authBloc.authEvents,
+          authBloc.managementEvents,
           emitsInOrder([
-            AuthEvent.creatingAccount,
-            AuthEvent.loggingIn,
-            AuthEvent.emailLogin,
+            ManagementEvent.creatingAccount,
+          ]),
+        );
+        expectLater(
+          authBloc.loginEvents,
+          emitsInOrder([
+            LoginEvent.loggingIn,
+            LoginEvent.emailLogin,
           ]),
         );
         authBloc.createAccountWithMail(
@@ -340,9 +352,9 @@ void main() {
       ).thenAnswer((_) async => throw exception);
 
       expectLater(
-        authBloc.authEvents,
+        authBloc.managementEvents,
         emitsInOrder([
-          AuthEvent.creatingAccount,
+          ManagementEvent.creatingAccount,
           emitsError(exception),
         ]),
       );
@@ -371,9 +383,9 @@ void main() {
       ).thenAnswer((_) async => throw exception);
 
       expectLater(
-        authBloc.authEvents,
+        authBloc.managementEvents,
         emitsInOrder([
-          AuthEvent.changingPassword,
+          ManagementEvent.changingPassword,
           emitsError(exception),
         ]),
       );

@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:dantex/src/bloc/auth/auth_bloc.dart';
-import 'package:dantex/src/bloc/auth/auth_event.dart';
+import 'package:dantex/src/bloc/auth/login_event.dart';
+import 'package:dantex/src/bloc/auth/management_event.dart';
 import 'package:dantex/src/core/injection/dependency_injector.dart';
 import 'package:dantex/src/ui/login/email_bottom_sheet.dart';
 import 'package:dantex/src/ui/main/main_page.dart';
@@ -20,29 +21,34 @@ class LoginPage extends StatefulWidget {
 
 class LoginPageState extends State<LoginPage> {
   final AuthBloc _bloc = DependencyInjector.get<AuthBloc>();
-  late StreamSubscription<AuthEvent> _authSubscription;
+  late StreamSubscription<LoginEvent> _loginSubscription;
+  late StreamSubscription<ManagementEvent> _managementSubscription;
   late bool _isLoading;
 
   @override
   void initState() {
     super.initState();
     _isLoading = false;
-    _authSubscription = _bloc.authEvents.listen(
-      _authEventReceived,
+    _loginSubscription = _bloc.loginEvents.listen(
+      _loginEventReceived,
       onError: (exception, stackTrace) =>
-          _authErrorReceived(exception, stackTrace),
+          _loginErrorReceived(exception, stackTrace),
+    );
+    _managementSubscription = _bloc.managementEvents.listen(
+      _managementEventReceived,
+      onError: (exception, stackTrace) =>
+          _managementErrorReceived(exception, stackTrace),
     );
   }
 
   @override
   void dispose() {
-    _authSubscription.cancel();
+    _loginSubscription.cancel();
     _isLoading = false;
     super.dispose();
   }
 
-  void _authErrorReceived(Exception exception, StackTrace stackTrace) {
-    // TODO: Check that exception is login exception before showing this toast.
+  void _loginErrorReceived(Exception exception, StackTrace stackTrace) {
     setState(() {
       _isLoading = false;
     });
@@ -57,19 +63,44 @@ class LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _authEventReceived(AuthEvent event) {
-    if (event == AuthEvent.loggingIn || event == AuthEvent.creatingAccount) {
+  void _managementErrorReceived(Exception exception, StackTrace stackTrace) {
+    setState(() {
+      _isLoading = false;
+    });
+    Fluttertoast.showToast(
+      // TODO: Localise
+      // msg: AppLocalizations.of(context)!.login_failed,
+      msg: 'Error creating account',
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 3,
+      backgroundColor: DanteColors.background,
+      textColor: Colors.red,
+      fontSize: 16.0,
+    );
+  }
+
+  void _loginEventReceived(LoginEvent event) {
+    if (event == LoginEvent.loggingIn) {
       setState(() {
         _isLoading = true;
       });
-    } else if (event == AuthEvent.googleLogin ||
-        event == AuthEvent.anonymousLogin ||
-        event == AuthEvent.emailLogin) {
+    } else if (event == LoginEvent.googleLogin ||
+        event == LoginEvent.anonymousLogin ||
+        event == LoginEvent.emailLogin) {
       setState(() {
         _isLoading = false;
       });
       // Navigate to main page and remove this page from the navigation stack.
       Get.off(() => const MainPage());
+    }
+  }
+
+  void _managementEventReceived(ManagementEvent event) {
+    if (event == ManagementEvent.creatingAccount) {
+      setState(() {
+        _isLoading = true;
+      });
     }
   }
 
