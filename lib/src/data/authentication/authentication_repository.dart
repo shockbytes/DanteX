@@ -27,4 +27,8 @@ abstract class AuthenticationRepository {
     required String email,
     required String password,
   });
+
+  Future<void> updateMailPassword({
+    required String password,
+  });
 }

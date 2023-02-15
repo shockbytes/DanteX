@@ -202,4 +202,36 @@ void main() {
       throwsA(isA<FirebaseAuthException>()),
     );
   });
+
+  test('Update user password returns void on success', () {
+    final _fbAuth = MockFirebaseAuth();
+    final firebaseAuthRepo = FirebaseAuthenticationRepository(_fbAuth);
+    final user = MockUser();
+
+    when(_fbAuth.currentUser).thenReturn(user);
+    when(user.updatePassword(any)).thenAnswer((_) async => Future<void>);
+
+    firebaseAuthRepo.updateMailPassword(password: testPassword);
+
+    verify(_fbAuth.currentUser).called(1);
+    verify(user.updatePassword(testPassword)).called(1);
+  });
+
+  test(
+      'Upgrade password throws FirebaseAuthException error when user not found',
+      () async {
+    final _fbAuth = MockFirebaseAuth();
+    final firebaseAuthRepo = FirebaseAuthenticationRepository(_fbAuth);
+
+    when(
+      _fbAuth.currentUser,
+    ).thenReturn(null);
+
+    expect(
+      () async => await firebaseAuthRepo.updateMailPassword(
+        password: testPassword,
+      ),
+      throwsA(isA<FirebaseAuthException>()),
+    );
+  });
 }

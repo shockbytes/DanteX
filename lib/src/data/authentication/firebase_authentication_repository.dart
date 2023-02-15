@@ -127,4 +127,17 @@ class FirebaseAuthenticationRepository implements AuthenticationRepository {
         EmailAuthProvider.credential(email: email, password: password);
     return currentUser.linkWithCredential(credential);
   }
+
+  @override
+  Future<void> updateMailPassword({required String password}) {
+    final currentUser = _fbAuth.currentUser;
+
+    if (currentUser == null) {
+      throw FirebaseAuthException(
+        message: 'Customer not logged in while trying to update password',
+        code: 'user-not-found',
+      );
+    }
+    return currentUser.updatePassword(password);
+  }
 }

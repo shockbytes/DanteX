@@ -7,5 +7,5 @@ double computePercentage(int current, int max) {
 }
 
 String doublePercentageToString(double percentage) {
-  return (percentage * 100).toInt().toString() + "%";
+  return (percentage * 100).toInt().toString() + '%';
 }

@@ -1,7 +1,8 @@
 import 'dart:async';
 
-import 'package:dantex/src/bloc/auth/login_bloc.dart';
+import 'package:dantex/src/bloc/auth/auth_bloc.dart';
 import 'package:dantex/src/bloc/auth/login_event.dart';
+import 'package:dantex/src/bloc/auth/management_event.dart';
 import 'package:dantex/src/core/injection/dependency_injector.dart';
 import 'package:dantex/src/ui/login/email_bottom_sheet.dart';
 import 'package:dantex/src/ui/main/main_page.dart';
@@ -19,8 +20,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
-  final LoginBloc _bloc = DependencyInjector.get<LoginBloc>();
+  final AuthBloc _bloc = DependencyInjector.get<AuthBloc>();
   late StreamSubscription<LoginEvent> _loginSubscription;
+
   late bool _isLoading;
 
   @override
@@ -31,6 +33,11 @@ class LoginPageState extends State<LoginPage> {
       _loginEventReceived,
       onError: (exception, stackTrace) =>
           _loginErrorReceived(exception, stackTrace),
+    );
+    _bloc.managementEvents.listen(
+      _managementEventReceived,
+      onError: (exception, stackTrace) =>
+          _managementErrorReceived(exception, stackTrace),
     );
   }
 
@@ -56,17 +63,42 @@ class LoginPageState extends State<LoginPage> {
     );
   }
 
+  void _managementErrorReceived(Exception exception, StackTrace stackTrace) {
+    setState(() {
+      _isLoading = false;
+    });
+    Fluttertoast.showToast(
+      msg: AppLocalizations.of(context)!.account_creation_failed,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 3,
+      backgroundColor: DanteColors.background,
+      textColor: Colors.red,
+      fontSize: 16.0,
+    );
+  }
+
   void _loginEventReceived(LoginEvent event) {
-    if (event == LoginEvent.loggingIn || event == LoginEvent.creatingAccount) {
+    if (event == LoginEvent.loggingIn) {
       setState(() {
         _isLoading = true;
       });
-    } else {
+    } else if (event == LoginEvent.googleLogin ||
+        event == LoginEvent.anonymousLogin ||
+        event == LoginEvent.emailLogin) {
       setState(() {
         _isLoading = false;
       });
       // Navigate to main page and remove this page from the navigation stack.
       Get.off(() => const MainPage());
+    }
+  }
+
+  void _managementEventReceived(ManagementEvent event) {
+    if (event == ManagementEvent.creatingAccount) {
+      setState(() {
+        _isLoading = true;
+      });
     }
   }
 
