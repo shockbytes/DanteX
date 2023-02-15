@@ -67,20 +67,36 @@ class EmailBottomSheetState extends State<EmailBottomSheet> {
                 opacity: _phase == LoginPhase.email ? 0.0 : 1.0,
                 child: SizedBox(
                   width: 360,
-                  child: Padding(
-                    key: ValueKey(_phase),
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: DanteComponents.textField(
-                      _passwordController,
-                      obscureText: true,
-                      hint: AppLocalizations.of(context)!.password,
-                      errorText: _passwordErrorMessage,
-                      onChanged: (val) {
-                        if (_phase == LoginPhase.passwordNewUser) {
-                          _validatePassword(val);
-                        }
-                      },
-                    ),
+                  child: Column(
+                    children: [
+                      Padding(
+                        key: ValueKey(_phase),
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: DanteComponents.textField(
+                          _passwordController,
+                          obscureText: true,
+                          hint: AppLocalizations.of(context)!.password,
+                          errorText: _passwordErrorMessage,
+                          onChanged: (val) {
+                            if (_phase == LoginPhase.passwordNewUser) {
+                              _validatePassword(val);
+                            }
+                          },
+                        ),
+                      ),
+                      Visibility(
+                        visible: _phase == LoginPhase.passwordExistingUser,
+                        child: GestureDetector(
+                          onTap: () {
+                            Get.back();
+                            _buildForgotPasswordDialog();
+                          },
+                          child: Text(
+                            AppLocalizations.of(context)!.forgot_password,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -173,6 +189,35 @@ class EmailBottomSheetState extends State<EmailBottomSheet> {
       }
     }
     return null;
+  }
+
+  void _buildForgotPasswordDialog() {
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: Text(
+          AppLocalizations.of(context)!.reset_password,
+        ),
+        content: Text(
+          AppLocalizations.of(context)!.reset_password_text,
+        ),
+        actions: <Widget>[
+          OutlinedButton(
+            onPressed: () {
+              Get.back();
+            },
+            child: Text(AppLocalizations.of(context)!.no_thanks),
+          ),
+          OutlinedButton(
+            onPressed: () {
+              Get.back();
+              _bloc.sendPasswordResetRequest(email: _emailController.text);
+            },
+            child: const Text('Reset'),
+          ),
+        ],
+      ),
+    );
   }
 
   void _buildGoogleAccountDialog() {

@@ -117,4 +117,14 @@ class AuthBloc {
       },
     );
   }
+
+  void sendPasswordResetRequest({required String email}) {
+    _managementSubject.add(ManagementEvent.sendPasswordResetRequest);
+    _repository.sendPasswordResetRequest(email: email).then(
+      (_) {},
+      onError: (error, stacktrace) {
+        _managementSubject.addError(error, stacktrace);
+      },
+    );
+  }
 }
