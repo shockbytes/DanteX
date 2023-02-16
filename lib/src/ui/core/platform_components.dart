@@ -42,19 +42,20 @@ class PlatformComponents {
     BuildContext context, {
     required String title,
     required String content,
+    Widget? leading,
     List<PlatformDialogAction> actions = const [],
   }) {
     if (Platform.isIOS || Platform.isMacOS) {
       return _showAndBuildCupertinoDialog(
         context,
-        title: _buildDialogTitle(title),
+        title: _buildDialogTitle(title, leading),
         content: _buildDialogContent(content),
         actions: actions,
       );
     } else {
       return _showAndBuildMaterialDialog(
         context,
-        title: _buildDialogTitle(title),
+        title: _buildDialogTitle(title, leading),
         content: _buildDialogContent(content),
         actions: actions,
       );
@@ -64,6 +65,7 @@ class PlatformComponents {
   static Future showPlatformInputDialog(
     BuildContext context, {
     required String title,
+    Widget? leading,
     required TextEditingController controller,
     String? hint,
     int maxLines = 1,
@@ -75,7 +77,7 @@ class PlatformComponents {
     if (Platform.isIOS || Platform.isMacOS) {
       return _showAndBuildCupertinoDialog(
         context,
-        title: _buildDialogTitle(title),
+        title: _buildDialogTitle(title, leading),
         content: _buildCupertinoTextField(
           controller,
           obscureText: obscureText,
@@ -89,7 +91,7 @@ class PlatformComponents {
     } else {
       return _showAndBuildMaterialDialog(
         context,
-        title: _buildDialogTitle(title),
+        title: _buildDialogTitle(title, leading),
         content: DanteComponents.textField(
           controller,
           obscureText: obscureText,
@@ -151,12 +153,18 @@ class PlatformComponents {
     );
   }
 
-  static Text _buildDialogTitle(String title) {
-    return Text(
-      title,
-      style: const TextStyle(
-        color: DanteColors.textPrimary,
-      ),
+  static Widget _buildDialogTitle(String title, Widget? leading) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        leading ?? const SizedBox.shrink(),
+        Text(
+          title,
+          style: const TextStyle(
+            color: DanteColors.textPrimary,
+          ),
+        ),
+      ],
     );
   }
 

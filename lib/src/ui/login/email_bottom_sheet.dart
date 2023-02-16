@@ -3,6 +3,7 @@ import 'package:dantex/src/core/injection/dependency_injector.dart';
 import 'package:dantex/src/data/authentication/entity/dante_user.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/handle.dart';
+import 'package:dantex/src/ui/core/platform_components.dart';
 import 'package:dantex/src/util/dante_colors.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/foundation.dart';
@@ -157,6 +158,7 @@ class EmailBottomSheetState extends State<EmailBottomSheet> {
             email: _emailController.text,
           );
           if (listEquals(signInMethod, [AuthenticationSource.google])) {
+            Get.back();
             _buildGoogleAccountDialog();
           } else if (listEquals(signInMethod, [AuthenticationSource.mail])) {
             setState(() {
@@ -192,55 +194,45 @@ class EmailBottomSheetState extends State<EmailBottomSheet> {
   }
 
   void _buildForgotPasswordDialog() {
-    showDialog<String>(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        title: Text(
-          AppLocalizations.of(context)!.reset_password,
+    PlatformComponents.showPlatformDialog(
+      context,
+      title: AppLocalizations.of(context)!.reset_password,
+      content: AppLocalizations.of(context)!.reset_password_text,
+      actions: <PlatformDialogAction>[
+        PlatformDialogAction(
+          action: (_) {
+            Get.back();
+          },
+          name: AppLocalizations.of(context)!.no_thanks,
+          isPrimary: false,
         ),
-        content: Text(
-          AppLocalizations.of(context)!.reset_password_text,
+        PlatformDialogAction(
+          action: (_) {
+            Get.back();
+            _bloc.sendPasswordResetRequest(email: _emailController.text);
+          },
+          name: 'Reset',
+          isPrimary: true,
         ),
-        actions: <Widget>[
-          OutlinedButton(
-            onPressed: () {
-              Get.back();
-            },
-            child: Text(AppLocalizations.of(context)!.no_thanks),
-          ),
-          OutlinedButton(
-            onPressed: () {
-              Get.back();
-              _bloc.sendPasswordResetRequest(email: _emailController.text);
-            },
-            child: const Text('Reset'),
-          ),
-        ],
-      ),
+      ],
     );
   }
 
   void _buildGoogleAccountDialog() {
-    showDialog<String>(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        title: Row(
-          children: [
-            const Icon(
-              Icons.g_mobiledata,
-              color: Colors.red,
-            ),
-            Text(AppLocalizations.of(context)!.email_in_use_title),
-          ],
-        ),
-        content: Text(AppLocalizations.of(context)!.email_in_use_description),
-        actions: <Widget>[
-          OutlinedButton(
-            onPressed: () => Get.back(),
-            child: Text(AppLocalizations.of(context)!.got_it),
-          ),
-        ],
+    PlatformComponents.showPlatformDialog(
+      context,
+      title: AppLocalizations.of(context)!.email_in_use_title,
+      leading: const Icon(
+        Icons.g_mobiledata,
+        color: Colors.red,
       ),
+      content: AppLocalizations.of(context)!.email_in_use_description,
+      actions: <PlatformDialogAction>[
+        PlatformDialogAction(
+          action: (_) => Get.back(),
+          name: AppLocalizations.of(context)!.got_it,
+        ),
+      ],
     );
   }
 
@@ -253,10 +245,6 @@ class EmailBottomSheetState extends State<EmailBottomSheet> {
   }
 
   void _validateEmail(String val) async {
-    final signInMethod = await _bloc.fetchSignInMethodsForEmail(
-      email: _emailController.text,
-    );
-
     if (val.isEmpty) {
       setState(() {
         _emailErrorMessage = AppLocalizations.of(context)!.email_empty;
@@ -265,10 +253,15 @@ class EmailBottomSheetState extends State<EmailBottomSheet> {
       setState(() {
         _emailErrorMessage = AppLocalizations.of(context)!.email_invalid;
       });
-    } else if (!widget.allowExistingEmails && signInMethod.isNotEmpty) {
-      setState(() {
-        _emailErrorMessage = AppLocalizations.of(context)!.email_in_use_title;
-      });
+    } else if (!widget.allowExistingEmails) {
+      final signInMethod = await _bloc.fetchSignInMethodsForEmail(
+        email: _emailController.text,
+      );
+      if (signInMethod.isNotEmpty) {
+        setState(() {
+          _emailErrorMessage = AppLocalizations.of(context)!.email_in_use_title;
+        });
+      }
     } else {
       setState(() {
         _emailErrorMessage = null;
