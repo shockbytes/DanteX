@@ -5,6 +5,7 @@ import 'package:dantex/src/bloc/auth/login_event.dart';
 import 'package:dantex/src/bloc/auth/management_event.dart';
 import 'package:dantex/src/core/injection/dependency_injector.dart';
 import 'package:dantex/src/data/authentication/entity/dante_user.dart';
+import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/themed_app_bar.dart';
 import 'package:dantex/src/ui/login/email_bottom_sheet.dart';
 import 'package:dantex/src/ui/profile/change_password_bottom_sheet.dart';
@@ -140,7 +141,7 @@ class ProfilePageSate extends State<ProfilePage> {
                     label: Text(
                       AppLocalizations.of(context)!.upgrade_account,
                     ),
-                    button: OutlinedButton(
+                    button: DanteComponents.outlinedButton(
                       onPressed: () {
                         _openUpgradeBottomSheet(context);
                       },
@@ -152,7 +153,7 @@ class ProfilePageSate extends State<ProfilePage> {
                   label: Text(
                     AppLocalizations.of(context)!.change_password,
                   ),
-                  button: OutlinedButton(
+                  button: DanteComponents.outlinedButton(
                     onPressed: () {
                       _openChangePasswordBottomSheet(context);
                     },

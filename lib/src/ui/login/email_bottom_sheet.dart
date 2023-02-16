@@ -104,7 +104,7 @@ class EmailBottomSheetState extends State<EmailBottomSheet> {
               const Spacer(),
               AnimatedSwitcher(
                 duration: const Duration(milliseconds: 500),
-                child: OutlinedButton(
+                child: DanteComponents.outlinedButton(
                   key: ValueKey(_phase),
                   child: Text(_getButtonText()),
                   onPressed: _getButtonAction(),

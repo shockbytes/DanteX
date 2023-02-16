@@ -268,7 +268,7 @@ class DanteAppBarState extends State<DanteAppBar> {
         const Expanded(
           child: Text('Anonymous Bookworm'),
         ),
-        OutlinedButton(
+        DanteComponents.outlinedButton(
           onPressed: () => _handleLogout(),
           child: const Text(
             'Logout',
@@ -288,11 +288,11 @@ class DanteAppBarState extends State<DanteAppBar> {
           content:
               Text(AppLocalizations.of(context)!.anonymous_logout_description),
           actions: <Widget>[
-            OutlinedButton(
+            DanteComponents.outlinedButton(
               onPressed: () => Get.back(),
               child: Text(AppLocalizations.of(context)!.cancel),
             ),
-            OutlinedButton(
+            DanteComponents.outlinedButton(
               onPressed: () {
                 Get.back();
                 _bloc.logout();

@@ -4,6 +4,7 @@ import 'package:dantex/src/bloc/auth/auth_bloc.dart';
 import 'package:dantex/src/bloc/auth/login_event.dart';
 import 'package:dantex/src/bloc/auth/management_event.dart';
 import 'package:dantex/src/core/injection/dependency_injector.dart';
+import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/platform_components.dart';
 import 'package:dantex/src/ui/login/email_bottom_sheet.dart';
 import 'package:dantex/src/ui/main/main_page.dart';
@@ -144,7 +145,7 @@ class LoginPageState extends State<LoginPage> {
                         style: const TextStyle(fontSize: 12),
                       ),
                       const SizedBox(height: 24),
-                      OutlinedButton(
+                      DanteComponents.outlinedButton(
                         onPressed: () => _bloc.loginWithGoogle(),
                         child: Row(
                           children: [
@@ -164,7 +165,7 @@ class LoginPageState extends State<LoginPage> {
                           ],
                         ),
                       ),
-                      OutlinedButton(
+                      DanteComponents.outlinedButton(
                         onPressed: () => _openLoginBottomSheet(),
                         child: Row(
                           children: [
@@ -184,7 +185,7 @@ class LoginPageState extends State<LoginPage> {
                         color: DanteColors.accent,
                       ),
                       const SizedBox(height: 16),
-                      OutlinedButton(
+                      DanteComponents.outlinedButton(
                         onPressed: () => _buildAnonymousLoginDialog(),
                         child: Row(
                           children: [

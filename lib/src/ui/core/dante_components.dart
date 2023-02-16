@@ -88,4 +88,16 @@ class DanteComponents {
       ),
     );
   }
+
+  static OutlinedButton outlinedButton({
+    Key? key,
+    required Widget child,
+    required void Function()? onPressed,
+  }) {
+    return OutlinedButton(
+      key: key,
+      onPressed: onPressed,
+      child: child,
+    );
+  }
 }

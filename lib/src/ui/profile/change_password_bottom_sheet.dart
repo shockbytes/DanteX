@@ -57,7 +57,7 @@ class ChangePasswordBottomSheetState extends State<ChangePasswordBottomSheet> {
                 ),
               ),
               const Spacer(),
-              OutlinedButton(
+              DanteComponents.outlinedButton(
                 child: Text(AppLocalizations.of(context)!.change_password),
                 onPressed: () {
                   if (_isValidPassword()) {
