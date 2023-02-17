@@ -49,7 +49,10 @@ class EmailBottomSheetState extends State<EmailBottomSheet> {
           child: Column(
             children: <Widget>[
               const Handle(),
-              _buildTitle(),
+              BottomSheetTitle(
+                key: ValueKey('title-phase-$_phase'),
+                phase: _phase,
+              ),
               SizedBox(
                 width: 360,
                 child: DanteComponents.textField(
@@ -111,26 +114,6 @@ class EmailBottomSheetState extends State<EmailBottomSheet> {
                 ),
               ),
             ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTitle() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 500),
-        child: Text(
-          _phase == LoginPhase.email
-              ? AppLocalizations.of(context)!.enter_email
-              : AppLocalizations.of(context)!.password,
-          key: ValueKey(_phase),
-          style: const TextStyle(
-            color: DanteColors.textPrimary,
-            fontWeight: FontWeight.w400,
-            fontSize: 20,
           ),
         ),
       ),
@@ -291,4 +274,31 @@ enum LoginPhase {
   email,
   passwordExistingUser,
   passwordNewUser,
+}
+
+class BottomSheetTitle extends StatelessWidget {
+  final LoginPhase phase;
+
+  const BottomSheetTitle({Key? key, required this.phase}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 500),
+        child: Text(
+          phase == LoginPhase.email
+              ? AppLocalizations.of(context)!.enter_email
+              : AppLocalizations.of(context)!.password,
+          key: ValueKey(phase),
+          style: const TextStyle(
+            color: DanteColors.textPrimary,
+            fontWeight: FontWeight.w400,
+            fontSize: 20,
+          ),
+        ),
+      ),
+    );
+  }
 }
