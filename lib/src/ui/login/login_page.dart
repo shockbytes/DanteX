@@ -4,6 +4,8 @@ import 'package:dantex/src/bloc/auth/auth_bloc.dart';
 import 'package:dantex/src/bloc/auth/login_event.dart';
 import 'package:dantex/src/bloc/auth/management_event.dart';
 import 'package:dantex/src/core/injection/dependency_injector.dart';
+import 'package:dantex/src/ui/core/dante_components.dart';
+import 'package:dantex/src/ui/core/platform_components.dart';
 import 'package:dantex/src/ui/login/email_bottom_sheet.dart';
 import 'package:dantex/src/ui/main/main_page.dart';
 import 'package:dantex/src/util/dante_colors.dart';
@@ -143,7 +145,7 @@ class LoginPageState extends State<LoginPage> {
                         style: const TextStyle(fontSize: 12),
                       ),
                       const SizedBox(height: 24),
-                      OutlinedButton(
+                      DanteComponents.outlinedButton(
                         onPressed: () => _bloc.loginWithGoogle(),
                         child: Row(
                           children: [
@@ -163,7 +165,7 @@ class LoginPageState extends State<LoginPage> {
                           ],
                         ),
                       ),
-                      OutlinedButton(
+                      DanteComponents.outlinedButton(
                         onPressed: () => _openLoginBottomSheet(),
                         child: Row(
                           children: [
@@ -183,7 +185,7 @@ class LoginPageState extends State<LoginPage> {
                         color: DanteColors.accent,
                       ),
                       const SizedBox(height: 16),
-                      OutlinedButton(
+                      DanteComponents.outlinedButton(
                         onPressed: () => _buildAnonymousLoginDialog(),
                         child: Row(
                           children: [
@@ -231,26 +233,23 @@ class LoginPageState extends State<LoginPage> {
   }
 
   void _buildAnonymousLoginDialog() {
-    showDialog<String>(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        title: Text(AppLocalizations.of(context)!.anonymous_login_title),
-        content:
-            Text(AppLocalizations.of(context)!.anonymous_login_description),
-        actions: <Widget>[
-          OutlinedButton(
-            onPressed: () => Get.back(),
-            child: Text(AppLocalizations.of(context)!.dismiss),
-          ),
-          OutlinedButton(
-            onPressed: () {
-              Get.back();
-              _bloc.loginAnonymously();
-            },
-            child: Text(AppLocalizations.of(context)!.login),
-          ),
-        ],
-      ),
+    PlatformComponents.showPlatformDialog(
+      context,
+      title: AppLocalizations.of(context)!.anonymous_login_title,
+      content: AppLocalizations.of(context)!.anonymous_login_description,
+      actions: <PlatformDialogAction>[
+        PlatformDialogAction(
+          action: (_) => Get.back(),
+          name: AppLocalizations.of(context)!.dismiss,
+        ),
+        PlatformDialogAction(
+          action: (_) {
+            Get.back();
+            _bloc.loginAnonymously();
+          },
+          name: AppLocalizations.of(context)!.login,
+        ),
+      ],
     );
   }
 }

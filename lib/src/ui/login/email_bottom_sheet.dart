@@ -3,6 +3,7 @@ import 'package:dantex/src/core/injection/dependency_injector.dart';
 import 'package:dantex/src/data/authentication/entity/dante_user.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/handle.dart';
+import 'package:dantex/src/ui/core/platform_components.dart';
 import 'package:dantex/src/util/dante_colors.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/foundation.dart';
@@ -48,7 +49,10 @@ class EmailBottomSheetState extends State<EmailBottomSheet> {
           child: Column(
             children: <Widget>[
               const Handle(),
-              _buildTitle(),
+              BottomSheetTitle(
+                key: ValueKey('title-phase-$_phase'),
+                phase: _phase,
+              ),
               SizedBox(
                 width: 360,
                 child: DanteComponents.textField(
@@ -67,53 +71,49 @@ class EmailBottomSheetState extends State<EmailBottomSheet> {
                 opacity: _phase == LoginPhase.email ? 0.0 : 1.0,
                 child: SizedBox(
                   width: 360,
-                  child: Padding(
-                    key: ValueKey(_phase),
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: DanteComponents.textField(
-                      _passwordController,
-                      obscureText: true,
-                      hint: AppLocalizations.of(context)!.password,
-                      errorText: _passwordErrorMessage,
-                      onChanged: (val) {
-                        if (_phase == LoginPhase.passwordNewUser) {
-                          _validatePassword(val);
-                        }
-                      },
-                    ),
+                  child: Column(
+                    children: [
+                      Padding(
+                        key: ValueKey(_phase),
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: DanteComponents.textField(
+                          _passwordController,
+                          obscureText: true,
+                          hint: AppLocalizations.of(context)!.password,
+                          errorText: _passwordErrorMessage,
+                          onChanged: (val) {
+                            if (_phase == LoginPhase.passwordNewUser) {
+                              _validatePassword(val);
+                            }
+                          },
+                        ),
+                      ),
+                      Visibility(
+                        visible: _phase == LoginPhase.passwordExistingUser,
+                        child: GestureDetector(
+                          onTap: () {
+                            Get.back();
+                            _buildForgotPasswordDialog();
+                          },
+                          child: Text(
+                            AppLocalizations.of(context)!.forgot_password,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
               const Spacer(),
               AnimatedSwitcher(
                 duration: const Duration(milliseconds: 500),
-                child: OutlinedButton(
+                child: DanteComponents.outlinedButton(
                   key: ValueKey(_phase),
                   child: Text(_getButtonText()),
                   onPressed: _getButtonAction(),
                 ),
               ),
             ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTitle() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 500),
-        child: Text(
-          _phase == LoginPhase.email
-              ? AppLocalizations.of(context)!.enter_email
-              : AppLocalizations.of(context)!.password,
-          key: ValueKey(_phase),
-          style: const TextStyle(
-            color: DanteColors.textPrimary,
-            fontWeight: FontWeight.w400,
-            fontSize: 20,
           ),
         ),
       ),
@@ -141,6 +141,7 @@ class EmailBottomSheetState extends State<EmailBottomSheet> {
             email: _emailController.text,
           );
           if (listEquals(signInMethod, [AuthenticationSource.google])) {
+            Get.back();
             _buildGoogleAccountDialog();
           } else if (listEquals(signInMethod, [AuthenticationSource.mail])) {
             setState(() {
@@ -175,27 +176,46 @@ class EmailBottomSheetState extends State<EmailBottomSheet> {
     return null;
   }
 
-  void _buildGoogleAccountDialog() {
-    showDialog<String>(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        title: Row(
-          children: [
-            const Icon(
-              Icons.g_mobiledata,
-              color: Colors.red,
-            ),
-            Text(AppLocalizations.of(context)!.email_in_use_title),
-          ],
+  void _buildForgotPasswordDialog() {
+    PlatformComponents.showPlatformDialog(
+      context,
+      title: AppLocalizations.of(context)!.reset_password,
+      content: AppLocalizations.of(context)!.reset_password_text,
+      actions: <PlatformDialogAction>[
+        PlatformDialogAction(
+          action: (_) {
+            Get.back();
+          },
+          name: AppLocalizations.of(context)!.no_thanks,
+          isPrimary: false,
         ),
-        content: Text(AppLocalizations.of(context)!.email_in_use_description),
-        actions: <Widget>[
-          OutlinedButton(
-            onPressed: () => Get.back(),
-            child: Text(AppLocalizations.of(context)!.got_it),
-          ),
-        ],
+        PlatformDialogAction(
+          action: (_) {
+            Get.back();
+            _bloc.sendPasswordResetRequest(email: _emailController.text);
+          },
+          name: 'Reset',
+          isPrimary: true,
+        ),
+      ],
+    );
+  }
+
+  void _buildGoogleAccountDialog() {
+    PlatformComponents.showPlatformDialog(
+      context,
+      title: AppLocalizations.of(context)!.email_in_use_title,
+      leading: const Icon(
+        Icons.g_mobiledata,
+        color: Colors.red,
       ),
+      content: AppLocalizations.of(context)!.email_in_use_description,
+      actions: <PlatformDialogAction>[
+        PlatformDialogAction(
+          action: (_) => Get.back(),
+          name: AppLocalizations.of(context)!.got_it,
+        ),
+      ],
     );
   }
 
@@ -208,10 +228,6 @@ class EmailBottomSheetState extends State<EmailBottomSheet> {
   }
 
   void _validateEmail(String val) async {
-    final signInMethod = await _bloc.fetchSignInMethodsForEmail(
-      email: _emailController.text,
-    );
-
     if (val.isEmpty) {
       setState(() {
         _emailErrorMessage = AppLocalizations.of(context)!.email_empty;
@@ -220,10 +236,15 @@ class EmailBottomSheetState extends State<EmailBottomSheet> {
       setState(() {
         _emailErrorMessage = AppLocalizations.of(context)!.email_invalid;
       });
-    } else if (!widget.allowExistingEmails && signInMethod.isNotEmpty) {
-      setState(() {
-        _emailErrorMessage = AppLocalizations.of(context)!.email_in_use_title;
-      });
+    } else if (!widget.allowExistingEmails) {
+      final signInMethod = await _bloc.fetchSignInMethodsForEmail(
+        email: _emailController.text,
+      );
+      if (signInMethod.isNotEmpty) {
+        setState(() {
+          _emailErrorMessage = AppLocalizations.of(context)!.email_in_use_title;
+        });
+      }
     } else {
       setState(() {
         _emailErrorMessage = null;
@@ -253,4 +274,31 @@ enum LoginPhase {
   email,
   passwordExistingUser,
   passwordNewUser,
+}
+
+class BottomSheetTitle extends StatelessWidget {
+  final LoginPhase phase;
+
+  const BottomSheetTitle({Key? key, required this.phase}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 500),
+        child: Text(
+          phase == LoginPhase.email
+              ? AppLocalizations.of(context)!.enter_email
+              : AppLocalizations.of(context)!.password,
+          key: ValueKey(phase),
+          style: const TextStyle(
+            color: DanteColors.textPrimary,
+            fontWeight: FontWeight.w400,
+            fontSize: 20,
+          ),
+        ),
+      ),
+    );
+  }
 }

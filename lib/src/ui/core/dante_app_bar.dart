@@ -115,10 +115,7 @@ class DanteAppBarState extends State<DanteAppBar> {
             ),
             const SizedBox(width: 32),
             InkWell(
-              child: const Icon(
-                Icons.account_circle_outlined,
-                color: DanteColors.textPrimary,
-              ),
+              child: _getUserAvatar(),
               enableFeedback: true,
               onTap: () => _openBottomSheet(context),
             ),
@@ -259,16 +256,13 @@ class DanteAppBarState extends State<DanteAppBar> {
               transition: Transition.downToUp,
             );
           },
-          icon: const Icon(
-            Icons.account_circle_outlined,
-            color: DanteColors.textPrimary,
-          ),
+          icon: _getUserAvatar(),
         ),
         const SizedBox(width: 4),
-        const Expanded(
-          child: Text('Anonymous Bookworm'),
+        Expanded(
+          child: _getUserHeading(),
         ),
-        OutlinedButton(
+        DanteComponents.outlinedButton(
           onPressed: () => _handleLogout(),
           child: const Text(
             'Logout',
@@ -288,11 +282,11 @@ class DanteAppBarState extends State<DanteAppBar> {
           content:
               Text(AppLocalizations.of(context)!.anonymous_logout_description),
           actions: <Widget>[
-            OutlinedButton(
+            DanteComponents.outlinedButton(
               onPressed: () => Get.back(),
               child: Text(AppLocalizations.of(context)!.cancel),
             ),
-            OutlinedButton(
+            DanteComponents.outlinedButton(
               onPressed: () {
                 Get.back();
                 _bloc.logout();
@@ -305,6 +299,37 @@ class DanteAppBarState extends State<DanteAppBar> {
     } else {
       _bloc.logout();
     }
+  }
+
+  Widget _getUserAvatar() {
+    if (user != null) {
+      String? photoUrl = user?.photoUrl;
+      if (photoUrl != null) {
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(20.0),
+          child: Image.network(photoUrl),
+        );
+      }
+    }
+    return const Icon(
+      Icons.account_circle_outlined,
+      color: DanteColors.textPrimary,
+    );
+  }
+
+  Widget _getUserHeading() {
+    if (user != null) {
+      String? name = user?.displayName;
+      String? email = user?.email;
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          name != null ? Text(name) : const SizedBox.shrink(),
+          email != null ? Text(email) : const SizedBox.shrink(),
+        ],
+      );
+    }
+    return const Text('Anonymous Bookworm');
   }
 }
 

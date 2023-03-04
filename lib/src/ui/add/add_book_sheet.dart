@@ -5,6 +5,7 @@ import 'package:dantex/src/bloc/add/add_book_bloc.dart';
 import 'package:dantex/src/core/injection/dependency_injector.dart';
 import 'package:dantex/src/data/book/entity/book.dart';
 import 'package:dantex/src/data/bookdownload/entity/book_suggestion.dart';
+import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/generic_error_widget.dart';
 import 'package:dantex/src/ui/core/handle.dart';
 import 'package:flutter/material.dart';
@@ -93,25 +94,25 @@ class _AddBookSheetState extends State<AddBookSheet> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            OutlinedButton(
+            DanteComponents.outlinedButton(
               onPressed: () => _bloc.addToWishlist(bookSuggestion.target),
               child: Text(
                 AppLocalizations.of(context)!.tab_wishlist,
               ),
             ),
-            OutlinedButton(
+            DanteComponents.outlinedButton(
               onPressed: () => _bloc.addToForLater(bookSuggestion.target),
               child: Text(
                 AppLocalizations.of(context)!.tab_for_later,
               ),
             ),
-            OutlinedButton(
+            DanteComponents.outlinedButton(
               onPressed: () => _bloc.addToReading(bookSuggestion.target),
               child: Text(
                 AppLocalizations.of(context)!.tab_reading,
               ),
             ),
-            OutlinedButton(
+            DanteComponents.outlinedButton(
               onPressed: () => _bloc.addToRead(bookSuggestion.target),
               child: Text(
                 AppLocalizations.of(context)!.tab_read,

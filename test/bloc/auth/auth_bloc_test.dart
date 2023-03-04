@@ -389,6 +389,7 @@ void main() {
           emitsError(exception),
         ]),
       );
+
       authBloc.changePassword(
         password: testPassword,
       );
@@ -396,6 +397,36 @@ void main() {
       verify(
         _repository.updateMailPassword(
           password: testPassword,
+        ),
+      ).called(1);
+    });
+
+    test('Sending reset password email emits the same error', () async {
+      final _repository = MockAuthenticationRepository();
+      final authBloc = AuthBloc(_repository);
+      final exception = FirebaseAuthException(code: '1');
+
+      when(
+        _repository.sendPasswordResetRequest(
+          email: testEmail,
+        ),
+      ).thenAnswer((_) async => throw exception);
+
+      expectLater(
+        authBloc.managementEvents,
+        emitsInOrder([
+          ManagementEvent.sendPasswordResetRequest,
+          emitsError(exception),
+        ]),
+      );
+
+      authBloc.sendPasswordResetRequest(
+        email: testEmail,
+      );
+
+      verify(
+        _repository.sendPasswordResetRequest(
+          email: testEmail,
         ),
       ).called(1);
     });

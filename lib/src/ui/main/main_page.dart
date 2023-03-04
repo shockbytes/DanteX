@@ -24,7 +24,11 @@ class _MainPageState extends State<MainPage> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _barIndex,
-        selectedItemColor: DanteColors.textPrimary,
+        selectedItemColor: _barIndex == 0
+            ? DanteColors.tabForLater
+            : _barIndex == 1
+                ? DanteColors.tabReading
+                : DanteColors.tabRead,
         enableFeedback: true,
         onTap: (int index) {
           setState(() {

@@ -234,4 +234,15 @@ void main() {
       throwsA(isA<FirebaseAuthException>()),
     );
   });
+
+  test('Send password reset request returns void on success', () {
+    final _fbAuth = MockFirebaseAuth();
+    final firebaseAuthRepo = FirebaseAuthenticationRepository(_fbAuth);
+
+    when(_fbAuth.sendPasswordResetEmail(email: testEmail))
+        .thenAnswer((_) async => Future<void>);
+
+    firebaseAuthRepo.sendPasswordResetRequest(email: testEmail);
+    verify(_fbAuth.sendPasswordResetEmail(email: testEmail)).called(1);
+  });
 }
