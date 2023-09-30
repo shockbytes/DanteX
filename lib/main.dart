@@ -12,12 +12,15 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  await DependencyInjector.initializeCriticalComponents();
 
   runZonedGuarded(
-    () => runApp(const DanteXApp()),
+    () async {
+      WidgetsFlutterBinding.ensureInitialized();
+
+      await DependencyInjector.initializeCriticalComponents();
+
+      runApp(const DanteXApp());
+    },
     (error, stackTrace) {
       // If not web, record the errors
       if (!kIsWeb) {
@@ -38,9 +41,16 @@ class DanteXApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
+      themeMode: ThemeMode.system,
       theme: ThemeData(
         brightness: Brightness.light,
         textTheme: GoogleFonts.nunitoTextTheme(),
+        useMaterial3: true,
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        textTheme: GoogleFonts.nunitoTextTheme(),
+        useMaterial3: true,
       ),
       home: FutureBuilder<bool>(
         future: _launcher(),

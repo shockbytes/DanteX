@@ -11,7 +11,6 @@ import 'package:dantex/src/ui/main/main_page.dart';
 import 'package:dantex/src/util/dante_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class LoginPage extends StatefulWidget {
@@ -54,14 +53,9 @@ class LoginPageState extends State<LoginPage> {
     setState(() {
       _isLoading = false;
     });
-    Fluttertoast.showToast(
-      msg: AppLocalizations.of(context)!.login_failed,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 3,
-      backgroundColor: DanteColors.background,
-      textColor: Colors.red,
-      fontSize: 16.0,
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(AppLocalizations.of(context)!.login_failed)),
     );
   }
 
@@ -69,14 +63,9 @@ class LoginPageState extends State<LoginPage> {
     setState(() {
       _isLoading = false;
     });
-    Fluttertoast.showToast(
-      msg: AppLocalizations.of(context)!.account_creation_failed,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 3,
-      backgroundColor: DanteColors.background,
-      textColor: Colors.red,
-      fontSize: 16.0,
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(AppLocalizations.of(context)!.account_creation_failed)),
     );
   }
 

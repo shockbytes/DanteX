@@ -13,7 +13,6 @@ import 'package:dantex/src/ui/profile/profile_row_item.dart';
 import 'package:dantex/src/util/dante_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -38,13 +37,11 @@ class ProfilePageSate extends State<ProfilePage> {
     _isLoading = false;
     _managementSubscription = _bloc.managementEvents.listen(
       _managementEventReceived,
-      onError: (exception, stackTrace) =>
-          _managementErrorReceived(exception, stackTrace),
+      onError: (exception, stackTrace) => _managementErrorReceived(exception, stackTrace),
     );
     _loginSubscription = _bloc.loginEvents.listen(
       _loginEventReceived,
-      onError: (exception, stackTrace) =>
-          _loginErrorReceived(exception, stackTrace),
+      onError: (exception, stackTrace) => _loginErrorReceived(exception, stackTrace),
     );
     _getUser();
   }
@@ -60,14 +57,12 @@ class ProfilePageSate extends State<ProfilePage> {
     setState(() {
       _isLoading = false;
     });
-    Fluttertoast.showToast(
-      msg: AppLocalizations.of(context)!.upgrade_failed,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 3,
-      backgroundColor: DanteColors.background,
-      textColor: Colors.red,
-      fontSize: 16.0,
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          AppLocalizations.of(context)!.upgrade_failed,
+        ),
+      ),
     );
   }
 
@@ -75,14 +70,13 @@ class ProfilePageSate extends State<ProfilePage> {
     setState(() {
       _isLoading = false;
     });
-    Fluttertoast.showToast(
-      msg: AppLocalizations.of(context)!.login_failed,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIosWeb: 3,
-      backgroundColor: DanteColors.background,
-      textColor: Colors.red,
-      fontSize: 16.0,
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          AppLocalizations.of(context)!.login_failed,
+        ),
+      ),
     );
   }
 
