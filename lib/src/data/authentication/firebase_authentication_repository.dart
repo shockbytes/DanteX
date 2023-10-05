@@ -1,7 +1,7 @@
+import 'package:collection/collection.dart';
 import 'package:dantex/src/data/authentication/authentication_repository.dart';
 import 'package:dantex/src/data/authentication/entity/dante_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:get/get.dart';
 
 class FirebaseAuthenticationRepository implements AuthenticationRepository {
   final FirebaseAuth _fbAuth;
