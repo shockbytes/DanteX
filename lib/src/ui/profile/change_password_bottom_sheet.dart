@@ -1,5 +1,5 @@
 import 'package:dantex/src/bloc/auth/auth_bloc.dart';
-import 'package:dantex/src/providers/authentication.dart';
+import 'package:dantex/src/providers/bloc.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/handle.dart';
 import 'package:dantex/src/util/dante_colors.dart';

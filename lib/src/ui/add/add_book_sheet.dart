@@ -2,16 +2,17 @@ import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dantex/src/bloc/add/add_book_bloc.dart';
-import 'package:dantex/src/core/injection/dependency_injector.dart';
 import 'package:dantex/src/data/book/entity/book.dart';
 import 'package:dantex/src/data/bookdownload/entity/book_suggestion.dart';
+import 'package:dantex/src/providers/bloc.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/generic_error_widget.dart';
 import 'package:dantex/src/ui/core/handle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AddBookSheet extends StatefulWidget {
+class AddBookSheet extends ConsumerStatefulWidget {
   final String _query;
 
   const AddBookSheet(
@@ -23,9 +24,7 @@ class AddBookSheet extends StatefulWidget {
   createState() => _AddBookSheetState();
 }
 
-class _AddBookSheetState extends State<AddBookSheet> {
-  final AddBookBloc _bloc = DependencyInjector.get<AddBookBloc>();
-
+class _AddBookSheetState extends ConsumerState<AddBookSheet> {
   final double _height = 400.0;
 
   StreamSubscription<Book>? _onBookAddedStream;
@@ -33,7 +32,9 @@ class _AddBookSheetState extends State<AddBookSheet> {
   @override
   void initState() {
     super.initState();
-    _onBookAddedStream = _bloc.onBookAdded.listen(
+    final AddBookBloc bloc = ref.read(addBookBlocProvider);
+
+    _onBookAddedStream = bloc.onBookAdded.listen(
       (event) {
         // Just pop the screen here, no need to handle something else
         Navigator.of(context).pop();
@@ -49,11 +50,13 @@ class _AddBookSheetState extends State<AddBookSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final AddBookBloc bloc = ref.read(addBookBlocProvider);
+
     return Column(
       children: [
         const Handle(),
         FutureBuilder<BookSuggestion>(
-          future: _bloc.downloadBook(widget._query),
+          future: bloc.downloadBook(widget._query),
           builder: (context, snapshot) {
             Widget child;
             if (snapshot.hasData) {
@@ -75,6 +78,8 @@ class _AddBookSheetState extends State<AddBookSheet> {
   }
 
   Widget _buildBookWidget(BuildContext context, BookSuggestion bookSuggestion) {
+    final AddBookBloc bloc = ref.read(addBookBlocProvider);
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -94,25 +99,25 @@ class _AddBookSheetState extends State<AddBookSheet> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             DanteComponents.outlinedButton(
-              onPressed: () => _bloc.addToWishlist(bookSuggestion.target),
+              onPressed: () => bloc.addToWishlist(bookSuggestion.target),
               child: Text(
                 AppLocalizations.of(context)!.tab_wishlist,
               ),
             ),
             DanteComponents.outlinedButton(
-              onPressed: () => _bloc.addToForLater(bookSuggestion.target),
+              onPressed: () => bloc.addToForLater(bookSuggestion.target),
               child: Text(
                 AppLocalizations.of(context)!.tab_for_later,
               ),
             ),
             DanteComponents.outlinedButton(
-              onPressed: () => _bloc.addToReading(bookSuggestion.target),
+              onPressed: () => bloc.addToReading(bookSuggestion.target),
               child: Text(
                 AppLocalizations.of(context)!.tab_reading,
               ),
             ),
             DanteComponents.outlinedButton(
-              onPressed: () => _bloc.addToRead(bookSuggestion.target),
+              onPressed: () => bloc.addToRead(bookSuggestion.target),
               child: Text(
                 AppLocalizations.of(context)!.tab_read,
               ),

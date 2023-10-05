@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:dantex/src/bloc/auth/auth_bloc.dart';
 import 'package:dantex/src/bloc/auth/logout_event.dart';
 import 'package:dantex/src/data/authentication/entity/dante_user.dart';
-import 'package:dantex/src/providers/authentication.dart';
+import 'package:dantex/src/providers/bloc.dart';
 import 'package:dantex/src/ui/add/add_book_sheet.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/dante_search_bar.dart';

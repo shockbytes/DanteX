@@ -20,12 +20,11 @@ final firebaseAuthProvider = AutoDisposeProvider<FirebaseAuth>.internal(
 );
 
 typedef FirebaseAuthRef = AutoDisposeProviderRef<FirebaseAuth>;
-String _$firebaseDatabaseHash() => r'851518e1b179e608e012772b44a54eff6859e2d6';
+String _$firebaseDatabaseHash() => r'324a5b86fdfafafee102e39f3f5418ae31af47f3';
 
 /// See also [firebaseDatabase].
 @ProviderFor(firebaseDatabase)
-final firebaseDatabaseProvider =
-    AutoDisposeFutureProvider<FirebaseDatabase>.internal(
+final firebaseDatabaseProvider = AutoDisposeProvider<FirebaseDatabase>.internal(
   firebaseDatabase,
   name: r'firebaseDatabaseProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -35,7 +34,7 @@ final firebaseDatabaseProvider =
   allTransitiveDependencies: null,
 );
 
-typedef FirebaseDatabaseRef = AutoDisposeFutureProviderRef<FirebaseDatabase>;
+typedef FirebaseDatabaseRef = AutoDisposeProviderRef<FirebaseDatabase>;
 String _$firebaseAuthenticationRepositoryHash() =>
     r'4c4ff2310422fe39833dd56c784216bca3573c02';
 
@@ -54,19 +53,5 @@ final firebaseAuthenticationRepositoryProvider =
 
 typedef FirebaseAuthenticationRepositoryRef
     = AutoDisposeProviderRef<FirebaseAuthenticationRepository>;
-String _$authBlocHash() => r'21acaf32f48c362ebbabcdfc92ed857c3a25e8ea';
-
-/// See also [authBloc].
-@ProviderFor(authBloc)
-final authBlocProvider = AutoDisposeProvider<AuthBloc>.internal(
-  authBloc,
-  name: r'authBlocProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$authBlocHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef AuthBlocRef = AutoDisposeProviderRef<AuthBloc>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

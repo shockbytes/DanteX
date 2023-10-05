@@ -1,10 +1,13 @@
 import 'dart:async';
 
-import 'package:dantex/src/core/injection/dependency_injector.dart';
+import 'package:dantex/firebase_options.dart';
 import 'package:dantex/src/providers/authentication.dart';
+import 'package:dantex/src/providers/bloc.dart';
 import 'package:dantex/src/ui/login/login_page.dart';
 import 'package:dantex/src/ui/main/main_page.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -17,9 +20,21 @@ void main() async {
     () async {
       WidgetsFlutterBinding.ensureInitialized();
 
-      await DependencyInjector.initializeCriticalComponents();
+      final firebaseDatabase = FirebaseDatabase.instanceFor(
+        app: await Firebase.initializeApp(
+          options: DefaultFirebaseOptions.currentPlatform,
+        ),
+        databaseURL: 'https://dante-books.europe-west1.firebasedatabase.app/',
+      );
 
-      runApp(const ProviderScope(child: DanteXApp()));
+      runApp(
+        ProviderScope(
+          overrides: [
+            firebaseDatabaseProvider.overrideWithValue(firebaseDatabase),
+          ],
+          child: const DanteXApp(),
+        ),
+      );
     },
     (error, stackTrace) {
       // If not web, record the errors
@@ -66,7 +81,13 @@ class DanteXApp extends ConsumerWidget {
   }
 
   Future<bool> _launcher(WidgetRef ref) async {
-    await DependencyInjector.setupDependencyInjection();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    // Don't record errors with Crashlytics on Web
+    if (!kIsWeb) {
+      FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+    }
 
     final bloc = ref.read(authBlocProvider);
     return bloc.isLoggedIn();
