@@ -1,12 +1,13 @@
 import 'package:dantex/src/bloc/auth/auth_bloc.dart';
-import 'package:dantex/src/core/injection/dependency_injector.dart';
+import 'package:dantex/src/providers/authentication.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/handle.dart';
 import 'package:dantex/src/util/dante_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ChangePasswordBottomSheet extends StatefulWidget {
+class ChangePasswordBottomSheet extends ConsumerStatefulWidget {
   const ChangePasswordBottomSheet({
     Key? key,
   }) : super(key: key);
@@ -15,15 +16,16 @@ class ChangePasswordBottomSheet extends StatefulWidget {
   createState() => ChangePasswordBottomSheetState();
 }
 
-class ChangePasswordBottomSheetState extends State<ChangePasswordBottomSheet> {
-  final AuthBloc _bloc = DependencyInjector.get<AuthBloc>();
-
+class ChangePasswordBottomSheetState
+    extends ConsumerState<ChangePasswordBottomSheet> {
   String? _passwordErrorMessage;
 
   final _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final AuthBloc bloc = ref.read(authBlocProvider);
+
     return SafeArea(
       child: Container(
         height: 300,
@@ -61,7 +63,7 @@ class ChangePasswordBottomSheetState extends State<ChangePasswordBottomSheet> {
                 onPressed: () {
                   if (_isValidPassword()) {
                     Navigator.of(context).pop();
-                    _bloc.changePassword(password: _passwordController.text);
+                    bloc.changePassword(password: _passwordController.text);
                   }
                 },
               ),

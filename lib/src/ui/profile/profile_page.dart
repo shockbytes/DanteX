@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:dantex/src/bloc/auth/auth_bloc.dart';
 import 'package:dantex/src/bloc/auth/login_event.dart';
 import 'package:dantex/src/bloc/auth/management_event.dart';
-import 'package:dantex/src/core/injection/dependency_injector.dart';
 import 'package:dantex/src/data/authentication/entity/dante_user.dart';
+import 'package:dantex/src/providers/authentication.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/themed_app_bar.dart';
 import 'package:dantex/src/ui/login/email_bottom_sheet.dart';
@@ -13,8 +13,9 @@ import 'package:dantex/src/ui/profile/profile_row_item.dart';
 import 'package:dantex/src/util/dante_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ProfilePage extends StatefulWidget {
+class ProfilePage extends ConsumerStatefulWidget {
   const ProfilePage({
     Key? key,
   }) : super(key: key);
@@ -23,8 +24,7 @@ class ProfilePage extends StatefulWidget {
   createState() => ProfilePageSate();
 }
 
-class ProfilePageSate extends State<ProfilePage> {
-  final AuthBloc _bloc = DependencyInjector.get<AuthBloc>();
+class ProfilePageSate extends ConsumerState<ProfilePage> {
   late StreamSubscription<ManagementEvent> _managementSubscription;
   late StreamSubscription<LoginEvent> _loginSubscription;
   late bool _isLoading;
@@ -33,13 +33,14 @@ class ProfilePageSate extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
+    final AuthBloc bloc = ref.read(authBlocProvider);
     _isLoading = false;
-    _managementSubscription = _bloc.managementEvents.listen(
+    _managementSubscription = bloc.managementEvents.listen(
       _managementEventReceived,
       onError: (exception, stackTrace) =>
           _managementErrorReceived(exception, stackTrace),
     );
-    _loginSubscription = _bloc.loginEvents.listen(
+    _loginSubscription = bloc.loginEvents.listen(
       _loginEventReceived,
       onError: (exception, stackTrace) =>
           _loginErrorReceived(exception, stackTrace),
@@ -48,7 +49,8 @@ class ProfilePageSate extends State<ProfilePage> {
   }
 
   void _getUser() async {
-    final currentUser = await _bloc.getAccount();
+    final AuthBloc bloc = ref.read(authBlocProvider);
+    final currentUser = await bloc.getAccount();
     setState(() {
       _user = currentUser;
     });
@@ -111,12 +113,12 @@ class ProfilePageSate extends State<ProfilePage> {
     return Scaffold(
       appBar: ThemedAppBar(
         leading: InkWell(
+          enableFeedback: true,
+          onTap: () => Navigator.of(context).pop(),
           child: const Icon(
             Icons.arrow_back,
             color: DanteColors.textPrimary,
           ),
-          enableFeedback: true,
-          onTap: () => Navigator.of(context).pop(),
         ),
         title: Text(
           AppLocalizations.of(context)!.profile,
@@ -161,6 +163,8 @@ class ProfilePageSate extends State<ProfilePage> {
   }
 
   _openUpgradeBottomSheet(BuildContext context) {
+    final AuthBloc bloc = ref.read(authBlocProvider);
+
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
@@ -170,7 +174,7 @@ class ProfilePageSate extends State<ProfilePage> {
               bottom: MediaQuery.of(context).viewInsets.bottom,
             ),
             child: EmailBottomSheet(
-              unknownEmailAction: _bloc.upgradeAnonymousAccount,
+              unknownEmailAction: bloc.upgradeAnonymousAccount,
               allowExistingEmails: false,
             ),
           ),

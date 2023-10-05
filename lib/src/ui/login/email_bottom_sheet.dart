@@ -1,6 +1,6 @@
 import 'package:dantex/src/bloc/auth/auth_bloc.dart';
-import 'package:dantex/src/core/injection/dependency_injector.dart';
 import 'package:dantex/src/data/authentication/entity/dante_user.dart';
+import 'package:dantex/src/providers/authentication.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/handle.dart';
 import 'package:dantex/src/ui/core/platform_components.dart';
@@ -9,8 +9,9 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class EmailBottomSheet extends StatefulWidget {
+class EmailBottomSheet extends ConsumerStatefulWidget {
   final bool allowExistingEmails;
   final void Function({
     required String email,
@@ -27,9 +28,7 @@ class EmailBottomSheet extends StatefulWidget {
   createState() => EmailBottomSheetState();
 }
 
-class EmailBottomSheetState extends State<EmailBottomSheet> {
-  final AuthBloc _bloc = DependencyInjector.get<AuthBloc>();
-
+class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
   String? _emailErrorMessage;
   String? _passwordErrorMessage;
 
@@ -130,13 +129,15 @@ class EmailBottomSheetState extends State<EmailBottomSheet> {
   }
 
   void Function()? _getButtonAction() {
+    final AuthBloc bloc = ref.read(authBlocProvider);
+
     if (_phase == LoginPhase.email) {
       if (_isValidEmail()) {
         setState(() {
           _emailErrorMessage = null;
         });
         return () async {
-          final signInMethod = await _bloc.fetchSignInMethodsForEmail(
+          final signInMethod = await bloc.fetchSignInMethodsForEmail(
             email: _emailController.text,
           );
           if (listEquals(signInMethod, [AuthenticationSource.google])) {
@@ -158,7 +159,7 @@ class EmailBottomSheetState extends State<EmailBottomSheet> {
     } else if (_phase == LoginPhase.passwordExistingUser) {
       return () {
         Navigator.of(context).pop();
-        _bloc.loginWithEmail(
+        bloc.loginWithEmail(
           email: _emailController.text,
           password: _passwordController.text,
         );
@@ -178,6 +179,8 @@ class EmailBottomSheetState extends State<EmailBottomSheet> {
   }
 
   void _buildForgotPasswordDialog() {
+    final AuthBloc bloc = ref.read(authBlocProvider);
+
     PlatformComponents.showPlatformDialog(
       context,
       title: AppLocalizations.of(context)!.reset_password,
@@ -193,7 +196,7 @@ class EmailBottomSheetState extends State<EmailBottomSheet> {
         PlatformDialogAction(
           action: (_) {
             Navigator.of(context).pop();
-            _bloc.sendPasswordResetRequest(email: _emailController.text);
+            bloc.sendPasswordResetRequest(email: _emailController.text);
           },
           name: 'Reset',
           isPrimary: true,
@@ -229,6 +232,8 @@ class EmailBottomSheetState extends State<EmailBottomSheet> {
   }
 
   void _validateEmail(String val) async {
+    final AuthBloc bloc = ref.read(authBlocProvider);
+
     if (val.isEmpty) {
       setState(() {
         _emailErrorMessage = AppLocalizations.of(context)!.email_empty;
@@ -238,7 +243,7 @@ class EmailBottomSheetState extends State<EmailBottomSheet> {
         _emailErrorMessage = AppLocalizations.of(context)!.email_invalid;
       });
     } else if (!widget.allowExistingEmails) {
-      final signInMethod = await _bloc.fetchSignInMethodsForEmail(
+      final signInMethod = await bloc.fetchSignInMethodsForEmail(
         email: _emailController.text,
       );
       if (signInMethod.isNotEmpty) {

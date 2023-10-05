@@ -1,13 +1,14 @@
 import 'dart:async';
 
-import 'package:dantex/src/bloc/auth/auth_bloc.dart';
 import 'package:dantex/src/core/injection/dependency_injector.dart';
+import 'package:dantex/src/providers/authentication.dart';
 import 'package:dantex/src/ui/login/login_page.dart';
 import 'package:dantex/src/ui/main/main_page.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -18,7 +19,7 @@ void main() async {
 
       await DependencyInjector.initializeCriticalComponents();
 
-      runApp(const DanteXApp());
+      runApp(const ProviderScope(child: DanteXApp()));
     },
     (error, stackTrace) {
       // If not web, record the errors
@@ -30,11 +31,11 @@ void main() async {
   );
 }
 
-class DanteXApp extends StatelessWidget {
+class DanteXApp extends ConsumerWidget {
   const DanteXApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return GetMaterialApp(
       title: 'Dante',
       debugShowCheckedModeBanner: false,
@@ -52,7 +53,7 @@ class DanteXApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: FutureBuilder<bool>(
-        future: _launcher(),
+        future: _launcher(ref),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return snapshot.data! ? const MainPage() : const LoginPage();
@@ -64,10 +65,10 @@ class DanteXApp extends StatelessWidget {
     );
   }
 
-  Future<bool> _launcher() async {
+  Future<bool> _launcher(WidgetRef ref) async {
     await DependencyInjector.setupDependencyInjection();
 
-    AuthBloc bloc = DependencyInjector.get<AuthBloc>();
+    final bloc = ref.read(authBlocProvider);
     return bloc.isLoggedIn();
   }
 }

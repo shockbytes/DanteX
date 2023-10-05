@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:dantex/src/bloc/auth/auth_bloc.dart';
 import 'package:dantex/src/bloc/auth/login_event.dart';
 import 'package:dantex/src/bloc/auth/management_event.dart';
-import 'package:dantex/src/core/injection/dependency_injector.dart';
+import 'package:dantex/src/providers/authentication.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/platform_components.dart';
 import 'package:dantex/src/ui/login/email_bottom_sheet.dart';
@@ -11,16 +11,16 @@ import 'package:dantex/src/ui/main/main_page.dart';
 import 'package:dantex/src/util/dante_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
   createState() => LoginPageState();
 }
 
-class LoginPageState extends State<LoginPage> {
-  final AuthBloc _bloc = DependencyInjector.get<AuthBloc>();
+class LoginPageState extends ConsumerState<LoginPage> {
   late StreamSubscription<LoginEvent> _loginSubscription;
 
   late bool _isLoading;
@@ -28,13 +28,14 @@ class LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
+    final AuthBloc bloc = ref.read(authBlocProvider);
     _isLoading = false;
-    _loginSubscription = _bloc.loginEvents.listen(
+    _loginSubscription = bloc.loginEvents.listen(
       _loginEventReceived,
       onError: (exception, stackTrace) =>
           _loginErrorReceived(exception, stackTrace),
     );
-    _bloc.managementEvents.listen(
+    bloc.managementEvents.listen(
       _managementEventReceived,
       onError: (exception, stackTrace) =>
           _managementErrorReceived(exception, stackTrace),
@@ -97,6 +98,8 @@ class LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final AuthBloc bloc = ref.read(authBlocProvider);
+
     return Material(
       child: Container(
         decoration: const BoxDecoration(color: DanteColors.accent),
@@ -137,7 +140,7 @@ class LoginPageState extends State<LoginPage> {
                       ),
                       const SizedBox(height: 24),
                       DanteComponents.outlinedButton(
-                        onPressed: () => _bloc.loginWithGoogle(),
+                        onPressed: () => bloc.loginWithGoogle(),
                         child: Row(
                           children: [
                             const Icon(
@@ -205,6 +208,8 @@ class LoginPageState extends State<LoginPage> {
   }
 
   void _openLoginBottomSheet() {
+    final AuthBloc bloc = ref.read(authBlocProvider);
+
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
@@ -214,7 +219,7 @@ class LoginPageState extends State<LoginPage> {
               bottom: MediaQuery.of(context).viewInsets.bottom,
             ),
             child: EmailBottomSheet(
-              unknownEmailAction: _bloc.createAccountWithMail,
+              unknownEmailAction: bloc.createAccountWithMail,
               allowExistingEmails: true,
             ),
           ),
@@ -224,6 +229,8 @@ class LoginPageState extends State<LoginPage> {
   }
 
   void _buildAnonymousLoginDialog() {
+    final AuthBloc bloc = ref.read(authBlocProvider);
+
     PlatformComponents.showPlatformDialog(
       context,
       title: AppLocalizations.of(context)!.anonymous_login_title,
@@ -236,7 +243,7 @@ class LoginPageState extends State<LoginPage> {
         PlatformDialogAction(
           action: (_) {
             Navigator.of(context).pop();
-            _bloc.loginAnonymously();
+            bloc.loginAnonymously();
           },
           name: AppLocalizations.of(context)!.login,
         ),

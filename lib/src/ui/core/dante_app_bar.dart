@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:dantex/src/bloc/auth/auth_bloc.dart';
 import 'package:dantex/src/bloc/auth/logout_event.dart';
-import 'package:dantex/src/core/injection/dependency_injector.dart';
 import 'package:dantex/src/data/authentication/entity/dante_user.dart';
+import 'package:dantex/src/providers/authentication.dart';
 import 'package:dantex/src/ui/add/add_book_sheet.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/dante_search_bar.dart';
@@ -14,10 +14,12 @@ import 'package:dantex/src/ui/settings/settings_page.dart';
 import 'package:dantex/src/util/dante_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 enum AddBookAction { scan, query, manual }
 
-class DanteAppBar extends StatefulWidget implements PreferredSizeWidget {
+class DanteAppBar extends ConsumerStatefulWidget
+    implements PreferredSizeWidget {
   const DanteAppBar({Key? key}) : super(key: key);
 
   @override
@@ -27,17 +29,16 @@ class DanteAppBar extends StatefulWidget implements PreferredSizeWidget {
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
-class DanteAppBarState extends State<DanteAppBar> {
-  final AuthBloc _bloc = DependencyInjector.get<AuthBloc>();
-
+class DanteAppBarState extends ConsumerState<DanteAppBar> {
   late StreamSubscription<LogoutEvent> _logoutSubscription;
   late DanteUser? user;
 
   @override
   void initState() {
     super.initState();
+    final AuthBloc bloc = ref.read(authBlocProvider);
     _getUser();
-    _logoutSubscription = _bloc.logoutEvents.listen(
+    _logoutSubscription = bloc.logoutEvents.listen(
       _logoutEventReceived,
     );
   }
@@ -49,7 +50,8 @@ class DanteAppBarState extends State<DanteAppBar> {
   }
 
   void _getUser() async {
-    final currentUser = await _bloc.getAccount();
+    final AuthBloc bloc = ref.read(authBlocProvider);
+    final currentUser = await bloc.getAccount();
     setState(() {
       user = currentUser;
     });
@@ -280,6 +282,7 @@ class DanteAppBarState extends State<DanteAppBar> {
   }
 
   void _handleLogout() async {
+    final AuthBloc bloc = ref.read(authBlocProvider);
     if (user?.source == AuthenticationSource.anonymous) {
       showDialog<String>(
         context: context,
@@ -295,7 +298,7 @@ class DanteAppBarState extends State<DanteAppBar> {
             DanteComponents.outlinedButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                _bloc.logout();
+                bloc.logout();
               },
               child: Text(AppLocalizations.of(context)!.logout),
             ),
@@ -303,7 +306,7 @@ class DanteAppBarState extends State<DanteAppBar> {
         ),
       );
     } else {
-      _bloc.logout();
+      bloc.logout();
     }
   }
 
