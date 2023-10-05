@@ -26,15 +26,16 @@ class AddBookSheet extends ConsumerStatefulWidget {
 
 class _AddBookSheetState extends ConsumerState<AddBookSheet> {
   final double _height = 400.0;
+  late AddBookBloc _bloc;
 
   StreamSubscription<Book>? _onBookAddedStream;
 
   @override
   void initState() {
     super.initState();
-    final AddBookBloc bloc = ref.read(addBookBlocProvider);
+    _bloc = ref.read(addBookBlocProvider);
 
-    _onBookAddedStream = bloc.onBookAdded.listen(
+    _onBookAddedStream = _bloc.onBookAdded.listen(
       (event) {
         // Just pop the screen here, no need to handle something else
         Navigator.of(context).pop();
@@ -50,13 +51,11 @@ class _AddBookSheetState extends ConsumerState<AddBookSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final AddBookBloc bloc = ref.read(addBookBlocProvider);
-
     return Column(
       children: [
         const Handle(),
         FutureBuilder<BookSuggestion>(
-          future: bloc.downloadBook(widget._query),
+          future: _bloc.downloadBook(widget._query),
           builder: (context, snapshot) {
             Widget child;
             if (snapshot.hasData) {
@@ -78,8 +77,6 @@ class _AddBookSheetState extends ConsumerState<AddBookSheet> {
   }
 
   Widget _buildBookWidget(BuildContext context, BookSuggestion bookSuggestion) {
-    final AddBookBloc bloc = ref.read(addBookBlocProvider);
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -99,25 +96,25 @@ class _AddBookSheetState extends ConsumerState<AddBookSheet> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             DanteComponents.outlinedButton(
-              onPressed: () => bloc.addToWishlist(bookSuggestion.target),
+              onPressed: () => _bloc.addToWishlist(bookSuggestion.target),
               child: Text(
                 AppLocalizations.of(context)!.tab_wishlist,
               ),
             ),
             DanteComponents.outlinedButton(
-              onPressed: () => bloc.addToForLater(bookSuggestion.target),
+              onPressed: () => _bloc.addToForLater(bookSuggestion.target),
               child: Text(
                 AppLocalizations.of(context)!.tab_for_later,
               ),
             ),
             DanteComponents.outlinedButton(
-              onPressed: () => bloc.addToReading(bookSuggestion.target),
+              onPressed: () => _bloc.addToReading(bookSuggestion.target),
               child: Text(
                 AppLocalizations.of(context)!.tab_reading,
               ),
             ),
             DanteComponents.outlinedButton(
-              onPressed: () => bloc.addToRead(bookSuggestion.target),
+              onPressed: () => _bloc.addToRead(bookSuggestion.target),
               child: Text(
                 AppLocalizations.of(context)!.tab_read,
               ),

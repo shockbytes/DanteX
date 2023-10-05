@@ -36,6 +36,13 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
 
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  late AuthBloc _bloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _bloc = ref.read(authBlocProvider);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -129,15 +136,13 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
   }
 
   void Function()? _getButtonAction() {
-    final AuthBloc bloc = ref.read(authBlocProvider);
-
     if (_phase == LoginPhase.email) {
       if (_isValidEmail()) {
         setState(() {
           _emailErrorMessage = null;
         });
         return () async {
-          final signInMethod = await bloc.fetchSignInMethodsForEmail(
+          final signInMethod = await _bloc.fetchSignInMethodsForEmail(
             email: _emailController.text,
           );
           if (listEquals(signInMethod, [AuthenticationSource.google])) {
@@ -159,7 +164,7 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
     } else if (_phase == LoginPhase.passwordExistingUser) {
       return () {
         Navigator.of(context).pop();
-        bloc.loginWithEmail(
+        _bloc.loginWithEmail(
           email: _emailController.text,
           password: _passwordController.text,
         );
@@ -179,8 +184,6 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
   }
 
   void _buildForgotPasswordDialog() {
-    final AuthBloc bloc = ref.read(authBlocProvider);
-
     PlatformComponents.showPlatformDialog(
       context,
       title: AppLocalizations.of(context)!.reset_password,
@@ -196,7 +199,7 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
         PlatformDialogAction(
           action: (_) {
             Navigator.of(context).pop();
-            bloc.sendPasswordResetRequest(email: _emailController.text);
+            _bloc.sendPasswordResetRequest(email: _emailController.text);
           },
           name: 'Reset',
           isPrimary: true,
@@ -232,8 +235,6 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
   }
 
   void _validateEmail(String val) async {
-    final AuthBloc bloc = ref.read(authBlocProvider);
-
     if (val.isEmpty) {
       setState(() {
         _emailErrorMessage = AppLocalizations.of(context)!.email_empty;
@@ -243,7 +244,7 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
         _emailErrorMessage = AppLocalizations.of(context)!.email_invalid;
       });
     } else if (!widget.allowExistingEmails) {
-      final signInMethod = await bloc.fetchSignInMethodsForEmail(
+      final signInMethod = await _bloc.fetchSignInMethodsForEmail(
         email: _emailController.text,
       );
       if (signInMethod.isNotEmpty) {

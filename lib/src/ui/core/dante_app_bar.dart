@@ -32,13 +32,14 @@ class DanteAppBar extends ConsumerStatefulWidget
 class DanteAppBarState extends ConsumerState<DanteAppBar> {
   late StreamSubscription<LogoutEvent> _logoutSubscription;
   late DanteUser? user;
+  late AuthBloc _bloc;
 
   @override
   void initState() {
     super.initState();
-    final AuthBloc bloc = ref.read(authBlocProvider);
+    _bloc = ref.read(authBlocProvider);
     _getUser();
-    _logoutSubscription = bloc.logoutEvents.listen(
+    _logoutSubscription = _bloc.logoutEvents.listen(
       _logoutEventReceived,
     );
   }
@@ -50,8 +51,7 @@ class DanteAppBarState extends ConsumerState<DanteAppBar> {
   }
 
   void _getUser() async {
-    final AuthBloc bloc = ref.read(authBlocProvider);
-    final currentUser = await bloc.getAccount();
+    final currentUser = await _bloc.getAccount();
     setState(() {
       user = currentUser;
     });
@@ -282,7 +282,6 @@ class DanteAppBarState extends ConsumerState<DanteAppBar> {
   }
 
   void _handleLogout() async {
-    final AuthBloc bloc = ref.read(authBlocProvider);
     if (user?.source == AuthenticationSource.anonymous) {
       showDialog<String>(
         context: context,
@@ -298,7 +297,7 @@ class DanteAppBarState extends ConsumerState<DanteAppBar> {
             DanteComponents.outlinedButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                bloc.logout();
+                _bloc.logout();
               },
               child: Text(AppLocalizations.of(context)!.logout),
             ),
@@ -306,7 +305,7 @@ class DanteAppBarState extends ConsumerState<DanteAppBar> {
         ),
       );
     } else {
-      bloc.logout();
+      _bloc.logout();
     }
   }
 

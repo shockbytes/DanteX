@@ -29,18 +29,19 @@ class ProfilePageSate extends ConsumerState<ProfilePage> {
   late StreamSubscription<LoginEvent> _loginSubscription;
   late bool _isLoading;
   late DanteUser? _user;
+  late AuthBloc _bloc;
 
   @override
   void initState() {
     super.initState();
-    final AuthBloc bloc = ref.read(authBlocProvider);
+    _bloc = ref.read(authBlocProvider);
     _isLoading = false;
-    _managementSubscription = bloc.managementEvents.listen(
+    _managementSubscription = _bloc.managementEvents.listen(
       _managementEventReceived,
       onError: (exception, stackTrace) =>
           _managementErrorReceived(exception, stackTrace),
     );
-    _loginSubscription = bloc.loginEvents.listen(
+    _loginSubscription = _bloc.loginEvents.listen(
       _loginEventReceived,
       onError: (exception, stackTrace) =>
           _loginErrorReceived(exception, stackTrace),
@@ -49,8 +50,7 @@ class ProfilePageSate extends ConsumerState<ProfilePage> {
   }
 
   void _getUser() async {
-    final AuthBloc bloc = ref.read(authBlocProvider);
-    final currentUser = await bloc.getAccount();
+    final currentUser = await _bloc.getAccount();
     setState(() {
       _user = currentUser;
     });
@@ -163,8 +163,6 @@ class ProfilePageSate extends ConsumerState<ProfilePage> {
   }
 
   _openUpgradeBottomSheet(BuildContext context) {
-    final AuthBloc bloc = ref.read(authBlocProvider);
-
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
@@ -174,7 +172,7 @@ class ProfilePageSate extends ConsumerState<ProfilePage> {
               bottom: MediaQuery.of(context).viewInsets.bottom,
             ),
             child: EmailBottomSheet(
-              unknownEmailAction: bloc.upgradeAnonymousAccount,
+              unknownEmailAction: _bloc.upgradeAnonymousAccount,
               allowExistingEmails: false,
             ),
           ),

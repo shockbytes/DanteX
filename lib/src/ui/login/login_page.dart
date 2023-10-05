@@ -22,20 +22,21 @@ class LoginPage extends ConsumerStatefulWidget {
 
 class LoginPageState extends ConsumerState<LoginPage> {
   late StreamSubscription<LoginEvent> _loginSubscription;
+  late AuthBloc _bloc;
 
   late bool _isLoading;
 
   @override
   void initState() {
     super.initState();
-    final AuthBloc bloc = ref.read(authBlocProvider);
+    _bloc = ref.read(authBlocProvider);
     _isLoading = false;
-    _loginSubscription = bloc.loginEvents.listen(
+    _loginSubscription = _bloc.loginEvents.listen(
       _loginEventReceived,
       onError: (exception, stackTrace) =>
           _loginErrorReceived(exception, stackTrace),
     );
-    bloc.managementEvents.listen(
+    _bloc.managementEvents.listen(
       _managementEventReceived,
       onError: (exception, stackTrace) =>
           _managementErrorReceived(exception, stackTrace),
@@ -98,8 +99,6 @@ class LoginPageState extends ConsumerState<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final AuthBloc bloc = ref.read(authBlocProvider);
-
     return Material(
       child: Container(
         decoration: const BoxDecoration(color: DanteColors.accent),
@@ -140,7 +139,7 @@ class LoginPageState extends ConsumerState<LoginPage> {
                       ),
                       const SizedBox(height: 24),
                       DanteComponents.outlinedButton(
-                        onPressed: () => bloc.loginWithGoogle(),
+                        onPressed: () => _bloc.loginWithGoogle(),
                         child: Row(
                           children: [
                             const Icon(
@@ -208,8 +207,6 @@ class LoginPageState extends ConsumerState<LoginPage> {
   }
 
   void _openLoginBottomSheet() {
-    final AuthBloc bloc = ref.read(authBlocProvider);
-
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
@@ -219,7 +216,7 @@ class LoginPageState extends ConsumerState<LoginPage> {
               bottom: MediaQuery.of(context).viewInsets.bottom,
             ),
             child: EmailBottomSheet(
-              unknownEmailAction: bloc.createAccountWithMail,
+              unknownEmailAction: _bloc.createAccountWithMail,
               allowExistingEmails: true,
             ),
           ),
@@ -229,8 +226,6 @@ class LoginPageState extends ConsumerState<LoginPage> {
   }
 
   void _buildAnonymousLoginDialog() {
-    final AuthBloc bloc = ref.read(authBlocProvider);
-
     PlatformComponents.showPlatformDialog(
       context,
       title: AppLocalizations.of(context)!.anonymous_login_title,
@@ -243,7 +238,7 @@ class LoginPageState extends ConsumerState<LoginPage> {
         PlatformDialogAction(
           action: (_) {
             Navigator.of(context).pop();
-            bloc.loginAnonymously();
+            _bloc.loginAnonymously();
           },
           name: AppLocalizations.of(context)!.login,
         ),
