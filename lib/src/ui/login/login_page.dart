@@ -11,7 +11,6 @@ import 'package:dantex/src/ui/main/main_page.dart';
 import 'package:dantex/src/util/dante_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:get/get.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -65,7 +64,9 @@ class LoginPageState extends State<LoginPage> {
     });
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(AppLocalizations.of(context)!.account_creation_failed)),
+      SnackBar(
+        content: Text(AppLocalizations.of(context)!.account_creation_failed),
+      ),
     );
   }
 
@@ -80,8 +81,9 @@ class LoginPageState extends State<LoginPage> {
       setState(() {
         _isLoading = false;
       });
-      // Navigate to main page and remove this page from the navigation stack.
-      Get.off(() => const MainPage());
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const MainPage()),
+      );
     }
   }
 
@@ -150,7 +152,7 @@ class LoginPageState extends State<LoginPage> {
                                   color: Colors.red,
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -228,12 +230,12 @@ class LoginPageState extends State<LoginPage> {
       content: AppLocalizations.of(context)!.anonymous_login_description,
       actions: <PlatformDialogAction>[
         PlatformDialogAction(
-          action: (_) => Get.back(),
+          action: (_) => Navigator.of(context).pop(),
           name: AppLocalizations.of(context)!.dismiss,
         ),
         PlatformDialogAction(
           action: (_) {
-            Get.back();
+            Navigator.of(context).pop();
             _bloc.loginAnonymously();
           },
           name: AppLocalizations.of(context)!.login,

@@ -2,7 +2,6 @@ import 'package:dantex/src/ui/core/themed_app_bar.dart';
 import 'package:dantex/src/util/dante_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:get/get.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({
@@ -19,7 +18,7 @@ class SettingsPage extends StatelessWidget {
             color: DanteColors.textPrimary,
           ),
           enableFeedback: true,
-          onTap: () => Get.back(),
+          onTap: () => Navigator.of(context).pop(),
         ),
         title: Text(
           AppLocalizations.of(context)!.settings,

@@ -5,7 +5,6 @@ import 'package:dantex/src/ui/core/handle.dart';
 import 'package:dantex/src/util/dante_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:get/get.dart';
 
 class ChangePasswordBottomSheet extends StatefulWidget {
   const ChangePasswordBottomSheet({
@@ -61,7 +60,7 @@ class ChangePasswordBottomSheetState extends State<ChangePasswordBottomSheet> {
                 child: Text(AppLocalizations.of(context)!.change_password),
                 onPressed: () {
                   if (_isValidPassword()) {
-                    Get.back();
+                    Navigator.of(context).pop();
                     _bloc.changePassword(password: _passwordController.text);
                   }
                 },

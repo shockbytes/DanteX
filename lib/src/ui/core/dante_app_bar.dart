@@ -14,7 +14,6 @@ import 'package:dantex/src/ui/settings/settings_page.dart';
 import 'package:dantex/src/util/dante_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:get/get.dart';
 
 enum AddBookAction { scan, query, manual }
 
@@ -59,7 +58,12 @@ class DanteAppBarState extends State<DanteAppBar> {
   void _logoutEventReceived(LogoutEvent event) {
     if (event == LogoutEvent.logout) {
       // Navigate to login and remove everything from navigation stack.
-      Get.offAll(() => const LoginPage());
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (context) => const LoginPage(),
+        ),
+        (route) => false,
+      );
     }
   }
 
@@ -115,9 +119,9 @@ class DanteAppBarState extends State<DanteAppBar> {
             ),
             const SizedBox(width: 32),
             InkWell(
-              child: _getUserAvatar(),
               enableFeedback: true,
               onTap: () => _openBottomSheet(context),
+              child: _getUserAvatar(),
             ),
             const SizedBox(width: 16),
           ],
@@ -152,12 +156,12 @@ class DanteAppBarState extends State<DanteAppBar> {
       actions: [
         PlatformDialogAction(
           name: AppLocalizations.of(context)!.cancel,
-          action: (BuildContext context) => Get.back(),
+          action: (BuildContext context) => Navigator.of(context).pop(),
         ),
         PlatformDialogAction(
           name: AppLocalizations.of(context)!.search,
           action: (BuildContext context) async {
-            Get.back();
+            Navigator.of(context).pop();
             await openAddBookSheet(
               context,
               query: controller.text,
@@ -230,9 +234,10 @@ class DanteAppBarState extends State<DanteAppBar> {
                     text: 'Settings',
                     icon: Icons.settings_outlined,
                     onItemClicked: () {
-                      Get.to(
-                        () => const SettingsPage(),
-                        transition: Transition.downToUp,
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const SettingsPage(),
+                        ),
                       );
                     },
                   ),
@@ -251,9 +256,10 @@ class DanteAppBarState extends State<DanteAppBar> {
       children: [
         IconButton(
           onPressed: () {
-            Get.to(
-              () => const ProfilePage(),
-              transition: Transition.downToUp,
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const ProfilePage(),
+              ),
             );
           },
           icon: _getUserAvatar(),
@@ -283,12 +289,12 @@ class DanteAppBarState extends State<DanteAppBar> {
               Text(AppLocalizations.of(context)!.anonymous_logout_description),
           actions: <Widget>[
             DanteComponents.outlinedButton(
-              onPressed: () => Get.back(),
+              onPressed: () => Navigator.of(context).pop(),
               child: Text(AppLocalizations.of(context)!.cancel),
             ),
             DanteComponents.outlinedButton(
               onPressed: () {
-                Get.back();
+                Navigator.of(context).pop();
                 _bloc.logout();
               },
               child: Text(AppLocalizations.of(context)!.logout),

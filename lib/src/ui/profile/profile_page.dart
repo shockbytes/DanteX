@@ -13,7 +13,6 @@ import 'package:dantex/src/ui/profile/profile_row_item.dart';
 import 'package:dantex/src/util/dante_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:get/get.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({
@@ -37,11 +36,13 @@ class ProfilePageSate extends State<ProfilePage> {
     _isLoading = false;
     _managementSubscription = _bloc.managementEvents.listen(
       _managementEventReceived,
-      onError: (exception, stackTrace) => _managementErrorReceived(exception, stackTrace),
+      onError: (exception, stackTrace) =>
+          _managementErrorReceived(exception, stackTrace),
     );
     _loginSubscription = _bloc.loginEvents.listen(
       _loginEventReceived,
-      onError: (exception, stackTrace) => _loginErrorReceived(exception, stackTrace),
+      onError: (exception, stackTrace) =>
+          _loginErrorReceived(exception, stackTrace),
     );
     _getUser();
   }
@@ -93,7 +94,7 @@ class ProfilePageSate extends State<ProfilePage> {
       setState(() {
         _isLoading = false;
       });
-      Get.back();
+      Navigator.of(context).pop();
     }
   }
 
@@ -115,7 +116,7 @@ class ProfilePageSate extends State<ProfilePage> {
             color: DanteColors.textPrimary,
           ),
           enableFeedback: true,
-          onTap: () => Get.back(),
+          onTap: () => Navigator.of(context).pop(),
         ),
         title: Text(
           AppLocalizations.of(context)!.profile,

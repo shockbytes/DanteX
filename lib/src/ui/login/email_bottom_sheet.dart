@@ -9,7 +9,6 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:get/get.dart';
 
 class EmailBottomSheet extends StatefulWidget {
   final bool allowExistingEmails;
@@ -92,7 +91,7 @@ class EmailBottomSheetState extends State<EmailBottomSheet> {
                         visible: _phase == LoginPhase.passwordExistingUser,
                         child: GestureDetector(
                           onTap: () {
-                            Get.back();
+                            Navigator.of(context).pop();
                             _buildForgotPasswordDialog();
                           },
                           child: Text(
@@ -141,7 +140,9 @@ class EmailBottomSheetState extends State<EmailBottomSheet> {
             email: _emailController.text,
           );
           if (listEquals(signInMethod, [AuthenticationSource.google])) {
-            Get.back();
+            if (mounted) {
+              Navigator.of(context).pop();
+            }
             _buildGoogleAccountDialog();
           } else if (listEquals(signInMethod, [AuthenticationSource.mail])) {
             setState(() {
@@ -156,7 +157,7 @@ class EmailBottomSheetState extends State<EmailBottomSheet> {
       }
     } else if (_phase == LoginPhase.passwordExistingUser) {
       return () {
-        Get.back();
+        Navigator.of(context).pop();
         _bloc.loginWithEmail(
           email: _emailController.text,
           password: _passwordController.text,
@@ -165,7 +166,7 @@ class EmailBottomSheetState extends State<EmailBottomSheet> {
     } else {
       if (_isValidPassword()) {
         return () {
-          Get.back();
+          Navigator.of(context).pop();
           widget.unknownEmailAction(
             email: _emailController.text,
             password: _passwordController.text,
@@ -184,14 +185,14 @@ class EmailBottomSheetState extends State<EmailBottomSheet> {
       actions: <PlatformDialogAction>[
         PlatformDialogAction(
           action: (_) {
-            Get.back();
+            Navigator.of(context).pop();
           },
           name: AppLocalizations.of(context)!.no_thanks,
           isPrimary: false,
         ),
         PlatformDialogAction(
           action: (_) {
-            Get.back();
+            Navigator.of(context).pop();
             _bloc.sendPasswordResetRequest(email: _emailController.text);
           },
           name: 'Reset',
@@ -212,7 +213,7 @@ class EmailBottomSheetState extends State<EmailBottomSheet> {
       content: AppLocalizations.of(context)!.email_in_use_description,
       actions: <PlatformDialogAction>[
         PlatformDialogAction(
-          action: (_) => Get.back(),
+          action: (_) => Navigator.of(context).pop(),
           name: AppLocalizations.of(context)!.got_it,
         ),
       ],

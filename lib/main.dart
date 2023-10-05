@@ -12,7 +12,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
-
   runZonedGuarded(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
@@ -68,7 +67,7 @@ class DanteXApp extends StatelessWidget {
   Future<bool> _launcher() async {
     await DependencyInjector.setupDependencyInjection();
 
-    AuthBloc _bloc = DependencyInjector.get<AuthBloc>();
-    return _bloc.isLoggedIn();
+    AuthBloc bloc = DependencyInjector.get<AuthBloc>();
+    return bloc.isLoggedIn();
   }
 }
