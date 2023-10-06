@@ -7,7 +7,6 @@ import 'package:dantex/src/ui/login/login_page.dart';
 import 'package:dantex/src/ui/main/main_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -19,17 +18,14 @@ void main() async {
     () async {
       WidgetsFlutterBinding.ensureInitialized();
 
-      final firebaseDatabase = FirebaseDatabase.instanceFor(
-        app: await Firebase.initializeApp(
-          options: DefaultFirebaseOptions.currentPlatform,
-        ),
-        databaseURL: 'https://dante-books.europe-west1.firebasedatabase.app/',
+      final firebaseApp = await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
       );
 
       runApp(
         ProviderScope(
           overrides: [
-            firebaseDatabaseProvider.overrideWithValue(firebaseDatabase),
+            firebaseAppProvider.overrideWithValue(firebaseApp),
           ],
           child: const DanteXApp(),
         ),
@@ -80,9 +76,6 @@ class DanteXApp extends ConsumerWidget {
   }
 
   Future<bool> _launcher(WidgetRef ref) async {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
     // Don't record errors with Crashlytics on Web
     if (!kIsWeb) {
       FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;

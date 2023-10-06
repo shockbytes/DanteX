@@ -49,3 +49,6 @@ app.*.map.json
 UNTRANSLATED.txt
 
 .fvm/
+
+# Generated code
+*.g.dart
