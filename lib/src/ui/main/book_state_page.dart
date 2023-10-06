@@ -1,22 +1,23 @@
 import 'package:dantex/src/bloc/main/book_state_bloc.dart';
-import 'package:dantex/src/core/injection/dependency_injector.dart';
 import 'package:dantex/src/data/book/entity/book.dart';
 import 'package:dantex/src/data/book/entity/book_state.dart';
+import 'package:dantex/src/providers/bloc.dart';
 import 'package:dantex/src/ui/book/book_item_widget.dart';
 import 'package:dantex/src/ui/core/generic_error_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class BookStatePage extends StatelessWidget {
+class BookStatePage extends ConsumerWidget {
   final BookState _state;
 
-  final BookStateBloc _bloc = DependencyInjector.get();
-
-  BookStatePage(this._state, {Key? key}) : super(key: key);
+  const BookStatePage(this._state, {Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final BookStateBloc bloc = ref.read(bookStateBlocProvider);
+
     return StreamBuilder<List<Book>>(
-      stream: _bloc.getBooksForState(_state),
+      stream: bloc.getBooksForState(_state),
       builder: (context, snapshot) {
         var data = snapshot.data;
 
@@ -54,7 +55,7 @@ class BookStatePage extends StatelessWidget {
 
   Widget _buildEmptyScreen() {
     return Center(
-      child: Text('No books for the state ' + _state.name),
+      child: Text('No books for the state ${_state.name}'),
     );
   }
 }

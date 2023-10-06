@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:dantex/src/bloc/auth/auth_bloc.dart';
 import 'package:dantex/src/bloc/auth/login_event.dart';
 import 'package:dantex/src/bloc/auth/management_event.dart';
-import 'package:dantex/src/core/injection/dependency_injector.dart';
+import 'package:dantex/src/providers/bloc.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/platform_components.dart';
 import 'package:dantex/src/ui/login/email_bottom_sheet.dart';
@@ -11,24 +11,25 @@ import 'package:dantex/src/ui/main/main_page.dart';
 import 'package:dantex/src/util/dante_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:get/get.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
   createState() => LoginPageState();
 }
 
-class LoginPageState extends State<LoginPage> {
-  final AuthBloc _bloc = DependencyInjector.get<AuthBloc>();
+class LoginPageState extends ConsumerState<LoginPage> {
   late StreamSubscription<LoginEvent> _loginSubscription;
+  late AuthBloc _bloc;
 
   late bool _isLoading;
 
   @override
   void initState() {
     super.initState();
+    _bloc = ref.read(authBlocProvider);
     _isLoading = false;
     _loginSubscription = _bloc.loginEvents.listen(
       _loginEventReceived,
@@ -65,7 +66,9 @@ class LoginPageState extends State<LoginPage> {
     });
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(AppLocalizations.of(context)!.account_creation_failed)),
+      SnackBar(
+        content: Text(AppLocalizations.of(context)!.account_creation_failed),
+      ),
     );
   }
 
@@ -80,8 +83,9 @@ class LoginPageState extends State<LoginPage> {
       setState(() {
         _isLoading = false;
       });
-      // Navigate to main page and remove this page from the navigation stack.
-      Get.off(() => const MainPage());
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const MainPage()),
+      );
     }
   }
 
@@ -150,7 +154,7 @@ class LoginPageState extends State<LoginPage> {
                                   color: Colors.red,
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -228,12 +232,12 @@ class LoginPageState extends State<LoginPage> {
       content: AppLocalizations.of(context)!.anonymous_login_description,
       actions: <PlatformDialogAction>[
         PlatformDialogAction(
-          action: (_) => Get.back(),
+          action: (_) => Navigator.of(context).pop(),
           name: AppLocalizations.of(context)!.dismiss,
         ),
         PlatformDialogAction(
           action: (_) {
-            Get.back();
+            Navigator.of(context).pop();
             _bloc.loginAnonymously();
           },
           name: AppLocalizations.of(context)!.login,

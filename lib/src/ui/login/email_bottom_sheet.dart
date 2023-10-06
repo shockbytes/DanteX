@@ -1,6 +1,6 @@
 import 'package:dantex/src/bloc/auth/auth_bloc.dart';
-import 'package:dantex/src/core/injection/dependency_injector.dart';
 import 'package:dantex/src/data/authentication/entity/dante_user.dart';
+import 'package:dantex/src/providers/bloc.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/handle.dart';
 import 'package:dantex/src/ui/core/platform_components.dart';
@@ -9,9 +9,9 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:get/get.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class EmailBottomSheet extends StatefulWidget {
+class EmailBottomSheet extends ConsumerStatefulWidget {
   final bool allowExistingEmails;
   final void Function({
     required String email,
@@ -28,9 +28,7 @@ class EmailBottomSheet extends StatefulWidget {
   createState() => EmailBottomSheetState();
 }
 
-class EmailBottomSheetState extends State<EmailBottomSheet> {
-  final AuthBloc _bloc = DependencyInjector.get<AuthBloc>();
-
+class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
   String? _emailErrorMessage;
   String? _passwordErrorMessage;
 
@@ -38,6 +36,13 @@ class EmailBottomSheetState extends State<EmailBottomSheet> {
 
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  late AuthBloc _bloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _bloc = ref.read(authBlocProvider);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +97,7 @@ class EmailBottomSheetState extends State<EmailBottomSheet> {
                         visible: _phase == LoginPhase.passwordExistingUser,
                         child: GestureDetector(
                           onTap: () {
-                            Get.back();
+                            Navigator.of(context).pop();
                             _buildForgotPasswordDialog();
                           },
                           child: Text(
@@ -141,7 +146,9 @@ class EmailBottomSheetState extends State<EmailBottomSheet> {
             email: _emailController.text,
           );
           if (listEquals(signInMethod, [AuthenticationSource.google])) {
-            Get.back();
+            if (mounted) {
+              Navigator.of(context).pop();
+            }
             _buildGoogleAccountDialog();
           } else if (listEquals(signInMethod, [AuthenticationSource.mail])) {
             setState(() {
@@ -156,7 +163,7 @@ class EmailBottomSheetState extends State<EmailBottomSheet> {
       }
     } else if (_phase == LoginPhase.passwordExistingUser) {
       return () {
-        Get.back();
+        Navigator.of(context).pop();
         _bloc.loginWithEmail(
           email: _emailController.text,
           password: _passwordController.text,
@@ -165,7 +172,7 @@ class EmailBottomSheetState extends State<EmailBottomSheet> {
     } else {
       if (_isValidPassword()) {
         return () {
-          Get.back();
+          Navigator.of(context).pop();
           widget.unknownEmailAction(
             email: _emailController.text,
             password: _passwordController.text,
@@ -184,14 +191,14 @@ class EmailBottomSheetState extends State<EmailBottomSheet> {
       actions: <PlatformDialogAction>[
         PlatformDialogAction(
           action: (_) {
-            Get.back();
+            Navigator.of(context).pop();
           },
           name: AppLocalizations.of(context)!.no_thanks,
           isPrimary: false,
         ),
         PlatformDialogAction(
           action: (_) {
-            Get.back();
+            Navigator.of(context).pop();
             _bloc.sendPasswordResetRequest(email: _emailController.text);
           },
           name: 'Reset',
@@ -212,7 +219,7 @@ class EmailBottomSheetState extends State<EmailBottomSheet> {
       content: AppLocalizations.of(context)!.email_in_use_description,
       actions: <PlatformDialogAction>[
         PlatformDialogAction(
-          action: (_) => Get.back(),
+          action: (_) => Navigator.of(context).pop(),
           name: AppLocalizations.of(context)!.got_it,
         ),
       ],

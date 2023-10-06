@@ -7,7 +7,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        
+
       - name: Setup Java
         uses: actions/setup-java@v2
         with:
@@ -22,25 +22,28 @@ jobs:
 
       - name: Install dependencies
         run: flutter pub get
-      
+
+      - name: Generate code
+        run: flutter pub run build_runner build --delete-conflicting-outputs
+
       - name: Run tests
         run: flutter test --coverage
-        
+
       - name: Create google-services.json file
         env:
           GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
         run: touch ${GITHUB_WORKSPACE}/android/app/google-services.json && echo $GOOGLE_SERVICES_JSON > ${GITHUB_WORKSPACE}/android/app/google-services.json
-        
+
       - name: Build Android appbundle
         run: flutter build appbundle
-        
+
       - name: Create GoogleService-Info.plist file
         env:
           GOOGLE_SERVICES_INFO_PLIST: ${{ secrets.GOOGLE_SERVICES_INFO_PLIST }}
-        run: touch ${GITHUB_WORKSPACE}/ios/Runner/GoogleService-Info.plist && echo $GOOGLE_SERVICES_INFO_PLIST > ${GITHUB_WORKSPACE}/ios/Runner/GoogleService-Info.plist      
-        
+        run: touch ${GITHUB_WORKSPACE}/ios/Runner/GoogleService-Info.plist && echo $GOOGLE_SERVICES_INFO_PLIST > ${GITHUB_WORKSPACE}/ios/Runner/GoogleService-Info.plist
+
       - name: Build iOS
         run: flutter build ios --release --no-codesign
-        
+
       - name: Build Web
         run: flutter build web

@@ -1,25 +1,35 @@
 import 'dart:async';
 
-import 'package:dantex/src/bloc/auth/auth_bloc.dart';
-import 'package:dantex/src/core/injection/dependency_injector.dart';
+import 'package:dantex/firebase_options.dart';
+import 'package:dantex/src/providers/authentication.dart';
+import 'package:dantex/src/providers/bloc.dart';
 import 'package:dantex/src/ui/login/login_page.dart';
 import 'package:dantex/src/ui/main/main_page.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:get/get.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
-
   runZonedGuarded(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
 
-      await DependencyInjector.initializeCriticalComponents();
+      final firebaseApp = await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
 
-      runApp(const DanteXApp());
+      runApp(
+        ProviderScope(
+          overrides: [
+            firebaseAppProvider.overrideWithValue(firebaseApp),
+          ],
+          child: const DanteXApp(),
+        ),
+      );
     },
     (error, stackTrace) {
       // If not web, record the errors
@@ -31,12 +41,12 @@ void main() async {
   );
 }
 
-class DanteXApp extends StatelessWidget {
+class DanteXApp extends ConsumerWidget {
   const DanteXApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return GetMaterialApp(
+  Widget build(BuildContext context, WidgetRef ref) {
+    return MaterialApp(
       title: 'Dante',
       debugShowCheckedModeBanner: false,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -53,7 +63,7 @@ class DanteXApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: FutureBuilder<bool>(
-        future: _launcher(),
+        future: _launcher(ref),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return snapshot.data! ? const MainPage() : const LoginPage();
@@ -65,10 +75,13 @@ class DanteXApp extends StatelessWidget {
     );
   }
 
-  Future<bool> _launcher() async {
-    await DependencyInjector.setupDependencyInjection();
+  Future<bool> _launcher(WidgetRef ref) async {
+    // Don't record errors with Crashlytics on Web
+    if (!kIsWeb) {
+      FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+    }
 
-    AuthBloc _bloc = DependencyInjector.get<AuthBloc>();
-    return _bloc.isLoggedIn();
+    final bloc = ref.read(authBlocProvider);
+    return bloc.isLoggedIn();
   }
 }

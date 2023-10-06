@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:dantex/src/bloc/auth/auth_bloc.dart';
 import 'package:dantex/src/bloc/auth/login_event.dart';
 import 'package:dantex/src/bloc/auth/management_event.dart';
-import 'package:dantex/src/core/injection/dependency_injector.dart';
 import 'package:dantex/src/data/authentication/entity/dante_user.dart';
+import 'package:dantex/src/providers/bloc.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/themed_app_bar.dart';
 import 'package:dantex/src/ui/login/email_bottom_sheet.dart';
@@ -13,9 +13,9 @@ import 'package:dantex/src/ui/profile/profile_row_item.dart';
 import 'package:dantex/src/util/dante_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:get/get.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ProfilePage extends StatefulWidget {
+class ProfilePage extends ConsumerStatefulWidget {
   const ProfilePage({
     Key? key,
   }) : super(key: key);
@@ -24,24 +24,27 @@ class ProfilePage extends StatefulWidget {
   createState() => ProfilePageSate();
 }
 
-class ProfilePageSate extends State<ProfilePage> {
-  final AuthBloc _bloc = DependencyInjector.get<AuthBloc>();
+class ProfilePageSate extends ConsumerState<ProfilePage> {
   late StreamSubscription<ManagementEvent> _managementSubscription;
   late StreamSubscription<LoginEvent> _loginSubscription;
   late bool _isLoading;
   late DanteUser? _user;
+  late AuthBloc _bloc;
 
   @override
   void initState() {
     super.initState();
+    _bloc = ref.read(authBlocProvider);
     _isLoading = false;
     _managementSubscription = _bloc.managementEvents.listen(
       _managementEventReceived,
-      onError: (exception, stackTrace) => _managementErrorReceived(exception, stackTrace),
+      onError: (exception, stackTrace) =>
+          _managementErrorReceived(exception, stackTrace),
     );
     _loginSubscription = _bloc.loginEvents.listen(
       _loginEventReceived,
-      onError: (exception, stackTrace) => _loginErrorReceived(exception, stackTrace),
+      onError: (exception, stackTrace) =>
+          _loginErrorReceived(exception, stackTrace),
     );
     _getUser();
   }
@@ -93,7 +96,7 @@ class ProfilePageSate extends State<ProfilePage> {
       setState(() {
         _isLoading = false;
       });
-      Get.back();
+      Navigator.of(context).pop();
     }
   }
 
@@ -110,12 +113,12 @@ class ProfilePageSate extends State<ProfilePage> {
     return Scaffold(
       appBar: ThemedAppBar(
         leading: InkWell(
+          enableFeedback: true,
+          onTap: () => Navigator.of(context).pop(),
           child: const Icon(
             Icons.arrow_back,
             color: DanteColors.textPrimary,
           ),
-          enableFeedback: true,
-          onTap: () => Get.back(),
         ),
         title: Text(
           AppLocalizations.of(context)!.profile,

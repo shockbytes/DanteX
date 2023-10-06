@@ -2,17 +2,17 @@ import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dantex/src/bloc/add/add_book_bloc.dart';
-import 'package:dantex/src/core/injection/dependency_injector.dart';
 import 'package:dantex/src/data/book/entity/book.dart';
 import 'package:dantex/src/data/bookdownload/entity/book_suggestion.dart';
+import 'package:dantex/src/providers/bloc.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/generic_error_widget.dart';
 import 'package:dantex/src/ui/core/handle.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:get/get.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AddBookSheet extends StatefulWidget {
+class AddBookSheet extends ConsumerStatefulWidget {
   final String _query;
 
   const AddBookSheet(
@@ -24,20 +24,21 @@ class AddBookSheet extends StatefulWidget {
   createState() => _AddBookSheetState();
 }
 
-class _AddBookSheetState extends State<AddBookSheet> {
-  final AddBookBloc _bloc = DependencyInjector.get<AddBookBloc>();
-
+class _AddBookSheetState extends ConsumerState<AddBookSheet> {
   final double _height = 400.0;
+  late AddBookBloc _bloc;
 
   StreamSubscription<Book>? _onBookAddedStream;
 
   @override
   void initState() {
     super.initState();
+    _bloc = ref.read(addBookBlocProvider);
+
     _onBookAddedStream = _bloc.onBookAdded.listen(
       (event) {
         // Just pop the screen here, no need to handle something else
-        Get.back();
+        Navigator.of(context).pop();
       },
     );
   }
