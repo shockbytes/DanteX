@@ -10,7 +10,7 @@ part 'bloc.g.dart';
 
 @riverpod
 AuthBloc authBloc(AuthBlocRef ref) => AuthBloc(
-      ref.read(firebaseAuthenticationRepositoryProvider),
+      ref.read(authenticationRepositoryProvider),
     );
 
 @riverpod

@@ -20,7 +20,17 @@ FirebaseDatabase firebaseDatabase(FirebaseDatabaseRef ref) =>
     );
 
 @riverpod
-FirebaseAuthenticationRepository firebaseAuthenticationRepository(
-  FirebaseAuthenticationRepositoryRef ref,
-) =>
-    FirebaseAuthenticationRepository(ref.read(firebaseAuthProvider));
+class AuthenticationRepository extends _$AuthenticationRepository {
+  @override
+  FirebaseAuthenticationRepository build() {
+    return FirebaseAuthenticationRepository(ref.read(firebaseAuthProvider));
+  }
+
+  Future<bool> isLoggedIn() async {
+    return (await state.getAccount()) != null;
+  }
+
+  Future<void> logout() async {
+    return state.logout();
+  }
+}

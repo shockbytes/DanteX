@@ -18,7 +18,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
-  runZonedGuarded(
+  await runZonedGuarded(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
 
@@ -61,7 +61,6 @@ class DanteXApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      themeMode: ThemeMode.system,
       theme: ThemeData(
         colorSchemeSeed: Colors.white,
         brightness: Brightness.light,
@@ -77,6 +76,14 @@ class DanteXApp extends ConsumerWidget {
     );
   }
 
+  Future<bool> _launcher(WidgetRef ref) async {
+    // Don't record errors with Crashlytics on Web
+    if (!kIsWeb) {
+      FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+    }
+
+    return ref.read(authenticationRepositoryProvider.notifier).isLoggedIn();
+  }
 }
 
 enum DanteRoute {
@@ -107,6 +114,7 @@ enum DanteRoute {
 
   /// Url used for registering the route in the [_router] field.
   final String url;
+
   /// Used for navigating to another screen, when calling context.go()
   final String navigationUrl;
 
@@ -133,11 +141,13 @@ final GoRouter _router = GoRouter(
       routes: [
         GoRoute(
           path: DanteRoute.settings.url,
-          builder: (BuildContext context, GoRouterState state) => const SettingsPage(),
+          builder: (BuildContext context, GoRouterState state) =>
+              const SettingsPage(),
         ),
         GoRoute(
           path: DanteRoute.profile.url,
-          builder: (BuildContext context, GoRouterState state) => const ProfilePage(),
+          builder: (BuildContext context, GoRouterState state) =>
+              const ProfilePage(),
         ),
         GoRoute(
           path: DanteRoute.scanBook.url,

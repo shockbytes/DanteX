@@ -4,6 +4,7 @@ import 'package:dantex/main.dart';
 import 'package:dantex/src/bloc/auth/auth_bloc.dart';
 import 'package:dantex/src/bloc/auth/logout_event.dart';
 import 'package:dantex/src/data/authentication/entity/dante_user.dart';
+import 'package:dantex/src/providers/authentication.dart';
 import 'package:dantex/src/providers/bloc.dart';
 import 'package:dantex/src/ui/add/add_book_widget.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
@@ -16,7 +17,8 @@ import 'package:go_router/go_router.dart';
 
 enum AddBookAction { scan, query, manual }
 
-class DanteAppBar extends ConsumerStatefulWidget implements PreferredSizeWidget {
+class DanteAppBar extends ConsumerStatefulWidget
+    implements PreferredSizeWidget {
   const DanteAppBar({Key? key}) : super(key: key);
 
   @override
@@ -47,7 +49,7 @@ class DanteAppBarState extends ConsumerState<DanteAppBar> {
     super.dispose();
   }
 
-  void _getUser() async {
+  Future<void> _getUser() async {
     final currentUser = await _bloc.getAccount();
     setState(() {
       _user = currentUser;
@@ -77,8 +79,10 @@ class DanteAppBarState extends ConsumerState<DanteAppBar> {
                 size: 32,
                 color: Theme.of(context).colorScheme.primary,
               ),
-              onSelected: (AddBookAction action) async => _handleAddBookAction(context, action),
-              itemBuilder: (BuildContext context) => <PopupMenuEntry<AddBookAction>>[
+              onSelected: (AddBookAction action) async =>
+                  _handleAddBookAction(context, action),
+              itemBuilder: (BuildContext context) =>
+                  <PopupMenuEntry<AddBookAction>>[
                 PopupMenuItem<AddBookAction>(
                   value: AddBookAction.scan,
                   child: _AddActionItem(
@@ -111,7 +115,6 @@ class DanteAppBarState extends ConsumerState<DanteAppBar> {
             ),
             const SizedBox(width: 32),
             InkWell(
-              enableFeedback: true,
               onTap: () => _openBottomSheet(context),
               child: _getUserAvatar(),
             ),
@@ -137,14 +140,12 @@ class DanteAppBarState extends ConsumerState<DanteAppBar> {
   }
 
   _handleQueryAction(BuildContext context, AddBookAction action) async {
-    var controller = TextEditingController();
+    final controller = TextEditingController();
     await PlatformComponents.showPlatformInputDialog(
       context,
       title: AppLocalizations.of(context)!.query_search_title,
-      maxLines: 1,
       hint: AppLocalizations.of(context)!.query_search_hint,
       textInputAction: TextInputAction.search,
-      textInputType: TextInputType.text,
       actions: [
         PlatformDialogAction(
           name: AppLocalizations.of(context)!.cancel,
@@ -258,36 +259,48 @@ class DanteAppBarState extends ConsumerState<DanteAppBar> {
     );
   }
 
-  void _handleLogout() async {
-    if (_user?.source == AuthenticationSource.anonymous) {
-      await PlatformComponents.showPlatformDialog(
-        context,
-        title: AppLocalizations.of(context)!.anonymous_logout_title,
-        content: AppLocalizations.of(context)!.anonymous_logout_description,
-        actions: [
-          PlatformDialogAction(
-            name: AppLocalizations.of(context)!.cancel,
-            action: (context) => Navigator.of(context).pop(),
-            isPrimary: false,
-          ),
-          PlatformDialogAction(
-            name: AppLocalizations.of(context)!.logout,
-            action: (context) {
-              Navigator.of(context).pop();
-              _bloc.logout();
-            },
-            isPrimary: true,
-          ),
-        ],
+  Future<void> _handleLogout() async {
+    if (user?.source == AuthenticationSource.anonymous) {
+      await showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: Text(AppLocalizations.of(context)!.anonymous_logout_title),
+          content:
+              Text(AppLocalizations.of(context)!.anonymous_logout_description),
+          actions: <Widget>[
+            DanteComponents.outlinedButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(AppLocalizations.of(context)!.cancel),
+            ),
+            DanteComponents.outlinedButton(
+              onPressed: () async {
+                Navigator.of(context).pop();
+                await ref
+                    .read(authenticationRepositoryProvider.notifier)
+                    .logout();
+              },
+              child: Text(AppLocalizations.of(context)!.logout),
+            ),
+          ],
+        ),
       );
     } else {
-      _bloc.logout();
+      await ref.read(authenticationRepositoryProvider.notifier).logout();
+      // Navigate to login and remove everything from navigation stack.
+    }
+    if (mounted) {
+      await Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (context) => const LoginPage(),
+        ),
+        (route) => false,
+      );
     }
   }
 
   Widget _getUserAvatar() {
-    if (_user != null) {
-      String? photoUrl = _user?.photoUrl;
+    if (user != null) {
+      final String? photoUrl = user?.photoUrl;
       if (photoUrl != null) {
         return SizedBox(
           width: 32,
@@ -307,17 +320,20 @@ class DanteAppBarState extends ConsumerState<DanteAppBar> {
   }
 
   Widget _getUserHeading() {
-    if (_user == null) {
-      return Text(
-        'Anonymous Bookworm',
-        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
+    if (user != null) {
+      final String? name = user?.displayName;
+      final String? email = user?.email;
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          name != null ? Text(name) : const SizedBox.shrink(),
+          email != null ? Text(email) : const SizedBox.shrink(),
+        ],
       );
     }
 
-    String name = _user?.displayName ?? 'Anonymous Bookworm';
-    String? email = _user?.email;
+    final String name = _user?.displayName ?? 'Anonymous Bookworm';
+    final String? email = _user?.email;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -377,10 +393,10 @@ class _MenuItem extends StatelessWidget {
   final VoidCallback onItemClicked;
 
   const _MenuItem({
-    Key? key,
     required this.text,
     required this.icon,
     required this.onItemClicked,
+    Key? key,
   }) : super(key: key);
 
   @override

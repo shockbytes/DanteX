@@ -110,14 +110,6 @@ class AuthBloc {
     );
   }
 
-  void logout() {
-    _repository.logout().then(
-      (_) {
-        _logoutSubject.add(LogoutEvent.logout);
-      },
-    );
-  }
-
   void sendPasswordResetRequest({required String email}) {
     _managementSubject.add(ManagementEvent.sendPasswordResetRequest);
     _repository.sendPasswordResetRequest(email: email).then(
