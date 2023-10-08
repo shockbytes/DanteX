@@ -121,7 +121,7 @@ class BookItemWidget extends StatelessWidget {
     required int currentPage,
     required int pageCount,
   }) {
-    double percentage = computePercentage(50, pageCount);
+    double percentage = computePercentage(currentPage, pageCount);
 
     return CircularPercentIndicator(
       radius: 20.0,
