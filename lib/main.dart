@@ -53,11 +53,13 @@ class DanteXApp extends ConsumerWidget {
       supportedLocales: AppLocalizations.supportedLocales,
       themeMode: ThemeMode.system,
       theme: ThemeData(
+        colorSchemeSeed: Colors.white,
         brightness: Brightness.light,
         textTheme: GoogleFonts.nunitoTextTheme(),
         useMaterial3: true,
       ),
       darkTheme: ThemeData(
+        colorSchemeSeed: Colors.white,
         brightness: Brightness.dark,
         textTheme: GoogleFonts.nunitoTextTheme(),
         useMaterial3: true,

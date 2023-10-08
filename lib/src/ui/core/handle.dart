@@ -1,5 +1,4 @@
-import 'package:dantex/src/util/dante_colors.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 
 class Handle extends StatelessWidget {
   const Handle({Key? key}) : super(key: key);
@@ -16,7 +15,7 @@ class Handle extends StatelessWidget {
           height: 4,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(2.0),
-            color: DanteColors.textSecondary,
+            color: Theme.of(context).bottomSheetTheme.dragHandleColor,
           ),
         )
       ],

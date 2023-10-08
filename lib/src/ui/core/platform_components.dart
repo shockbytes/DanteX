@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:dantex/src/ui/core/dante_components.dart';
-import 'package:dantex/src/util/dante_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -79,6 +78,7 @@ class PlatformComponents {
         context,
         title: _buildDialogTitle(title, leading),
         content: _buildCupertinoTextField(
+          context,
           controller,
           obscureText: obscureText,
           hint: hint,
@@ -93,6 +93,7 @@ class PlatformComponents {
         context,
         title: _buildDialogTitle(title, leading),
         content: DanteComponents.textField(
+          context,
           controller,
           obscureText: obscureText,
           hint: hint,
@@ -119,6 +120,7 @@ class PlatformComponents {
         actions: actions
             .map(
               (action) => _buildCupertinoActionButton(
+                context,
                 action.name,
                 onPressed: () => action.action(context),
                 isPrimary: action.isPrimary,
@@ -143,6 +145,7 @@ class PlatformComponents {
         actions: actions
             .map(
               (action) => _buildMaterialActionButton(
+                context,
                 action.name,
                 onPressed: () => action.action(context),
                 isPrimary: action.isPrimary,
@@ -158,26 +161,17 @@ class PlatformComponents {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         leading ?? const SizedBox.shrink(),
-        Text(
-          title,
-          style: const TextStyle(
-            color: DanteColors.textPrimary,
-          ),
-        ),
+        Text(title),
       ],
     );
   }
 
   static Text _buildDialogContent(String content) {
-    return Text(
-      content,
-      style: const TextStyle(
-        color: DanteColors.textPrimary,
-      ),
-    );
+    return Text(content);
   }
 
   static Widget _buildCupertinoActionButton(
+    BuildContext context,
     String action, {
     required VoidCallback onPressed,
     required bool isPrimary,
@@ -187,13 +181,14 @@ class PlatformComponents {
       child: Text(
         action,
         style: TextStyle(
-          color: isPrimary ? DanteColors.accent : DanteColors.textPrimary,
+          color: isPrimary ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
         ),
       ),
     );
   }
 
   static Widget _buildMaterialActionButton(
+    BuildContext context,
     String action, {
     required VoidCallback onPressed,
     required bool isPrimary,
@@ -201,19 +196,21 @@ class PlatformComponents {
     return TextButton(
       onPressed: onPressed,
       style: TextButton.styleFrom(
-        foregroundColor: isPrimary ? DanteColors.accent : DanteColors.white,
-        backgroundColor: isPrimary ? DanteColors.accent : DanteColors.white,
+        foregroundColor: isPrimary ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.surface,
+
+    backgroundColor: isPrimary ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.surface,
       ),
       child: Text(
         action,
         style: TextStyle(
-          color: isPrimary ? DanteColors.white : DanteColors.textPrimary,
+          color: isPrimary ? Theme.of(context).colorScheme.surface : Theme.of(context).colorScheme.primary,
         ),
       ),
     );
   }
 
   static Widget _buildCupertinoTextField(
+    BuildContext context,
     TextEditingController controller, {
     bool obscureText = false,
     String? hint,
@@ -226,7 +223,7 @@ class PlatformComponents {
       child: CupertinoTextField(
         controller: controller,
         obscureText: obscureText,
-        cursorColor: DanteColors.accent,
+        cursorColor: Theme.of(context).colorScheme.primary,
         placeholder: hint,
         maxLines: maxLines,
         keyboardType: textInputType,

@@ -1,5 +1,4 @@
 import 'package:dantex/src/ui/core/themed_app_bar.dart';
-import 'package:dantex/src/util/dante_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -13,17 +12,15 @@ class SettingsPage extends StatelessWidget {
     return Scaffold(
       appBar: ThemedAppBar(
         leading: InkWell(
-          child: const Icon(
-            Icons.arrow_back,
-            color: DanteColors.textPrimary,
-          ),
           enableFeedback: true,
           onTap: () => Navigator.of(context).pop(),
+          child: const Icon(
+            Icons.arrow_back,
+          ),
         ),
         title: Text(
           AppLocalizations.of(context)!.settings,
           style: const TextStyle(
-            color: DanteColors.textPrimary,
             fontWeight: FontWeight.w400,
           ),
         ),

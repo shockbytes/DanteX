@@ -11,15 +11,13 @@ import 'package:dantex/src/ui/core/platform_components.dart';
 import 'package:dantex/src/ui/login/login_page.dart';
 import 'package:dantex/src/ui/profile/profile_page.dart';
 import 'package:dantex/src/ui/settings/settings_page.dart';
-import 'package:dantex/src/util/dante_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 enum AddBookAction { scan, query, manual }
 
-class DanteAppBar extends ConsumerStatefulWidget
-    implements PreferredSizeWidget {
+class DanteAppBar extends ConsumerStatefulWidget implements PreferredSizeWidget {
   const DanteAppBar({Key? key}) : super(key: key);
 
   @override
@@ -31,7 +29,7 @@ class DanteAppBar extends ConsumerStatefulWidget
 
 class DanteAppBarState extends ConsumerState<DanteAppBar> {
   late StreamSubscription<LogoutEvent> _logoutSubscription;
-  late DanteUser? user;
+  DanteUser? _user;
   late AuthBloc _bloc;
 
   @override
@@ -53,7 +51,7 @@ class DanteAppBarState extends ConsumerState<DanteAppBar> {
   void _getUser() async {
     final currentUser = await _bloc.getAccount();
     setState(() {
-      user = currentUser;
+      _user = currentUser;
     });
   }
 
@@ -81,20 +79,19 @@ class DanteAppBarState extends ConsumerState<DanteAppBar> {
           children: [
             PopupMenuButton<AddBookAction>(
               padding: const EdgeInsets.all(0),
-              icon: const Icon(
+              icon: Icon(
                 Icons.add,
-                color: DanteColors.accent,
+                size: 32,
+                color: Theme.of(context).colorScheme.primary,
               ),
-              onSelected: (AddBookAction action) async =>
-                  _handleAddBookAction(context, action),
-              itemBuilder: (BuildContext context) =>
-                  <PopupMenuEntry<AddBookAction>>[
+              onSelected: (AddBookAction action) async => _handleAddBookAction(context, action),
+              itemBuilder: (BuildContext context) => <PopupMenuEntry<AddBookAction>>[
                 PopupMenuItem<AddBookAction>(
                   value: AddBookAction.scan,
                   child: _AddActionItem(
                     text: AppLocalizations.of(context)!.add_scan,
                     iconData: Icons.camera_alt_outlined,
-                    color: DanteColors.tabForLater,
+                    color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
                 PopupMenuItem<AddBookAction>(
@@ -102,7 +99,7 @@ class DanteAppBarState extends ConsumerState<DanteAppBar> {
                   child: _AddActionItem(
                     text: AppLocalizations.of(context)!.add_query,
                     iconData: Icons.search,
-                    color: DanteColors.tabReading,
+                    color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
                 PopupMenuItem<AddBookAction>(
@@ -110,7 +107,7 @@ class DanteAppBarState extends ConsumerState<DanteAppBar> {
                   child: _AddActionItem(
                     text: AppLocalizations.of(context)!.add_manual,
                     iconData: Icons.edit_outlined,
-                    color: DanteColors.tabRead,
+                    color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
               ],
@@ -183,21 +180,20 @@ class DanteAppBarState extends ConsumerState<DanteAppBar> {
         color: Colors.transparent,
         child: Container(
           decoration: BoxDecoration(
-            color: DanteColors.textPrimaryLight,
+            color: Theme.of(context).bottomSheetTheme.backgroundColor,
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(12),
               topRight: Radius.circular(12),
             ),
-            border: Border.all(color: DanteColors.textPrimary),
           ),
           height: 280,
           child: Column(
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: _buildUserTag(user),
+                child: _buildUserTag(_user),
               ),
-              DanteComponents.divider(),
+              DanteComponents.divider(context),
               GridView(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -282,27 +278,26 @@ class DanteAppBarState extends ConsumerState<DanteAppBar> {
   }
 
   void _handleLogout() async {
-    if (user?.source == AuthenticationSource.anonymous) {
-      showDialog<String>(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-          title: Text(AppLocalizations.of(context)!.anonymous_logout_title),
-          content:
-              Text(AppLocalizations.of(context)!.anonymous_logout_description),
-          actions: <Widget>[
-            DanteComponents.outlinedButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: Text(AppLocalizations.of(context)!.cancel),
-            ),
-            DanteComponents.outlinedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                _bloc.logout();
-              },
-              child: Text(AppLocalizations.of(context)!.logout),
-            ),
-          ],
-        ),
+    if (_user?.source == AuthenticationSource.anonymous) {
+      await PlatformComponents.showPlatformDialog(
+        context,
+        title: AppLocalizations.of(context)!.anonymous_logout_title,
+        content: AppLocalizations.of(context)!.anonymous_logout_description,
+        actions: [
+          PlatformDialogAction(
+            name: AppLocalizations.of(context)!.cancel,
+            action: (context) => Navigator.of(context).pop(),
+            isPrimary: false,
+          ),
+          PlatformDialogAction(
+            name: AppLocalizations.of(context)!.logout,
+            action: (context) {
+              Navigator.of(context).pop();
+              _bloc.logout();
+            },
+            isPrimary: true,
+          ),
+        ],
       );
     } else {
       _bloc.logout();
@@ -310,34 +305,57 @@ class DanteAppBarState extends ConsumerState<DanteAppBar> {
   }
 
   Widget _getUserAvatar() {
-    if (user != null) {
-      String? photoUrl = user?.photoUrl;
+    if (_user != null) {
+      String? photoUrl = _user?.photoUrl;
       if (photoUrl != null) {
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(20.0),
-          child: Image.network(photoUrl),
+        return SizedBox(
+          width: 32,
+          height: 32,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20.0),
+            child: Image.network(photoUrl),
+          ),
         );
       }
     }
-    return const Icon(
+    return Icon(
       Icons.account_circle_outlined,
-      color: DanteColors.textPrimary,
+      size: 32,
+      color: Theme.of(context).colorScheme.onSurface,
     );
   }
 
   Widget _getUserHeading() {
-    if (user != null) {
-      String? name = user?.displayName;
-      String? email = user?.email;
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          name != null ? Text(name) : const SizedBox.shrink(),
-          email != null ? Text(email) : const SizedBox.shrink(),
-        ],
+    if (_user == null) {
+      return Text(
+        'Anonymous Bookworm',
+        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
       );
     }
-    return const Text('Anonymous Bookworm');
+
+    String name = _user?.displayName ?? 'Anonymous Bookworm';
+    String? email = _user?.email;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          name,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
+        ),
+        email != null
+            ? Text(
+                email,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+              )
+            : const SizedBox.shrink(),
+      ],
+    );
   }
 }
 
@@ -391,11 +409,17 @@ class _MenuItem extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon),
+          Icon(
+            icon,
+            color: Theme.of(context).colorScheme.onTertiaryContainer,
+          ),
           const SizedBox(height: 4),
           Text(
             text,
             textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onTertiaryContainer,
+            ),
           ),
         ],
       ),

@@ -1,7 +1,6 @@
 import 'package:dantex/src/data/book/entity/book_state.dart';
 import 'package:dantex/src/ui/core/dante_app_bar.dart';
 import 'package:dantex/src/ui/main/book_state_page.dart';
-import 'package:dantex/src/util/dante_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -24,11 +23,7 @@ class _MainPageState extends State<MainPage> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _barIndex,
-        selectedItemColor: _barIndex == 0
-            ? DanteColors.tabForLater
-            : _barIndex == 1
-                ? DanteColors.tabReading
-                : DanteColors.tabRead,
+        selectedItemColor: Theme.of(context).colorScheme.primary,
         enableFeedback: true,
         onTap: (int index) {
           setState(() {
@@ -38,25 +33,25 @@ class _MainPageState extends State<MainPage> {
         items: [
           BottomNavigationBarItem(
             icon: const Icon(Icons.bookmark_outline),
-            activeIcon: const Icon(
+            activeIcon: Icon(
               Icons.bookmark,
-              color: DanteColors.tabForLater,
+              color: Theme.of(context).colorScheme.primary,
             ),
             label: AppLocalizations.of(context)!.tab_for_later,
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.book_outlined),
-            activeIcon: const Icon(
+            activeIcon: Icon(
               Icons.book,
-              color: DanteColors.tabReading,
+              color: Theme.of(context).colorScheme.primary,
             ),
             label: AppLocalizations.of(context)!.tab_reading,
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.check_outlined),
-            activeIcon: const Icon(
+            activeIcon: Icon(
               Icons.check_outlined,
-              color: DanteColors.tabRead,
+              color: Theme.of(context).colorScheme.primary,
             ),
             label: AppLocalizations.of(context)!.tab_read,
           ),
