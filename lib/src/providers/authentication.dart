@@ -1,3 +1,5 @@
+import 'package:dantex/src/data/authentication/authentication_repository.dart';
+import 'package:dantex/src/data/authentication/entity/dante_user.dart';
 import 'package:dantex/src/data/authentication/firebase_authentication_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -13,6 +15,10 @@ FirebaseApp firebaseApp(FirebaseAppRef ref) => throw UnimplementedError();
 FirebaseAuth firebaseAuth(FirebaseAuthRef ref) => FirebaseAuth.instance;
 
 @riverpod
+Stream<User?> authStateChanges(AuthStateChangesRef ref) =>
+    ref.read(firebaseAuthProvider).authStateChanges();
+
+@riverpod
 FirebaseDatabase firebaseDatabase(FirebaseDatabaseRef ref) =>
     FirebaseDatabase.instanceFor(
       app: ref.read(firebaseAppProvider),
@@ -20,17 +26,14 @@ FirebaseDatabase firebaseDatabase(FirebaseDatabaseRef ref) =>
     );
 
 @riverpod
-class AuthenticationRepository extends _$AuthenticationRepository {
-  @override
-  FirebaseAuthenticationRepository build() {
-    return FirebaseAuthenticationRepository(ref.read(firebaseAuthProvider));
-  }
+AuthenticationRepository authenticationRepository(
+  AuthenticationRepositoryRef ref,
+) =>
+    FirebaseAuthenticationRepository(ref.read(firebaseAuthProvider));
 
-  Future<bool> isLoggedIn() async {
-    return (await state.getAccount()) != null;
-  }
-
-  Future<void> logout() async {
-    return state.logout();
-  }
+@riverpod
+Future<DanteUser?> user(UserRef ref) {
+  // Rebuild this provider when there is an auth state change.
+  ref.watch(authStateChangesProvider);
+  return ref.read(authenticationRepositoryProvider).getAccount();
 }

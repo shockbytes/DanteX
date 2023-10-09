@@ -1,6 +1,8 @@
 import 'package:dantex/src/data/authentication/entity/dante_user.dart';
 
 abstract class AuthenticationRepository {
+  Stream<DanteUser?> get authStateChanges;
+
   Future<DanteUser?> getAccount();
 
   Future<void> loginWithGoogle();

@@ -1,5 +1,4 @@
-import 'package:dantex/src/bloc/auth/auth_bloc.dart';
-import 'package:dantex/src/providers/bloc.dart';
+import 'package:dantex/src/providers/authentication.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/handle.dart';
 import 'package:flutter/material.dart';
@@ -23,8 +22,6 @@ class ChangePasswordBottomSheetState
 
   @override
   Widget build(BuildContext context) {
-    final AuthBloc bloc = ref.read(authBlocProvider);
-
     return SafeArea(
       child: Container(
         height: 300,
@@ -58,10 +55,12 @@ class ChangePasswordBottomSheetState
               const Spacer(),
               DanteComponents.outlinedButton(
                 child: Text(AppLocalizations.of(context)!.change_password),
-                onPressed: () {
+                onPressed: () async {
                   if (_isValidPassword()) {
                     Navigator.of(context).pop();
-                    bloc.changePassword(password: _passwordController.text);
+                    await ref
+                        .read(authenticationRepositoryProvider)
+                        .updateMailPassword(password: _passwordController.text);
                   }
                 },
               ),

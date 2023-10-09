@@ -4,6 +4,7 @@ import 'package:dantex/firebase_options.dart';
 import 'package:dantex/src/providers/authentication.dart';
 import 'package:dantex/src/ui/add/scan_book_page.dart';
 import 'package:dantex/src/ui/boot_page.dart';
+import 'package:dantex/src/ui/login/email_login_page.dart';
 import 'package:dantex/src/ui/login/login_page.dart';
 import 'package:dantex/src/ui/main/main_page.dart';
 import 'package:dantex/src/ui/profile/profile_page.dart';
@@ -75,15 +76,6 @@ class DanteXApp extends ConsumerWidget {
       ),
     );
   }
-
-  Future<bool> _launcher(WidgetRef ref) async {
-    // Don't record errors with Crashlytics on Web
-    if (!kIsWeb) {
-      FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-    }
-
-    return ref.read(authenticationRepositoryProvider.notifier).isLoggedIn();
-  }
 }
 
 enum DanteRoute {
@@ -94,6 +86,10 @@ enum DanteRoute {
   login(
     url: '/login',
     navigationUrl: '/login',
+  ),
+  emailLogin(
+    url: 'email',
+    navigationUrl: '/login/email',
   ),
   dashboard(
     url: '/',
@@ -134,6 +130,13 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: DanteRoute.login.url,
       builder: (BuildContext context, GoRouterState state) => const LoginPage(),
+      routes: [
+        GoRoute(
+          path: DanteRoute.emailLogin.url,
+          builder: (BuildContext context, GoRouterState state) =>
+              const EmailLoginPage(),
+        ),
+      ],
     ),
     GoRoute(
       path: DanteRoute.dashboard.url,
@@ -151,7 +154,8 @@ final GoRouter _router = GoRouter(
         ),
         GoRoute(
           path: DanteRoute.scanBook.url,
-          builder: (BuildContext context, GoRouterState state) => const ScanBookPage(),
+          builder: (BuildContext context, GoRouterState state) =>
+              const ScanBookPage(),
         ),
       ],
     ),

@@ -1,6 +1,7 @@
+import 'dart:async';
+
 import 'package:dantex/main.dart';
-import 'package:dantex/src/bloc/auth/auth_bloc.dart';
-import 'package:dantex/src/providers/bloc.dart';
+import 'package:dantex/src/providers/authentication.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -13,15 +14,15 @@ class BootPage extends ConsumerStatefulWidget {
 }
 
 class _BootPageState extends ConsumerState<BootPage> {
-  AuthBloc get _bloc => ref.read(authBlocProvider);
-
   @override
   void initState() {
-    _bloc.isLoggedIn().then(
-      (isLoggedIn) {
-        String navigationUrl = isLoggedIn ? DanteRoute.dashboard.navigationUrl : DanteRoute.login.navigationUrl;
+    unawaited(
+      ref.read(authenticationRepositoryProvider).getAccount().then((account) {
+        final String navigationUrl = account != null
+            ? DanteRoute.dashboard.navigationUrl
+            : DanteRoute.login.navigationUrl;
         context.pushReplacement(navigationUrl);
-      },
+      }),
     );
 
     super.initState();
