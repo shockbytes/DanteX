@@ -5,7 +5,9 @@ import 'package:dantex/src/data/book/entity/book_state.dart';
 abstract class BookRepository {
   Stream<List<Book>> getBooksForState(BookState state);
 
-  Stream<List<Book>> getAllBooks();
+  Stream<List<Book>> listenAllBooks();
+
+  Future<List<Book>> getAllBooks();
 
   Future<Book> getBook(BookId id);
 

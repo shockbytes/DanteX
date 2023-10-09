@@ -27,27 +27,34 @@ class FirebaseBookRepository implements BookRepository {
   }
 
   @override
-  Stream<List<Book>> getAllBooks() {
+  Stream<List<Book>> listenAllBooks() {
     return _rootRef().onValue.map(
-      (DatabaseEvent event) {
-        Map<String, dynamic>? data = event.snapshot.toMap();
+          (DatabaseEvent event) => _fromSnapshot(event.snapshot),
+        );
+  }
 
-        if (data == null) {
-          return [];
-        }
+  @override
+  Future<List<Book>> getAllBooks() {
+    return _rootRef().get().then(_fromSnapshot);
+  }
 
-        return data
-            .map(
-              (key, value) {
-                Map<String, dynamic> bookData = (value as Map<dynamic, dynamic>).cast();
-                Book bookValue = BookExtension.fromMap(bookData);
-                return MapEntry(key, bookValue);
-              },
-            )
-            .values
-            .toList();
-      },
-    );
+  List<Book> _fromSnapshot(DataSnapshot snapshot) {
+    Map<String, dynamic>? data = snapshot.toMap();
+
+    if (data == null) {
+      return [];
+    }
+
+    return data
+        .map(
+          (key, value) {
+            Map<String, dynamic> bookData = (value as Map<dynamic, dynamic>).cast();
+            Book bookValue = BookExtension.fromMap(bookData);
+            return MapEntry(key, bookValue);
+          },
+        )
+        .values
+        .toList();
   }
 
   @override
@@ -67,7 +74,7 @@ class FirebaseBookRepository implements BookRepository {
 
   @override
   Stream<List<Book>> getBooksForState(BookState state) {
-    return getAllBooks().map(
+    return listenAllBooks().map(
       (books) => books
           .where(
             (book) => book.state == state,
@@ -78,7 +85,7 @@ class FirebaseBookRepository implements BookRepository {
 
   @override
   Stream<List<Book>> search(SearchCriteria criteria) {
-    return getAllBooks().map(
+    return listenAllBooks().map(
       (books) => books.where(criteria.fulfillsCriteria).toList(),
     );
   }

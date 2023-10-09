@@ -4,7 +4,7 @@ import 'package:dantex/src/data/book/entity/book.dart';
 import 'package:dantex/src/data/book/entity/book_state.dart';
 import 'package:rxdart/rxdart.dart';
 
-@Deprecated('Only use for certain debug cases!')
+@Deprecated('For test cases only!')
 class InMemoryBookRepository implements BookRepository {
   final List<Book> _books = List.empty(growable: true);
 
@@ -12,7 +12,7 @@ class InMemoryBookRepository implements BookRepository {
 
   @override
   Stream<List<Book>> getBooksForState(BookState state) {
-    return getAllBooks().map(
+    return listenAllBooks().map(
       (books) => books
           .where(
             (book) => book.state == state,
@@ -33,8 +33,13 @@ class InMemoryBookRepository implements BookRepository {
   }
 
   @override
-  Stream<List<Book>> getAllBooks() {
+  Stream<List<Book>> listenAllBooks() {
     return _bookSubject.stream;
+  }
+
+  @override
+  Future<List<Book>> getAllBooks() async {
+    return _bookSubject.value;
   }
 
   @override
@@ -44,7 +49,7 @@ class InMemoryBookRepository implements BookRepository {
 
   @override
   Stream<List<Book>> search(SearchCriteria criteria) {
-    return getAllBooks().map(
+    return listenAllBooks().map(
       (books) => books.where(criteria.fulfillsCriteria).toList(),
     );
   }

@@ -235,7 +235,7 @@ class MockBookRepository extends _i1.Mock implements _i8.BookRepository {
       ) as _i7.Stream<List<_i2.Book>>);
 
   @override
-  _i7.Stream<List<_i2.Book>> getAllBooks() => (super.noSuchMethod(
+  _i7.Stream<List<_i2.Book>> listenAllBooks() => (super.noSuchMethod(
         Invocation.method(
           #getAllBooks,
           [],
