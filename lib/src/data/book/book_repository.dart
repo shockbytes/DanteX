@@ -6,7 +6,9 @@ import 'package:dantex/src/data/book/search_criteria.dart';
 abstract class BookRepository {
   Stream<List<Book>> getBooksForState(BookState state);
 
-  Stream<List<Book>> getAllBooks();
+  Stream<List<Book>> listenAllBooks();
+
+  Future<List<Book>> getAllBooks();
 
   Stream<Book> getBook(String id);
 

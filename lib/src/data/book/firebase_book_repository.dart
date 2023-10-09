@@ -69,7 +69,7 @@ class FirebaseBookRepository implements BookRepository {
   }
 
   @override
-  Stream<Book> getBook(String id) {
+  Stream<Book> getBook(String id) async {
     return _booksRef().child(id).onValue.map((DatabaseEvent event) {
       final Map<String, dynamic>? data = event.snapshot.toMap();
 
