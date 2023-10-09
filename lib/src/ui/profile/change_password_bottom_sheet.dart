@@ -2,7 +2,6 @@ import 'package:dantex/src/bloc/auth/auth_bloc.dart';
 import 'package:dantex/src/providers/bloc.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/handle.dart';
-import 'package:dantex/src/util/dante_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -29,7 +28,6 @@ class ChangePasswordBottomSheetState
     return SafeArea(
       child: Container(
         height: 300,
-        color: DanteColors.background,
         child: Center(
           child: Column(
             children: <Widget>[
@@ -37,7 +35,6 @@ class ChangePasswordBottomSheetState
               Text(
                 AppLocalizations.of(context)!.password,
                 style: const TextStyle(
-                  color: DanteColors.textPrimary,
                   fontWeight: FontWeight.w400,
                   fontSize: 20,
                 ),
@@ -47,6 +44,7 @@ class ChangePasswordBottomSheetState
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: DanteComponents.textField(
+                    context,
                     _passwordController,
                     obscureText: true,
                     hint: AppLocalizations.of(context)!.password,

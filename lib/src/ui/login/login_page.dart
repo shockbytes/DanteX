@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dantex/src/bloc/auth/auth_bloc.dart';
 import 'package:dantex/src/bloc/auth/login_event.dart';
 import 'package:dantex/src/bloc/auth/management_event.dart';
@@ -8,7 +9,6 @@ import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/platform_components.dart';
 import 'package:dantex/src/ui/login/email_bottom_sheet.dart';
 import 'package:dantex/src/ui/main/main_page.dart';
-import 'package:dantex/src/util/dante_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -33,13 +33,11 @@ class LoginPageState extends ConsumerState<LoginPage> {
     _isLoading = false;
     _loginSubscription = _bloc.loginEvents.listen(
       _loginEventReceived,
-      onError: (exception, stackTrace) =>
-          _loginErrorReceived(exception, stackTrace),
+      onError: (exception, stackTrace) => _loginErrorReceived(exception, stackTrace),
     );
     _bloc.managementEvents.listen(
       _managementEventReceived,
-      onError: (exception, stackTrace) =>
-          _managementErrorReceived(exception, stackTrace),
+      onError: (exception, stackTrace) => _managementErrorReceived(exception, stackTrace),
     );
   }
 
@@ -101,18 +99,18 @@ class LoginPageState extends ConsumerState<LoginPage> {
   Widget build(BuildContext context) {
     return Material(
       child: Container(
-        decoration: const BoxDecoration(color: DanteColors.accent),
+        decoration: BoxDecoration(color: Theme.of(context).colorScheme.surfaceVariant),
         child: Center(
           child: _isLoading
-              ? const CircularProgressIndicator(
-                  color: DanteColors.background,
+              ? CircularProgressIndicator(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                 )
               : Container(
                   width: MediaQuery.of(context).size.width * 0.6,
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16.0),
-                    color: DanteColors.background,
+                    color: Theme.of(context).colorScheme.surface,
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -126,26 +124,29 @@ class LoginPageState extends ConsumerState<LoginPage> {
                       const SizedBox(height: 16),
                       Text(
                         AppLocalizations.of(context)!.welcome_back,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
                       ),
                       const SizedBox(height: 12),
                       Text(
                         AppLocalizations.of(context)!.login_with_account,
                         textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 12),
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
                       ),
                       const SizedBox(height: 24),
                       DanteComponents.outlinedButton(
                         onPressed: () => _bloc.loginWithGoogle(),
                         child: Row(
                           children: [
-                            const Icon(
-                              Icons.g_mobiledata,
-                              color: Colors.red,
+                            CachedNetworkImage(
+                              imageUrl: 'https://static-00.iconduck.com/assets.00/google-icon-2048x2048-czn3g8x8.png',
+                              height: 24,
+                              width: 24,
                             ),
+                            const SizedBox(width: 4),
                             Expanded(
                               child: Text(
                                 AppLocalizations.of(context)!.login_with_google,
@@ -162,36 +163,42 @@ class LoginPageState extends ConsumerState<LoginPage> {
                         onPressed: () => _openLoginBottomSheet(),
                         child: Row(
                           children: [
-                            const Icon(Icons.mail_outline),
+                            Icon(
+                              Icons.mail_outline,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
                             Expanded(
                               child: Text(
                                 AppLocalizations.of(context)!.login_with_email,
                                 textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
                               ),
                             ),
                           ],
                         ),
                       ),
                       const SizedBox(height: 16),
-                      const Divider(
+                      Divider(
                         height: 2,
-                        color: DanteColors.accent,
+                        color: Theme.of(context).dividerColor,
                       ),
                       const SizedBox(height: 16),
                       DanteComponents.outlinedButton(
                         onPressed: () => _buildAnonymousLoginDialog(),
                         child: Row(
                           children: [
-                            const Icon(
+                            Icon(
                               Icons.no_accounts_outlined,
-                              color: DanteColors.textPrimary,
+                              color: Theme.of(context).colorScheme.secondary,
                             ),
                             Expanded(
                               child: Text(
                                 AppLocalizations.of(context)!.stay_anonymous,
                                 textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  color: DanteColors.textPrimary,
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.secondary,
                                 ),
                               ),
                             ),

@@ -4,7 +4,6 @@ import 'package:dantex/src/providers/bloc.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/handle.dart';
 import 'package:dantex/src/ui/core/platform_components.dart';
-import 'package:dantex/src/util/dante_colors.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +48,6 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
     return SafeArea(
       child: Container(
         height: 300,
-        color: DanteColors.background,
         child: Center(
           child: Column(
             children: <Widget>[
@@ -61,6 +59,7 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
               SizedBox(
                 width: 360,
                 child: DanteComponents.textField(
+                  context,
                   _emailController,
                   enabled: _phase == LoginPhase.email,
                   textInputType: TextInputType.emailAddress,
@@ -82,6 +81,7 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
                         key: ValueKey(_phase),
                         padding: const EdgeInsets.symmetric(vertical: 8),
                         child: DanteComponents.textField(
+                          context,
                           _passwordController,
                           obscureText: true,
                           hint: AppLocalizations.of(context)!.password,
@@ -300,7 +300,6 @@ class BottomSheetTitle extends StatelessWidget {
               : AppLocalizations.of(context)!.password,
           key: ValueKey(phase),
           style: const TextStyle(
-            color: DanteColors.textPrimary,
             fontWeight: FontWeight.w400,
             fontSize: 20,
           ),

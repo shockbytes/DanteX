@@ -10,7 +10,6 @@ import 'package:dantex/src/ui/core/themed_app_bar.dart';
 import 'package:dantex/src/ui/login/email_bottom_sheet.dart';
 import 'package:dantex/src/ui/profile/change_password_bottom_sheet.dart';
 import 'package:dantex/src/ui/profile/profile_row_item.dart';
-import 'package:dantex/src/util/dante_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -117,13 +116,11 @@ class ProfilePageSate extends ConsumerState<ProfilePage> {
           onTap: () => Navigator.of(context).pop(),
           child: const Icon(
             Icons.arrow_back,
-            color: DanteColors.textPrimary,
           ),
         ),
         title: Text(
           AppLocalizations.of(context)!.profile,
           style: const TextStyle(
-            color: DanteColors.textPrimary,
             fontWeight: FontWeight.w400,
           ),
         ),

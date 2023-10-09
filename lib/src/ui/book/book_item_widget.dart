@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dantex/src/data/book/entity/book.dart';
 import 'package:dantex/src/data/book/entity/book_label.dart';
 import 'package:dantex/src/data/book/entity/book_state.dart';
-import 'package:dantex/src/util/dante_colors.dart';
 import 'package:dantex/src/util/extensions.dart';
 import 'package:dantex/src/util/utils.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +18,7 @@ class BookItemWidget extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
         border: Border.all(
-          color: DanteColors.textSecondary,
+          color: Theme.of(context).colorScheme.outline,
           width: .2,
         ),
         borderRadius: BorderRadius.circular(12.0),
@@ -43,29 +42,23 @@ class BookItemWidget extends StatelessWidget {
                   children: [
                     Text(
                       _book.title,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w900,
-                        fontSize: 14,
-                        color: DanteColors.textPrimary,
-                      ),
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
                     ),
                     const SizedBox(height: 8),
                     Text(
                       _book.subTitle,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12,
-                        color: DanteColors.textSecondary,
-                      ),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: Theme.of(context).colorScheme.onSurfaceVariant,
+                          ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       _book.author,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12,
-                        color: DanteColors.textSecondary,
-                      ),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: Theme.of(context).colorScheme.onSurfaceVariant,
+                          ),
                     ),
                   ],
                 ),
@@ -81,9 +74,13 @@ class BookItemWidget extends StatelessWidget {
                     icon: const Icon(Icons.more_horiz),
                   ),
                   if (_book.state == BookState.READING)
-                    _buildProgressCircle(_book.currentPage, _book.pageCount)
+                    _buildProgressCircle(
+                      context,
+                      currentPage: _book.currentPage,
+                      pageCount: _book.pageCount,
+                    ),
                 ],
-              )
+              ),
             ],
           ),
           const SizedBox(height: 8),
@@ -119,7 +116,11 @@ class BookItemWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildProgressCircle(int currentPage, int pageCount) {
+  Widget _buildProgressCircle(
+    BuildContext context, {
+    required int currentPage,
+    required int pageCount,
+  }) {
     double percentage = computePercentage(currentPage, pageCount);
 
     return CircularPercentIndicator(
@@ -128,10 +129,12 @@ class BookItemWidget extends StatelessWidget {
       percent: percentage,
       center: Text(
         doublePercentageToString(percentage),
-        style: const TextStyle(color: DanteColors.textPrimary, fontSize: 11),
+        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
       ),
-      backgroundColor: DanteColors.backgroundSearch,
-      progressColor: DanteColors.accent,
+      backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+      progressColor: Theme.of(context).colorScheme.onSecondaryContainer,
     );
   }
 }

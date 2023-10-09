@@ -1,10 +1,8 @@
-import 'package:dantex/src/util/dante_colors.dart';
 import 'package:flutter/material.dart';
 
 class ThemedAppBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget>? actions;
   final bool automaticallyImplyLeading;
-  final Color? backgroundColor;
   final Widget? leading;
   final Widget? title;
   final ShapeBorder? border;
@@ -15,7 +13,6 @@ class ThemedAppBar extends StatelessWidget implements PreferredSizeWidget {
     Key? key,
     this.actions,
     this.automaticallyImplyLeading = true,
-    this.backgroundColor = DanteColors.background,
     this.leading,
     this.title,
     this.border,
@@ -31,7 +28,7 @@ class ThemedAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       actions: actions,
       automaticallyImplyLeading: automaticallyImplyLeading,
-      backgroundColor: backgroundColor ?? DanteColors.background,
+      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       centerTitle: true,
       elevation: elevation,
       leading: leading,

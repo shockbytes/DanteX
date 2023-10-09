@@ -1,17 +1,20 @@
-import 'package:dantex/src/util/dante_colors.dart';
 import 'package:flutter/material.dart';
 
 class DanteComponents {
   DanteComponents._();
 
-  static Divider divider({Color color = DanteColors.grey, double width = 2.0}) {
+  static Divider divider(
+    BuildContext context, {
+    double width = 0.5,
+  }) {
     return Divider(
       thickness: width,
-      color: color,
+      color: Theme.of(context).dividerColor.withOpacity(0.5),
     );
   }
 
   static TextField textField(
+    BuildContext context,
     TextEditingController controller, {
     bool obscureText = false,
     TextInputAction textInputAction = TextInputAction.next,
@@ -32,7 +35,7 @@ class DanteComponents {
       enabled: enabled,
       controller: controller,
       obscureText: obscureText,
-      cursorColor: DanteColors.accent,
+      cursorColor: Theme.of(context).colorScheme.primary,
       cursorWidth: 2,
       keyboardType: textInputType,
       textInputAction: textInputAction,
@@ -42,46 +45,46 @@ class DanteComponents {
         errorText: errorText,
         hintText: hint,
         suffixIcon: suffixIcon,
-        errorStyle: const TextStyle(
-          color: DanteColors.textError,
+        errorStyle: TextStyle(
+          color: Theme.of(context).colorScheme.error,
           fontWeight: FontWeight.w400,
         ),
         hintStyle: TextStyle(
-          color: DanteColors.textPrimary.withOpacity(0.5),
+          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
           fontWeight: FontWeight.w400,
         ),
-        enabledBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: const BorderRadius.all(Radius.circular(5.0)),
           borderSide: BorderSide(
-            color: DanteColors.accent,
+            color: Theme.of(context).colorScheme.secondary,
             width: 2,
           ),
         ),
-        errorBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+        errorBorder: OutlineInputBorder(
+          borderRadius: const BorderRadius.all(Radius.circular(4.0)),
           borderSide: BorderSide(
-            color: DanteColors.textError,
+            color: Theme.of(context).colorScheme.error,
             width: 2,
           ),
         ),
-        focusedErrorBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: const BorderRadius.all(Radius.circular(4.0)),
           borderSide: BorderSide(
-            color: DanteColors.textError,
+            color: Theme.of(context).colorScheme.error,
             width: 2,
           ),
         ),
-        disabledBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+        disabledBorder: OutlineInputBorder(
+          borderRadius: const BorderRadius.all(Radius.circular(4.0)),
           borderSide: BorderSide(
-            color: DanteColors.grey,
+            color: Theme.of(context).colorScheme.outline,
             width: 2,
           ),
         ),
-        focusedBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: const BorderRadius.all(Radius.circular(4.0)),
           borderSide: BorderSide(
-            color: DanteColors.accent,
+            color: Theme.of(context).colorScheme.secondary,
             width: 2,
           ),
         ),
