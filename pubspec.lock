@@ -81,6 +81,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.1"
+  build_cli_annotations:
+    dependency: transitive
+    description:
+      name: build_cli_annotations
+      sha256: b59d2769769efd6c9ff6d4c4cede0be115a566afc591705c2040b707534b1172
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
   build_config:
     dependency: transitive
     description:
@@ -161,6 +169,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  cancellation_token:
+    dependency: transitive
+    description:
+      name: cancellation_token
+      sha256: ad95acf9d4b2f3563e25dc937f63587e46a70ce534e910b65d10e115490f1027
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   characters:
     dependency: transitive
     description:
@@ -805,6 +821,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.0"
+  objectid:
+    dependency: transitive
+    description:
+      name: objectid
+      sha256: fd4a0b9fe07df25c446948b786e7ab2f363b2f461afa78632cab179d7613b9b3
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   octo_image:
     dependency: transitive
     description:
@@ -981,6 +1005,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.1"
+  realm:
+    dependency: "direct main"
+    description:
+      name: realm
+      sha256: "8f15e65cd17e5d9dab34e08dbfcd0ae57c48ac3a78ded1eebc0eabd6010157a6"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.5.0"
+  realm_common:
+    dependency: transitive
+    description:
+      name: realm_common
+      sha256: "19e368e3e56b033b112472debfcbb276caec25b5ee597ee77bec5138f1f8ac44"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.5.0"
+  realm_generator:
+    dependency: transitive
+    description:
+      name: realm_generator
+      sha256: c22e20208a4e4accdc23262f57478eff92d68788e45e863eddda4fe1a6b825d3
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.5.0"
   riverpod:
     dependency: transitive
     description:
@@ -1021,6 +1069,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.27.7"
+  sane_uuid:
+    dependency: transitive
+    description:
+      name: sane_uuid
+      sha256: "5e83f796a7d19d38d3ba3a940642998fdd8c4a4049be135ed25404e37f76a18c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0-alpha.5"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -1178,6 +1234,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.0"
+  tar:
+    dependency: transitive
+    description:
+      name: tar
+      sha256: "7196d37d26fcf4d523cd0d086b463b66550bae0c29777bf398006827d5e5d453"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   term_glyph:
     dependency: transitive
     description:
