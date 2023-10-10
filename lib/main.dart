@@ -100,6 +100,7 @@ enum DanteRoute {
     navigationUrl: '/profile',
   );
 
+  /// Url used for registering the route in the [_router] field.
   final String url;
   /// Used for navigating to another screen, when calling context.go()
   final String navigationUrl;
