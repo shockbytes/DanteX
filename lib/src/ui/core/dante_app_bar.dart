@@ -6,7 +6,6 @@ import 'package:dantex/src/bloc/auth/logout_event.dart';
 import 'package:dantex/src/data/authentication/entity/dante_user.dart';
 import 'package:dantex/src/providers/bloc.dart';
 import 'package:dantex/src/ui/add/add_book_widget.dart';
-import 'package:dantex/src/ui/add/scan_book_page.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/dante_search_bar.dart';
 import 'package:dantex/src/ui/core/platform_components.dart';
@@ -126,8 +125,7 @@ class DanteAppBarState extends ConsumerState<DanteAppBar> {
   _handleAddBookAction(BuildContext context, AddBookAction action) async {
     switch (action) {
       case AddBookAction.scan:
-        // TODO Replace with go_router
-        Navigator.of(context).push(MaterialPageRoute(builder: (builder) => const ScanBookPage()));
+        context.go(DanteRoute.scanBook.navigationUrl);
         break;
       case AddBookAction.query:
         await _handleQueryAction(context, action);
