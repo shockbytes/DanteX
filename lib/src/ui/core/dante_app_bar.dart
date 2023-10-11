@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dantex/main.dart';
 import 'package:dantex/src/bloc/auth/auth_bloc.dart';
 import 'package:dantex/src/bloc/auth/logout_event.dart';
 import 'package:dantex/src/data/authentication/entity/dante_user.dart';
@@ -8,12 +9,10 @@ import 'package:dantex/src/ui/add/add_book_sheet.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/dante_search_bar.dart';
 import 'package:dantex/src/ui/core/platform_components.dart';
-import 'package:dantex/src/ui/login/login_page.dart';
-import 'package:dantex/src/ui/profile/profile_page.dart';
-import 'package:dantex/src/ui/settings/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 enum AddBookAction { scan, query, manual }
 
@@ -57,13 +56,7 @@ class DanteAppBarState extends ConsumerState<DanteAppBar> {
 
   void _logoutEventReceived(LogoutEvent event) {
     if (event == LogoutEvent.logout) {
-      // Navigate to login and remove everything from navigation stack.
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-          builder: (context) => const LoginPage(),
-        ),
-        (route) => false,
-      );
+      context.pushReplacement(DanteRoute.login.navigationUrl);
     }
   }
 
@@ -231,13 +224,7 @@ class DanteAppBarState extends ConsumerState<DanteAppBar> {
                   _MenuItem(
                     text: 'Settings',
                     icon: Icons.settings_outlined,
-                    onItemClicked: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => const SettingsPage(),
-                        ),
-                      );
-                    },
+                    onItemClicked: () => context.go(DanteRoute.settings.navigationUrl),
                   ),
                 ],
               ),
@@ -253,13 +240,7 @@ class DanteAppBarState extends ConsumerState<DanteAppBar> {
     return Row(
       children: [
         IconButton(
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => const ProfilePage(),
-              ),
-            );
-          },
+          onPressed: () => context.go(DanteRoute.profile.navigationUrl),
           icon: _getUserAvatar(),
         ),
         const SizedBox(width: 4),

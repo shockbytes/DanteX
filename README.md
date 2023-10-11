@@ -67,6 +67,16 @@ The dependency injector first spins up the network communication modules by runn
 are initiated afterwards. Lastly, the `BlocInjector` is run at last, as the `blocs` are the top-layer
 components, built on the other components.
 
+### Navigation
+
+The [go_router](https://pub.dev/packages/go_router) package is used for navigation. The navigation
+needs to support navigation patterns on Android, iOS and Web. Due to the later, `go_router` is a
+perfect candidate for navigation.
+
+The navigation routes are encapsulated in the enum `DanteRoute` class. The main reason for doing 
+this, is that all routes are defined in one place. The risk of using wrong routes with 
+corresponding 404 errors are mitigated.
+
 ### Developer Setup
 
 Android Studio is the recommended IDE for every OS, although it is not mandatory to use it.
