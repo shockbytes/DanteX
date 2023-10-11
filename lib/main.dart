@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dantex/firebase_options.dart';
 import 'package:dantex/src/providers/authentication.dart';
+import 'package:dantex/src/ui/add/scan_book_page.dart';
 import 'package:dantex/src/ui/boot_page.dart';
 import 'package:dantex/src/ui/login/login_page.dart';
 import 'package:dantex/src/ui/main/main_page.dart';
@@ -91,6 +92,10 @@ enum DanteRoute {
     url: '/',
     navigationUrl: '/',
   ),
+  scanBook(
+    url: '/scan',
+    navigationUrl: '/scan'
+  ),
   settings(
     url: 'settings',
     navigationUrl: '/settings',
@@ -133,6 +138,10 @@ final GoRouter _router = GoRouter(
         GoRoute(
           path: DanteRoute.profile.url,
           builder: (BuildContext context, GoRouterState state) => const ProfilePage(),
+        ),
+        GoRoute(
+          path: DanteRoute.scanBook.url,
+          builder: (BuildContext context, GoRouterState state) => const ScanBookPage(),
         ),
       ],
     ),
