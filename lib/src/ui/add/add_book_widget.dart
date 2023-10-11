@@ -1,11 +1,12 @@
 import 'dart:async';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dantex/src/bloc/add/add_book_bloc.dart';
 import 'package:dantex/src/data/book/entity/book.dart';
 import 'package:dantex/src/data/bookdownload/entity/book_suggestion.dart';
 import 'package:dantex/src/providers/bloc.dart';
+import 'package:dantex/src/ui/book/book_image.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
+import 'package:dantex/src/ui/core/dante_loading_indicator.dart';
 import 'package:dantex/src/ui/core/generic_error_widget.dart';
 import 'package:dantex/src/ui/core/handle.dart';
 import 'package:flutter/material.dart';
@@ -90,7 +91,7 @@ class _AddBookSheetState extends ConsumerState<AddBookWidget> {
             } else if (snapshot.hasError) {
               child = GenericErrorWidget(snapshot.error);
             } else {
-              child = _buildLoadingWidget();
+              child = const DanteLoadingIndicator();
             }
 
             return switch (widget.appearance) {
@@ -115,7 +116,10 @@ class _AddBookSheetState extends ConsumerState<AddBookWidget> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         if (appearance == AddBookWidgetAppearance.fullScreen) const SizedBox(height: 16),
-        _buildImage(bookSuggestion.target, appearance),
+        BookImage(
+          bookSuggestion.target.thumbnailAddress,
+          size: appearance.imageSize,
+        ),
         Column(
           children: [
             Padding(
@@ -187,26 +191,6 @@ class _AddBookSheetState extends ConsumerState<AddBookWidget> {
         ),
       ],
     );
-  }
-
-  Widget _buildLoadingWidget() {
-    return const Center(
-      child: CircularProgressIndicator.adaptive(),
-    );
-  }
-
-  Widget _buildImage(Book target, AddBookWidgetAppearance appearance) {
-    if (target.thumbnailAddress != null) {
-      return CachedNetworkImage(
-        imageUrl: target.thumbnailAddress!,
-        height: appearance.imageSize,
-      );
-    } else {
-      return Icon(
-        Icons.image,
-        size: appearance.imageSize,
-      );
-    }
   }
 }
 
