@@ -1,24 +1,24 @@
 import 'package:dantex/src/bloc/search_bloc.dart';
-import 'package:dantex/src/data/book/firebase_book_repository.dart';
+import 'package:dantex/src/providers/repository.dart';
+import 'package:dantex/src/providers/service.dart';
 import 'package:dantex/src/ui/core/generic_error_widget.dart';
 import 'package:dantex/src/ui/search/interactive_dante_search_bar.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SearchPage extends StatelessWidget {
-  // TODO Use riverpod instead
-  final SearchBloc _bloc = SearchBloc(
-    FirebaseBookRepository(
-      FirebaseAuth.instance,
-      FirebaseDatabase.instance,
-    ),
-  );
+class SearchPage extends ConsumerWidget{
 
-  SearchPage({super.key});
+  const SearchPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+
+    // TODO Fully inject bloc here
+    final SearchBloc bloc = SearchBloc(
+      ref.read(bookRepositoryProvider),
+      ref.read(bookDownloaderProvider),
+    );
+    
     return Scaffold(
       appBar: AppBar(
         title: Text('Search your library'), // TODO Translate
@@ -27,11 +27,14 @@ class SearchPage extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            InteractiveDanteSearchBar(onQueryChanged: _bloc.onQueryChanged),
+            InteractiveDanteSearchBar(onQueryChanged: bloc.onQueryChanged),
             Expanded(
               child: StreamBuilder(
-                stream: _bloc.searchResults,
+                stream: bloc.searchResults,
                 builder: (context, snapshot) {
+
+                  // TODO Loading indicator
+
                   if (snapshot.hasData) {
                     List<BookSearchResult> results = snapshot.data!;
 
@@ -41,7 +44,7 @@ class SearchPage extends StatelessWidget {
                         children: [
                           Text('Nothing found, wanna search online?'),
                           FilledButton.tonalIcon(
-                            onPressed: _bloc.performOnlineSearch,
+                            onPressed: bloc.performOnlineSearch,
                             label: Text('Search online'),
                             icon: Icon(Icons.search),
                           ),
@@ -54,11 +57,11 @@ class SearchPage extends StatelessWidget {
                           BookSearchResult result = results[index];
 
                           return switch (result) {
-                            LocalBookSearchResult() => Text(result.book.title),
-                            RemoteBookSearchResult() => Text('Online book'),
+                            LocalBookSearchResult() => Text(result.title), // TODO Build widget
+                            RemoteBookSearchResult() => Text('Online ${result.title}'), // TODO Build widget
                           };
                         },
-                        separatorBuilder: (context, index) => Divider(),
+                        separatorBuilder: (context, index) => const Divider(),
                         itemCount: results.length,
                       );
                     }
@@ -77,9 +80,5 @@ class SearchPage extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Stream<List<BookSearchResult>> stream() {
-    return Stream.value([]);
   }
 }

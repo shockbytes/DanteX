@@ -24,9 +24,12 @@ class InteractiveDanteSearchBar extends StatelessWidget {
           }
         },
         decoration: InputDecoration(
-          icon: Icon(
-            Icons.search_outlined,
-            color: Theme.of(context).colorScheme.onTertiaryContainer,
+          icon: Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Icon(
+              Icons.search_outlined,
+              color: Theme.of(context).colorScheme.onTertiaryContainer,
+            ),
           ),
           hintText: 'Search', // TODO Translate
           border: InputBorder.none,
