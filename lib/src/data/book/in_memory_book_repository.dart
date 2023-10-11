@@ -3,6 +3,7 @@ import 'package:dantex/src/data/book/book_repository.dart';
 import 'package:dantex/src/data/book/entity/book.dart';
 import 'package:dantex/src/data/book/entity/book_label.dart';
 import 'package:dantex/src/data/book/entity/book_state.dart';
+import 'package:dantex/src/data/book/search_criteria.dart';
 import 'package:rxdart/rxdart.dart';
 
 @Deprecated('Only use for certain debug cases!')

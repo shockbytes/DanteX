@@ -6,7 +6,7 @@ import 'package:dantex/src/providers/app_router.dart';
 import 'package:dantex/src/providers/authentication.dart';
 import 'package:dantex/src/ui/add/add_book_widget.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
-import 'package:dantex/src/ui/core/dante_search_bar.dart';
+import 'package:dantex/src/ui/search/dante_search_bar.dart';
 import 'package:dantex/src/ui/core/platform_components.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
