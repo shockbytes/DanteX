@@ -93,8 +93,8 @@ enum DanteRoute {
     navigationUrl: '/',
   ),
   scanBook(
-    url: '/scan',
-    navigationUrl: '/scan'
+    url: 'scan',
+    navigationUrl: '/scan',
   ),
   settings(
     url: 'settings',
