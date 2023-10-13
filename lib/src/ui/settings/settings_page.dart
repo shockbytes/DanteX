@@ -19,84 +19,84 @@ class SettingsPage extends StatelessWidget {
       body: SettingsList(
         sections: [
           SettingsSection(
-            title: Text('Appearance'),
+            title: Text(AppLocalizations.of(context)!.settings_appearance_title),
             tiles: [
               SettingsTile(
-                title: Text('Theme'),
-                value: Text('System'),
-                leading: Icon(Icons.dark_mode_outlined),
+                title: Text(AppLocalizations.of(context)!.settings_appearance_theme),
+                value: Text(AppLocalizations.of(context)!.settings_appearance_theme_system),
+                leading: const Icon(Icons.dark_mode_outlined),
               ),
             ],
           ),
           SettingsSection(
-            title: Text('Books'),
+            title: Text(AppLocalizations.of(context)!.settings_books_title),
             tiles: [
               SettingsTile(
-                title: Text('Sort books'),
-                value: Text('Standard'),
-                leading: Icon(Icons.sort),
+                title: Text(AppLocalizations.of(context)!.settings_books_sort),
+                value: Text(AppLocalizations.of(context)!.settings_books_sort_standard),
+                leading: const Icon(Icons.sort),
               ),
               SettingsTile.switchTile(
                 initialValue: true,
                 activeSwitchColor: Theme.of(context).colorScheme.primary,
                 onToggle: (bool newVal) {},
-                title: Text('Random book'),
-                leading: Icon(Icons.play_circle_filled_outlined),
+                title: Text(AppLocalizations.of(context)!.settings_books_random_book),
+                leading: const Icon(Icons.play_circle_filled_outlined),
               ),
             ],
           ),
           SettingsSection(
-            title: Text('Data Privacy'),
+            title: Text(AppLocalizations.of(context)!.settings_contribute_title),
             tiles: [
               SettingsTile(
-                title: Text('Code'),
-                leading: Icon(Icons.code),
+                title: Text(AppLocalizations.of(context)!.settings_contribute_code),
+                leading: const Icon(Icons.code),
               ),
               SettingsTile(
-                title: Text('Community'),
-                leading: Icon(Icons.groups_outlined),
+                title: Text(AppLocalizations.of(context)!.settings_contribute_community),
+                leading: const Icon(Icons.groups_outlined),
               ),
               SettingsTile(
-                title: Text('Feedback'),
-                leading: Icon(Icons.mail_outline),
+                title: Text(AppLocalizations.of(context)!.settings_contribute_feedback),
+                leading: const Icon(Icons.mail_outline),
               ),
             ],
           ),
           SettingsSection(
-            title: Text('Data Privacy'),
+            title: Text(AppLocalizations.of(context)!.settings_data_privacy_title),
             tiles: [
               SettingsTile.switchTile(
                 initialValue: true,
                 activeSwitchColor: Theme.of(context).colorScheme.primary,
                 onToggle: (bool newVal) {},
-                title: Text('tracking'),
-                leading: Icon(Icons.supervised_user_circle_outlined),
+                title: Text(AppLocalizations.of(context)!.settings_data_privacy_tracking),
+                leading: const Icon(Icons.supervised_user_circle_outlined),
               ),
               SettingsTile(
-                title: Text('Data Privacy'),
-                leading: Icon(Icons.privacy_tip_outlined),
+                title: Text(AppLocalizations.of(context)!.settings_data_privacy_data_privacy),
+                leading: const Icon(Icons.privacy_tip_outlined),
               ),
               SettingsTile(
-                title: Text('Terms and Conditions'),
-                leading: Icon(Icons.verified_user_outlined),
+                title: Text(AppLocalizations.of(context)!.settings_data_privacy_terms_and_conditions),
+                leading: const Icon(Icons.verified_user_outlined),
               ),
             ],
           ),
           SettingsSection(
-            title: Text('About'),
+            title: Text(AppLocalizations.of(context)!.settings_about_title),
             tiles: [
               SettingsTile(
-                title: Text('Developer'),
+                title: Text(AppLocalizations.of(context)!.settings_about_developers_title),
                 value: Text(
-                  'Shockbytes Studio\n2016 - 2023',
+                  AppLocalizations.of(context)!.settings_about_developers,
                   textAlign: TextAlign.end,
                 ),
-                leading: Icon(Icons.flash_on),
+                leading: const Icon(Icons.flash_on),
               ),
               SettingsTile(
-                title: Text('App Version'),
-                value: Text('5.0'),
-                leading: Icon(Icons.info_outline),
+                title: Text(AppLocalizations.of(context)!.version),
+                value: Text(AppLocalizations.of(context)!.version_number),
+                leading: const Icon(Icons.info_outline),
               ),
             ],
           ),
