@@ -41,7 +41,6 @@
   "reset_password_text": "A link will be sent to your registered email address with instructions on how to reset your password.",
   "search": "Search",
   "settings": "Settings",
-
   "settings_appearance_title": "Appearance",
   "settings_appearance_theme": "Theme",
   "settings_appearance_theme_dark": "Dark",
@@ -65,7 +64,7 @@
   "settings_data_privacy_terms_and_conditions": "Terms and Condictions",
   "settings_about_title": "About",
   "settings_about_developers_title": "Developer",
-  "settings_about_developers": "Shockbytes Studio\n2016-2023",
+  "settings_about_developers": "Shockbytes Studio 2016-2023",
   "sign_in": "Sign in",
   "sign_up_with_mail": "Sign up with email",
   "stay_anonymous": "Stay Anonymous",
