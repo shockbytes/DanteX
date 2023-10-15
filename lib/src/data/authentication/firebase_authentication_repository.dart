@@ -9,8 +9,26 @@ class FirebaseAuthenticationRepository implements AuthenticationRepository {
   FirebaseAuthenticationRepository(this._fbAuth);
 
   @override
+  Stream<DanteUser?> get authStateChanges =>
+      _fbAuth.authStateChanges().asyncMap((fbUser) async {
+        if (fbUser == null) {
+          return null;
+        }
+
+        return DanteUser(
+          givenName: fbUser.displayName,
+          displayName: fbUser.displayName,
+          email: fbUser.email,
+          photoUrl: fbUser.photoURL,
+          authToken: await fbUser.getIdToken(),
+          userId: fbUser.uid,
+          source: _retrieveAuthenticationSource(fbUser),
+        );
+      });
+
+  @override
   Future<DanteUser?> getAccount() async {
-    var fbUser = _fbAuth.currentUser;
+    final fbUser = _fbAuth.currentUser;
 
     if (fbUser == null) {
       return null;
@@ -21,7 +39,7 @@ class FirebaseAuthenticationRepository implements AuthenticationRepository {
       displayName: fbUser.displayName,
       email: fbUser.email,
       photoUrl: fbUser.photoURL,
-      authToken: await fbUser.getIdToken(false),
+      authToken: await fbUser.getIdToken(),
       userId: fbUser.uid,
       source: _retrieveAuthenticationSource(fbUser),
     );

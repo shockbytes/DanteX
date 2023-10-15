@@ -4,6 +4,7 @@ import 'package:dantex/firebase_options.dart';
 import 'package:dantex/src/providers/authentication.dart';
 import 'package:dantex/src/ui/add/scan_book_page.dart';
 import 'package:dantex/src/ui/boot_page.dart';
+import 'package:dantex/src/ui/login/email_login_page.dart';
 import 'package:dantex/src/ui/login/login_page.dart';
 import 'package:dantex/src/ui/main/main_page.dart';
 import 'package:dantex/src/ui/profile/profile_page.dart';
@@ -18,7 +19,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
-  runZonedGuarded(
+  await runZonedGuarded(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
 
@@ -61,7 +62,6 @@ class DanteXApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      themeMode: ThemeMode.system,
       theme: ThemeData(
         colorSchemeSeed: Colors.white,
         brightness: Brightness.light,
@@ -76,7 +76,6 @@ class DanteXApp extends ConsumerWidget {
       ),
     );
   }
-
 }
 
 enum DanteRoute {
@@ -87,6 +86,10 @@ enum DanteRoute {
   login(
     url: '/login',
     navigationUrl: '/login',
+  ),
+  emailLogin(
+    url: 'email',
+    navigationUrl: '/login/email',
   ),
   dashboard(
     url: '/',
@@ -107,6 +110,7 @@ enum DanteRoute {
 
   /// Url used for registering the route in the [_router] field.
   final String url;
+
   /// Used for navigating to another screen, when calling context.go()
   final String navigationUrl;
 
@@ -126,6 +130,13 @@ final GoRouter _router = GoRouter(
     GoRoute(
       path: DanteRoute.login.url,
       builder: (BuildContext context, GoRouterState state) => const LoginPage(),
+      routes: [
+        GoRoute(
+          path: DanteRoute.emailLogin.url,
+          builder: (BuildContext context, GoRouterState state) =>
+              const EmailLoginPage(),
+        ),
+      ],
     ),
     GoRoute(
       path: DanteRoute.dashboard.url,
@@ -133,15 +144,18 @@ final GoRouter _router = GoRouter(
       routes: [
         GoRoute(
           path: DanteRoute.settings.url,
-          builder: (BuildContext context, GoRouterState state) => const SettingsPage(),
+          builder: (BuildContext context, GoRouterState state) =>
+              const SettingsPage(),
         ),
         GoRoute(
           path: DanteRoute.profile.url,
-          builder: (BuildContext context, GoRouterState state) => const ProfilePage(),
+          builder: (BuildContext context, GoRouterState state) =>
+              const ProfilePage(),
         ),
         GoRoute(
           path: DanteRoute.scanBook.url,
-          builder: (BuildContext context, GoRouterState state) => const ScanBookPage(),
+          builder: (BuildContext context, GoRouterState state) =>
+              const ScanBookPage(),
         ),
       ],
     ),

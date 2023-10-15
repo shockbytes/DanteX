@@ -1,9 +1,9 @@
-import 'package:dantex/src/bloc/auth/auth_bloc.dart';
 import 'package:dantex/src/data/authentication/entity/dante_user.dart';
-import 'package:dantex/src/providers/bloc.dart';
+import 'package:dantex/src/providers/authentication.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/handle.dart';
 import 'package:dantex/src/ui/core/platform_components.dart';
+import 'package:dantex/src/ui/main/main_page.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -11,17 +11,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class EmailBottomSheet extends ConsumerStatefulWidget {
-  final bool allowExistingEmails;
-  final void Function({
-    required String email,
-    required String password,
-  }) unknownEmailAction;
-
-  const EmailBottomSheet({
-    Key? key,
-    required this.unknownEmailAction,
-    required this.allowExistingEmails,
-  }) : super(key: key);
+  const EmailBottomSheet({Key? key}) : super(key: key);
 
   @override
   createState() => EmailBottomSheetState();
@@ -35,18 +25,11 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
 
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  late AuthBloc _bloc;
-
-  @override
-  void initState() {
-    super.initState();
-    _bloc = ref.read(authBlocProvider);
-  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Container(
+      child: SizedBox(
         height: 300,
         child: Center(
           child: Column(
@@ -65,8 +48,8 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
                   textInputType: TextInputType.emailAddress,
                   hint: AppLocalizations.of(context)!.email,
                   errorText: _emailErrorMessage,
-                  onChanged: (val) {
-                    _validateEmail(val);
+                  onChanged: (val) async {
+                    await _validateEmail(val);
                   },
                 ),
               ),
@@ -93,18 +76,6 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
                           },
                         ),
                       ),
-                      Visibility(
-                        visible: _phase == LoginPhase.passwordExistingUser,
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).pop();
-                            _buildForgotPasswordDialog();
-                          },
-                          child: Text(
-                            AppLocalizations.of(context)!.forgot_password,
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                 ),
@@ -128,8 +99,6 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
   String _getButtonText() {
     if (_phase == LoginPhase.email) {
       return AppLocalizations.of(context)!.cont;
-    } else if (_phase == LoginPhase.passwordExistingUser) {
-      return AppLocalizations.of(context)!.sign_in;
     } else {
       return AppLocalizations.of(context)!.sign_up_with_mail;
     }
@@ -142,18 +111,14 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
           _emailErrorMessage = null;
         });
         return () async {
-          final signInMethod = await _bloc.fetchSignInMethodsForEmail(
-            email: _emailController.text,
-          );
+          final signInMethod = await ref
+              .read(authenticationRepositoryProvider)
+              .fetchSignInMethodsForEmail(email: _emailController.text);
           if (listEquals(signInMethod, [AuthenticationSource.google])) {
             if (mounted) {
               Navigator.of(context).pop();
             }
-            _buildGoogleAccountDialog();
-          } else if (listEquals(signInMethod, [AuthenticationSource.mail])) {
-            setState(() {
-              _phase = LoginPhase.passwordExistingUser;
-            });
+            await _buildGoogleAccountDialog();
           } else {
             setState(() {
               _phase = LoginPhase.passwordNewUser;
@@ -161,30 +126,51 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
           }
         };
       }
-    } else if (_phase == LoginPhase.passwordExistingUser) {
-      return () {
-        Navigator.of(context).pop();
-        _bloc.loginWithEmail(
-          email: _emailController.text,
-          password: _passwordController.text,
-        );
-      };
     } else {
       if (_isValidPassword()) {
-        return () {
-          Navigator.of(context).pop();
-          widget.unknownEmailAction(
-            email: _emailController.text,
-            password: _passwordController.text,
-          );
+        return () async {
+          try {
+            await ref
+                .read(authenticationRepositoryProvider)
+                .upgradeAnonymousAccount(
+                  email: _emailController.text,
+                  password: _passwordController.text,
+                );
+            if (mounted) {
+              Navigator.of(context).pop();
+              await Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const MainPage(),
+                ),
+              );
+            }
+          } on Exception catch (exception, stackTrace) {
+            _upgradeUserException(exception, stackTrace);
+          }
         };
       }
     }
     return null;
   }
 
-  void _buildForgotPasswordDialog() {
-    PlatformComponents.showPlatformDialog(
+  void _upgradeUserException(Exception exception, StackTrace stackTrace) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          AppLocalizations.of(context)!.upgrade_failed,
+        ),
+      ),
+    );
+  }
+
+  void _loginErrorReceived(Exception exception, StackTrace stackTrace) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(AppLocalizations.of(context)!.login_failed)),
+    );
+  }
+
+  Future<void> _buildForgotPasswordDialog() async {
+    return PlatformComponents.showPlatformDialog(
       context,
       title: AppLocalizations.of(context)!.reset_password,
       content: AppLocalizations.of(context)!.reset_password_text,
@@ -197,19 +183,20 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
           isPrimary: false,
         ),
         PlatformDialogAction(
-          action: (_) {
+          action: (_) async {
             Navigator.of(context).pop();
-            _bloc.sendPasswordResetRequest(email: _emailController.text);
+            await ref
+                .read(authenticationRepositoryProvider)
+                .sendPasswordResetRequest(email: _emailController.text);
           },
           name: 'Reset',
-          isPrimary: true,
         ),
       ],
     );
   }
 
-  void _buildGoogleAccountDialog() {
-    PlatformComponents.showPlatformDialog(
+  Future<void> _buildGoogleAccountDialog() async {
+    return PlatformComponents.showPlatformDialog(
       context,
       title: AppLocalizations.of(context)!.email_in_use_title,
       leading: const Icon(
@@ -234,7 +221,7 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
     return _emailErrorMessage == null && _emailController.text != '';
   }
 
-  void _validateEmail(String val) async {
+  Future<void> _validateEmail(String val) async {
     if (val.isEmpty) {
       setState(() {
         _emailErrorMessage = AppLocalizations.of(context)!.email_empty;
@@ -243,19 +230,19 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
       setState(() {
         _emailErrorMessage = AppLocalizations.of(context)!.email_invalid;
       });
-    } else if (!widget.allowExistingEmails) {
-      final signInMethod = await _bloc.fetchSignInMethodsForEmail(
-        email: _emailController.text,
-      );
+    } else {
+      final signInMethod = await ref
+          .read(authenticationRepositoryProvider)
+          .fetchSignInMethodsForEmail(email: _emailController.text);
       if (signInMethod.isNotEmpty) {
         setState(() {
           _emailErrorMessage = AppLocalizations.of(context)!.email_in_use_title;
         });
+      } else {
+        setState(() {
+          _emailErrorMessage = null;
+        });
       }
-    } else {
-      setState(() {
-        _emailErrorMessage = null;
-      });
     }
   }
 
@@ -279,14 +266,13 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
 
 enum LoginPhase {
   email,
-  passwordExistingUser,
   passwordNewUser,
 }
 
 class BottomSheetTitle extends StatelessWidget {
   final LoginPhase phase;
 
-  const BottomSheetTitle({Key? key, required this.phase}) : super(key: key);
+  const BottomSheetTitle({required this.phase, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

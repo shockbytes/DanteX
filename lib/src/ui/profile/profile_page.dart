@@ -1,14 +1,11 @@
 import 'dart:async';
 
-import 'package:dantex/src/bloc/auth/auth_bloc.dart';
-import 'package:dantex/src/bloc/auth/login_event.dart';
-import 'package:dantex/src/bloc/auth/management_event.dart';
 import 'package:dantex/src/data/authentication/entity/dante_user.dart';
-import 'package:dantex/src/providers/bloc.dart';
+import 'package:dantex/src/providers/authentication.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/themed_app_bar.dart';
-import 'package:dantex/src/ui/login/email_bottom_sheet.dart';
 import 'package:dantex/src/ui/profile/change_password_bottom_sheet.dart';
+import 'package:dantex/src/ui/profile/email_bottom_sheet.dart';
 import 'package:dantex/src/ui/profile/profile_row_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -24,95 +21,13 @@ class ProfilePage extends ConsumerStatefulWidget {
 }
 
 class ProfilePageSate extends ConsumerState<ProfilePage> {
-  late StreamSubscription<ManagementEvent> _managementSubscription;
-  late StreamSubscription<LoginEvent> _loginSubscription;
-  late bool _isLoading;
-  late DanteUser? _user;
-  late AuthBloc _bloc;
-
-  @override
-  void initState() {
-    super.initState();
-    _bloc = ref.read(authBlocProvider);
-    _isLoading = false;
-    _managementSubscription = _bloc.managementEvents.listen(
-      _managementEventReceived,
-      onError: (exception, stackTrace) =>
-          _managementErrorReceived(exception, stackTrace),
-    );
-    _loginSubscription = _bloc.loginEvents.listen(
-      _loginEventReceived,
-      onError: (exception, stackTrace) =>
-          _loginErrorReceived(exception, stackTrace),
-    );
-    _getUser();
-  }
-
-  void _getUser() async {
-    final currentUser = await _bloc.getAccount();
-    setState(() {
-      _user = currentUser;
-    });
-  }
-
-  void _managementErrorReceived(Exception exception, StackTrace stackTrace) {
-    setState(() {
-      _isLoading = false;
-    });
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          AppLocalizations.of(context)!.upgrade_failed,
-        ),
-      ),
-    );
-  }
-
-  void _loginErrorReceived(Exception exception, StackTrace stackTrace) {
-    setState(() {
-      _isLoading = false;
-    });
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          AppLocalizations.of(context)!.login_failed,
-        ),
-      ),
-    );
-  }
-
-  void _managementEventReceived(ManagementEvent event) {
-    if (event == ManagementEvent.upgradingAnonymousAccount) {
-      setState(() {
-        _isLoading = true;
-      });
-    }
-  }
-
-  void _loginEventReceived(LoginEvent event) {
-    if (event == LoginEvent.emailLogin) {
-      setState(() {
-        _isLoading = false;
-      });
-      Navigator.of(context).pop();
-    }
-  }
-
-  @override
-  void dispose() {
-    _loginSubscription.cancel();
-    _managementSubscription.cancel();
-    _isLoading = false;
-    super.dispose();
-  }
+  final bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: ThemedAppBar(
         leading: InkWell(
-          enableFeedback: true,
           onTap: () => Navigator.of(context).pop(),
           child: const Icon(
             Icons.arrow_back,
@@ -125,42 +40,56 @@ class ProfilePageSate extends ConsumerState<ProfilePage> {
           ),
         ),
       ),
-      body: _isLoading
-          ? const CircularProgressIndicator()
-          : Column(
-              children: [
-                Visibility(
-                  visible: _user?.source == AuthenticationSource.anonymous,
-                  child: ProfileRowItem(
-                    label: Text(
-                      AppLocalizations.of(context)!.upgrade_account,
-                    ),
-                    button: DanteComponents.outlinedButton(
-                      onPressed: () {
-                        _openUpgradeBottomSheet(context);
-                      },
-                      child: Text(AppLocalizations.of(context)!.upgrade),
-                    ),
+      body: ref.read(userProvider).when(
+        data: (user) {
+          if (_isLoading) {
+            return const CircularProgressIndicator.adaptive();
+          }
+          return Column(
+            children: [
+              Visibility(
+                visible: user?.source == AuthenticationSource.anonymous,
+                child: ProfileRowItem(
+                  label: Text(
+                    AppLocalizations.of(context)!.upgrade_account,
+                  ),
+                  button: DanteComponents.outlinedButton(
+                    onPressed: () async {
+                      await _openUpgradeBottomSheet(context);
+                    },
+                    child: Text(AppLocalizations.of(context)!.upgrade),
                   ),
                 ),
-                ProfileRowItem(
+              ),
+              Visibility(
+                visible: user?.source == AuthenticationSource.mail,
+                child: ProfileRowItem(
                   label: Text(
                     AppLocalizations.of(context)!.change_password,
                   ),
                   button: DanteComponents.outlinedButton(
-                    onPressed: () {
-                      _openChangePasswordBottomSheet(context);
+                    onPressed: () async {
+                      await _openChangePasswordBottomSheet(context);
                     },
                     child: Text(AppLocalizations.of(context)!.change),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
+          );
+        },
+        error: (error, stackTrace) {
+          return const SizedBox.shrink();
+        },
+        loading: () {
+          return const CircularProgressIndicator.adaptive();
+        },
+      ),
     );
   }
 
-  _openUpgradeBottomSheet(BuildContext context) {
-    showModalBottomSheet<void>(
+  Future<void> _openUpgradeBottomSheet(BuildContext context) async {
+    await showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
         return SingleChildScrollView(
@@ -168,18 +97,15 @@ class ProfilePageSate extends ConsumerState<ProfilePage> {
             padding: EdgeInsets.only(
               bottom: MediaQuery.of(context).viewInsets.bottom,
             ),
-            child: EmailBottomSheet(
-              unknownEmailAction: _bloc.upgradeAnonymousAccount,
-              allowExistingEmails: false,
-            ),
+            child: const EmailBottomSheet(),
           ),
         );
       },
     );
   }
 
-  _openChangePasswordBottomSheet(BuildContext context) {
-    showModalBottomSheet<void>(
+  Future<void> _openChangePasswordBottomSheet(BuildContext context) async {
+    await showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
         return SingleChildScrollView(
