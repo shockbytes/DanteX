@@ -29,6 +29,8 @@ class Book with Jsonizable {
   final String? summary;
   final List<BookLabel> labels;
 
+  int get progressPercentage  => ((currentPage / pageCount) * 100).toInt();
+
   Book({
     required this.id,
     required this.title,

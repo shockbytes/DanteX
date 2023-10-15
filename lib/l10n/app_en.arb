@@ -52,6 +52,7 @@
   "settings_books_sort_author": "Author",
   "settings_books_sort_title": "Title",
   "settings_books_sort_progress": "Progress",
+  "settings_books_sort_labels": "Labels",
   "settings_books_sort_pages": "Pages",
   "settings_books_random_book": "Random book suggestion",
   "settings_contribute_title": "Contribute",

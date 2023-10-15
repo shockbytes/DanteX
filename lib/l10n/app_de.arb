@@ -63,6 +63,7 @@
   "settings_books_sort_title": "Title",
   "settings_books_sort_progress": "Lesefortschritt",
   "settings_books_sort_pages": "Seitenanzahl",
+  "settings_books_sort_labels": "Labels",
   "settings_books_random_book": "Zufälliger Buchvorschlag",
   "settings_contribute_title": "Mitwirken",
   "settings_contribute_code": "Code",
