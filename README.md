@@ -34,18 +34,17 @@ in charge of configuring CodeMagic for these channels.
 In general, the project adheres to the dart guidelines. Each class should be defined in a separate
 file. File names are all named lowercase with underscores, like `book_repository.dart`. Interfaces
 are used especially in the data layer, for repositories and network functionality, as this needs
-to be mocked for future tests. The app utilizes the `BLOC` pattern with native Dart streams and
-`Rx` streams. The developers should mainly rely on bloc classes for manipulating view state
+to be mocked for future tests. The app uses Riverpod for dependency injection and reactive state changes. The developers should mainly rely on Riverpod classes for manipulating view state
 (notable exceptions are sole UI components, where a stateful widget is the better solution).
 
-**Developers should always favor `StatelessWidgets` over `StatefulWidgets` when implementing pages!**
+**Developers should always favor `StatelessWidgets`/`ConsumerWidgets` over `StatefulWidgets`/`ConsumerStatefulWidgets` when implementing pages!**
 
 Source code structure:
 
-- bloc
-  - Contains bloc classes for each page
+- providers
+  - Contains the Riverpod code for dependency injection and state management.
 - core
-  - Contains essential classes and functions used throughout the whole app, like dependency injection.
+  - Contains essential classes and functions used throughout the whole app.
 - data
   - Contains repositories and services for storing/loading data for specific modules, like books, statistics, backups, etc...
   - Data directory structure:
@@ -59,13 +58,8 @@ Source code structure:
 
 ### Dependency Injection
 
-Dependencies are injected via the static class `DependencyInjector`, which internally uses the
-library `Get`. The actual library should never be used outside of the `DependencyInjector` module.
-
-The dependency injector first spins up the network communication modules by running the
-`ApiInjector`, followed by the `ServiceInjector`. Repositories build on top of those components
-are initiated afterwards. Lastly, the `BlocInjector` is run at last, as the `blocs` are the top-layer
-components, built on the other components.
+Riverpod is used for dependency injection. The `providers` directory contains all the providers for
+the app. The app dependencies are defined by Riverpod and can we overwritten in tests as required.
 
 ### Navigation
 
@@ -73,8 +67,8 @@ The [go_router](https://pub.dev/packages/go_router) package is used for navigati
 needs to support navigation patterns on Android, iOS and Web. Due to the later, `go_router` is a
 perfect candidate for navigation.
 
-The navigation routes are encapsulated in the enum `DanteRoute` class. The main reason for doing 
-this, is that all routes are defined in one place. The risk of using wrong routes with 
+The navigation routes are encapsulated in the enum `DanteRoute` class. The main reason for doing
+this, is that all routes are defined in one place. The risk of using wrong routes with
 corresponding 404 errors are mitigated.
 
 ### Developer Setup
@@ -84,6 +78,8 @@ Android Studio is the recommended IDE for every OS, although it is not mandatory
 The source code has a single sensitive dependency, which is the `GoogleService.json` respectively
 `GoogleService.plist` file and in `firebase_options.dart`.
 **The configuration files will be provided by @shockbytes upon request**.
+
+Once the repository is cloned down, developers should run a `pub get` to get the required dependencies. After this developers will need to run `dart run build_runner build --delete-conflicting-outputs` to generate the required codegen files for the project.
 
 ### Testing
 

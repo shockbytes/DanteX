@@ -1,9 +1,6 @@
-import 'dart:async';
-
-import 'package:dantex/src/bloc/add/add_book_bloc.dart';
-import 'package:dantex/src/data/book/entity/book.dart';
 import 'package:dantex/src/data/bookdownload/entity/book_suggestion.dart';
-import 'package:dantex/src/providers/bloc.dart';
+import 'package:dantex/src/providers/repository.dart';
+import 'package:dantex/src/providers/service.dart';
 import 'package:dantex/src/ui/book/book_image.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/dante_loading_indicator.dart';
@@ -28,14 +25,14 @@ enum AddBookWidgetAppearance {
   });
 }
 
-class AddBookWidget extends ConsumerStatefulWidget {
+class AddBookWidget extends ConsumerWidget {
   final String _query;
   final AddBookWidgetAppearance appearance;
 
   const AddBookWidget(
     this._query, {
-    Key? key,
     required this.appearance,
+    Key? key,
   }) : super(key: key);
 
   const AddBookWidget.fullScreen({
@@ -44,78 +41,79 @@ class AddBookWidget extends ConsumerStatefulWidget {
   })  : _query = query,
         appearance = AddBookWidgetAppearance.fullScreen;
 
-  @override
-  createState() => _AddBookSheetState();
-}
-
-class _AddBookSheetState extends ConsumerState<AddBookWidget> {
   final double _bottomSheetHeight = 440.0;
-  late AddBookBloc _bloc;
-
-  StreamSubscription<Book>? _onBookAddedStream;
 
   @override
-  void initState() {
-    super.initState();
-    _bloc = ref.read(addBookBlocProvider);
-
-    _onBookAddedStream = _bloc.onBookAdded.listen(
-      (event) {
-        // Just pop the screen here, no need to handle something else
-        Navigator.of(context).pop();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final book = ref.read(downloadBookProvider(_query));
+    Widget child = const DanteLoadingIndicator();
+    book.when(
+      data: (data) {
+        child = BookWidget(
+          bookSuggestion: data,
+          appearance: appearance,
+        );
+      },
+      error: (error, stackTrace) {
+        child = GenericErrorWidget(error);
+      },
+      loading: () {
+        child = const DanteLoadingIndicator();
       },
     );
-  }
 
-  @override
-  void dispose() {
-    _onBookAddedStream?.cancel();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Column(
       children: [
-        if (widget.appearance == AddBookWidgetAppearance.bottomSheet) const Handle(),
-        FutureBuilder<BookSuggestion>(
-          future: _bloc.downloadBook(widget._query),
-          builder: (context, snapshot) {
-            Widget child;
-            if (snapshot.hasData) {
-              child = _buildBookWidget(
-                context,
-                snapshot.data!,
-                widget.appearance,
-              );
-            } else if (snapshot.hasError) {
-              child = GenericErrorWidget(snapshot.error);
-            } else {
-              child = const DanteLoadingIndicator();
-            }
-
-            return switch (widget.appearance) {
-              AddBookWidgetAppearance.bottomSheet => SizedBox(
-                  height: _bottomSheetHeight,
-                  child: child,
-                ),
-              AddBookWidgetAppearance.fullScreen => Expanded(child: child),
-            };
-          },
-        ),
+        if (appearance == AddBookWidgetAppearance.bottomSheet) const Handle(),
+        switch (appearance) {
+          AddBookWidgetAppearance.bottomSheet => SizedBox(
+              height: _bottomSheetHeight,
+              child: child,
+            ),
+          AddBookWidgetAppearance.fullScreen => Expanded(child: child),
+        },
       ],
     );
   }
+}
 
-  Widget _buildBookWidget(
-    BuildContext context,
-    BookSuggestion bookSuggestion,
-    AddBookWidgetAppearance appearance,
-  ) {
+openAddBookSheet(
+  BuildContext context, {
+  required String query,
+}) async {
+  await showModalBottomSheet(
+    context: context,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.only(
+        topLeft: Radius.circular(20),
+        topRight: Radius.circular(20),
+      ),
+    ),
+    barrierColor: Colors.black54,
+    builder: (context) => AddBookWidget(
+      query,
+      appearance: AddBookWidgetAppearance.bottomSheet,
+    ),
+  );
+}
+
+class BookWidget extends ConsumerWidget {
+  final BookSuggestion bookSuggestion;
+  final AddBookWidgetAppearance appearance;
+
+  const BookWidget({
+    required this.bookSuggestion,
+    required this.appearance,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        if (appearance == AddBookWidgetAppearance.fullScreen) const SizedBox(height: 16),
+        if (appearance == AddBookWidgetAppearance.fullScreen)
+          const SizedBox(height: 16),
         BookImage(
           bookSuggestion.target.thumbnailAddress,
           size: appearance.imageSize,
@@ -145,7 +143,15 @@ class _AddBookSheetState extends ConsumerState<AddBookWidget> {
                 const SizedBox(width: 16),
                 Expanded(
                   child: FilledButton.tonal(
-                    onPressed: () => _bloc.addToForLater(bookSuggestion.target),
+                    onPressed: () async {
+                      await ref
+                          .read(bookRepositoryProvider.notifier)
+                          .addToForLater(bookSuggestion.target);
+                      // Just pop the screen here, no need to handle something else
+                      if (context.mounted) {
+                        Navigator.of(context).pop();
+                      }
+                    },
                     child: Text(
                       AppLocalizations.of(context)!.tab_for_later,
                     ),
@@ -154,7 +160,15 @@ class _AddBookSheetState extends ConsumerState<AddBookWidget> {
                 const SizedBox(width: 8),
                 Expanded(
                   child: FilledButton.tonal(
-                    onPressed: () => _bloc.addToReading(bookSuggestion.target),
+                    onPressed: () async {
+                      await ref
+                          .read(bookRepositoryProvider.notifier)
+                          .addToReading(bookSuggestion.target);
+                      // Just pop the screen here, no need to handle something else
+                      if (context.mounted) {
+                        Navigator.of(context).pop();
+                      }
+                    },
                     child: Text(
                       AppLocalizations.of(context)!.tab_reading,
                     ),
@@ -163,7 +177,15 @@ class _AddBookSheetState extends ConsumerState<AddBookWidget> {
                 const SizedBox(width: 8),
                 Expanded(
                   child: FilledButton.tonal(
-                    onPressed: () => _bloc.addToRead(bookSuggestion.target),
+                    onPressed: () async {
+                      await ref
+                          .read(bookRepositoryProvider.notifier)
+                          .addToRead(bookSuggestion.target);
+                      // Just pop the screen here, no need to handle something else
+                      if (context.mounted) {
+                        Navigator.of(context).pop();
+                      }
+                    },
                     child: Text(
                       AppLocalizations.of(context)!.tab_read,
                     ),
@@ -174,7 +196,15 @@ class _AddBookSheetState extends ConsumerState<AddBookWidget> {
             ),
             const SizedBox(height: 16),
             DanteComponents.outlinedButton(
-              onPressed: () => _bloc.addToWishlist(bookSuggestion.target),
+              onPressed: () async {
+                await ref
+                    .read(bookRepositoryProvider.notifier)
+                    .addToWishlist(bookSuggestion.target);
+                // Just pop the screen here, no need to handle something else
+                if (context.mounted) {
+                  Navigator.of(context).pop();
+                }
+              },
               child: Text(
                 AppLocalizations.of(context)!.tab_wishlist,
               ),
@@ -192,24 +222,4 @@ class _AddBookSheetState extends ConsumerState<AddBookWidget> {
       ],
     );
   }
-}
-
-openAddBookSheet(
-  BuildContext context, {
-  required String query,
-}) async {
-  await showModalBottomSheet(
-    context: context,
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(20),
-        topRight: Radius.circular(20),
-      ),
-    ),
-    barrierColor: Colors.black54,
-    builder: (context) => AddBookWidget(
-      query,
-      appearance: AddBookWidgetAppearance.bottomSheet,
-    ),
-  );
 }

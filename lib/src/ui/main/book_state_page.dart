@@ -1,7 +1,6 @@
-import 'package:dantex/src/bloc/main/book_state_bloc.dart';
 import 'package:dantex/src/data/book/entity/book.dart';
 import 'package:dantex/src/data/book/entity/book_state.dart';
-import 'package:dantex/src/providers/bloc.dart';
+import 'package:dantex/src/providers/repository.dart';
 import 'package:dantex/src/ui/book/book_item_widget.dart';
 import 'package:dantex/src/ui/core/generic_error_widget.dart';
 import 'package:flutter/material.dart';
@@ -14,12 +13,12 @@ class BookStatePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final BookStateBloc bloc = ref.read(bookStateBlocProvider);
+    final bookRepository = ref.watch(bookRepositoryProvider);
 
     return StreamBuilder<List<Book>>(
-      stream: bloc.getBooksForState(_state),
+      stream: bookRepository.getBooksForState(_state),
       builder: (context, snapshot) {
-        var data = snapshot.data;
+        final data = snapshot.data;
 
         if (snapshot.hasData && data != null) {
           return _buildBookScreen(data);
