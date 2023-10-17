@@ -185,6 +185,28 @@ class SettingsPage extends ConsumerWidget {
             ],
           ),
           SettingsSection(
+            title: Text(
+              AppLocalizations.of(context)!.settings_danger_zone,
+              style: TextStyle(color: Theme.of(context).colorScheme.error),
+            ),
+            tiles: [
+              SettingsTile(
+                title: Text(
+                  AppLocalizations.of(context)!
+                      .settings_danger_zone_delete_account,
+                  style: TextStyle(color: Theme.of(context).colorScheme.error),
+                ),
+                leading: Icon(
+                  Icons.no_accounts_outlined,
+                  color: Theme.of(context).colorScheme.error,
+                ),
+                onPressed: (context) {
+                  // TODO Delete account
+                },
+              ),
+            ],
+          ),
+          SettingsSection(
             title: Text(AppLocalizations.of(context)!.settings_about_title),
             tiles: [
               SettingsTile.navigation(

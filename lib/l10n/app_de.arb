@@ -76,6 +76,8 @@
   "settings_data_privacy_tracking": "Tracking",
   "settings_data_privacy_data_privacy": "Datenschutzerklärung",
   "settings_data_privacy_terms_and_conditions": "Nutzungsbedingungen",
+  "settings_danger_zone": "Gefahrenzone",
+  "settings_danger_zone_delete_account": "Konto löschen",
   "settings_about_title": "Über",
   "settings_about_developers_title": "Entwickler",
   "settings_about_copyright": "© 2016 - 2023",
