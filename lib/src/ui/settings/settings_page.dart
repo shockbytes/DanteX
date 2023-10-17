@@ -1,6 +1,8 @@
 import 'package:dantex/main.dart';
+import 'package:dantex/src/data/authentication/authentication_repository.dart';
 import 'package:dantex/src/data/book/book_sort_strategy.dart';
 import 'package:dantex/src/data/settings/settings_repository.dart';
+import 'package:dantex/src/providers/authentication.dart';
 import 'package:dantex/src/providers/repository.dart';
 import 'package:dantex/src/ui/core/themed_app_bar.dart';
 import 'package:dantex/src/ui/settings/single_choice_dialog.dart';
@@ -200,9 +202,7 @@ class SettingsPage extends ConsumerWidget {
                   Icons.no_accounts_outlined,
                   color: Theme.of(context).colorScheme.error,
                 ),
-                onPressed: (context) {
-                  // TODO Delete account
-                },
+                onPressed: (context) async => _deleteAccount(context),
               ),
             ],
           ),
@@ -240,5 +240,63 @@ class SettingsPage extends ConsumerWidget {
         color: Theme.of(context).colorScheme.onSurface,
       ),
     );
+  }
+
+  Future<void> _deleteAccount(BuildContext context) async {
+    final bool shouldDeleteAccount = await showAdaptiveDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog.adaptive(
+          title: Text(
+            AppLocalizations.of(context)!
+                .settings_danger_zone_delete_account_title,
+          ),
+          content: Text(
+            AppLocalizations.of(context)!
+                .settings_danger_zone_delete_account_description,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context, false);
+              },
+              child: Text(AppLocalizations.of(context)!.cancel),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context, true);
+              },
+              child: Text(
+                AppLocalizations.of(context)!.delete_anyway,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.error,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (shouldDeleteAccount) {
+      try {
+        await _authenticationRepository.deleteAccount();
+        if (context.mounted) {
+          context.pushReplacement(DanteRoute.login.navigationUrl);
+        }
+      } catch (e) {
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                AppLocalizations.of(context)!
+                    .settings_danger_zone_delete_account_error,
+              ),
+            ),
+          );
+        }
+      }
+    }
   }
 }

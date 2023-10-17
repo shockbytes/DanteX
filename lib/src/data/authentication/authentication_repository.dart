@@ -16,6 +16,8 @@ abstract class AuthenticationRepository {
 
   Future<void> logout();
 
+  Future<void> deleteAccount();
+
   Future<List<AuthenticationSource>> fetchSignInMethodsForEmail({
     required String email,
   });
