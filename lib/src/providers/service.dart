@@ -5,6 +5,7 @@ import 'package:dantex/src/data/isbn/barcode_isbn_scanner_service.dart';
 import 'package:dantex/src/data/isbn/isbn_scanner_service.dart';
 import 'package:dantex/src/providers/api.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'service.g.dart';
 
@@ -21,3 +22,8 @@ IsbnScannerService isbnScannerService(IsbnScannerServiceRef ref) =>
 Future<BookSuggestion> downloadBook(DownloadBookRef ref, String query) {
   return ref.read(bookDownloaderProvider).downloadBook(query);
 }
+
+@riverpod
+SharedPreferences sharedPreferences(SharedPreferencesRef ref) =>
+    throw UnimplementedError();
+

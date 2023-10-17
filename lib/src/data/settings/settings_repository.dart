@@ -7,6 +7,7 @@ abstract class SettingsRepository {
 
   void setThemeMode(ThemeMode mode);
   ThemeMode getThemeMode();
+  Stream<ThemeMode> observeThemeMode();
 
   void setSortingStrategy(BookSortStrategy strategy);
   BookSortStrategy getSortingStrategy();

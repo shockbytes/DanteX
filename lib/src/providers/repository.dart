@@ -1,7 +1,10 @@
 import 'package:dantex/src/data/book/entity/book.dart';
 import 'package:dantex/src/data/book/entity/book_state.dart';
 import 'package:dantex/src/data/book/firebase_book_repository.dart';
+import 'package:dantex/src/data/settings/settings_repository.dart';
+import 'package:dantex/src/data/settings/shared_preferences_settings_repository.dart';
 import 'package:dantex/src/providers/authentication.dart';
+import 'package:dantex/src/providers/service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'repository.g.dart';
@@ -35,3 +38,10 @@ class BookRepository extends _$BookRepository {
     return state.create(updatedBook);
   }
 }
+
+@riverpod
+SettingsRepository settingsRepository(SettingsRepositoryRef ref) =>
+    SharedPreferencesSettingsRepository(
+      ref.read(sharedPreferencesProvider),
+    );
+

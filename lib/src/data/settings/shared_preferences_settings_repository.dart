@@ -1,6 +1,7 @@
 import 'package:dantex/src/data/book/book_sort_strategy.dart';
 import 'package:dantex/src/data/settings/settings_repository.dart';
 import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesSettingsRepository implements SettingsRepository {
@@ -12,7 +13,15 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
   static const _keyThemeMode = 'key_theme_mode';
   static const _keySortStrategy = 'key_sort_strategy';
 
-  SharedPreferencesSettingsRepository(this._sp);
+  final BehaviorSubject<ThemeMode> _themeModeSubject = BehaviorSubject();
+
+  SharedPreferencesSettingsRepository(this._sp) {
+    _initializeThemeSubject();
+  }
+
+  void _initializeThemeSubject() {
+    _themeModeSubject.add(getThemeMode());
+  }
 
   @override
   BookSortStrategy getSortingStrategy() {
@@ -54,7 +63,13 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
 
   @override
   void setThemeMode(ThemeMode themeMode) {
+    _themeModeSubject.add(themeMode);
+
     _sp.setInt(_keyThemeMode, themeMode.index);
   }
 
+  @override
+  Stream<ThemeMode> observeThemeMode() {
+    return _themeModeSubject.stream;
+  }
 }
