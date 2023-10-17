@@ -52,3 +52,7 @@ UNTRANSLATED.txt
 
 # Generated code
 *.g.dart
+# All except the generated code for the realm classes
+# Realm and riverpod code generation does not work nicely together.
+# Keep the one file from Realm to avoid ongoing code generation issues.
+!lib/src/data/book/realm/realm_book.g.dart
