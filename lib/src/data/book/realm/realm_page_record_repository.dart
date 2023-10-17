@@ -1,23 +1,42 @@
 import 'package:dantex/src/data/book/entity/page_record.dart';
 import 'package:dantex/src/data/book/page_record_repository.dart';
+import 'package:dantex/src/data/book/realm/realm_book.dart';
+import 'package:realm/realm.dart';
 
-// TODO Implement this class
 class RealmPageRecordRepository implements PageRecordRepository {
+  final Realm _realm;
+
+  RealmPageRecordRepository(this._realm);
+
   @override
-  Future<List<PageRecord>> allPageRecords() {
-    // TODO: implement allPageRecords
-    throw UnimplementedError();
+  Future<List<PageRecord>> allPageRecords() async {
+    return _realm
+        .all<RealmPageRecord>()
+        .where(_hasPageRecordRequiredData)
+        .map(
+          (rpg) => PageRecord(
+            bookId: rpg.bookId.toString(),
+            fromPage: rpg.fromPage,
+            toPage: rpg.toPage,
+            timestamp: rpg.timestamp,
+          ),
+        )
+        .toList();
+  }
+
+  bool _hasPageRecordRequiredData(RealmPageRecord pageRecord) {
+    return pageRecord.bookId != -1 && pageRecord.timestamp != 0;
   }
 
   @override
   Future<void> deleteAllPageRecordsForBookId(String bookId) {
-    // TODO: implement deleteAllPageRecordsForBookId
+    // Not required.
     throw UnimplementedError();
   }
 
   @override
   Future<void> deletePageRecordForBook(PageRecord pageRecord) {
-    // TODO: implement deletePageRecordForBook
+    // Not required.
     throw UnimplementedError();
   }
 
@@ -28,20 +47,23 @@ class RealmPageRecordRepository implements PageRecordRepository {
     int toPage,
     int nowInMillis,
   ) {
-    // TODO: implement insertPageRecordForBookId
+    // Not required.
     throw UnimplementedError();
   }
 
   @override
   Future<List<PageRecord>> pageRecordsForBook(String bookId) {
-    // TODO: implement pageRecordsForBook
+    // Not required.
     throw UnimplementedError();
   }
 
   @override
   Future<void> updatePageRecord(
-      PageRecord pageRecord, int? fromPage, int? toPage) {
-    // TODO: implement updatePageRecord
+    PageRecord pageRecord,
+    int? fromPage,
+    int? toPage,
+  ) {
+    // Not required.
     throw UnimplementedError();
   }
 }
