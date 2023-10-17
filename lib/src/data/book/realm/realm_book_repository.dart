@@ -7,7 +7,9 @@ import 'package:dantex/src/data/book/realm/realm_book.dart';
 import 'package:realm/realm.dart';
 
 class RealmBookRepository implements BookRepository {
-  final Realm _realm = Realm(
+
+  /* TODO Inject this
+    final Realm _realm = Realm(
     Configuration.local(
       [
         RealmBook.schema,
@@ -17,6 +19,11 @@ class RealmBookRepository implements BookRepository {
       schemaVersion: 9, // 9 is the current schema version of the old app
     ),
   );
+   */
+
+  final Realm _realm;
+
+  RealmBookRepository(this._realm);
 
   @override
   Future<void> create(Book book) {
