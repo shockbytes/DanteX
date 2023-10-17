@@ -1,28 +1,54 @@
 import 'package:dantex/src/data/book/book_repository.dart';
 import 'package:dantex/src/data/book/entity/book.dart';
+import 'package:dantex/src/data/book/entity/page_record.dart';
 import 'package:dantex/src/data/book/migration/migration_score.dart';
+import 'package:dantex/src/data/book/page_record_repository.dart';
 
 /// Runs the migration from the old Android app to the new cross platform app.
 /// The runner essentially fetches all data from Realm and pipes it to Firebase.
 class MigrationRunner {
-  final BookRepository _target;
-  final BookRepository _source;
+  final BookRepository _bookTarget;
+  final BookRepository _bookSource;
+  final PageRecordRepository _pageRecordTarget;
+  final PageRecordRepository _pageRecordSource;
 
   MigrationRunner(
-    BookRepository target,
-    BookRepository source,
-  )   : _target = target,
-        _source = source;
+    BookRepository bookTarget,
+    BookRepository bookSource,
+    PageRecordRepository pageRecordTarget,
+    PageRecordRepository pageRecordSource,
+  )   : _bookTarget = bookTarget,
+        _bookSource = bookSource,
+        _pageRecordTarget = pageRecordTarget,
+        _pageRecordSource = pageRecordSource;
 
-  Future<MigrationStatus> migrationStatus() async {
-    // TODO Check if a migration need to be performed
+  // TODO Call this method
+  Future<MigrationStatus> migrateIfRequired() async {
+    final MigrationStatus status = await _migrationStatus();
+
+    if (status == MigrationStatus.required) {
+      final MigrationScore score = await _migrate();
+      final MigrationStatus newStatus = score.statusFromScore();
+      _updateMigrationStatus(newStatus);
+      return newStatus;
+    }
+
+    return status;
+  }
+
+  Future<MigrationStatus> _migrationStatus() async {
+    // TODO Load from SettingsRepository
     return MigrationStatus.required;
   }
 
-  Future<MigrationScore> migrate() async {
-    ({int migratedBooks, int booksToMigrate}) booksStat = await _migrateBooks();
+  Future<MigrationScore> _migrate() async {
+    final ({int migratedBooks, int booksToMigrate}) booksStat =
+        await _migrateBooks();
 
-    ({int migratedPageRecords, int pageRecordsToMigrate}) pageRecordsStats = await _migratePageRecords();
+    final ({
+      int migratedPageRecords,
+      int pageRecordsToMigrate
+    }) pageRecordsStats = await _migratePageRecords();
 
     return MigrationScore(
       booksToMigrate: booksStat.booksToMigrate,
@@ -34,17 +60,17 @@ class MigrationRunner {
 
   /// Returns no. of migrated instances and potential no. of migrations
   Future<({int migratedBooks, int booksToMigrate})> _migrateBooks() async {
-    List<Book> booksToMigrate = await _source.getAllBooks();
+    final List<Book> booksToMigrate = await _bookSource.getAllBooks();
 
     int migratedBooks = 0;
     for (int i = 0; i < booksToMigrate.length; i++) {
-      Book book = booksToMigrate[i];
+      final Book book = booksToMigrate[i];
 
       try {
-        await _target.create(book);
+        await _bookTarget.create(book);
         migratedBooks++;
       } catch (e) {
-        // TODO Log error
+        // TODO Await logging facility
       }
     }
 
@@ -55,17 +81,35 @@ class MigrationRunner {
   }
 
   /// Returns no. of migrated instances and potential no. of migrations
-  Future<({int migratedPageRecords, int pageRecordsToMigrate})> _migratePageRecords() async {
-    // TODO
+  Future<({int migratedPageRecords, int pageRecordsToMigrate})>
+      _migratePageRecords() async {
+    final List<PageRecord> pageRecordsToMigrate =
+        await _pageRecordSource.allPageRecords();
+
+    int migratedPageRecords = 0;
+    for (int i = 0; i < pageRecordsToMigrate.length; i++) {
+      final PageRecord record = pageRecordsToMigrate[i];
+
+      try {
+        await _pageRecordTarget.insertPageRecordForBookId(
+          record.bookId,
+          record.fromPage,
+          record.toPage,
+          record.timestamp,
+        );
+        migratedPageRecords++;
+      } catch (e) {
+        // TODO Await logging facility
+      }
+    }
+
     return (
-      migratedPageRecords: 0,
-      pageRecordsToMigrate: 0,
+      migratedPageRecords: migratedPageRecords,
+      pageRecordsToMigrate: pageRecordsToMigrate.length,
     );
   }
-}
 
-enum MigrationStatus {
-  required,
-  doneButFailed,
-  done,
+  void _updateMigrationStatus(MigrationStatus newStatus) {
+    // TODO Save to SettingsRepository
+  }
 }
