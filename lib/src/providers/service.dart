@@ -9,6 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:logger/logger.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'service.g.dart';
 
@@ -32,12 +33,10 @@ SharedPreferences sharedPreferences(SharedPreferencesRef ref) =>
 
 
 @riverpod
-Logger logger(LoggerRef ref) =>
-    Logger(
-      filter: DevelopmentFilter(),
+Logger logger(LoggerRef ref) => Logger(
       printer: PrettyPrinter(
-          printTime: true,
+        printTime: true,
       ),
-      //
+      // Use Firebase logging only for production
       output: kDebugMode ? ConsoleOutput() : FirebaseLogOutput(),
     );

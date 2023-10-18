@@ -8,6 +8,7 @@ class FirebaseLogOutput extends LogOutput {
 
   @override
   void output(OutputEvent event) {
+    // We are only interested in log events that contain an exception.
     if (event.origin.error != null) {
       unawaited(
         _crashlytics.recordError(event.origin.error, event.origin.stackTrace),
