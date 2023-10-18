@@ -5,21 +5,21 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ContributorsPage extends StatelessWidget {
-  final List<_ContributionType> _contributors = [
-    _Contributor(
-      handle: '@shockbytes',
-      imageUrl: 'https://avatars.githubusercontent.com/u/12248553?v=4',
-      profileUrl: 'https://github.com/shockbytes',
-    ),
-    _Contributor(
-      handle: '@lockierichter',
-      imageUrl: 'https://avatars.githubusercontent.com/u/26178557?v=4',
-      profileUrl: 'https://github.com/lockierichter',
-    ),
-    _ContributorInvite(),
-  ];
+  List<_ContributionType> get _contributors => [
+        _Contributor(
+          handle: '@shockbytes',
+          imageUrl: 'https://avatars.githubusercontent.com/u/12248553?v=4',
+          profileUrl: 'https://github.com/shockbytes',
+        ),
+        _Contributor(
+          handle: '@lockierichter',
+          imageUrl: 'https://avatars.githubusercontent.com/u/26178557?v=4',
+          profileUrl: 'https://github.com/lockierichter',
+        ),
+        _ContributorInvite(),
+      ];
 
-  ContributorsPage({super.key});
+  const ContributorsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
