@@ -1,14 +1,10 @@
 import 'package:url_launcher/url_launcher.dart';
 
-class UrlLauncher {
+Future<bool> tryLaunchUrl(String url) async {
+  final Uri uri = Uri.parse(url);
 
-  UrlLauncher._();
-
-  static Future<void> launch(String url) async {
-    Uri uri = Uri.parse(url);
-
-    if (await canLaunchUrl(uri)) {
-      launchUrl(uri);
-    }
+  if (await canLaunchUrl(uri)) {
+    return launchUrl(uri);
   }
+  return false;
 }

@@ -12,35 +12,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:settings_ui/settings_ui.dart';
 
-class SettingsPage extends ConsumerStatefulWidget {
+class SettingsPage extends ConsumerWidget {
   const SettingsPage({
     Key? key,
   }) : super(key: key);
 
   @override
-  ConsumerState createState() => _SettingsPageState();
-}
-
-class _SettingsPageState extends ConsumerState<SettingsPage> {
-  late final SettingsRepository _repository;
-
-  bool _isTrackingEnabled = false;
-  bool _isRandomBooksEnabled = false;
-  late ThemeMode _selectedTheme;
-  late BookSortStrategy _selectedSortStrategy;
-
-  @override
-  void initState() {
-    _repository = ref.read(settingsRepositoryProvider);
-    _isTrackingEnabled = _repository.isTrackingEnabled();
-    _isRandomBooksEnabled = _repository.isRandomBooksEnabled();
-    _selectedTheme = _repository.getThemeMode();
-    _selectedSortStrategy = _repository.getSortingStrategy();
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final SettingsRepository repository = ref.watch(settingsRepositoryProvider);
     return Scaffold(
       appBar: ThemedAppBar(
         title: Text(
@@ -57,26 +36,23 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 title: Text(
                   AppLocalizations.of(context)!.settings_appearance_theme,
                 ),
-                value: _buildTextValue(context, _selectedTheme.name),
+                value: _buildTextValue(context, repository.getThemeMode().name),
                 leading: const Icon(Icons.dark_mode_outlined),
-                onPressed: (context) {
-                  showAdaptiveDialog(
+                onPressed: (context) async {
+                  await showAdaptiveDialog(
                     context: context,
                     builder: (context) => SingleChoiceDialog<ThemeMode>(
                       title: AppLocalizations.of(context)!
                           .settings_appearance_theme_choose_title,
                       icon: Icons.dark_mode_outlined,
-                      selectedValue: _selectedTheme,
+                      selectedValue: repository.getThemeMode(),
                       choices: ThemeMode.values
                           .map(
                             (e) => Choice<ThemeMode>(title: e.name, key: e),
                           )
                           .toList(),
                       onValueSelected: (ThemeMode selectedTheme) {
-                        _repository.setThemeMode(selectedTheme);
-                        setState(() {
-                          _selectedTheme = selectedTheme;
-                        });
+                        repository.setThemeMode(selectedTheme);
                       },
                     ),
                   );
@@ -91,17 +67,17 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                 title: Text(AppLocalizations.of(context)!.settings_books_sort),
                 value: _buildTextValue(
                   context,
-                  _selectedSortStrategy.strategyName,
+                  repository.getSortingStrategy().strategyName,
                 ),
                 leading: const Icon(Icons.sort_outlined),
-                onPressed: (context) {
-                  showAdaptiveDialog(
+                onPressed: (context) async {
+                  await showAdaptiveDialog(
                     context: context,
                     builder: (context) => SingleChoiceDialog<BookSortStrategy>(
                       title: AppLocalizations.of(context)!
                           .settings_books_sort_choose_title,
                       icon: Icons.sort_outlined,
-                      selectedValue: _selectedSortStrategy,
+                      selectedValue: repository.getSortingStrategy(),
                       choices: BookSortStrategy.values
                           .map(
                             (e) => Choice<BookSortStrategy>(
@@ -111,23 +87,17 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                           )
                           .toList(),
                       onValueSelected: (BookSortStrategy selectedStrategy) {
-                        _repository.setSortingStrategy(selectedStrategy);
-                        setState(() {
-                          _selectedSortStrategy = selectedStrategy;
-                        });
+                        repository.setSortingStrategy(selectedStrategy);
                       },
                     ),
                   );
                 },
               ),
               SettingsTile.switchTile(
-                initialValue: _isRandomBooksEnabled,
+                initialValue: repository.isRandomBooksEnabled(),
                 activeSwitchColor: Theme.of(context).colorScheme.primary,
                 onToggle: (bool newValue) {
-                  _repository.setIsRandomBooksEnabled(newValue);
-                  setState(() {
-                    _isRandomBooksEnabled = newValue;
-                  });
+                  repository.setIsRandomBooksEnabled(newValue);
                 },
                 title: Text(
                   AppLocalizations.of(context)!.settings_books_random_book,
@@ -145,26 +115,26 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                   AppLocalizations.of(context)!.settings_contribute_code,
                 ),
                 leading: const Icon(Icons.code),
-                onPressed: (context) =>
-                    UrlLauncher.launch('https://github.com/shockbytes/DanteX'),
+                onPressed: (context) async =>
+                    tryLaunchUrl('https://github.com/shockbytes/DanteX'),
               ),
               SettingsTile(
                 title: Text(
                   AppLocalizations.of(context)!.settings_contribute_community,
                 ),
                 leading: const Icon(Icons.groups_outlined),
-                onPressed: (context) =>
-                    UrlLauncher.launch('https://discord.gg/EujYrCHjkm'),
+                onPressed: (context) async =>
+                    tryLaunchUrl('https://discord.gg/EujYrCHjkm'),
               ),
               SettingsTile(
                 title: Text(
                   AppLocalizations.of(context)!.settings_contribute_feedback,
                 ),
                 leading: const Icon(Icons.mail_outline),
-                onPressed: (context) {
-                  String body = '\n\n\nVersion: '
+                onPressed: (context) async {
+                  final String body = '\n\n\nVersion: '
                       '${AppLocalizations.of(context)!.version_number}';
-                  UrlLauncher.launch(
+                  await tryLaunchUrl(
                     Uri(
                       scheme: 'mailto',
                       path: 'shockbytesstudio@gmail.com',
@@ -184,13 +154,10 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
             ),
             tiles: [
               SettingsTile.switchTile(
-                initialValue: _isTrackingEnabled,
+                initialValue: repository.isTrackingEnabled(),
                 activeSwitchColor: Theme.of(context).colorScheme.primary,
                 onToggle: (bool newValue) {
-                  _repository.setIsTrackingEnabled(newValue);
-                  setState(() {
-                    _isTrackingEnabled = newValue;
-                  });
+                  repository.setIsTrackingEnabled(newValue);
                 },
                 title: Text(
                   AppLocalizations.of(context)!.settings_data_privacy_tracking,
@@ -203,8 +170,8 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                       .settings_data_privacy_data_privacy,
                 ),
                 leading: const Icon(Icons.privacy_tip_outlined),
-                onPressed: (context) =>
-                    UrlLauncher.launch('https://dantebooks.com/#/privacy'),
+                onPressed: (context) async =>
+                    tryLaunchUrl('https://dantebooks.com/#/privacy'),
               ),
               SettingsTile(
                 title: Text(
@@ -212,8 +179,8 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
                       .settings_data_privacy_terms_and_conditions,
                 ),
                 leading: const Icon(Icons.verified_user_outlined),
-                onPressed: (context) =>
-                    UrlLauncher.launch('https://dantebooks.com/#/terms'),
+                onPressed: (context) async =>
+                    tryLaunchUrl('https://dantebooks.com/#/terms'),
               ),
             ],
           ),

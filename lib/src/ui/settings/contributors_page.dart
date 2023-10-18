@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dantex/src/util/url_launcher.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ContributorsPage extends StatelessWidget {
   final List<_ContributionType> _contributors = [
@@ -112,7 +112,7 @@ class _ContributorCard extends StatelessWidget {
 
   InkWell _buildContributor(BuildContext context, _Contributor contributor) {
     return InkWell(
-      onTap: () => UrlLauncher.launch(contributor.profileUrl),
+      onTap: () async => tryLaunchUrl(contributor.profileUrl),
       child: Column(
         children: [
           const SizedBox(height: 8),
@@ -138,19 +138,17 @@ class _ContributorCard extends StatelessWidget {
 
   Widget _buildContributionInvite(BuildContext context) {
     return InkWell(
-      onTap: () {
-        UrlLauncher.launch(
-          'https://discord.com/channels/824694597728993390/1037365721363136572',
-        );
-      },
+      onTap: () async => tryLaunchUrl(
+        'https://discord.com/channels/824694597728993390/1037365721363136572',
+      ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              AppLocalizations.of(context)!.settings_about_contributor_invite_title,
+              AppLocalizations.of(context)!
+                  .settings_about_contributor_invite_title,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Theme.of(context).colorScheme.onSurface,
                   ),
@@ -158,7 +156,8 @@ class _ContributorCard extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             Text(
-              AppLocalizations.of(context)!.settings_about_contributor_invite_description,
+              AppLocalizations.of(context)!
+                  .settings_about_contributor_invite_description,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Theme.of(context).colorScheme.onSurface,
