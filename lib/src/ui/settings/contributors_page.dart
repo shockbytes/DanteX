@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dantex/src/util/url_launcher.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ContributorsPage extends StatelessWidget {
@@ -52,7 +52,7 @@ class ContributorsPage extends StatelessWidget {
                 ),
               ),
               Text(
-                AppLocalizations.of(context)!.settings_about_copyright,
+                'settings.about.copyright'.tr(),
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: Theme.of(context).colorScheme.onSurface,
                     ),
@@ -147,8 +147,7 @@ class _ContributorCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              AppLocalizations.of(context)!
-                  .settings_about_contributor_invite_title,
+              'settings.about.contributor_invite_title'.tr(),
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: Theme.of(context).colorScheme.onSurface,
                   ),
@@ -156,8 +155,7 @@ class _ContributorCard extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             Text(
-              AppLocalizations.of(context)!
-                  .settings_about_contributor_invite_description,
+              'settings.about.contributor_invite_description'.tr(),
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Theme.of(context).colorScheme.onSurface,

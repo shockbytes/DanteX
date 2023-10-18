@@ -7,8 +7,8 @@ import 'package:dantex/src/ui/core/themed_app_bar.dart';
 import 'package:dantex/src/ui/settings/single_choice_dialog.dart';
 import 'package:dantex/src/util/url_launcher.dart';
 import 'package:dantex/src/util/utils.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:settings_ui/settings_ui.dart';
@@ -23,28 +23,22 @@ class SettingsPage extends ConsumerWidget {
     final SettingsRepository repository = ref.watch(settingsRepositoryProvider);
     return Scaffold(
       appBar: ThemedAppBar(
-        title: Text(
-          AppLocalizations.of(context)!.settings,
-        ),
+        title: Text('settings.title'.tr()),
       ),
       body: SettingsList(
         sections: [
           SettingsSection(
-            title:
-                Text(AppLocalizations.of(context)!.settings_appearance_title),
+            title: Text('settings.appearance.title'.tr()),
             tiles: [
               SettingsTile(
-                title: Text(
-                  AppLocalizations.of(context)!.settings_appearance_theme,
-                ),
+                title: Text('settings.appearance.theme'.tr()),
                 value: _buildTextValue(context, repository.getThemeMode().name),
                 leading: const Icon(Icons.dark_mode_outlined),
                 onPressed: (context) async {
                   await showAdaptiveDialog(
                     context: context,
                     builder: (context) => SingleChoiceDialog<ThemeMode>(
-                      title: AppLocalizations.of(context)!
-                          .settings_appearance_theme_choose_title,
+                      title: 'settings.appearance.theme_choose_title'.tr(),
                       icon: Icons.dark_mode_outlined,
                       selectedValue: repository.getThemeMode(),
                       choices: ThemeMode.values
@@ -62,10 +56,10 @@ class SettingsPage extends ConsumerWidget {
             ],
           ),
           SettingsSection(
-            title: Text(AppLocalizations.of(context)!.settings_books_title),
+            title: Text('settings.books.title'.tr()),
             tiles: [
               SettingsTile(
-                title: Text(AppLocalizations.of(context)!.settings_books_sort),
+                title: Text('settings.books.sort'.tr()),
                 value: _buildTextValue(
                   context,
                   repository.getSortingStrategy().strategyName,
@@ -75,8 +69,7 @@ class SettingsPage extends ConsumerWidget {
                   await showAdaptiveDialog(
                     context: context,
                     builder: (context) => SingleChoiceDialog<BookSortStrategy>(
-                      title: AppLocalizations.of(context)!
-                          .settings_books_sort_choose_title,
+                      title: 'settings.books.sort_choose_title'.tr(),
                       icon: Icons.sort_outlined,
                       selectedValue: repository.getSortingStrategy(),
                       choices: BookSortStrategy.values
@@ -100,41 +93,32 @@ class SettingsPage extends ConsumerWidget {
                 onToggle: (bool newValue) {
                   ref.read(isRandomBooksEnabledProvider.notifier).toggle();
                 },
-                title: Text(
-                  AppLocalizations.of(context)!.settings_books_random_book,
-                ),
+                title: Text('settings.books.random_book'.tr()),
                 leading: const Icon(Icons.casino_outlined),
               ),
             ],
           ),
           SettingsSection(
-            title:
-                Text(AppLocalizations.of(context)!.settings_contribute_title),
+            title: Text('settings.contribute.title'.tr()),
             tiles: [
               SettingsTile(
-                title: Text(
-                  AppLocalizations.of(context)!.settings_contribute_code,
-                ),
+                title: Text('settings.contribute.code'.tr()),
                 leading: const Icon(Icons.code),
                 onPressed: (context) async =>
                     tryLaunchUrl('https://github.com/shockbytes/DanteX'),
               ),
               SettingsTile(
-                title: Text(
-                  AppLocalizations.of(context)!.settings_contribute_community,
-                ),
+                title: Text('settings.contribute.community'.tr()),
                 leading: const Icon(Icons.groups_outlined),
                 onPressed: (context) async =>
                     tryLaunchUrl('https://discord.gg/EujYrCHjkm'),
               ),
               SettingsTile(
-                title: Text(
-                  AppLocalizations.of(context)!.settings_contribute_feedback,
-                ),
+                title: Text('settings.contribute.feedback'.tr()),
                 leading: const Icon(Icons.mail_outline),
                 onPressed: (context) async {
                   final String body = '\n\n\nVersion: '
-                      '${AppLocalizations.of(context)!.version_number}';
+                      '${'version_number'.tr()}';
                   await tryLaunchUrl(
                     Uri(
                       scheme: 'mailto',
@@ -150,9 +134,7 @@ class SettingsPage extends ConsumerWidget {
             ],
           ),
           SettingsSection(
-            title: Text(
-              AppLocalizations.of(context)!.settings_data_privacy_title,
-            ),
+            title: Text('settings.data_privacy.title'.tr()),
             tiles: [
               SettingsTile.switchTile(
                 initialValue: ref.watch(isTrackingEnabledProvider),
@@ -160,25 +142,17 @@ class SettingsPage extends ConsumerWidget {
                 onToggle: (bool newValue) {
                   ref.read(isTrackingEnabledProvider.notifier).toggle();
                 },
-                title: Text(
-                  AppLocalizations.of(context)!.settings_data_privacy_tracking,
-                ),
+                title: Text('settings.data_privacy.tracking'.tr()),
                 leading: const Icon(Icons.supervised_user_circle_outlined),
               ),
               SettingsTile(
-                title: Text(
-                  AppLocalizations.of(context)!
-                      .settings_data_privacy_data_privacy,
-                ),
+                title: Text('settings.data_privacy.data_privacy'.tr()),
                 leading: const Icon(Icons.privacy_tip_outlined),
                 onPressed: (context) async =>
                     tryLaunchUrl('https://dantebooks.com/#/privacy'),
               ),
               SettingsTile(
-                title: Text(
-                  AppLocalizations.of(context)!
-                      .settings_data_privacy_terms_and_conditions,
-                ),
+                title: Text('settings.data_privacy.terms_and_conditions'.tr()),
                 leading: const Icon(Icons.verified_user_outlined),
                 onPressed: (context) async =>
                     tryLaunchUrl('https://dantebooks.com/#/terms'),
@@ -187,14 +161,13 @@ class SettingsPage extends ConsumerWidget {
           ),
           SettingsSection(
             title: Text(
-              AppLocalizations.of(context)!.settings_danger_zone,
+              'settings.danger_zone.title'.tr(),
               style: TextStyle(color: Theme.of(context).colorScheme.error),
             ),
             tiles: [
               SettingsTile(
                 title: Text(
-                  AppLocalizations.of(context)!
-                      .settings_danger_zone_delete_account,
+                  'settings.danger_zone.delete_account'.tr(),
                   style: TextStyle(color: Theme.of(context).colorScheme.error),
                 ),
                 leading: Icon(
@@ -206,22 +179,20 @@ class SettingsPage extends ConsumerWidget {
             ],
           ),
           SettingsSection(
-            title: Text(AppLocalizations.of(context)!.settings_about_title),
+            title: Text('settings.about.title'.tr()),
             tiles: [
               SettingsTile.navigation(
-                title: Text(
-                  AppLocalizations.of(context)!.settings_about_developers_title,
-                ),
+                title: Text('settings.about.developers_title'.tr()),
                 leading: const Icon(Icons.flash_on_outlined),
                 onPressed: (context) => context.go(
                   DanteRoute.contributors.navigationUrl,
                 ),
               ),
               SettingsTile(
-                title: Text(AppLocalizations.of(context)!.version),
+                title: Text('version'.tr()),
                 value: _buildTextValue(
                   context,
-                  AppLocalizations.of(context)!.version_number,
+                  'version_number'.tr(),
                 ),
                 leading: const Icon(Icons.info_outline),
               ),
@@ -246,27 +217,21 @@ class SettingsPage extends ConsumerWidget {
       context: context,
       builder: (context) {
         return AlertDialog.adaptive(
-          title: Text(
-            AppLocalizations.of(context)!
-                .settings_danger_zone_delete_account_title,
-          ),
-          content: Text(
-            AppLocalizations.of(context)!
-                .settings_danger_zone_delete_account_description,
-          ),
+          title: Text('settings.danger_zone.delete_account_title'.tr()),
+          content: Text('settings.danger_zone.delete_account_description'.tr()),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context, false);
               },
-              child: Text(AppLocalizations.of(context)!.cancel),
+              child: Text('cancel'.tr()),
             ),
             TextButton(
               onPressed: () {
                 Navigator.pop(context, true);
               },
               child: Text(
-                AppLocalizations.of(context)!.delete_anyway,
+                'delete_anyway'.tr(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.error,
@@ -288,10 +253,7 @@ class SettingsPage extends ConsumerWidget {
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(
-                AppLocalizations.of(context)!
-                    .settings_danger_zone_delete_account_error,
-              ),
+              content: Text('settings.danger_zone.delete_account_error'.tr()),
             ),
           );
         }

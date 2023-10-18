@@ -1,5 +1,5 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SingleChoiceDialog<T> extends StatefulWidget {
   final String title;
@@ -9,12 +9,12 @@ class SingleChoiceDialog<T> extends StatefulWidget {
   final T? selectedValue;
 
   const SingleChoiceDialog({
-    super.key,
     required this.title,
     required this.icon,
     required this.choices,
     required this.onValueSelected,
     required this.selectedValue,
+    super.key,
   });
 
   @override
@@ -61,18 +61,14 @@ class _SingleChoiceDialogState<T> extends State<SingleChoiceDialog<T>> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text(
-              AppLocalizations.of(context)!.cancel,
-            ),
+            child: Text('cancel'.tr()),
           ),
           TextButton(
             onPressed: () {
               widget.onValueSelected(_choiceSelection);
               Navigator.pop(context);
             },
-            child: Text(
-              AppLocalizations.of(context)!.select,
-            ),
+            child: Text('select'.tr()),
           ),
         ],
       ),

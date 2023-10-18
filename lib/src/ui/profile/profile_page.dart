@@ -7,8 +7,8 @@ import 'package:dantex/src/ui/core/themed_app_bar.dart';
 import 'package:dantex/src/ui/profile/change_password_bottom_sheet.dart';
 import 'package:dantex/src/ui/profile/email_bottom_sheet.dart';
 import 'package:dantex/src/ui/profile/profile_row_item.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ProfilePage extends ConsumerStatefulWidget {
@@ -34,7 +34,7 @@ class ProfilePageSate extends ConsumerState<ProfilePage> {
           ),
         ),
         title: Text(
-          AppLocalizations.of(context)!.profile,
+          'profile'.tr(),
           style: const TextStyle(
             fontWeight: FontWeight.w400,
           ),
@@ -50,28 +50,24 @@ class ProfilePageSate extends ConsumerState<ProfilePage> {
               Visibility(
                 visible: user?.source == AuthenticationSource.anonymous,
                 child: ProfileRowItem(
-                  label: Text(
-                    AppLocalizations.of(context)!.upgrade_account,
-                  ),
+                  label: Text('upgrade_account'.tr()),
                   button: DanteComponents.outlinedButton(
                     onPressed: () async {
                       await _openUpgradeBottomSheet(context);
                     },
-                    child: Text(AppLocalizations.of(context)!.upgrade),
+                    child: Text('upgrade'.tr()),
                   ),
                 ),
               ),
               Visibility(
                 visible: user?.source == AuthenticationSource.mail,
                 child: ProfileRowItem(
-                  label: Text(
-                    AppLocalizations.of(context)!.change_password,
-                  ),
+                  label: Text('change_password'.tr()),
                   button: DanteComponents.outlinedButton(
                     onPressed: () async {
                       await _openChangePasswordBottomSheet(context);
                     },
-                    child: Text(AppLocalizations.of(context)!.change),
+                    child: Text('change'.tr()),
                   ),
                 ),
               ),

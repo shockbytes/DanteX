@@ -1,0 +1,118 @@
+{
+  "account_creation_failed": "Dein Konto konnte nicht angelegt werden.",
+  "add_book": {
+    "manual": "Manuell eingeben",
+    "query": "Titel suche",
+    "scan": "Buchode scannen"
+  },
+  "anonymous_login": {
+    "description": "Deine Daten sind gesichert, solange du eingeloggt bist. Wenn du dich ausloggst, werden all deine Daten gelöscht.\n\nDu kannst dein Konto später noch anlegen.",
+    "title": "Anonymer Login"
+  },
+  "anonymous_logout": {
+    "description": "Du bist gerade im Begriff deine gesamten Daten zu löschen. Wenn du fortfährst, werden deine Bücher permanent gelöscht.\n\n Willst du fortfahren?",
+    "title": "Anonymer Logout"
+  },
+  "cancel": "Zurück",
+  "change": "Ändern",
+  "change_password": "Passwort ändern",
+  "continue": "Weiter",
+  "delete": "Löschen",
+  "delete_anyway": "Trotzdem löschen",
+  "dismiss": "Abbrechen",
+  "email": "Email",
+  "email_empty": "Email-Feld darf nicht leer sein!",
+  "email_in_use_description": "Die Email-Adresse ist bereits mit einem Google Konto verbunden. Bitte logge dich via Google für dieses Konto an.",
+  "email_in_use_title": "Email bereits vergeben",
+  "email_invalid": "Ungültige Email-Addresse",
+  "enter_email": "Gib deine Email-Adresse an",
+  "enter_password": "Gib dein Passwort ein",
+  "forgot_password": "TODO",
+  "got_it": "Verstanden",
+  "login": "Login",
+  "login_failed": "Fehler beim Anmelden",
+  "login_with_account": "Melde dich mit deinem Konto an und synchronisiere deine Bücher mit anderen Geräten.",
+  "login_with_email": "Weiter mit Mail",
+  "login_with_google": "Weiter mit Google",
+  "logout": "Logout",
+  "no_thanks": "TODO",
+  "not_my_book": "Nicht mein Buch",
+  "password": "Passwort",
+  "password_empty": "Passwortfeld darf nicht leer sein!",
+  "password_too_short": "Das Passwort muss mindestens 6 Zeichen lang sein!",
+  "profile": "Profil",
+  "query_search": {
+    "hint": "Title oder ISBN",
+    "title": "Titelsuche"
+  },
+  "reset": "TODO",
+  "reset_password": "TODO",
+  "reset_password_text": "TODO",
+  "search": "Suchen",
+  "search_hint": "Durchsuche deine Bibliothek...",
+  "select": "Wählen",
+  "settings": {
+    "about": {
+      "contributor_invite_description": "Klick hier",
+      "contributor_invite_title": "Willst du helfen?",
+      "copyright": "© 2016 - 2023",
+      "developers_title": "Entwickler",
+      "title": "Über"
+    },
+    "appearance": {
+      "theme": "Theme",
+      "theme_choose_title": "Thema wählen",
+      "theme_dark": "Dunkel",
+      "theme_light": "Hell",
+      "theme_system": "System",
+      "title": "Aussehen"
+    },
+    "books": {
+      "random_book": "Zufälliger Buchvorschlag",
+      "sort": "Bücher sortieren",
+      "sort_author": "Autor",
+      "sort_choose_title": "Sortierung wählen",
+      "sort_labels": "Labels",
+      "sort_pages": "Seitenanzahl",
+      "sort_progress": "Lesefortschritt",
+      "sort_standard": "Standard",
+      "sort_title": "Title",
+      "title": "Bücher"
+    },
+    "contribute": {
+      "code": "Code",
+      "community": "Community",
+      "feedback": "Feedback",
+      "title": "Mitwirken"
+    },
+    "danger_zone": {
+      "delete_account": "Konto löschen",
+      "delete_account_description": "Die Löschung deines Kontos wir auch all deine Bücher permantent löschen. Es gibt keine Möglichkeit diese wiederherzustellen.",
+      "delete_account_error": "Wir konnten dein Konto nicht löschen. Bitte melde dich neu an und probiere es nochmals.",
+      "delete_account_title": "Bist du sicher, dass du dein Konto löschen willst?",
+      "title": "Gefahrenzone"
+    },
+    "data_privacy": {
+      "data_privacy": "Datenschutzerklärung",
+      "terms_and_conditions": "Nutzungsbedingungen",
+      "title": "Datenschutz",
+      "tracking": "Tracking"
+    },
+    "title": "Einstellungen"
+  },
+  "sign_in": "Anmelden",
+  "sign_up_with_mail": "Anmelden mit Email",
+  "stay_anonymous": "Anonym bleiben",
+  "tabs": {
+    "for_later": "Für später",
+    "read": "Gelesen",
+    "reading": "Lesen",
+    "wishlist": "Wunschliste"
+  },
+  "upgrade": "Verknüpfen",
+  "upgrade_account": "Konto verknüpfen",
+  "upgrade_failed": "Wir konnten dein Konto leider nicht anlegen.",
+  "version": "App Version",
+  "version_number": "5.0",
+  "welcome_back": "Willkommen zurück!"
+}

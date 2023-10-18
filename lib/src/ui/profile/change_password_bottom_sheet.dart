@@ -1,8 +1,8 @@
 import 'package:dantex/src/providers/authentication.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/handle.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ChangePasswordBottomSheet extends ConsumerStatefulWidget {
@@ -23,14 +23,14 @@ class ChangePasswordBottomSheetState
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Container(
+      child: SizedBox(
         height: 300,
         child: Center(
           child: Column(
             children: <Widget>[
               const Handle(),
               Text(
-                AppLocalizations.of(context)!.password,
+                'password'.tr(),
                 style: const TextStyle(
                   fontWeight: FontWeight.w400,
                   fontSize: 20,
@@ -44,7 +44,7 @@ class ChangePasswordBottomSheetState
                     context,
                     _passwordController,
                     obscureText: true,
-                    hint: AppLocalizations.of(context)!.password,
+                    hint: 'password'.tr(),
                     errorText: _passwordErrorMessage,
                     onChanged: (val) {
                       _validatePassword(val);
@@ -54,7 +54,7 @@ class ChangePasswordBottomSheetState
               ),
               const Spacer(),
               DanteComponents.outlinedButton(
-                child: Text(AppLocalizations.of(context)!.change_password),
+                child: Text('change_password'.tr()),
                 onPressed: () async {
                   if (_isValidPassword()) {
                     Navigator.of(context).pop();
@@ -78,12 +78,11 @@ class ChangePasswordBottomSheetState
   void _validatePassword(String val) {
     if (val.isEmpty) {
       setState(() {
-        _passwordErrorMessage = AppLocalizations.of(context)!.password_empty;
+        _passwordErrorMessage = 'password_empty'.tr();
       });
     } else if (val.length < 6) {
       setState(() {
-        _passwordErrorMessage =
-            AppLocalizations.of(context)!.password_too_short;
+        _passwordErrorMessage = 'password_too_short'.tr();
       });
     } else {
       setState(() {

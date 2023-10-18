@@ -1,0 +1,118 @@
+{
+  "account_creation_failed": "Failed to create account",
+  "add_book": {
+    "manual": "Add manual",
+    "query": "Title search",
+    "scan": "Scan book"
+  },
+  "anonymous_login": {
+    "description": "Your data will be stored as long as you stay signed in. When you sign out, your data will be erased.\n\nYou can always upgrade to a regular account later on.",
+    "title": "Anonymous Login"
+  },
+  "anonymous_logout": {
+    "description": "You are going to delete all your data right now. Proceeding now will permanently remove all your books.\n\n Do you want to proceed?",
+    "title": "Anonymous Logout"
+  },
+  "cancel": "Cancel",
+  "change": "Change",
+  "change_password": "Change password",
+  "continue": "Continue",
+  "delete": "Delete",
+  "delete_anyway": "Delete anyway",
+  "dismiss": "Dismiss",
+  "email": "Email",
+  "email_empty": "Email can not be empty",
+  "email_in_use_description": "Your mail address is already associated with a Google Account. Please login via Google to use this account.",
+  "email_in_use_title": "Email already in use",
+  "email_invalid": "Invalid Email Address",
+  "enter_email": "Enter your email address",
+  "enter_password": "Enter your password",
+  "forgot_password": "Forgot password?",
+  "got_it": "Got it",
+  "login": "Login",
+  "login_failed": "Failed to login",
+  "login_with_account": "Login with your account to synchronize your books with other devices.",
+  "login_with_email": "Login with Email",
+  "login_with_google": "Login with Google",
+  "logout": "Logout",
+  "no_thanks": "No thanks",
+  "not_my_book": "Not my book",
+  "password": "Password",
+  "password_empty": "Password can not be empty",
+  "password_too_short": "Password must have at least 6 digits!",
+  "profile": "Profile",
+  "query_search": {
+    "hint": "Title or ISBN",
+    "title": "Title search"
+  },
+  "reset": "Reset",
+  "reset_password": "Reset Password",
+  "reset_password_text": "A link will be sent to your registered email address with instructions on how to reset your password.",
+  "search": "Search",
+  "search_hint": "Search your library...",
+  "select": "Select",
+  "settings": {
+    "about": {
+      "contributor_invite_description": "Tap here",
+      "contributor_invite_title": "Want to help?",
+      "copyright": "© 2016 - 2023",
+      "developers_title": "Developer",
+      "title": "About"
+    },
+    "appearance": {
+      "theme": "Theme",
+      "theme_choose_title": "Choose Theme",
+      "theme_dark": "Dark",
+      "theme_light": "Light",
+      "theme_system": "System",
+      "title": "Appearance"
+    },
+    "books": {
+      "random_book": "Random book suggestion",
+      "sort": "Sort books",
+      "sort_author": "Author",
+      "sort_choose_title": "Choose Sort Strategy",
+      "sort_labels": "Labels",
+      "sort_pages": "Pages",
+      "sort_progress": "Progress",
+      "sort_standard": "Standard",
+      "sort_title": "Title",
+      "title": "Books"
+    },
+    "contribute": {
+      "code": "Code",
+      "community": "Community",
+      "feedback": "Feedback",
+      "title": "Contribute"
+    },
+    "danger_zone": {
+      "delete_account": "Delete Account",
+      "delete_account_description": "Deleting your account will permanently delete all your books. There is no way to restore your data.",
+      "delete_account_error": "We were unable to delete your account. Please login again and try deleting it again.",
+      "delete_account_title": "Are you sure you want to delete your account?",
+      "title": "Danger Zone"
+    },
+    "data_privacy": {
+      "data_privacy": "Data Privacy",
+      "terms_and_conditions": "Terms and Condictions",
+      "title": "Data Privacy",
+      "tracking": "Tracking"
+    },
+    "title": "Settings"
+  },
+  "sign_in": "Sign in",
+  "sign_up_with_mail": "Sign up with email",
+  "stay_anonymous": "Stay Anonymous",
+  "tabs": {
+    "for_later": "For later",
+    "read": "Read",
+    "reading": "Reading",
+    "wishlist": "Wishlist"
+  },
+  "upgrade": "Upgrade",
+  "upgrade_account": "Upgrade account",
+  "upgrade_failed": "Fail to upgrade account.",
+  "version": "App Version",
+  "version_number": "5.0",
+  "welcome_back": "Welcome back!"
+}

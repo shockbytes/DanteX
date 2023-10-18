@@ -4,10 +4,10 @@ import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/handle.dart';
 import 'package:dantex/src/ui/core/platform_components.dart';
 import 'package:dantex/src/ui/main/main_page.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class EmailBottomSheet extends ConsumerStatefulWidget {
@@ -46,7 +46,7 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
                   _emailController,
                   enabled: _phase == LoginPhase.email,
                   textInputType: TextInputType.emailAddress,
-                  hint: AppLocalizations.of(context)!.email,
+                  hint: 'email'.tr(),
                   errorText: _emailErrorMessage,
                   onChanged: (val) async {
                     await _validateEmail(val);
@@ -67,7 +67,7 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
                           context,
                           _passwordController,
                           obscureText: true,
-                          hint: AppLocalizations.of(context)!.password,
+                          hint: 'password'.tr(),
                           errorText: _passwordErrorMessage,
                           onChanged: (val) {
                             if (_phase == LoginPhase.passwordNewUser) {
@@ -98,9 +98,9 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
 
   String _getButtonText() {
     if (_phase == LoginPhase.email) {
-      return AppLocalizations.of(context)!.cont;
+      return 'continue'.tr();
     } else {
-      return AppLocalizations.of(context)!.sign_up_with_mail;
+      return 'sign_up_with_mail'.tr();
     }
   }
 
@@ -156,58 +156,24 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
   void _upgradeUserException(Exception exception, StackTrace stackTrace) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(
-          AppLocalizations.of(context)!.upgrade_failed,
-        ),
+        content: Text('upgrade_failed'.tr()),
       ),
-    );
-  }
-
-  void _loginErrorReceived(Exception exception, StackTrace stackTrace) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(AppLocalizations.of(context)!.login_failed)),
-    );
-  }
-
-  Future<void> _buildForgotPasswordDialog() async {
-    return PlatformComponents.showPlatformDialog(
-      context,
-      title: AppLocalizations.of(context)!.reset_password,
-      content: AppLocalizations.of(context)!.reset_password_text,
-      actions: <PlatformDialogAction>[
-        PlatformDialogAction(
-          action: (_) {
-            Navigator.of(context).pop();
-          },
-          name: AppLocalizations.of(context)!.no_thanks,
-          isPrimary: false,
-        ),
-        PlatformDialogAction(
-          action: (_) async {
-            Navigator.of(context).pop();
-            await ref
-                .read(authenticationRepositoryProvider)
-                .sendPasswordResetRequest(email: _emailController.text);
-          },
-          name: 'Reset',
-        ),
-      ],
     );
   }
 
   Future<void> _buildGoogleAccountDialog() async {
     return PlatformComponents.showPlatformDialog(
       context,
-      title: AppLocalizations.of(context)!.email_in_use_title,
+      title: 'email_in_use_title'.tr(),
       leading: const Icon(
         Icons.g_mobiledata,
         color: Colors.red,
       ),
-      content: AppLocalizations.of(context)!.email_in_use_description,
+      content: 'email_in_use_description'.tr(),
       actions: <PlatformDialogAction>[
         PlatformDialogAction(
           action: (_) => Navigator.of(context).pop(),
-          name: AppLocalizations.of(context)!.got_it,
+          name: 'got_it'.tr(),
         ),
       ],
     );
@@ -224,11 +190,11 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
   Future<void> _validateEmail(String val) async {
     if (val.isEmpty) {
       setState(() {
-        _emailErrorMessage = AppLocalizations.of(context)!.email_empty;
+        _emailErrorMessage = 'email_empty'.tr();
       });
     } else if (!EmailValidator.validate(val)) {
       setState(() {
-        _emailErrorMessage = AppLocalizations.of(context)!.email_invalid;
+        _emailErrorMessage = 'email_invalid'.tr();
       });
     } else {
       final signInMethod = await ref
@@ -236,7 +202,7 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
           .fetchSignInMethodsForEmail(email: _emailController.text);
       if (signInMethod.isNotEmpty) {
         setState(() {
-          _emailErrorMessage = AppLocalizations.of(context)!.email_in_use_title;
+          _emailErrorMessage = 'email_in_use_title'.tr();
         });
       } else {
         setState(() {
@@ -249,12 +215,11 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
   void _validatePassword(String val) {
     if (val.isEmpty) {
       setState(() {
-        _passwordErrorMessage = AppLocalizations.of(context)!.password_empty;
+        _passwordErrorMessage = 'password_empty'.tr();
       });
     } else if (val.length < 6) {
       setState(() {
-        _passwordErrorMessage =
-            AppLocalizations.of(context)!.password_too_short;
+        _passwordErrorMessage = 'password_too_short'.tr();
       });
     } else {
       setState(() {
@@ -281,9 +246,7 @@ class BottomSheetTitle extends StatelessWidget {
       child: AnimatedSwitcher(
         duration: const Duration(milliseconds: 500),
         child: Text(
-          phase == LoginPhase.email
-              ? AppLocalizations.of(context)!.enter_email
-              : AppLocalizations.of(context)!.password,
+          phase == LoginPhase.email ? 'enter_email'.tr() : 'password'.tr(),
           key: ValueKey(phase),
           style: const TextStyle(
             fontWeight: FontWeight.w400,
