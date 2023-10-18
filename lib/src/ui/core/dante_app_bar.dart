@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dantex/main.dart';
 import 'package:dantex/src/data/authentication/entity/dante_user.dart';
 import 'package:dantex/src/providers/authentication.dart';
@@ -364,6 +365,7 @@ class UserTag extends ConsumerWidget {
 
 class UserAvatar extends ConsumerWidget {
   final DanteUser? user;
+
   const UserAvatar({
     required this.user,
     super.key,
@@ -375,7 +377,11 @@ class UserAvatar extends ConsumerWidget {
     if (photoUrl != null) {
       return ClipRRect(
         borderRadius: BorderRadius.circular(20.0),
-        child: Image.network(photoUrl),
+        child: CachedNetworkImage(
+          imageUrl: photoUrl,
+          width: 40,
+          height: 40,
+        ),
       );
     }
     return Icon(
