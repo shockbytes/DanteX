@@ -60,6 +60,7 @@ dependencies:
   go_router: ^11.1.2
   flutter_barcode_scanner: ^2.0.0
   settings_ui: ^2.0.2
+  logger: ^2.0.2+1
 
 dev_dependencies:
   flutter_test:
