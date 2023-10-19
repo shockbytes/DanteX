@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dantex/main.dart';
 import 'package:dantex/src/providers/authentication.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
@@ -18,8 +17,6 @@ class LoginPage extends ConsumerStatefulWidget {
 }
 
 class LoginPageState extends ConsumerState<LoginPage> {
-  static const String _googleImageUrl =
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/640px-Google_%22G%22_Logo.svg.png';
 
   bool _isLoading = false;
 
@@ -84,8 +81,8 @@ class LoginPageState extends ConsumerState<LoginPage> {
                           },
                           child: Row(
                             children: [
-                              CachedNetworkImage(
-                                imageUrl: _googleImageUrl,
+                              Image.asset(
+                                'assets/images/google_logo.png',
                                 width: 24,
                                 height: 24,
                               ),
