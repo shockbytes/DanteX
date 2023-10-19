@@ -1,5 +1,4 @@
 import 'package:dantex/main.dart';
-import 'package:dantex/src/data/authentication/authentication_repository.dart';
 import 'package:dantex/src/data/book/book_sort_strategy.dart';
 import 'package:dantex/src/data/settings/settings_repository.dart';
 import 'package:dantex/src/providers/authentication.dart';
@@ -202,7 +201,7 @@ class SettingsPage extends ConsumerWidget {
                   Icons.no_accounts_outlined,
                   color: Theme.of(context).colorScheme.error,
                 ),
-                onPressed: (context) async => _deleteAccount(context),
+                onPressed: (context) async => _deleteAccount(context, ref),
               ),
             ],
           ),
@@ -242,7 +241,7 @@ class SettingsPage extends ConsumerWidget {
     );
   }
 
-  Future<void> _deleteAccount(BuildContext context) async {
+  Future<void> _deleteAccount(BuildContext context, WidgetRef ref) async {
     final bool shouldDeleteAccount = await showAdaptiveDialog(
       context: context,
       builder: (context) {
@@ -281,7 +280,7 @@ class SettingsPage extends ConsumerWidget {
 
     if (shouldDeleteAccount) {
       try {
-        await _authenticationRepository.deleteAccount();
+        await ref.read(authenticationRepositoryProvider).deleteAccount();
         if (context.mounted) {
           context.pushReplacement(DanteRoute.login.navigationUrl);
         }
