@@ -17,6 +17,7 @@ class LoginPage extends ConsumerStatefulWidget {
 }
 
 class LoginPageState extends ConsumerState<LoginPage> {
+
   bool _isLoading = false;
 
   @override
@@ -71,7 +72,8 @@ class LoginPageState extends ConsumerState<LoginPage> {
                                   .loginWithGoogle();
                               if (mounted) {
                                 context.pushReplacement(
-                                    DanteRoute.dashboard.navigationUrl);
+                                  DanteRoute.dashboard.navigationUrl,
+                                );
                               }
                             } on Exception catch (exception, stackTrace) {
                               _loginErrorReceived(exception, stackTrace);
@@ -79,9 +81,10 @@ class LoginPageState extends ConsumerState<LoginPage> {
                           },
                           child: Row(
                             children: [
-                              const Icon(
-                                Icons.g_mobiledata,
-                                color: Colors.red,
+                              Image.asset(
+                                'assets/images/google_logo.png',
+                                width: 24,
+                                height: 24,
                               ),
                               Expanded(
                                 child: Text(
