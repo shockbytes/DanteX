@@ -163,4 +163,10 @@ class FirebaseAuthenticationRepository implements AuthenticationRepository {
   Future<void> sendPasswordResetRequest({required String email}) {
     return _fbAuth.sendPasswordResetEmail(email: email);
   }
+
+  @override
+  Future<void> deleteAccount() {
+    return _fbAuth.currentUser?.delete()
+        ?? Future.error('No user logged in.');
+  }
 }
