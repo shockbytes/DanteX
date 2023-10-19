@@ -4,14 +4,15 @@ class InteractiveDanteSearchBar extends StatelessWidget {
   final Function(String query) onQueryChanged;
 
   const InteractiveDanteSearchBar({
-    Key? key,
     required this.onQueryChanged,
+    Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 0,
+      margin: EdgeInsets.zero,
       clipBehavior: Clip.hardEdge,
       color: Theme.of(context).colorScheme.tertiaryContainer,
       child: TextField(

@@ -5,54 +5,71 @@ import 'package:dantex/src/data/bookdownload/book_downloader.dart';
 import 'package:dantex/src/data/bookdownload/entity/book_suggestion.dart';
 import 'package:rxdart/rxdart.dart';
 
-class SearchBloc {
-  String query = '';
-
+class Search {
+  String _lastQuery = '';
   final int _minQueryLength = 3;
 
   final BookRepository _repository;
   final BookDownloader _bookDownloader;
 
-  SearchBloc(
+  Search(
     this._repository,
     this._bookDownloader,
   );
 
-  final BehaviorSubject<List<BookSearchResult>> _searchResultSubject = BehaviorSubject.seeded([]);
+  final BehaviorSubject<SearchResultState> _searchResultSubject =
+      BehaviorSubject.seeded(Idle());
 
-  Stream<List<BookSearchResult>> get searchResults => _searchResultSubject.stream;
+  Stream<SearchResultState> get searchResults =>
+      _searchResultSubject.stream;
 
-  void onQueryChanged(String query) async {
+  Future<void> onQueryChanged(String query) async {
     if (query.length < _minQueryLength) {
       return;
     }
 
-    this.query = query;
+    _lastQuery = query;
 
-    List<BookSearchResult> books =
-        (await _repository.search(_buildCriteria(query)).first) // TODO Replace with Future in Repository class.
-            .map(LocalBookSearchResult.fromBook)
-            .toList();
+    final List<BookSearchResult> books = (
+            // TODO Change this in repository once the migration PR is merged
+            await _repository.search(_buildCriteria(query)).first)
+        .map(LocalBookSearchResult.fromBook)
+        .toList();
 
-    _searchResultSubject.add(books);
+    _searchResultSubject.add(SearchResult(books));
   }
 
-  void performOnlineSearch() async {
-    // TODO Perform online search with query
+  Future<void> performOnlineSearch() async {
+    final BookSuggestion suggestion = await _bookDownloader.downloadBook(
+      _lastQuery,
+    );
 
-    BookSuggestion suggestion = await _bookDownloader.downloadBook(query);
-
-    List<BookSearchResult> results = [
+    final List<BookSearchResult> results = [
       RemoteBookSearchResult.fromBook(suggestion.target),
       ...suggestion.suggestions.map(RemoteBookSearchResult.fromBook),
     ];
 
-    _searchResultSubject.add(results);
+    _searchResultSubject.add(SearchResult(results));
   }
 
   SearchCriteria _buildCriteria(String query) {
     return SimpleQuerySearchCriteria(query);
   }
+}
+
+sealed class SearchResultState {
+
+}
+
+class Idle extends SearchResultState {
+
+}
+
+class SearchResult extends SearchResultState {
+
+  final List<BookSearchResult> results;
+
+  SearchResult(this.results);
 }
 
 sealed class BookSearchResult {

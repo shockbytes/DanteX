@@ -16,7 +16,7 @@ class BookImage extends StatelessWidget {
     if (_imageUrl != null) {
       return CachedNetworkImage(
         imageUrl: _imageUrl!,
-        height: size,
+        width: size,
       );
     } else {
       return Icon(
