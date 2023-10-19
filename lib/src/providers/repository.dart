@@ -45,3 +45,24 @@ SettingsRepository settingsRepository(SettingsRepositoryRef ref) =>
       ref.read(sharedPreferencesProvider),
     );
 
+@riverpod
+class IsRandomBooksEnabled extends _$IsRandomBooksEnabled {
+  @override
+  bool build() => ref.read(settingsRepositoryProvider).isRandomBooksEnabled();
+
+  void toggle() {
+    ref.read(settingsRepositoryProvider).setIsRandomBooksEnabled(!state);
+    state = !state;
+  }
+}
+
+@riverpod
+class IsTrackingEnabled extends _$IsTrackingEnabled {
+  @override
+  bool build() => ref.read(settingsRepositoryProvider).isTrackingEnabled();
+
+  void toggle() {
+    ref.read(settingsRepositoryProvider).setIsTrackingEnabled(!state);
+    state = !state;
+  }
+}

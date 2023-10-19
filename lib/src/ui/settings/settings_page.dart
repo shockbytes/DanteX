@@ -94,10 +94,10 @@ class SettingsPage extends ConsumerWidget {
                 },
               ),
               SettingsTile.switchTile(
-                initialValue: repository.isRandomBooksEnabled(),
+                initialValue: ref.watch(isRandomBooksEnabledProvider),
                 activeSwitchColor: Theme.of(context).colorScheme.primary,
                 onToggle: (bool newValue) {
-                  repository.setIsRandomBooksEnabled(newValue);
+                  ref.read(isRandomBooksEnabledProvider.notifier).toggle();
                 },
                 title: Text(
                   AppLocalizations.of(context)!.settings_books_random_book,
@@ -154,10 +154,10 @@ class SettingsPage extends ConsumerWidget {
             ),
             tiles: [
               SettingsTile.switchTile(
-                initialValue: repository.isTrackingEnabled(),
+                initialValue: ref.watch(isTrackingEnabledProvider),
                 activeSwitchColor: Theme.of(context).colorScheme.primary,
                 onToggle: (bool newValue) {
-                  repository.setIsTrackingEnabled(newValue);
+                  ref.read(isTrackingEnabledProvider.notifier).toggle();
                 },
                 title: Text(
                   AppLocalizations.of(context)!.settings_data_privacy_tracking,
