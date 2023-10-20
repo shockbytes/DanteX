@@ -8,8 +8,8 @@ import 'package:dantex/src/ui/add/add_book_widget.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/dante_search_bar.dart';
 import 'package:dantex/src/ui/core/platform_components.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -48,7 +48,7 @@ class DanteAppBar extends ConsumerWidget implements PreferredSizeWidget {
                     PopupMenuItem<AddBookAction>(
                       value: AddBookAction.scan,
                       child: _AddActionItem(
-                        text: AppLocalizations.of(context)!.add_scan,
+                        text: 'add_book.scan'.tr(),
                         iconData: Icons.camera_alt_outlined,
                         color: Theme.of(context).colorScheme.secondary,
                       ),
@@ -56,7 +56,7 @@ class DanteAppBar extends ConsumerWidget implements PreferredSizeWidget {
                     PopupMenuItem<AddBookAction>(
                       value: AddBookAction.query,
                       child: _AddActionItem(
-                        text: AppLocalizations.of(context)!.add_query,
+                        text: 'add_book.query'.tr(),
                         iconData: Icons.search,
                         color: Theme.of(context).colorScheme.secondary,
                       ),
@@ -64,7 +64,7 @@ class DanteAppBar extends ConsumerWidget implements PreferredSizeWidget {
                     PopupMenuItem<AddBookAction>(
                       value: AddBookAction.manual,
                       child: _AddActionItem(
-                        text: AppLocalizations.of(context)!.add_manual,
+                        text: 'add_book.manual'.tr(),
                         iconData: Icons.edit_outlined,
                         color: Theme.of(context).colorScheme.secondary,
                       ),
@@ -110,16 +110,16 @@ class DanteAppBar extends ConsumerWidget implements PreferredSizeWidget {
     final controller = TextEditingController();
     await PlatformComponents.showPlatformInputDialog(
       context,
-      title: AppLocalizations.of(context)!.query_search_title,
-      hint: AppLocalizations.of(context)!.query_search_hint,
+      title: 'query_search.title'.tr(),
+      hint: 'query_search.hint'.tr(),
       textInputAction: TextInputAction.search,
       actions: [
         PlatformDialogAction(
-          name: AppLocalizations.of(context)!.cancel,
+          name: 'cancel'.tr(),
           action: (BuildContext context) => Navigator.of(context).pop(),
         ),
         PlatformDialogAction(
-          name: AppLocalizations.of(context)!.search,
+          name: 'search'.tr(),
           action: (BuildContext context) async {
             Navigator.of(context).pop();
             await openAddBookSheet(
@@ -336,20 +336,19 @@ class UserTag extends ConsumerWidget {
       await showDialog<String>(
         context: context,
         builder: (BuildContext context) => AlertDialog(
-          title: Text(AppLocalizations.of(context)!.anonymous_logout_title),
-          content:
-              Text(AppLocalizations.of(context)!.anonymous_logout_description),
+          title: Text('anonymous_logout.title'.tr()),
+          content: Text('anonymous_logout.description'.tr()),
           actions: <Widget>[
             DanteComponents.outlinedButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: Text(AppLocalizations.of(context)!.cancel),
+              child: Text('cancel'.tr()),
             ),
             DanteComponents.outlinedButton(
               onPressed: () async {
                 Navigator.of(context).pop();
                 await ref.read(authenticationRepositoryProvider).logout();
               },
-              child: Text(AppLocalizations.of(context)!.logout),
+              child: Text('logout'.tr()),
             ),
           ],
         ),

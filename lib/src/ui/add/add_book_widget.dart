@@ -6,8 +6,8 @@ import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/dante_loading_indicator.dart';
 import 'package:dantex/src/ui/core/generic_error_widget.dart';
 import 'package:dantex/src/ui/core/handle.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 enum AddBookWidgetAppearance {
@@ -152,9 +152,7 @@ class BookWidget extends ConsumerWidget {
                         Navigator.of(context).pop();
                       }
                     },
-                    child: Text(
-                      AppLocalizations.of(context)!.tab_for_later,
-                    ),
+                    child: Text('tabs.for_later'.tr()),
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -169,9 +167,7 @@ class BookWidget extends ConsumerWidget {
                         Navigator.of(context).pop();
                       }
                     },
-                    child: Text(
-                      AppLocalizations.of(context)!.tab_reading,
-                    ),
+                    child: Text('tabs.reading'.tr()),
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -186,9 +182,7 @@ class BookWidget extends ConsumerWidget {
                         Navigator.of(context).pop();
                       }
                     },
-                    child: Text(
-                      AppLocalizations.of(context)!.tab_read,
-                    ),
+                    child: Text('tabs.read'.tr()),
                   ),
                 ),
                 const SizedBox(width: 16),
@@ -205,16 +199,12 @@ class BookWidget extends ConsumerWidget {
                   Navigator.of(context).pop();
                 }
               },
-              child: Text(
-                AppLocalizations.of(context)!.tab_wishlist,
-              ),
+              child: Text('tabs.wishlist'.tr()),
             ),
           ],
         ),
         TextButton(
-          child: Text(
-            AppLocalizations.of(context)!.not_my_book,
-          ),
+          child: Text('not_my_book'.tr()),
           onPressed: () {
             // TODO Show bookSuggestion.suggestions in another ticket
           },

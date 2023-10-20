@@ -1,8 +1,8 @@
 import 'package:dantex/src/data/book/entity/book_state.dart';
 import 'package:dantex/src/ui/core/dante_app_bar.dart';
 import 'package:dantex/src/ui/main/book_state_page.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -37,7 +37,7 @@ class _MainPageState extends State<MainPage> {
               Icons.bookmark,
               color: Theme.of(context).colorScheme.primary,
             ),
-            label: AppLocalizations.of(context)!.tab_for_later,
+            label: 'tabs.for_later'.tr(),
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.book_outlined),
@@ -45,7 +45,7 @@ class _MainPageState extends State<MainPage> {
               Icons.book,
               color: Theme.of(context).colorScheme.primary,
             ),
-            label: AppLocalizations.of(context)!.tab_reading,
+            label: 'tabs.reading'.tr(),
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.check_outlined),
@@ -53,7 +53,7 @@ class _MainPageState extends State<MainPage> {
               Icons.check_outlined,
               color: Theme.of(context).colorScheme.primary,
             ),
-            label: AppLocalizations.of(context)!.tab_read,
+            label: 'tabs.read'.tr(),
           ),
         ],
       ),

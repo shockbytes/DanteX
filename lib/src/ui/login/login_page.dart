@@ -4,8 +4,8 @@ import 'package:dantex/main.dart';
 import 'package:dantex/src/providers/authentication.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/platform_components.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -48,7 +48,7 @@ class LoginPageState extends ConsumerState<LoginPage> {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          AppLocalizations.of(context)!.welcome_back,
+                          'welcome_back'.tr(),
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -56,7 +56,7 @@ class LoginPageState extends ConsumerState<LoginPage> {
                         ),
                         const SizedBox(height: 12),
                         Text(
-                          AppLocalizations.of(context)!.login_with_account,
+                          'login_with_account'.tr(),
                           textAlign: TextAlign.center,
                           style: const TextStyle(fontSize: 12),
                         ),
@@ -88,8 +88,7 @@ class LoginPageState extends ConsumerState<LoginPage> {
                               ),
                               Expanded(
                                 child: Text(
-                                  AppLocalizations.of(context)!
-                                      .login_with_google,
+                                  'login_with_google'.tr(),
                                   textAlign: TextAlign.center,
                                   style: const TextStyle(
                                     color: Colors.red,
@@ -108,8 +107,7 @@ class LoginPageState extends ConsumerState<LoginPage> {
                               const Icon(Icons.mail_outline),
                               Expanded(
                                 child: Text(
-                                  AppLocalizations.of(context)!
-                                      .login_with_email,
+                                  'login_with_email'.tr(),
                                   textAlign: TextAlign.center,
                                 ),
                               ),
@@ -137,7 +135,7 @@ class LoginPageState extends ConsumerState<LoginPage> {
                               ),
                               Expanded(
                                 child: Text(
-                                  AppLocalizations.of(context)!.stay_anonymous,
+                                  'stay_anonymous'.tr(),
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color:
@@ -163,15 +161,15 @@ class LoginPageState extends ConsumerState<LoginPage> {
     });
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(AppLocalizations.of(context)!.login_failed)),
+      SnackBar(content: Text('login_failed'.tr())),
     );
   }
 
   Future<void> _buildAnonymousLoginDialog() async {
     await PlatformComponents.showPlatformDialog(
       context,
-      title: AppLocalizations.of(context)!.anonymous_login_title,
-      content: AppLocalizations.of(context)!.anonymous_login_description,
+      title: 'anonymous_login.title'.tr(),
+      content: 'anonymous_login.description'.tr(),
       actions: <PlatformDialogAction>[
         PlatformDialogAction(
           action: (_) {
@@ -180,7 +178,7 @@ class LoginPageState extends ConsumerState<LoginPage> {
             });
             Navigator.of(context).pop();
           },
-          name: AppLocalizations.of(context)!.dismiss,
+          name: 'dismiss'.tr(),
         ),
         PlatformDialogAction(
           action: (_) async {
@@ -196,7 +194,7 @@ class LoginPageState extends ConsumerState<LoginPage> {
               _loginErrorReceived(exception, stackTrace);
             }
           },
-          name: AppLocalizations.of(context)!.login,
+          name: 'login'.tr(),
         ),
       ],
     );

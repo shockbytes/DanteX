@@ -3,10 +3,10 @@ import 'package:dantex/src/data/authentication/entity/dante_user.dart';
 import 'package:dantex/src/providers/authentication.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/platform_components.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -48,7 +48,7 @@ class EmailLoginPageState extends ConsumerState<EmailLoginPage> {
                           _emailController,
                           enabled: _phase == LoginPhase.email,
                           textInputType: TextInputType.emailAddress,
-                          hint: AppLocalizations.of(context)!.email,
+                          hint: 'email'.tr(),
                           errorText: _emailErrorMessage,
                           onChanged: (val) async {
                             await _validateEmail(val);
@@ -70,7 +70,7 @@ class EmailLoginPageState extends ConsumerState<EmailLoginPage> {
                                   context,
                                   _passwordController,
                                   obscureText: true,
-                                  hint: AppLocalizations.of(context)!.password,
+                                  hint: 'password'.tr(),
                                   errorText: _passwordErrorMessage,
                                   onChanged: (val) {
                                     if (_phase == LoginPhase.passwordNewUser) {
@@ -86,10 +86,7 @@ class EmailLoginPageState extends ConsumerState<EmailLoginPage> {
                                   onTap: () async {
                                     await _buildForgotPasswordDialog();
                                   },
-                                  child: Text(
-                                    AppLocalizations.of(context)!
-                                        .forgot_password,
-                                  ),
+                                  child: Text('forgot_password'.tr()),
                                 ),
                               ),
                             ],
@@ -115,11 +112,11 @@ class EmailLoginPageState extends ConsumerState<EmailLoginPage> {
 
   String _getButtonText() {
     if (_phase == LoginPhase.email) {
-      return AppLocalizations.of(context)!.cont;
+      return 'continue'.tr();
     } else if (_phase == LoginPhase.passwordExistingUser) {
-      return AppLocalizations.of(context)!.sign_in;
+      return 'sign_in'.tr();
     } else {
-      return AppLocalizations.of(context)!.sign_up_with_mail;
+      return 'sign_up_with_mail'.tr();
     }
   }
 
@@ -197,29 +194,29 @@ class EmailLoginPageState extends ConsumerState<EmailLoginPage> {
   void _createUserException(Exception exception, StackTrace stackTrace) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(AppLocalizations.of(context)!.account_creation_failed),
+        content: Text('account_creation_failed'.tr()),
       ),
     );
   }
 
   void _loginErrorReceived(Exception exception, StackTrace stackTrace) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(AppLocalizations.of(context)!.login_failed)),
+      SnackBar(content: Text('login_failed'.tr())),
     );
   }
 
   Future<void> _buildForgotPasswordDialog() async {
     return PlatformComponents.showPlatformDialog(
       context,
-      title: AppLocalizations.of(context)!.reset_password,
-      content: AppLocalizations.of(context)!.reset_password_text,
+      title: 'reset_password'.tr(),
+      content: 'reset_password_text'.tr(),
       actions: <PlatformDialogAction>[
         PlatformDialogAction(
           action: (_) {
             // Close the dialog.
             Navigator.of(context).pop();
           },
-          name: AppLocalizations.of(context)!.no_thanks,
+          name: 'no_thanks'.tr(),
           isPrimary: false,
         ),
         PlatformDialogAction(
@@ -243,12 +240,12 @@ class EmailLoginPageState extends ConsumerState<EmailLoginPage> {
   Future<void> _buildGoogleAccountDialog() async {
     return PlatformComponents.showPlatformDialog(
       context,
-      title: AppLocalizations.of(context)!.email_in_use_title,
+      title: 'email_in_use_title'.tr(),
       leading: const Icon(
         Icons.g_mobiledata,
         color: Colors.red,
       ),
-      content: AppLocalizations.of(context)!.email_in_use_description,
+      content: 'email_in_use_description'.tr(),
       actions: <PlatformDialogAction>[
         PlatformDialogAction(
           action: (_) {
@@ -260,7 +257,7 @@ class EmailLoginPageState extends ConsumerState<EmailLoginPage> {
               DanteRoute.login.navigationUrl,
             );
           },
-          name: AppLocalizations.of(context)!.got_it,
+          name: 'got_it'.tr(),
         ),
       ],
     );
@@ -277,11 +274,11 @@ class EmailLoginPageState extends ConsumerState<EmailLoginPage> {
   Future<void> _validateEmail(String val) async {
     if (val.isEmpty) {
       setState(() {
-        _emailErrorMessage = AppLocalizations.of(context)!.email_empty;
+        _emailErrorMessage = 'email_empty'.tr();
       });
     } else if (!EmailValidator.validate(val)) {
       setState(() {
-        _emailErrorMessage = AppLocalizations.of(context)!.email_invalid;
+        _emailErrorMessage = 'email_invalid'.tr();
       });
     } else {
       setState(() {
@@ -293,12 +290,11 @@ class EmailLoginPageState extends ConsumerState<EmailLoginPage> {
   void _validatePassword(String val) {
     if (val.isEmpty) {
       setState(() {
-        _passwordErrorMessage = AppLocalizations.of(context)!.password_empty;
+        _passwordErrorMessage = 'password_empty'.tr();
       });
     } else if (val.length < 6) {
       setState(() {
-        _passwordErrorMessage =
-            AppLocalizations.of(context)!.password_too_short;
+        _passwordErrorMessage = 'password_too_short'.tr();
       });
     } else {
       setState(() {
@@ -326,9 +322,7 @@ class LoginPageTitle extends StatelessWidget {
       child: AnimatedSwitcher(
         duration: const Duration(milliseconds: 500),
         child: Text(
-          phase == LoginPhase.email
-              ? AppLocalizations.of(context)!.enter_email
-              : AppLocalizations.of(context)!.password,
+          phase == LoginPhase.email ? 'enter_email'.tr() : 'password'.tr(),
           key: ValueKey(phase),
           style: const TextStyle(
             fontWeight: FontWeight.w400,

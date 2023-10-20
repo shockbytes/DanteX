@@ -12,11 +12,11 @@ import 'package:dantex/src/ui/main/main_page.dart';
 import 'package:dantex/src/ui/profile/profile_page.dart';
 import 'package:dantex/src/ui/settings/contributors_page.dart';
 import 'package:dantex/src/ui/settings/settings_page.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -26,6 +26,7 @@ void main() async {
   await runZonedGuarded(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
+      await EasyLocalization.ensureInitialized();
 
       final List<Override> overrides = await _initializeBlockingDependencies();
 
@@ -37,7 +38,12 @@ void main() async {
       runApp(
         ProviderScope(
           overrides: overrides,
-          child: const DanteXApp(),
+          child: EasyLocalization(
+            supportedLocales: const [Locale('en', 'US'), Locale('de', 'DE')],
+            path: 'assets/translations',
+            fallbackLocale: const Locale('en', 'US'),
+            child: const DanteXApp(),
+          ),
         ),
       );
     },
@@ -77,8 +83,9 @@ class DanteXApp extends ConsumerWidget {
           routerConfig: _router,
           title: 'Dante',
           debugShowCheckedModeBanner: false,
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
           themeMode: themeMode,
           theme: ThemeData(
             colorSchemeSeed: Colors.white,
@@ -174,7 +181,7 @@ final GoRouter _router = GoRouter(
             GoRoute(
               path: DanteRoute.contributors.url,
               builder: (BuildContext context, GoRouterState state) =>
-                  ContributorsPage(),
+                  const ContributorsPage(),
             ),
           ],
         ),
