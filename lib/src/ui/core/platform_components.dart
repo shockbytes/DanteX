@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class PlatformDialogAction {
@@ -65,8 +64,8 @@ class PlatformComponents {
   static Future showPlatformInputDialog(
     BuildContext context, {
     required String title,
-    Widget? leading,
     required TextEditingController controller,
+    Widget? leading,
     String? hint,
     int maxLines = 1,
     TextInputAction textInputAction = TextInputAction.next,
@@ -109,9 +108,9 @@ class PlatformComponents {
 
   static Future _showAndBuildCupertinoDialog(
     BuildContext context, {
-    Widget? title,
     required Widget content,
     required List<PlatformDialogAction> actions,
+    Widget? title,
   }) {
     return showCupertinoDialog(
       context: context,
@@ -134,9 +133,9 @@ class PlatformComponents {
 
   static Future _showAndBuildMaterialDialog(
     BuildContext context, {
-    Widget? title,
     required Widget content,
     required List<PlatformDialogAction> actions,
+    Widget? title,
   }) {
     return showDialog(
       context: context,
@@ -182,7 +181,9 @@ class PlatformComponents {
       child: Text(
         action,
         style: TextStyle(
-          color: isPrimary ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onSurface,
+          color: isPrimary
+              ? Theme.of(context).colorScheme.primary
+              : Theme.of(context).colorScheme.onSurface,
         ),
       ),
     );
@@ -197,14 +198,19 @@ class PlatformComponents {
     return TextButton(
       onPressed: onPressed,
       style: TextButton.styleFrom(
-        foregroundColor: isPrimary ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.surface,
-
-    backgroundColor: isPrimary ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.surface,
+        foregroundColor: isPrimary
+            ? Theme.of(context).colorScheme.primary
+            : Theme.of(context).colorScheme.surface,
+        backgroundColor: isPrimary
+            ? Theme.of(context).colorScheme.primary
+            : Theme.of(context).colorScheme.surface,
       ),
       child: Text(
         action,
         style: TextStyle(
-          color: isPrimary ? Theme.of(context).colorScheme.surface : Theme.of(context).colorScheme.primary,
+          color: isPrimary
+              ? Theme.of(context).colorScheme.surface
+              : Theme.of(context).colorScheme.primary,
         ),
       ),
     );

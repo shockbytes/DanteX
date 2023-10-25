@@ -36,7 +36,6 @@ class DanteComponents {
       controller: controller,
       obscureText: obscureText,
       cursorColor: Theme.of(context).colorScheme.primary,
-      cursorWidth: 2,
       keyboardType: textInputType,
       textInputAction: textInputAction,
       maxLines: maxLines,
@@ -61,28 +60,24 @@ class DanteComponents {
           ),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: const BorderRadius.all(Radius.circular(4.0)),
           borderSide: BorderSide(
             color: Theme.of(context).colorScheme.error,
             width: 2,
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: const BorderRadius.all(Radius.circular(4.0)),
           borderSide: BorderSide(
             color: Theme.of(context).colorScheme.error,
             width: 2,
           ),
         ),
         disabledBorder: OutlineInputBorder(
-          borderRadius: const BorderRadius.all(Radius.circular(4.0)),
           borderSide: BorderSide(
             color: Theme.of(context).colorScheme.outline,
             width: 2,
           ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: const BorderRadius.all(Radius.circular(4.0)),
           borderSide: BorderSide(
             color: Theme.of(context).colorScheme.secondary,
             width: 2,
@@ -93,14 +88,24 @@ class DanteComponents {
   }
 
   static OutlinedButton outlinedButton({
-    Key? key,
     required Widget child,
     required void Function()? onPressed,
+    Key? key,
   }) {
     return OutlinedButton(
       key: key,
       onPressed: onPressed,
       child: child,
+    );
+  }
+
+  static BackButton backButton({
+    required void Function()? onPressed,
+    Key? key,
+  }) {
+    return BackButton(
+      key: key,
+      onPressed: onPressed,
     );
   }
 }

@@ -11,29 +11,29 @@ part 'authentication.g.dart';
 @riverpod
 FirebaseApp firebaseApp(FirebaseAppRef ref) => throw UnimplementedError();
 
-@riverpod
+@Riverpod(keepAlive: true)
 FirebaseAuth firebaseAuth(FirebaseAuthRef ref) => FirebaseAuth.instance;
 
 @riverpod
 Stream<User?> authStateChanges(AuthStateChangesRef ref) =>
-    ref.read(firebaseAuthProvider).authStateChanges();
+    ref.watch(firebaseAuthProvider).authStateChanges();
 
 @riverpod
 FirebaseDatabase firebaseDatabase(FirebaseDatabaseRef ref) =>
     FirebaseDatabase.instanceFor(
-      app: ref.read(firebaseAppProvider),
+      app: ref.watch(firebaseAppProvider),
       databaseURL: 'https://dante-books.europe-west1.firebasedatabase.app/',
     );
 
-@riverpod
+@Riverpod(keepAlive: true)
 AuthenticationRepository authenticationRepository(
   AuthenticationRepositoryRef ref,
 ) =>
-    FirebaseAuthenticationRepository(ref.read(firebaseAuthProvider));
+    FirebaseAuthenticationRepository(ref.watch(firebaseAuthProvider));
 
 @riverpod
 Future<DanteUser?> user(UserRef ref) {
   // Rebuild this provider when there is an auth state change.
   ref.watch(authStateChangesProvider);
-  return ref.read(authenticationRepositoryProvider).getAccount();
+  return ref.watch(authenticationRepositoryProvider).getAccount();
 }

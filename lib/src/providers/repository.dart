@@ -13,24 +13,24 @@ part 'repository.g.dart';
 class BookRepository extends _$BookRepository {
   @override
   FirebaseBookRepository build() => FirebaseBookRepository(
-        ref.read(firebaseAuthProvider),
-        ref.read(firebaseDatabaseProvider),
+        ref.watch(firebaseAuthProvider),
+        ref.watch(firebaseDatabaseProvider),
       );
 
   Future<void> addToWishlist(Book book) {
-    return _addBook(book, BookState.WISHLIST);
+    return _addBook(book, BookState.wishlist);
   }
 
   Future<void> addToForLater(Book book) {
-    return _addBook(book, BookState.READ_LATER);
+    return _addBook(book, BookState.readLater);
   }
 
   Future<void> addToReading(Book book) {
-    return _addBook(book, BookState.READING);
+    return _addBook(book, BookState.reading);
   }
 
   Future<void> addToRead(Book book) {
-    return _addBook(book, BookState.READ);
+    return _addBook(book, BookState.read);
   }
 
   Future<void> _addBook(Book book, BookState bookState) {
@@ -42,16 +42,18 @@ class BookRepository extends _$BookRepository {
 @riverpod
 SettingsRepository settingsRepository(SettingsRepositoryRef ref) =>
     SharedPreferencesSettingsRepository(
-      ref.read(sharedPreferencesProvider),
+      ref.watch(sharedPreferencesProvider),
     );
 
 @riverpod
 class IsRandomBooksEnabled extends _$IsRandomBooksEnabled {
   @override
-  bool build() => ref.read(settingsRepositoryProvider).isRandomBooksEnabled();
+  bool build() => ref.watch(settingsRepositoryProvider).isRandomBooksEnabled();
 
   void toggle() {
-    ref.read(settingsRepositoryProvider).setIsRandomBooksEnabled(!state);
+    ref
+        .watch(settingsRepositoryProvider)
+        .setIsRandomBooksEnabled(isRandomBooksEnabled: !state);
     state = !state;
   }
 }
@@ -59,10 +61,12 @@ class IsRandomBooksEnabled extends _$IsRandomBooksEnabled {
 @riverpod
 class IsTrackingEnabled extends _$IsTrackingEnabled {
   @override
-  bool build() => ref.read(settingsRepositoryProvider).isTrackingEnabled();
+  bool build() => ref.watch(settingsRepositoryProvider).isTrackingEnabled();
 
   void toggle() {
-    ref.read(settingsRepositoryProvider).setIsTrackingEnabled(!state);
+    ref
+        .watch(settingsRepositoryProvider)
+        .setIsTrackingEnabled(isTrackingEnabled: !state);
     state = !state;
   }
 }

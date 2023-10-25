@@ -17,7 +17,7 @@ class BookLabel with Jsonizable {
 
   @override
   Map<String, dynamic> toMap() {
-    var data = <String, dynamic>{};
+    final data = <String, dynamic>{};
 
     data['bookId'] = bookId;
     data['title'] = title;

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:dantex/main.dart';
+import 'package:dantex/src/providers/app_router.dart';
 import 'package:dantex/src/providers/authentication.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/platform_components.dart';
@@ -17,7 +17,6 @@ class LoginPage extends ConsumerStatefulWidget {
 }
 
 class LoginPageState extends ConsumerState<LoginPage> {
-
   bool _isLoading = false;
 
   @override
@@ -70,11 +69,6 @@ class LoginPageState extends ConsumerState<LoginPage> {
                               await ref
                                   .read(authenticationRepositoryProvider)
                                   .loginWithGoogle();
-                              if (mounted) {
-                                context.pushReplacement(
-                                  DanteRoute.dashboard.navigationUrl,
-                                );
-                              }
                             } on Exception catch (exception, stackTrace) {
                               _loginErrorReceived(exception, stackTrace);
                             }
@@ -187,9 +181,6 @@ class LoginPageState extends ConsumerState<LoginPage> {
               await ref
                   .read(authenticationRepositoryProvider)
                   .loginAnonymously();
-              if (mounted) {
-                context.pushReplacement(DanteRoute.dashboard.navigationUrl);
-              }
             } on Exception catch (exception, stackTrace) {
               _loginErrorReceived(exception, stackTrace);
             }

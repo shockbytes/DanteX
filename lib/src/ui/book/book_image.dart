@@ -7,8 +7,8 @@ class BookImage extends StatelessWidget {
 
   const BookImage(
     this._imageUrl, {
-    super.key,
     required this.size,
+    super.key,
   });
 
   @override

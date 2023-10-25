@@ -30,81 +30,104 @@ class EmailLoginPageState extends ConsumerState<EmailLoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: _isLoading
-              ? const CircularProgressIndicator.adaptive()
-              : Center(
-                  child: Column(
-                    children: [
-                      LoginPageTitle(
-                        key: ValueKey('title-phase-$_phase'),
-                        phase: _phase,
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+        leading: DanteComponents.backButton(
+          onPressed: () => context.pushReplacement(
+            DanteRoute.login.navigationUrl,
+          ),
+        ),
+      ),
+      body: Material(
+        child: Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surfaceVariant,
+          ),
+          child: SafeArea(
+            child: Center(
+              child: _isLoading
+                  ? const CircularProgressIndicator.adaptive()
+                  : Container(
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16.0),
+                        color: Theme.of(context).colorScheme.surface,
                       ),
-                      SizedBox(
-                        width: 360,
-                        child: DanteComponents.textField(
-                          context,
-                          _emailController,
-                          enabled: _phase == LoginPhase.email,
-                          textInputType: TextInputType.emailAddress,
-                          hint: 'email'.tr(),
-                          errorText: _emailErrorMessage,
-                          onChanged: (val) async {
-                            await _validateEmail(val);
-                          },
-                        ),
-                      ),
-                      AnimatedOpacity(
-                        duration: const Duration(milliseconds: 500),
-                        opacity: _phase == LoginPhase.email ? 0.0 : 1.0,
-                        child: SizedBox(
-                          width: 360,
-                          child: Column(
-                            children: [
-                              Padding(
-                                key: ValueKey(_phase),
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 8),
-                                child: DanteComponents.textField(
-                                  context,
-                                  _passwordController,
-                                  obscureText: true,
-                                  hint: 'password'.tr(),
-                                  errorText: _passwordErrorMessage,
-                                  onChanged: (val) {
-                                    if (_phase == LoginPhase.passwordNewUser) {
-                                      _validatePassword(val);
-                                    }
-                                  },
-                                ),
-                              ),
-                              Visibility(
-                                visible:
-                                    _phase == LoginPhase.passwordExistingUser,
-                                child: GestureDetector(
-                                  onTap: () async {
-                                    await _buildForgotPasswordDialog();
-                                  },
-                                  child: Text('forgot_password'.tr()),
-                                ),
-                              ),
-                            ],
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          LoginPageTitle(
+                            key: ValueKey('title-phase-$_phase'),
+                            phase: _phase,
                           ),
-                        ),
+                          SizedBox(
+                            width: 360,
+                            child: DanteComponents.textField(
+                              context,
+                              _emailController,
+                              enabled: _phase == LoginPhase.email,
+                              textInputType: TextInputType.emailAddress,
+                              hint: 'email'.tr(),
+                              errorText: _emailErrorMessage,
+                              onChanged: (val) async {
+                                await _validateEmail(val);
+                              },
+                            ),
+                          ),
+                          AnimatedOpacity(
+                            duration: const Duration(milliseconds: 500),
+                            opacity: _phase == LoginPhase.email ? 0.0 : 1.0,
+                            child: SizedBox(
+                              width: 360,
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    key: ValueKey(_phase),
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 8),
+                                    child: DanteComponents.textField(
+                                      context,
+                                      _passwordController,
+                                      obscureText: true,
+                                      hint: 'password'.tr(),
+                                      errorText: _passwordErrorMessage,
+                                      onChanged: (val) {
+                                        if (_phase ==
+                                            LoginPhase.passwordNewUser) {
+                                          _validatePassword(val);
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                  Visibility(
+                                    visible: _phase ==
+                                        LoginPhase.passwordExistingUser,
+                                    child: GestureDetector(
+                                      onTap: () async {
+                                        await _buildForgotPasswordDialog();
+                                      },
+                                      child: Text('forgot_password'.tr()),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 500),
+                            child: DanteComponents.outlinedButton(
+                              key: ValueKey(_phase),
+                              child: Text(_getButtonText()),
+                              onPressed: _getButtonAction(),
+                            ),
+                          ),
+                        ],
                       ),
-                      const Spacer(),
-                      AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 500),
-                        child: DanteComponents.outlinedButton(
-                          key: ValueKey(_phase),
-                          child: Text(_getButtonText()),
-                          onPressed: _getButtonAction(),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                    ),
+            ),
+          ),
         ),
       ),
     );
@@ -153,9 +176,6 @@ class EmailLoginPageState extends ConsumerState<EmailLoginPage> {
                 email: _emailController.text,
                 password: _passwordController.text,
               );
-          if (mounted) {
-            context.pushReplacement(DanteRoute.dashboard.navigationUrl);
-          }
         } on Exception catch (exception, stackTrace) {
           setState(() {
             _isLoading = false;
@@ -176,9 +196,6 @@ class EmailLoginPageState extends ConsumerState<EmailLoginPage> {
                   email: _emailController.text,
                   password: _passwordController.text,
                 );
-            if (mounted) {
-              context.pushReplacement(DanteRoute.dashboard.navigationUrl);
-            }
           } on Exception catch (exception, stackTrace) {
             setState(() {
               _isLoading = false;
@@ -325,8 +342,8 @@ class LoginPageTitle extends StatelessWidget {
           phase == LoginPhase.email ? 'enter_email'.tr() : 'password'.tr(),
           key: ValueKey(phase),
           style: const TextStyle(
-            fontWeight: FontWeight.w400,
-            fontSize: 20,
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),

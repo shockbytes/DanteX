@@ -1,12 +1,13 @@
 class GoogleBooksResponse {
   GoogleBooksResponse({
-      String? kind,
-      num totalItems = 0,
-      List<Items> items = const []}){
+    String? kind,
+    num totalItems = 0,
+    List<Items> items = const [],
+  }) {
     _kind = kind;
     _totalItems = totalItems;
     _items = items;
-}
+  }
 
   GoogleBooksResponse.fromJson(dynamic json) {
     _kind = json['kind'];
@@ -33,19 +34,19 @@ class GoogleBooksResponse {
     map['items'] = _items.map((v) => v.toJson()).toList();
     return map;
   }
-
 }
 
 class Items {
   Items({
-      String? kind,
-      String? id,
-      String? etag,
-      String? selfLink,
-      VolumeInfo? volumeInfo,
-      SaleInfo? saleInfo,
-      AccessInfo? accessInfo,
-      SearchInfo? searchInfo,}){
+    String? kind,
+    String? id,
+    String? etag,
+    String? selfLink,
+    VolumeInfo? volumeInfo,
+    SaleInfo? saleInfo,
+    AccessInfo? accessInfo,
+    SearchInfo? searchInfo,
+  }) {
     _kind = kind;
     _id = id;
     _etag = etag;
@@ -54,17 +55,24 @@ class Items {
     _saleInfo = saleInfo;
     _accessInfo = accessInfo;
     _searchInfo = searchInfo;
-}
+  }
 
   Items.fromJson(dynamic json) {
     _kind = json['kind'];
     _id = json['id'];
     _etag = json['etag'];
     _selfLink = json['selfLink'];
-    _volumeInfo = json['volumeInfo'] != null ? VolumeInfo.fromJson(json['volumeInfo']) : null;
-    _saleInfo = json['saleInfo'] != null ? SaleInfo.fromJson(json['saleInfo']) : null;
-    _accessInfo = json['accessInfo'] != null ? AccessInfo.fromJson(json['accessInfo']) : null;
-    _searchInfo = json['searchInfo'] != null ? SearchInfo.fromJson(json['searchInfo']) : null;
+    _volumeInfo = json['volumeInfo'] != null
+        ? VolumeInfo.fromJson(json['volumeInfo'])
+        : null;
+    _saleInfo =
+        json['saleInfo'] != null ? SaleInfo.fromJson(json['saleInfo']) : null;
+    _accessInfo = json['accessInfo'] != null
+        ? AccessInfo.fromJson(json['accessInfo'])
+        : null;
+    _searchInfo = json['searchInfo'] != null
+        ? SearchInfo.fromJson(json['searchInfo'])
+        : null;
   }
   String? _kind;
   String? _id;
@@ -104,14 +112,14 @@ class Items {
     }
     return map;
   }
-
 }
 
 class SearchInfo {
   SearchInfo({
-      String? textSnippet,}){
+    String? textSnippet,
+  }) {
     _textSnippet = textSnippet;
-}
+  }
 
   SearchInfo.fromJson(dynamic json) {
     _textSnippet = json['textSnippet'];
@@ -125,21 +133,21 @@ class SearchInfo {
     map['textSnippet'] = _textSnippet;
     return map;
   }
-
 }
 
 class AccessInfo {
   AccessInfo({
-      String? country,
-      String? viewability,
-      bool? embeddable,
-      bool? publicDomain,
-      String? textToSpeechPermission,
-      Epub? epub,
-      Pdf? pdf,
-      String? webReaderLink,
-      String? accessViewStatus,
-      bool? quoteSharingAllowed,}){
+    String? country,
+    String? viewability,
+    bool? embeddable,
+    bool? publicDomain,
+    String? textToSpeechPermission,
+    Epub? epub,
+    Pdf? pdf,
+    String? webReaderLink,
+    String? accessViewStatus,
+    bool? quoteSharingAllowed,
+  }) {
     _country = country;
     _viewability = viewability;
     _embeddable = embeddable;
@@ -150,7 +158,7 @@ class AccessInfo {
     _webReaderLink = webReaderLink;
     _accessViewStatus = accessViewStatus;
     _quoteSharingAllowed = quoteSharingAllowed;
-}
+  }
 
   AccessInfo.fromJson(dynamic json) {
     _country = json['country'];
@@ -204,14 +212,14 @@ class AccessInfo {
     map['quoteSharingAllowed'] = _quoteSharingAllowed;
     return map;
   }
-
 }
 
 class Pdf {
   Pdf({
-      bool? isAvailable,}){
+    bool? isAvailable,
+  }) {
     _isAvailable = isAvailable;
-}
+  }
 
   Pdf.fromJson(dynamic json) {
     _isAvailable = json['isAvailable'];
@@ -225,14 +233,14 @@ class Pdf {
     map['isAvailable'] = _isAvailable;
     return map;
   }
-
 }
 
 class Epub {
   Epub({
-      bool? isAvailable,}){
+    bool? isAvailable,
+  }) {
     _isAvailable = isAvailable;
-}
+  }
 
   Epub.fromJson(dynamic json) {
     _isAvailable = json['isAvailable'];
@@ -246,18 +254,18 @@ class Epub {
     map['isAvailable'] = _isAvailable;
     return map;
   }
-
 }
 
 class SaleInfo {
   SaleInfo({
-      String? country,
-      String? saleability,
-      bool? isEbook,}){
+    String? country,
+    String? saleability,
+    bool? isEbook,
+  }) {
     _country = country;
     _saleability = saleability;
     _isEbook = isEbook;
-}
+  }
 
   SaleInfo.fromJson(dynamic json) {
     _country = json['country'];
@@ -279,29 +287,29 @@ class SaleInfo {
     map['isEbook'] = _isEbook;
     return map;
   }
-
 }
 
 class VolumeInfo {
   VolumeInfo({
-      String? title,
-      String? subtitle,
-      List<String>? authors,
-      String? publishedDate,
-      List<IndustryIdentifiers>? industryIdentifiers,
-      ReadingModes? readingModes,
-      num? pageCount,
-      String? printType,
-      num? averageRating,
-      num? ratingsCount,
-      String? maturityRating,
-      bool? allowAnonLogging,
-      String? contentVersion,
-      ImageLinks? imageLinks,
-      String? language,
-      String? previewLink,
-      String? infoLink,
-      String? canonicalVolumeLink,}){
+    String? title,
+    String? subtitle,
+    List<String>? authors,
+    String? publishedDate,
+    List<IndustryIdentifiers>? industryIdentifiers,
+    ReadingModes? readingModes,
+    num? pageCount,
+    String? printType,
+    num? averageRating,
+    num? ratingsCount,
+    String? maturityRating,
+    bool? allowAnonLogging,
+    String? contentVersion,
+    ImageLinks? imageLinks,
+    String? language,
+    String? previewLink,
+    String? infoLink,
+    String? canonicalVolumeLink,
+  }) {
     _title = title;
     _subtitle = subtitle;
     _authors = authors;
@@ -320,7 +328,7 @@ class VolumeInfo {
     _previewLink = previewLink;
     _infoLink = infoLink;
     _canonicalVolumeLink = canonicalVolumeLink;
-}
+  }
 
   VolumeInfo.fromJson(dynamic json) {
     _title = json['title'];
@@ -333,7 +341,9 @@ class VolumeInfo {
         _industryIdentifiers?.add(IndustryIdentifiers.fromJson(v));
       });
     }
-    _readingModes = json['readingModes'] != null ? ReadingModes.fromJson(json['readingModes']) : null;
+    _readingModes = json['readingModes'] != null
+        ? ReadingModes.fromJson(json['readingModes'])
+        : null;
     _pageCount = json['pageCount'];
     _printType = json['printType'];
     _averageRating = json['averageRating'];
@@ -341,7 +351,9 @@ class VolumeInfo {
     _maturityRating = json['maturityRating'];
     _allowAnonLogging = json['allowAnonLogging'];
     _contentVersion = json['contentVersion'];
-    _imageLinks = json['imageLinks'] != null ? ImageLinks.fromJson(json['imageLinks']) : null;
+    _imageLinks = json['imageLinks'] != null
+        ? ImageLinks.fromJson(json['imageLinks'])
+        : null;
     _language = json['language'];
     _previewLink = json['previewLink'];
     _infoLink = json['infoLink'];
@@ -392,7 +404,8 @@ class VolumeInfo {
     map['authors'] = _authors;
     map['publishedDate'] = _publishedDate;
     if (_industryIdentifiers != null) {
-      map['industryIdentifiers'] = _industryIdentifiers?.map((v) => v.toJson()).toList();
+      map['industryIdentifiers'] =
+          _industryIdentifiers?.map((v) => v.toJson()).toList();
     }
     if (_readingModes != null) {
       map['readingModes'] = _readingModes?.toJson();
@@ -413,16 +426,16 @@ class VolumeInfo {
     map['canonicalVolumeLink'] = _canonicalVolumeLink;
     return map;
   }
-
 }
 
 class ImageLinks {
   ImageLinks({
-      String? smallThumbnail,
-      String? thumbnail,}){
+    String? smallThumbnail,
+    String? thumbnail,
+  }) {
     _smallThumbnail = smallThumbnail;
     _thumbnail = thumbnail;
-}
+  }
 
   ImageLinks.fromJson(dynamic json) {
     _smallThumbnail = json['smallThumbnail'];
@@ -440,16 +453,16 @@ class ImageLinks {
     map['thumbnail'] = _thumbnail;
     return map;
   }
-
 }
 
 class ReadingModes {
   ReadingModes({
-      bool? text,
-      bool? image,}){
+    bool? text,
+    bool? image,
+  }) {
     _text = text;
     _image = image;
-}
+  }
 
   ReadingModes.fromJson(dynamic json) {
     _text = json['text'];
@@ -467,16 +480,16 @@ class ReadingModes {
     map['image'] = _image;
     return map;
   }
-
 }
 
 class IndustryIdentifiers {
   IndustryIdentifiers({
-      String? type,
-      String? identifier,}){
+    String? type,
+    String? identifier,
+  }) {
     _type = type;
     _identifier = identifier;
-}
+  }
 
   IndustryIdentifiers.fromJson(dynamic json) {
     _type = json['type'];
@@ -494,5 +507,4 @@ class IndustryIdentifiers {
     map['identifier'] = _identifier;
     return map;
   }
-
 }

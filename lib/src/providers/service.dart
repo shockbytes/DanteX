@@ -7,6 +7,7 @@ import 'package:dantex/src/data/logging/error_only_filter.dart';
 import 'package:dantex/src/data/logging/firebase_log_output.dart';
 import 'package:dantex/src/providers/api.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:logger/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,7 +16,7 @@ part 'service.g.dart';
 
 @riverpod
 BookDownloader bookDownloader(BookDownloaderRef ref) => DefaultBookDownloader(
-      ref.read(booksApiProvider),
+      ref.watch(booksApiProvider),
     );
 
 @riverpod
@@ -23,18 +24,22 @@ IsbnScannerService isbnScannerService(IsbnScannerServiceRef ref) =>
     BarcodeIsbnScannerService();
 
 @riverpod
+Future<String> scanIsbn(ScanIsbnRef ref, BuildContext context) {
+  return ref.watch(isbnScannerServiceProvider).scanIsbn(context);
+}
+
+@riverpod
 Future<BookSuggestion> downloadBook(DownloadBookRef ref, String query) {
-  return ref.read(bookDownloaderProvider).downloadBook(query);
+  return ref.watch(bookDownloaderProvider).downloadBook(query);
 }
 
 @riverpod
 SharedPreferences sharedPreferences(SharedPreferencesRef ref) =>
     throw UnimplementedError();
 
-
 @riverpod
 Logger logger(LoggerRef ref) => Logger(
-  filter: kDebugMode ? DevelopmentFilter() : ErrorOnlyFilter(),
+      filter: kDebugMode ? DevelopmentFilter() : ErrorOnlyFilter(),
       printer: PrettyPrinter(
         printTime: true,
       ),

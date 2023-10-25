@@ -40,7 +40,7 @@ class ProfilePageSate extends ConsumerState<ProfilePage> {
           ),
         ),
       ),
-      body: ref.read(userProvider).when(
+      body: ref.watch(userProvider).when(
         data: (user) {
           if (_isLoading) {
             return const CircularProgressIndicator.adaptive();
