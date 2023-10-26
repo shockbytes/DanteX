@@ -45,7 +45,7 @@ class AddBookWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final book = ref.read(downloadBookProvider(_query));
+    final book = ref.watch(downloadBookProvider(_query));
     Widget child = const DanteLoadingIndicator();
     book.when(
       data: (data) {

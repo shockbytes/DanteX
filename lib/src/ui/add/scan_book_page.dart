@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ScanBookPage extends ConsumerWidget {
-
   static const _invalidIsbn = '-1';
 
   const ScanBookPage({super.key});
@@ -12,17 +11,10 @@ class ScanBookPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      body: FutureBuilder(
-        future: ref.read(isbnScannerServiceProvider).scanIsbn(context),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return Container();
-          }
-
-          String query = snapshot.data!;
-
+      body: ref.watch(scanIsbnProvider(context)).maybeWhen(
+        data: (query) {
           // Query might be invalid if user aborts scan process.
-          if(query == _invalidIsbn) {
+          if (query == _invalidIsbn) {
             Navigator.pop(context);
           }
 
@@ -31,6 +23,9 @@ class ScanBookPage extends ConsumerWidget {
               query: query,
             ),
           );
+        },
+        orElse: () {
+          return Container();
         },
       ),
     );

@@ -14,9 +14,9 @@ class FirebaseBookRepository implements BookRepository {
 
   @override
   Future<void> create(Book book) {
-    var newRef = _rootRef().push();
+    final newRef = _rootRef().push();
 
-    var data = book.copyWith(newId: newRef.key!).toMap();
+    final data = book.copyWith(newId: newRef.key!).toMap();
 
     return newRef.set(data);
   }
@@ -30,7 +30,7 @@ class FirebaseBookRepository implements BookRepository {
   Stream<List<Book>> getAllBooks() {
     return _rootRef().onValue.map(
       (DatabaseEvent event) {
-        Map<String, dynamic>? data = event.snapshot.toMap();
+        final Map<String, dynamic>? data = event.snapshot.toMap();
 
         if (data == null) {
           return [];
@@ -39,8 +39,9 @@ class FirebaseBookRepository implements BookRepository {
         return data
             .map(
               (key, value) {
-                Map<String, dynamic> bookData = (value as Map<dynamic, dynamic>).cast();
-                Book bookValue = BookExtension.fromMap(bookData);
+                final Map<String, dynamic> bookData =
+                    (value as Map<dynamic, dynamic>).cast();
+                final Book bookValue = BookExtension.fromMap(bookData);
                 return MapEntry(key, bookValue);
               },
             )
@@ -54,7 +55,7 @@ class FirebaseBookRepository implements BookRepository {
   Future<Book> getBook(BookId id) {
     return _rootRef().child(id).get().then(
       (snapshot) {
-        Map<String, dynamic>? data = snapshot.toMap();
+        final Map<String, dynamic>? data = snapshot.toMap();
 
         if (data == null) {
           throw Exception('Cannot read book with id $id as it does not exist!');
@@ -90,13 +91,13 @@ class FirebaseBookRepository implements BookRepository {
 
   @override
   Future<void> updateCurrentPage(BookId bookId, int currentPage) async {
-    Book currentBook = await getBook(bookId);
+    final Book currentBook = await getBook(bookId);
     return update(currentBook.copyWith(newCurrentPage: currentPage));
   }
 
   DatabaseReference _rootRef() {
     // At this point we can assume that the customer is already logged in, even as anonymous user
-    var user = _fbAuth.currentUser!.uid;
+    final user = _fbAuth.currentUser!.uid;
     return _fbDb.ref('users/$user/');
   }
 }

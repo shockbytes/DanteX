@@ -2,13 +2,13 @@ import 'package:dantex/src/data/book/entity/book.dart';
 import 'package:dantex/src/data/book/entity/book_state.dart';
 import 'package:dantex/src/data/bookdownload/api/book_api.dart';
 import 'package:dantex/src/data/bookdownload/entity/book_suggestion.dart';
-import 'package:dantex/src/data/bookdownload/entity/remote/GoogleBooksResponse.dart';
+import 'package:dantex/src/data/bookdownload/entity/remote/google_books_response.dart';
 import 'package:dio/dio.dart';
 
 class GoogleBooksApi implements BookApi {
-  static const _ENDPOINT = 'https://www.googleapis.com/books/v1';
+  static const _endpoint = 'https://www.googleapis.com/books/v1';
 
-  final Dio _dio = Dio(BaseOptions(baseUrl: _ENDPOINT));
+  final Dio _dio = Dio(BaseOptions(baseUrl: _endpoint));
 
   @override
   Future<BookSuggestion> downloadBook(String query) {
@@ -16,14 +16,14 @@ class GoogleBooksApi implements BookApi {
       '/volumes',
       queryParameters: {'q': query},
     ).then((response) {
-      GoogleBooksResponse parsedResponse =
+      final GoogleBooksResponse parsedResponse =
           GoogleBooksResponse.fromJson(response.data);
 
       if (parsedResponse.items.isEmpty) {
         throw Exception('No books to view!');
       }
 
-      var suggestions = parsedResponse.items.map(_fromItem).toList();
+      final suggestions = parsedResponse.items.map(_fromItem).toList();
 
       return BookSuggestion(
         suggestions.first,
@@ -33,14 +33,14 @@ class GoogleBooksApi implements BookApi {
   }
 
   Book _fromItem(Items item) {
-    VolumeInfo volumeInfo = item.volumeInfo!;
+    final VolumeInfo volumeInfo = item.volumeInfo!;
 
     return Book(
       id: '-1',
       title: volumeInfo.title ?? '',
       subTitle: volumeInfo.subtitle ?? '',
       author: volumeInfo.authors?.join(', ') ?? '',
-      state: BookState.READ_LATER,
+      state: BookState.readLater,
       pageCount: volumeInfo.pageCount?.toInt() ?? 0,
       currentPage: 0,
       publishedDate: volumeInfo.publishedDate ?? '',

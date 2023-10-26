@@ -38,7 +38,6 @@ class BookItemWidget extends StatelessWidget {
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
                       _book.title,
@@ -50,22 +49,22 @@ class BookItemWidget extends StatelessWidget {
                     Text(
                       _book.subTitle,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurfaceVariant,
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
                           ),
                     ),
                     const SizedBox(height: 4),
                     Text(
                       _book.author,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurfaceVariant,
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
                           ),
                     ),
                   ],
                 ),
               ),
               Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   IconButton(
                     onPressed: () {
@@ -73,7 +72,7 @@ class BookItemWidget extends StatelessWidget {
                     },
                     icon: const Icon(Icons.more_horiz),
                   ),
-                  if (_book.state == BookState.READING)
+                  if (_book.state == BookState.reading)
                     _buildProgressCircle(
                       context,
                       currentPage: _book.currentPage,
@@ -87,7 +86,6 @@ class BookItemWidget extends StatelessWidget {
           Align(
             alignment: Alignment.topLeft,
             child: Wrap(
-              alignment: WrapAlignment.start,
               spacing: 4.0,
               children: _book.labels.map(_chipFromLabel).toList(),
             ),
@@ -98,7 +96,7 @@ class BookItemWidget extends StatelessWidget {
   }
 
   Widget _chipFromLabel(BookLabel label) {
-    Color labelColor = HexColor.fromHex(label.hexColor);
+    final Color labelColor = HexColor.fromHex(label.hexColor);
     return FilterChip(
       label: Text(
         label.title,
@@ -121,7 +119,7 @@ class BookItemWidget extends StatelessWidget {
     required int currentPage,
     required int pageCount,
   }) {
-    double percentage = computePercentage(currentPage, pageCount);
+    final double percentage = computePercentage(currentPage, pageCount);
 
     return CircularPercentIndicator(
       radius: 20.0,

@@ -1,24 +1,16 @@
 import 'dart:async';
 
 import 'package:dantex/firebase_options.dart';
+import 'package:dantex/src/providers/app_router.dart';
 import 'package:dantex/src/providers/authentication.dart';
 import 'package:dantex/src/providers/repository.dart';
 import 'package:dantex/src/providers/service.dart';
-import 'package:dantex/src/ui/add/scan_book_page.dart';
-import 'package:dantex/src/ui/boot_page.dart';
-import 'package:dantex/src/ui/login/email_login_page.dart';
-import 'package:dantex/src/ui/login/login_page.dart';
-import 'package:dantex/src/ui/main/main_page.dart';
-import 'package:dantex/src/ui/profile/profile_page.dart';
-import 'package:dantex/src/ui/settings/contributors_page.dart';
-import 'package:dantex/src/ui/settings/settings_page.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -80,7 +72,7 @@ class DanteXApp extends ConsumerWidget {
       builder: (context, snapshot) {
         final ThemeMode themeMode = snapshot.data ?? ThemeMode.system;
         return MaterialApp.router(
-          routerConfig: _router,
+          routerConfig: ref.watch(goRouterProvider),
           title: 'Dante',
           debugShowCheckedModeBanner: false,
           localizationsDelegates: context.localizationDelegates,
@@ -150,52 +142,3 @@ enum DanteRoute {
     required this.navigationUrl,
   });
 }
-
-final GoRouter _router = GoRouter(
-  initialLocation: DanteRoute.boot.url,
-  routes: [
-    GoRoute(
-      path: DanteRoute.boot.url,
-      builder: (BuildContext context, GoRouterState state) => const BootPage(),
-    ),
-    GoRoute(
-      path: DanteRoute.login.url,
-      builder: (BuildContext context, GoRouterState state) => const LoginPage(),
-      routes: [
-        GoRoute(
-          path: DanteRoute.emailLogin.url,
-          builder: (BuildContext context, GoRouterState state) =>
-              const EmailLoginPage(),
-        ),
-      ],
-    ),
-    GoRoute(
-      path: DanteRoute.dashboard.url,
-      builder: (BuildContext context, GoRouterState state) => const MainPage(),
-      routes: [
-        GoRoute(
-          path: DanteRoute.settings.url,
-          builder: (BuildContext context, GoRouterState state) =>
-              const SettingsPage(),
-          routes: [
-            GoRoute(
-              path: DanteRoute.contributors.url,
-              builder: (BuildContext context, GoRouterState state) =>
-                  const ContributorsPage(),
-            ),
-          ],
-        ),
-        GoRoute(
-          path: DanteRoute.profile.url,
-          builder: (BuildContext context, GoRouterState state) =>
-              const ProfilePage(),
-        ),
-        GoRoute(
-          path: DanteRoute.scanBook.url,
-          builder: (BuildContext context, GoRouterState state) =>
-              const ScanBookPage(),
-        ),
-      ],
-    ),
-  ],
-);

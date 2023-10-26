@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dantex/main.dart';
 import 'package:dantex/src/data/authentication/entity/dante_user.dart';
+import 'package:dantex/src/providers/app_router.dart';
 import 'package:dantex/src/providers/authentication.dart';
 import 'package:dantex/src/ui/add/add_book_widget.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
@@ -346,7 +346,7 @@ class UserTag extends ConsumerWidget {
             DanteComponents.outlinedButton(
               onPressed: () async {
                 Navigator.of(context).pop();
-                await ref.read(authenticationRepositoryProvider).logout();
+                await ref.watch(authenticationRepositoryProvider).logout();
               },
               child: Text('logout'.tr()),
             ),
@@ -354,10 +354,7 @@ class UserTag extends ConsumerWidget {
         ),
       );
     } else {
-      await ref.read(authenticationRepositoryProvider).logout();
-    }
-    if (context.mounted) {
-      context.pushReplacement(DanteRoute.login.navigationUrl);
+      await ref.watch(authenticationRepositoryProvider).logout();
     }
   }
 }

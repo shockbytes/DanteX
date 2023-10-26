@@ -1,6 +1,6 @@
-import 'package:dantex/main.dart';
 import 'package:dantex/src/data/book/book_sort_strategy.dart';
 import 'package:dantex/src/data/settings/settings_repository.dart';
+import 'package:dantex/src/providers/app_router.dart';
 import 'package:dantex/src/providers/authentication.dart';
 import 'package:dantex/src/providers/repository.dart';
 import 'package:dantex/src/ui/core/themed_app_bar.dart';
@@ -91,7 +91,7 @@ class SettingsPage extends ConsumerWidget {
                 initialValue: ref.watch(isRandomBooksEnabledProvider),
                 activeSwitchColor: Theme.of(context).colorScheme.primary,
                 onToggle: (bool newValue) {
-                  ref.read(isRandomBooksEnabledProvider.notifier).toggle();
+                  ref.watch(isRandomBooksEnabledProvider.notifier).toggle();
                 },
                 title: Text('settings.books.random_book'.tr()),
                 leading: const Icon(Icons.casino_outlined),
@@ -140,7 +140,7 @@ class SettingsPage extends ConsumerWidget {
                 initialValue: ref.watch(isTrackingEnabledProvider),
                 activeSwitchColor: Theme.of(context).colorScheme.primary,
                 onToggle: (bool newValue) {
-                  ref.read(isTrackingEnabledProvider.notifier).toggle();
+                  ref.watch(isTrackingEnabledProvider.notifier).toggle();
                 },
                 title: Text('settings.data_privacy.tracking'.tr()),
                 leading: const Icon(Icons.supervised_user_circle_outlined),
@@ -245,7 +245,7 @@ class SettingsPage extends ConsumerWidget {
 
     if (shouldDeleteAccount) {
       try {
-        await ref.read(authenticationRepositoryProvider).deleteAccount();
+        await ref.watch(authenticationRepositoryProvider).deleteAccount();
         if (context.mounted) {
           context.pushReplacement(DanteRoute.login.navigationUrl);
         }

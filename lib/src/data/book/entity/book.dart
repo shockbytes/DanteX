@@ -1,8 +1,7 @@
 import 'package:dantex/src/core/book_core.dart';
 import 'package:dantex/src/core/jsonizable.dart';
-
-import 'book_label.dart';
-import 'book_state.dart';
+import 'package:dantex/src/data/book/entity/book_label.dart';
+import 'package:dantex/src/data/book/entity/book_state.dart';
 
 class Book with Jsonizable {
   final String id;
@@ -29,7 +28,7 @@ class Book with Jsonizable {
   final String? summary;
   final List<BookLabel> labels;
 
-  int get progressPercentage  => ((currentPage / pageCount) * 100).toInt();
+  int get progressPercentage => ((currentPage / pageCount) * 100).toInt();
 
   Book({
     required this.id,
@@ -55,7 +54,7 @@ class Book with Jsonizable {
 
   @override
   Map<String, dynamic> toMap() {
-    var data = <String, dynamic>{};
+    final data = <String, dynamic>{};
 
     data['id'] = id;
     data['title'] = title;
@@ -115,7 +114,10 @@ class Book with Jsonizable {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is Book && runtimeType == other.runtimeType && id == other.id && state == other.state;
+      other is Book &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          state == other.state;
 
   @override
   int get hashCode => id.hashCode + state.hashCode;

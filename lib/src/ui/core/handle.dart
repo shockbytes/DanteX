@@ -6,7 +6,6 @@ class Handle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
@@ -17,7 +16,7 @@ class Handle extends StatelessWidget {
             borderRadius: BorderRadius.circular(2.0),
             color: Theme.of(context).bottomSheetTheme.dragHandleColor,
           ),
-        )
+        ),
       ],
     );
   }
