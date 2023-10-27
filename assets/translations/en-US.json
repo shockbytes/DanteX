@@ -13,6 +13,11 @@
     "description": "You are going to delete all your data right now. Proceeding now will permanently remove all your books.\n\n Do you want to proceed?",
     "title": "Anonymous Logout"
   },
+  "book_detail": {
+    "label": "Label",
+    "notes": "Notes",
+    "rate": "Rate"
+  },
   "cancel": "Cancel",
   "change": "Change",
   "change_password": "Change password",

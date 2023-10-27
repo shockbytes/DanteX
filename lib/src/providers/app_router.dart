@@ -1,5 +1,6 @@
 import 'package:dantex/src/providers/authentication.dart';
 import 'package:dantex/src/ui/add/scan_book_page.dart';
+import 'package:dantex/src/ui/book/book_detail_page.dart';
 import 'package:dantex/src/ui/boot_page.dart';
 import 'package:dantex/src/ui/login/email_login_page.dart';
 import 'package:dantex/src/ui/login/login_page.dart';
@@ -90,6 +91,13 @@ GoRouter goRouter(GoRouterRef ref) {
             builder: (BuildContext context, GoRouterState state) =>
                 const ScanBookPage(),
           ),
+          GoRoute(
+            path: DanteRoute.bookDetail.url,
+            builder: (context, state) {
+              final bookId = state.pathParameters['bookId'] ?? '';
+              return BookDetailPage(id: bookId);
+            },
+          ),
         ],
       ),
     ],
@@ -128,6 +136,10 @@ enum DanteRoute {
   profile(
     url: 'profile',
     navigationUrl: '/profile',
+  ),
+  bookDetail(
+    url: 'book/:bookId',
+    navigationUrl: '/book/:bookId',
   );
 
   /// Url used for registering the route in the [_router] field.

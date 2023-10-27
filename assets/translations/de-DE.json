@@ -13,6 +13,11 @@
     "description": "Du bist gerade im Begriff deine gesamten Daten zu löschen. Wenn du fortfährst, werden deine Bücher permanent gelöscht.\n\n Willst du fortfahren?",
     "title": "Anonymer Logout"
   },
+  "book_detail": {
+    "label": "TODO",
+    "notes": "TODO",
+    "rate": "TODO"
+  },
   "cancel": "Zurück",
   "change": "Ändern",
   "change_password": "Passwort ändern",

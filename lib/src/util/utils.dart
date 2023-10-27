@@ -1,4 +1,8 @@
 double computePercentage(int current, int max) {
+  // TODO: Check this logic here.
+  if (max == 0) {
+    return 0.0;
+  }
   if (current > max) {
     return 1.0;
   }

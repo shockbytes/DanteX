@@ -39,9 +39,9 @@ class FirebaseBookRepository implements BookRepository {
         return data
             .map(
               (key, value) {
-                final Map<String, dynamic> bookData =
+                final Map<String, dynamic> bookMap =
                     (value as Map<dynamic, dynamic>).cast();
-                final Book bookValue = BookExtension.fromMap(bookData);
+                final Book bookValue = bookMap.toBook();
                 return MapEntry(key, bookValue);
               },
             )
@@ -52,18 +52,15 @@ class FirebaseBookRepository implements BookRepository {
   }
 
   @override
-  Future<Book> getBook(BookId id) {
-    return _rootRef().child(id).get().then(
-      (snapshot) {
-        final Map<String, dynamic>? data = snapshot.toMap();
+  Future<Book> getBook(BookId id) async {
+    final bookSnapshot = await _rootRef().child(id).get();
+    final bookMap = bookSnapshot.child(id).toMap();
 
-        if (data == null) {
-          throw Exception('Cannot read book with id $id as it does not exist!');
-        }
+    if (bookMap == null) {
+      throw Exception('Cannot read book with id $id as it does not exist!');
+    }
 
-        return BookExtension.fromMap(data);
-      },
-    );
+    return bookMap.toBook();
   }
 
   @override
