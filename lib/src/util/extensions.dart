@@ -4,58 +4,57 @@ import 'package:dantex/src/data/book/entity/book.dart';
 import 'package:dantex/src/data/book/entity/book_label.dart';
 import 'package:dantex/src/data/book/entity/book_state.dart';
 
-extension HexColor on Color {
+extension HexColor on String {
   /// String is in the format "aabbcc" or "ffaabbcc" with an optional leading "#".
-  static Color fromHex(String hexString) {
+  Color toColor() {
     final buffer = StringBuffer();
-    if (hexString.length == 6 || hexString.length == 7) buffer.write('ff');
-    buffer.write(hexString.replaceFirst('#', ''));
+    if (length == 6 || length == 7) buffer.write('ff');
+    buffer.write(replaceFirst('#', ''));
     return Color(int.parse(buffer.toString(), radix: 16));
   }
 }
 
-extension BookExtension on Book {
-  static Book fromMap(Map<String, dynamic> data) {
-    List<BookLabel> labels = [];
-    if (data['labels'] != null) {
-      data['labels']
+extension BookExtension on Map<String, dynamic> {
+  Book toBook() {
+    final List<BookLabel> labels = [];
+    if (this['labels'] != null) {
+      this['labels']
           .forEach(
-            (v) => labels
-                .add(BookLabelExtension.fromMap(v as Map<String, dynamic>)),
+            (v) => labels.add((v as Map<String, dynamic>).toBookLabel()),
           )
           .toList();
     }
 
     return Book(
-      id: data['id'],
-      title: data['title'],
-      subTitle: data['subTitle'],
-      author: data['author'],
-      state: BookStateExtension.fromString(data['state']),
-      pageCount: data['pageCount'],
-      currentPage: data['currentPage'],
-      publishedDate: data['publishedDate'],
-      position: data['position'],
-      isbn: data['isbn'],
-      thumbnailAddress: data['thumbnailAddress'],
-      startDate: data['startDate'],
-      endDate: data['endDate'],
-      wishlistDate: data['wishlistDate'],
-      language: data['language'],
-      rating: data['rating'],
-      notes: data['notes'],
-      summary: data['summary'],
+      id: this['id'],
+      title: this['title'],
+      subTitle: this['subTitle'],
+      author: this['author'],
+      state: this['state'].toString().toBookState(),
+      pageCount: this['pageCount'],
+      currentPage: this['currentPage'],
+      publishedDate: this['publishedDate'],
+      position: this['position'],
+      isbn: this['isbn'],
+      thumbnailAddress: this['thumbnailAddress'],
+      startDate: this['startDate'],
+      endDate: this['endDate'],
+      wishlistDate: this['wishlistDate'],
+      language: this['language'],
+      rating: this['rating'],
+      notes: this['notes'],
+      summary: this['summary'],
       labels: labels,
     );
   }
 }
 
-extension BookLabelExtension on BookLabel {
-  static BookLabel fromMap(Map<String, dynamic> data) {
+extension BookLabelExtension on Map<String, dynamic> {
+  BookLabel toBookLabel() {
     return BookLabel(
-      bookId: data['bookId'],
-      title: data['title'],
-      hexColor: data['hexColor'],
+      bookId: this['bookId'],
+      title: this['title'],
+      hexColor: this['hexColor'],
     );
   }
 }

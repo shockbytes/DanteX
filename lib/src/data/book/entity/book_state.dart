@@ -5,19 +5,18 @@ enum BookState {
   wishlist,
 }
 
-extension BookStateExtension on BookState {
-  static BookState fromString(
-    String? name, {
+extension BookStateExtension on String {
+  BookState toBookState({
     BookState defaultValue = BookState.readLater,
   }) {
-    switch (name) {
-      case 'READ_LATER':
+    switch (this) {
+      case 'readLater':
         return BookState.readLater;
-      case 'READING':
+      case 'reading':
         return BookState.reading;
-      case 'READ':
+      case 'read':
         return BookState.read;
-      case 'WISHLIST':
+      case 'wishlist':
         return BookState.wishlist;
       default:
         return defaultValue;

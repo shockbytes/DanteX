@@ -61,5 +61,10 @@
 		<!-- End of the Google Sign-in Section -->
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true />
+		<key>CFBundleLocalizations</key>
+		<array>
+			<string>en</string>
+			<string>de</string>
+		</array>
 	</dict>
 </plist>
