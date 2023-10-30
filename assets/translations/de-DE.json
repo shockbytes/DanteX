@@ -14,9 +14,9 @@
     "title": "Anonymer Logout"
   },
   "book_detail": {
-    "label": "TODO",
-    "notes": "TODO",
-    "rate": "TODO"
+    "label": "Labels",
+    "notes": "Notizen",
+    "rate": "Bewerten"
   },
   "cancel": "Zurück",
   "change": "Ändern",

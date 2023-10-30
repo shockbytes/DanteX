@@ -212,6 +212,7 @@ class _BookLabels extends StatelessWidget {
     return Row(
       children: [
         OutlinedButton(
+          key: const ValueKey('book-detail-add-label'),
           onPressed: () {},
           child: Row(
             mainAxisSize: MainAxisSize.min,
