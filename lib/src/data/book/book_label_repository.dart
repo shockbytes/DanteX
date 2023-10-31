@@ -5,5 +5,5 @@ abstract class BookLabelRepository {
 
   Future<void> createBookLabel(BookLabel label);
 
-  Future<void> deleteBookLabel(BookLabel label);
+  Future<void> deleteBookLabel(String id);
 }

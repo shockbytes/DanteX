@@ -1,28 +1,20 @@
-import 'package:dantex/src/core/jsonizable.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class BookLabel with Jsonizable {
-  final String bookId;
-  final String title;
+part 'book_label.freezed.dart';
+part 'book_label.g.dart';
 
-  /// This private field is required to ensure backwards compatibility with already
-  /// existing backups. Callers use now [labelHexColor] of type [HexColor] instead
-  /// of working with the raw string.
-  final String hexColor;
+@freezed
+class BookLabel with _$BookLabel {
+  const factory BookLabel({
+    required String id,
+    required String title,
 
-  BookLabel({
-    required this.bookId,
-    required this.title,
-    required this.hexColor,
-  });
+    /// This field is required to ensure backwards compatibility with already
+    /// existing backups. Callers use now [labelHexColor] of type [HexColor] instead
+    /// of working with the raw string.
+    required String hexColor,
+  }) = _BookLabel;
 
-  @override
-  Map<String, dynamic> toMap() {
-    final data = <String, dynamic>{};
-
-    data['bookId'] = bookId;
-    data['title'] = title;
-    data['hexColor'] = hexColor;
-
-    return data;
-  }
+  factory BookLabel.fromJson(Map<String, Object?> json) =>
+      _$BookLabelFromJson(json);
 }

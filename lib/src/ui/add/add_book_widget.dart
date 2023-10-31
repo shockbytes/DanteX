@@ -145,7 +145,7 @@ class BookWidget extends ConsumerWidget {
                   child: FilledButton.tonal(
                     onPressed: () async {
                       await ref
-                          .read(bookRepositoryProvider.notifier)
+                          .read(bookRepositoryProvider)
                           .addToForLater(bookSuggestion.target);
                       // Just pop the screen here, no need to handle something else
                       if (context.mounted) {
@@ -160,7 +160,7 @@ class BookWidget extends ConsumerWidget {
                   child: FilledButton.tonal(
                     onPressed: () async {
                       await ref
-                          .read(bookRepositoryProvider.notifier)
+                          .read(bookRepositoryProvider)
                           .addToReading(bookSuggestion.target);
                       // Just pop the screen here, no need to handle something else
                       if (context.mounted) {
@@ -175,7 +175,7 @@ class BookWidget extends ConsumerWidget {
                   child: FilledButton.tonal(
                     onPressed: () async {
                       await ref
-                          .read(bookRepositoryProvider.notifier)
+                          .read(bookRepositoryProvider)
                           .addToRead(bookSuggestion.target);
                       // Just pop the screen here, no need to handle something else
                       if (context.mounted) {
@@ -192,7 +192,7 @@ class BookWidget extends ConsumerWidget {
             DanteComponents.outlinedButton(
               onPressed: () async {
                 await ref
-                    .read(bookRepositoryProvider.notifier)
+                    .read(bookRepositoryProvider)
                     .addToWishlist(bookSuggestion.target);
                 // Just pop the screen here, no need to handle something else
                 if (context.mounted) {

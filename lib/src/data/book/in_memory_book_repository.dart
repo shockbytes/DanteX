@@ -1,6 +1,7 @@
 import 'package:dantex/src/core/book_core.dart';
 import 'package:dantex/src/data/book/book_repository.dart';
 import 'package:dantex/src/data/book/entity/book.dart';
+import 'package:dantex/src/data/book/entity/book_label.dart';
 import 'package:dantex/src/data/book/entity/book_state.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -28,7 +29,7 @@ class InMemoryBookRepository implements BookRepository {
   }
 
   @override
-  Future<void> delete(BookId id) {
+  Future<void> delete(String id) {
     throw UnimplementedError('Not required');
   }
 
@@ -56,6 +57,36 @@ class InMemoryBookRepository implements BookRepository {
 
   @override
   Future<void> updateCurrentPage(bookId, int currentPage) {
+    throw UnimplementedError('Not required');
+  }
+
+  @override
+  Future<void> addToForLater(Book book) {
+    throw UnimplementedError('Not required');
+  }
+
+  @override
+  Future<void> addToRead(Book book) {
+    throw UnimplementedError('Not required');
+  }
+
+  @override
+  Future<void> addToReading(Book book) {
+    throw UnimplementedError('Not required');
+  }
+
+  @override
+  Future<void> addToWishlist(Book book) {
+    throw UnimplementedError('Not required');
+  }
+
+  @override
+  Future<void> addLabelToBook(String bookId, BookLabel label) {
+    throw UnimplementedError('Not required');
+  }
+
+  @override
+  Future<void> removeLabelFromBook(String bookId, String labelId) {
     throw UnimplementedError('Not required');
   }
 }

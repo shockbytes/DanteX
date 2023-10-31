@@ -1,8 +1,8 @@
 import 'package:dantex/src/core/book_core.dart';
 import 'package:dantex/src/data/book/book_repository.dart';
 import 'package:dantex/src/data/book/entity/book.dart';
+import 'package:dantex/src/data/book/entity/book_label.dart';
 import 'package:dantex/src/data/book/entity/book_state.dart';
-import 'package:dantex/src/util/extensions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 
@@ -16,13 +16,13 @@ class FirebaseBookRepository implements BookRepository {
   Future<void> create(Book book) {
     final newRef = _rootRef().push();
 
-    final data = book.copyWith(newId: newRef.key!).toMap();
+    final data = book.copyWith(id: newRef.key!).toJson();
 
     return newRef.set(data);
   }
 
   @override
-  Future<void> delete(BookId id) {
+  Future<void> delete(String id) {
     return _rootRef().child(id).remove();
   }
 
@@ -41,7 +41,7 @@ class FirebaseBookRepository implements BookRepository {
               (key, value) {
                 final Map<String, dynamic> bookMap =
                     (value as Map<dynamic, dynamic>).cast();
-                final Book bookValue = bookMap.toBook();
+                final Book bookValue = Book.fromJson(bookMap);
                 return MapEntry(key, bookValue);
               },
             )
@@ -52,7 +52,7 @@ class FirebaseBookRepository implements BookRepository {
   }
 
   @override
-  Future<Book> getBook(BookId id) async {
+  Future<Book> getBook(String id) async {
     final bookSnapshot = await _rootRef().child(id).get();
     final bookMap = bookSnapshot.child(id).toMap();
 
@@ -60,7 +60,7 @@ class FirebaseBookRepository implements BookRepository {
       throw Exception('Cannot read book with id $id as it does not exist!');
     }
 
-    return bookMap.toBook();
+    return Book.fromJson(bookMap);
   }
 
   @override
@@ -87,15 +87,54 @@ class FirebaseBookRepository implements BookRepository {
   }
 
   @override
-  Future<void> updateCurrentPage(BookId bookId, int currentPage) async {
+  Future<void> updateCurrentPage(String bookId, int currentPage) async {
     final Book currentBook = await getBook(bookId);
-    return update(currentBook.copyWith(newCurrentPage: currentPage));
+    return update(currentBook.copyWith(currentPage: currentPage));
   }
 
   DatabaseReference _rootRef() {
     // At this point we can assume that the customer is already logged in, even as anonymous user
     final user = _fbAuth.currentUser!.uid;
-    return _fbDb.ref('users/$user/');
+    return _fbDb.ref('users/$user/books');
+  }
+
+  @override
+  Future<void> addToWishlist(Book book) {
+    return _addBook(book, BookState.wishlist);
+  }
+
+  @override
+  Future<void> addToForLater(Book book) {
+    return _addBook(book, BookState.readLater);
+  }
+
+  @override
+  Future<void> addToReading(Book book) {
+    return _addBook(book, BookState.reading);
+  }
+
+  @override
+  Future<void> addToRead(Book book) {
+    return _addBook(book, BookState.read);
+  }
+
+  Future<void> _addBook(Book book, BookState bookState) {
+    final Book updatedBook = book.copyWith(state: bookState);
+    return create(updatedBook);
+  }
+
+  @override
+  Future<void> addLabelToBook(String bookId, BookLabel label) async {
+    final book = await getBook(bookId);
+    book.addLabel(label);
+    return update(book);
+  }
+
+  @override
+  Future<void> removeLabelFromBook(String bookId, String labelId) async {
+    final book = await getBook(bookId);
+    book.removeLabel(labelId);
+    return update(book);
   }
 }
 

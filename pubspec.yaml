@@ -45,6 +45,8 @@ dependencies:
   logger: ^2.0.2+1
   easy_localization: ^3.0.3
   rxdart: ^0.27.7
+  freezed_annotation: ^2.4.1
+  json_annotation: ^4.8.1
 
 dev_dependencies:
   flutter_test:
@@ -56,6 +58,8 @@ dev_dependencies:
   riverpod_generator: ^2.3.2
   riverpod_lint: ^2.0.1
   custom_lint: ^0.5.3
+  freezed: ^2.4.5
+  json_serializable: ^6.7.1
 
 flutter_icons:
   android: true
