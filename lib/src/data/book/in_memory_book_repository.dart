@@ -1,4 +1,3 @@
-import 'package:dantex/src/core/book_core.dart';
 import 'package:dantex/src/data/book/book_repository.dart';
 import 'package:dantex/src/data/book/entity/book.dart';
 import 'package:dantex/src/data/book/entity/book_label.dart';
