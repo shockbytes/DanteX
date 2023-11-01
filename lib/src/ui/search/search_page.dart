@@ -1,4 +1,5 @@
 import 'package:dantex/src/data/search/search.dart';
+import 'package:dantex/src/providers/app_router.dart';
 import 'package:dantex/src/providers/service.dart';
 import 'package:dantex/src/ui/add/add_book_widget.dart';
 import 'package:dantex/src/ui/core/dante_loading_indicator.dart';
@@ -10,6 +11,7 @@ import 'package:dantex/src/ui/search/remote_book_search_item.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class SearchPage extends ConsumerWidget {
   const SearchPage({super.key});
@@ -70,7 +72,12 @@ class SearchPage extends ConsumerWidget {
             (final LocalBookSearchResult local) => LocalBookSearchItem(
                 local,
                 onBookClicked: (String bookId) {
-                  // TODO Open book details page
+                  context.go(
+                    DanteRoute.bookDetail.navigationUrl.replaceAll(
+                      ':bookId',
+                      bookId,
+                    ),
+                  );
                 },
               ),
             (final RemoteBookSearchResult remote) => RemoteBookSearchItem(
