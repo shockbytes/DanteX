@@ -5,7 +5,7 @@ abstract class PageRecordRepository {
     String bookId,
     int fromPage,
     int toPage,
-    int nowInMillis,
+    DateTime now,
   );
 
   Future<void> updatePageRecord(
@@ -14,7 +14,7 @@ abstract class PageRecordRepository {
     int? toPage,
   );
 
-  Future<void> deletePageRecordForBook(PageRecord pageRecord);
+  Future<void> deletePageRecord(PageRecord pageRecord);
 
   Future<void> deleteAllPageRecordsForBookId(String bookId);
 

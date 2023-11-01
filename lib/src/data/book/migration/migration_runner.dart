@@ -105,7 +105,7 @@ class MigrationRunner {
           record.bookId,
           record.fromPage,
           record.toPage,
-          record.timestamp,
+          record.dateTime,
         );
         migratedPageRecords++;
       } catch (e) {

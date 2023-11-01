@@ -15,10 +15,11 @@ class RealmPageRecordRepository implements PageRecordRepository {
         .where(_hasPageRecordRequiredData)
         .map(
           (rpg) => PageRecord(
+            id: rpg.recordId ?? 'not-available',
             bookId: rpg.bookId.toString(),
             fromPage: rpg.fromPage,
             toPage: rpg.toPage,
-            timestamp: rpg.timestamp,
+            dateTime: DateTime.fromMillisecondsSinceEpoch(rpg.timestamp),
           ),
         )
         .toList();
@@ -35,7 +36,7 @@ class RealmPageRecordRepository implements PageRecordRepository {
   }
 
   @override
-  Future<void> deletePageRecordForBook(PageRecord pageRecord) {
+  Future<void> deletePageRecord(PageRecord pageRecord) {
     // Not required.
     throw UnimplementedError();
   }
@@ -45,7 +46,7 @@ class RealmPageRecordRepository implements PageRecordRepository {
     String bookId,
     int fromPage,
     int toPage,
-    int nowInMillis,
+    DateTime now,
   ) {
     // Not required.
     throw UnimplementedError();

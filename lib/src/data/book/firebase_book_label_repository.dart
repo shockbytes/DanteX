@@ -50,9 +50,3 @@ class FirebaseBookLabelRepository implements BookLabelRepository {
     return _fbDb.ref('users/$user/labels/');
   }
 }
-
-extension DataSnapshotExtension on DataSnapshot {
-  Map<String, dynamic>? toMap() {
-    return (value != null) ? (value as Map<dynamic, dynamic>).cast() : null;
-  }
-}

@@ -3,6 +3,7 @@ import 'package:dantex/src/data/book/entity/book.dart';
 import 'package:dantex/src/data/book/entity/book_label.dart';
 import 'package:dantex/src/data/book/entity/book_state.dart';
 import 'package:dantex/src/data/book/search_criteria.dart';
+import 'package:dantex/src/data/book/firebase_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:rxdart/rxdart.dart';
@@ -215,11 +216,5 @@ class FirebaseBookRepository implements BookRepository {
         await create(book);
       }
     }
-  }
-}
-
-extension DataSnapshotExtension on DataSnapshot {
-  Map<String, dynamic>? toMap() {
-    return (value != null) ? (value as Map<dynamic, dynamic>).cast() : null;
   }
 }

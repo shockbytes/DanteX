@@ -1,17 +1,23 @@
-class PageRecord {
-  final String bookId;
-  final int fromPage;
-  final int toPage;
-  final int timestamp;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  PageRecord({
-    required this.bookId,
-    required this.fromPage,
-    required this.toPage,
-    required this.timestamp,
-  });
+part 'page_record.freezed.dart';
+part 'page_record.g.dart';
 
-  DateTime get dateTime => DateTime.fromMillisecondsSinceEpoch(timestamp);
+@freezed
+class PageRecord with _$PageRecord {
+
+  const PageRecord._();
+
+  const factory PageRecord({
+    required String id,
+    required String bookId,
+    required int fromPage,
+    required int toPage,
+    required DateTime dateTime,
+  }) = _PageRecord;
 
   int get diffPages => toPage - fromPage;
+
+  factory PageRecord.fromJson(Map<String, Object?> json) =>
+      _$PageRecordFromJson(json);
 }
