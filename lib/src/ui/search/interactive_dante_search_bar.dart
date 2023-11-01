@@ -17,6 +17,7 @@ class InteractiveDanteSearchBar extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       color: Theme.of(context).colorScheme.tertiaryContainer,
       child: TextField(
+        autofocus: true,
         style: TextStyle(
           color: Theme.of(context).colorScheme.onTertiaryContainer,
         ),
