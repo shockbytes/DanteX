@@ -1,4 +1,5 @@
 import 'package:dantex/src/data/book/book_sort_strategy.dart';
+import 'package:dantex/src/data/book/migration/migration_score.dart';
 import 'package:dantex/src/data/settings/settings_repository.dart';
 import 'package:dantex/src/ui/timeline/timeline_sort.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
   static const _keyThemeMode = 'key_theme_mode';
   static const _keySortStrategy = 'key_sort_strategy';
   static const _keyTimelineSortStrategy = 'key_timeline_sort_strategy';
+  static const _keyRealmMigrationStatus = 'key_realm_migration';
 
   final BehaviorSubject<ThemeMode> _themeModeSubject = BehaviorSubject();
 
@@ -88,5 +90,24 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
     TimelineSortStrategy sortStrategy,
   ) async {
     await _sp.setInt(_keyTimelineSortStrategy, sortStrategy.index);
+  }
+
+  @override
+  MigrationStatus? getRealmMigrationStatus() {
+    final String? rawRealmMigrationStatus = _sp.getString(
+      _keyRealmMigrationStatus,
+    );
+    if (rawRealmMigrationStatus == null) {
+      return null;
+    }
+
+    return MigrationStatus.values.firstWhere(
+      (element) => element.name == rawRealmMigrationStatus,
+    );
+  }
+
+  @override
+  Future<void> setRealmMigrationStatus(MigrationStatus newStatus) async {
+    await _sp.setString(_keyRealmMigrationStatus, newStatus.name);
   }
 }

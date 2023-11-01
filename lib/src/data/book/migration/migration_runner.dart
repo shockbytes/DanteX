@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:dantex/src/data/book/book_repository.dart';
 import 'package:dantex/src/data/book/entity/book.dart';
 import 'package:dantex/src/data/book/entity/page_record.dart';
 import 'package:dantex/src/data/book/migration/migration_score.dart';
 import 'package:dantex/src/data/book/page_record_repository.dart';
+import 'package:dantex/src/data/settings/settings_repository.dart';
 import 'package:logger/logger.dart';
 
 /// Runs the migration from the old Android app to the new cross platform app.
@@ -13,9 +16,11 @@ class MigrationRunner {
   final PageRecordRepository _pageRecordTarget;
   final PageRecordRepository _pageRecordSource;
   final Logger _logger;
+  final SettingsRepository _settingsRepository;
 
   MigrationRunner(
     this._logger,
+    this._settingsRepository,
     BookRepository bookTarget,
     BookRepository bookSource,
     PageRecordRepository pageRecordTarget,
@@ -29,19 +34,21 @@ class MigrationRunner {
   Future<MigrationStatus> migrateIfRequired() async {
     final MigrationStatus status = await _migrationStatus();
 
-    if (status == MigrationStatus.required) {
-      final MigrationScore score = await _migrate();
-      final MigrationStatus newStatus = score.statusFromScore();
-      _updateMigrationStatus(newStatus);
-      return newStatus;
+    // If status is not required, return the current status.
+    if (status != MigrationStatus.required) {
+      return status;
     }
 
-    return status;
+    final MigrationScore score = await _migrate();
+    final MigrationStatus newStatus = score.statusFromScore();
+    _updateMigrationStatus(newStatus);
+    return newStatus;
   }
 
+  /// Load migration status from settings. If nothing is saved, return required.
   Future<MigrationStatus> _migrationStatus() async {
-    // TODO Load from SettingsRepository
-    return MigrationStatus.required;
+    return _settingsRepository.getRealmMigrationStatus() ??
+        MigrationStatus.required;
   }
 
   Future<MigrationScore> _migrate() async {
@@ -113,6 +120,6 @@ class MigrationRunner {
   }
 
   void _updateMigrationStatus(MigrationStatus newStatus) {
-    // TODO Save to SettingsRepository
+    unawaited(_settingsRepository.setRealmMigrationStatus(newStatus));
   }
 }
