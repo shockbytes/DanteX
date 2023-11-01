@@ -129,6 +129,10 @@ enum DanteRoute {
     url: 'settings',
     navigationUrl: '/settings',
   ),
+  search(
+    url: 'search',
+    navigationUrl: '/search',
+  ),
   contributors(
     url: 'contributors',
     navigationUrl: '/settings/contributors',
