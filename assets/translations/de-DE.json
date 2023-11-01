@@ -1,4 +1,5 @@
 {
+  "add": "Hinzufügen",
   "account_creation_failed": "Dein Konto konnte nicht angelegt werden.",
   "add_book": {
     "manual": "Manuell eingeben",
@@ -53,8 +54,15 @@
   "reset": "TODO",
   "reset_password": "TODO",
   "reset_password_text": "TODO",
-  "search": "Suchen",
-  "search_hint": "Durchsuche deine Bibliothek...",
+  "search": {
+    "search": "Suchen",
+    "hint": "Durchsuche deine Bibliothek...",
+    "page-hint": "Tippe etwas um deine Bibliothek zu durchsuchen!",
+    "empty": {
+      "description": "Nichts gefunden. Sollen wir online suchen?",
+      "action": "Online suchen"
+    }
+  },
   "select": "Wählen",
   "settings": {
     "about": {

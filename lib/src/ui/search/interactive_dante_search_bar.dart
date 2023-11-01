@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class InteractiveDanteSearchBar extends StatelessWidget {
@@ -32,7 +33,7 @@ class InteractiveDanteSearchBar extends StatelessWidget {
               color: Theme.of(context).colorScheme.onTertiaryContainer,
             ),
           ),
-          hintText: 'Search', // TODO Translate
+          hintText: 'search.search'.tr(),
           border: InputBorder.none,
         ),
       ),

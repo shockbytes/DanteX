@@ -1,5 +1,6 @@
 import 'package:dantex/src/data/search/search.dart';
 import 'package:dantex/src/ui/book/book_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -37,7 +38,7 @@ class RemoteBookSearchItem extends ConsumerWidget {
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
                       color: Theme.of(context).colorScheme.onSurface,
-                      fontWeight: FontWeight.bold
+                      fontWeight: FontWeight.bold,
                     ),
               ),
               const SizedBox(height: 4),
@@ -56,7 +57,7 @@ class RemoteBookSearchItem extends ConsumerWidget {
         FilledButton.tonalIcon(
           onPressed: () => onAddBook(_remoteBookSearchResult.isbn),
           icon: const Icon(Icons.add),
-          label: Text('Add'),
+          label: Text('add'.tr()),
         ),
       ],
     );

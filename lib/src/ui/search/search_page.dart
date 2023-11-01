@@ -7,6 +7,7 @@ import 'package:dantex/src/ui/search/empty_search_widget.dart';
 import 'package:dantex/src/ui/search/interactive_dante_search_bar.dart';
 import 'package:dantex/src/ui/search/local_book_search_item.dart';
 import 'package:dantex/src/ui/search/remote_book_search_item.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -19,7 +20,7 @@ class SearchPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Search your library'), // TODO Translate
+        title: Text('search.hint'.tr()),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -88,7 +89,7 @@ class SearchPage extends ConsumerWidget {
 
   Widget _buildIdleScreen() {
     return Center(
-      child: Text('Tap along to search your library'),
+      child: Text('search.page-hint'.tr()),
     );
   }
 }

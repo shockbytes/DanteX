@@ -39,7 +39,7 @@ class LocalBookSearchItem extends ConsumerWidget {
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
                       color: Theme.of(context).colorScheme.onSurface,
-                      fontWeight: FontWeight.bold
+                      fontWeight: FontWeight.bold,
                   ),
                 ),
                 const SizedBox(height: 4),

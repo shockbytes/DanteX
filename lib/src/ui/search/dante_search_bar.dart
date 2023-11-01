@@ -1,6 +1,6 @@
 import 'package:dantex/main.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 
 class DanteSearchBar extends StatelessWidget {
@@ -24,7 +24,7 @@ class DanteSearchBar extends StatelessWidget {
             const SizedBox(width: 4),
             Center(
               child: Text(
-                AppLocalizations.of(context)!.hint_search,
+                'search.hint'.tr(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.onTertiaryContainer,

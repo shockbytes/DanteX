@@ -1,4 +1,5 @@
 {
+  "add": "Add",
   "account_creation_failed": "Failed to create account",
   "add_book": {
     "manual": "Add manual",
@@ -53,8 +54,15 @@
   "reset": "Reset",
   "reset_password": "Reset Password",
   "reset_password_text": "A link will be sent to your registered email address with instructions on how to reset your password.",
-  "search": "Search",
-  "search_hint": "Search your library...",
+  "search": {
+    "search": "Search",
+    "hint": "Search your library...",
+    "page-hint": "Start typing to search your library!",
+    "empty": {
+      "description": "Nothing found. Should we search online?",
+      "action": "Search online"
+    }
+  },
   "select": "Select",
   "settings": {
     "about": {
