@@ -52,3 +52,4 @@ UNTRANSLATED.txt
 
 # Generated code
 *.g.dart
+*.freezed.dart

@@ -102,7 +102,7 @@ Book _getTestBook({int? pageCount}) {
     notes: '',
     summary: 'TODO Load Description',
     labels: [
-      BookLabel(bookId: 'book-id', title: 'Fantasy', hexColor: '#FFC0CB'),
+      const BookLabel(id: 'label-id', title: 'Fantasy', hexColor: '#FFC0CB'),
     ],
   );
 }

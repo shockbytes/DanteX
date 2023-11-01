@@ -1,124 +1,50 @@
-import 'package:dantex/src/core/book_core.dart';
-import 'package:dantex/src/core/jsonizable.dart';
 import 'package:dantex/src/data/book/entity/book_label.dart';
 import 'package:dantex/src/data/book/entity/book_state.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-class Book with Jsonizable {
-  final String id;
-  final String title;
-  final String subTitle;
-  final String author;
-  final BookState state;
-  final int pageCount;
-  final int currentPage;
-  final String publishedDate;
-  final int position;
-  final String isbn;
-  final String? thumbnailAddress;
-  final int startDate;
-  final int endDate;
+part 'book.freezed.dart';
+part 'book.g.dart';
 
-  /// Actually `forLaterDate` and should not be confused with BookState.WISHLIST. This mishap
-  /// is due to the initial naming and cannot be changed without breaking prior backups. So, just
-  /// treat this as `forLaterDate` and everything is fine
-  final int wishlistDate;
-  final String language;
-  final int rating;
-  final String? notes;
-  final String? summary;
-  final List<BookLabel> labels;
+@freezed
+class Book with _$Book {
+  const Book._();
 
-  int get progressPercentage => ((currentPage / pageCount) * 100).toInt();
+  const factory Book({
+    required String id,
+    required String title,
+    required String subTitle,
+    required String author,
+    required BookState state,
+    required int pageCount,
+    required int currentPage,
+    required String publishedDate,
+    required int position,
+    required String isbn,
+    required String? thumbnailAddress,
+    required int startDate,
+    required int endDate,
 
-  Book({
-    required this.id,
-    required this.title,
-    required this.subTitle,
-    required this.author,
-    required this.state,
-    required this.pageCount,
-    required this.currentPage,
-    required this.publishedDate,
-    required this.position,
-    required this.isbn,
-    required this.thumbnailAddress,
-    required this.startDate,
-    required this.endDate,
-    required this.wishlistDate,
-    required this.language,
-    required this.rating,
-    required this.notes,
-    required this.summary,
-    required this.labels,
-  });
+    /// Actually `forLaterDate` and should not be confused with BookState.WISHLIST. This mishap
+    /// is due to the initial naming and cannot be changed without breaking prior backups. So, just
+    /// treat this as `forLaterDate` and everything is fine
+    required int wishlistDate,
+    required String language,
+    required int rating,
+    required String? notes,
+    required String? summary,
+    @Default([]) List<BookLabel> labels,
+  }) = _Book;
 
-  @override
-  Map<String, dynamic> toMap() {
-    final data = <String, dynamic>{};
+  factory Book.fromJson(Map<String, Object?> json) => _$BookFromJson(json);
 
-    data['id'] = id;
-    data['title'] = title;
-    data['subTitle'] = subTitle;
-    data['author'] = author;
-    data['state'] = state.name;
-    data['pageCount'] = pageCount;
-    data['currentPage'] = currentPage;
-    data['publishedDate'] = publishedDate;
-    data['position'] = position;
-    data['isbn'] = isbn;
-    data['startDate'] = startDate;
-    data['endDate'] = endDate;
-    data['wishlistDate'] = wishlistDate;
-    data['language'] = language;
-    data['rating'] = rating;
+  int get progressPercentage =>
+      pageCount != 0 ? ((currentPage / pageCount) * 100).toInt() : 0;
 
-    if (thumbnailAddress != null) {
-      data['thumbnailAddress'] = thumbnailAddress;
-    }
-    if (notes != null) {
-      data['notes'] = notes;
-    }
-    if (summary != null) {
-      data['summary'] = summary;
-    }
-
-    data['labels'] = labels.map((label) => label.toMap()).toList();
-
-    return data;
+  void addLabel(BookLabel label) {
+    labels.add(label);
   }
 
-  Book copyWith({BookId? newId, int? newCurrentPage, BookState? newState}) {
-    return Book(
-      id: newId ?? id,
-      title: title,
-      subTitle: subTitle,
-      author: author,
-      state: newState ?? state,
-      pageCount: pageCount,
-      currentPage: newCurrentPage ?? currentPage,
-      publishedDate: publishedDate,
-      position: position,
-      isbn: isbn,
-      thumbnailAddress: thumbnailAddress,
-      startDate: startDate,
-      endDate: endDate,
-      wishlistDate: wishlistDate,
-      language: language,
-      rating: rating,
-      notes: notes,
-      summary: summary,
-      labels: labels,
-    );
+  void removeLabel(String labelId) {
+    labels.removeWhere((label) => label.id == labelId);
   }
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is Book &&
-          runtimeType == other.runtimeType &&
-          id == other.id &&
-          state == other.state;
-
-  @override
-  int get hashCode => id.hashCode + state.hashCode;
 }

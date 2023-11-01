@@ -1,5 +1,6 @@
-import 'package:dantex/src/data/book/entity/book.dart';
-import 'package:dantex/src/data/book/entity/book_state.dart';
+import 'package:dantex/src/data/book/book_label_repository.dart';
+import 'package:dantex/src/data/book/book_repository.dart';
+import 'package:dantex/src/data/book/firebase_book_label_repository.dart';
 import 'package:dantex/src/data/book/firebase_book_repository.dart';
 import 'package:dantex/src/data/settings/settings_repository.dart';
 import 'package:dantex/src/data/settings/shared_preferences_settings_repository.dart';
@@ -10,34 +11,17 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'repository.g.dart';
 
 @riverpod
-class BookRepository extends _$BookRepository {
-  @override
-  FirebaseBookRepository build() => FirebaseBookRepository(
-        ref.watch(firebaseAuthProvider),
-        ref.watch(firebaseDatabaseProvider),
-      );
+BookRepository bookRepository(BookRepositoryRef ref) => FirebaseBookRepository(
+      ref.watch(firebaseAuthProvider),
+      ref.watch(firebaseDatabaseProvider),
+    );
 
-  Future<void> addToWishlist(Book book) {
-    return _addBook(book, BookState.wishlist);
-  }
-
-  Future<void> addToForLater(Book book) {
-    return _addBook(book, BookState.readLater);
-  }
-
-  Future<void> addToReading(Book book) {
-    return _addBook(book, BookState.reading);
-  }
-
-  Future<void> addToRead(Book book) {
-    return _addBook(book, BookState.read);
-  }
-
-  Future<void> _addBook(Book book, BookState bookState) {
-    final Book updatedBook = book.copyWith(newState: bookState);
-    return state.create(updatedBook);
-  }
-}
+@riverpod
+BookLabelRepository bookLabelRepository(BookLabelRepositoryRef ref) =>
+    FirebaseBookLabelRepository(
+      ref.watch(firebaseAuthProvider),
+      ref.watch(firebaseDatabaseProvider),
+    );
 
 @riverpod
 SettingsRepository settingsRepository(SettingsRepositoryRef ref) =>

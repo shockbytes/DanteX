@@ -62,7 +62,6 @@ extension BookSortStrategyExtension on BookSortStrategy {
     }
   }
 
-
   String _sanitizeTitle(String title) {
     // Maybe introduce more sanitization rules later on.
     return title.toLowerCase();
