@@ -32,7 +32,7 @@ class RealmBookRepository implements BookRepository {
   }
 
   @override
-  Future<void> delete(BookId id) {
+  Future<void> delete(String id) {
     // Not required.
     throw UnimplementedError();
   }
@@ -44,7 +44,7 @@ class RealmBookRepository implements BookRepository {
   }
 
   @override
-  Future<Book> getBook(BookId id) {
+  Future<Book> getBook(String id) {
     // Not required.
     throw UnimplementedError();
   }
@@ -78,7 +78,7 @@ class RealmBookRepository implements BookRepository {
                 .where(_hasRealmBookLabelRequiredData)
                 .map(
                   (rbl) => BookLabel(
-                    bookId: rbl.bookId.toString(),
+                    id: rbl.bookId.toString(),
                     title: rbl.title!,
                     hexColor: rbl.hexColor!,
                   ),
@@ -118,7 +118,43 @@ class RealmBookRepository implements BookRepository {
   }
 
   @override
-  Future<void> updateCurrentPage(BookId bookId, int currentPage) {
+  Future<void> updateCurrentPage(String bookId, int currentPage) {
+    // Not required.
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> addLabelToBook(String bookId, BookLabel label) {
+    // Not required.
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> addToForLater(Book book) {
+    // Not required.
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> addToRead(Book book) {
+    // Not required.
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> addToReading(Book book) {
+    // Not required.
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> addToWishlist(Book book) {
+    // Not required.
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> removeLabelFromBook(String bookId, String labelId) {
     // Not required.
     throw UnimplementedError();
   }

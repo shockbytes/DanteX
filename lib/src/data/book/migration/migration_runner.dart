@@ -3,6 +3,7 @@ import 'package:dantex/src/data/book/entity/book.dart';
 import 'package:dantex/src/data/book/entity/page_record.dart';
 import 'package:dantex/src/data/book/migration/migration_score.dart';
 import 'package:dantex/src/data/book/page_record_repository.dart';
+import 'package:logger/logger.dart';
 
 /// Runs the migration from the old Android app to the new cross platform app.
 /// The runner essentially fetches all data from Realm and pipes it to Firebase.
@@ -11,8 +12,10 @@ class MigrationRunner {
   final BookRepository _bookSource;
   final PageRecordRepository _pageRecordTarget;
   final PageRecordRepository _pageRecordSource;
+  final Logger _logger;
 
   MigrationRunner(
+    this._logger,
     BookRepository bookTarget,
     BookRepository bookSource,
     PageRecordRepository pageRecordTarget,
@@ -70,7 +73,7 @@ class MigrationRunner {
         await _bookTarget.create(book);
         migratedBooks++;
       } catch (e) {
-        // TODO Await logging facility
+        _logger.f(e);
       }
     }
 
@@ -99,7 +102,7 @@ class MigrationRunner {
         );
         migratedPageRecords++;
       } catch (e) {
-        // TODO Await logging facility
+        _logger.f(e);
       }
     }
 

@@ -323,7 +323,7 @@ class RealmPageRecord extends _RealmPageRecord
 
   @override
   String? get recordId =>
-      RealmObjectBase.get<String>(this, 'recordId') as String;
+      RealmObjectBase.get<String>(this, 'recordId') as String?;
   @override
   set recordId(String? value) => RealmObjectBase.set(this, 'recordId', value);
 
@@ -361,7 +361,8 @@ class RealmPageRecord extends _RealmPageRecord
     RealmObjectBase.registerFactory(RealmPageRecord._);
     return const SchemaObject(
         ObjectType.realmObject, RealmPageRecord, 'RealmPageRecord', [
-      SchemaProperty('recordId', RealmPropertyType.string, primaryKey: true, optional: true),
+      SchemaProperty('recordId', RealmPropertyType.string,
+          optional: true, primaryKey: true),
       SchemaProperty('bookId', RealmPropertyType.int),
       SchemaProperty('fromPage', RealmPropertyType.int),
       SchemaProperty('toPage', RealmPropertyType.int),
