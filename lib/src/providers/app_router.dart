@@ -2,6 +2,7 @@ import 'package:dantex/src/providers/authentication.dart';
 import 'package:dantex/src/ui/add/scan_book_page.dart';
 import 'package:dantex/src/ui/book/book_detail_page.dart';
 import 'package:dantex/src/ui/boot_page.dart';
+import 'package:dantex/src/ui/core/dante_page_scaffold.dart';
 import 'package:dantex/src/ui/login/email_login_page.dart';
 import 'package:dantex/src/ui/login/login_page.dart';
 import 'package:dantex/src/ui/main/main_page.dart';
@@ -71,11 +72,6 @@ GoRouter goRouter(GoRouterRef ref) {
             const MainPage(),
         routes: [
           GoRoute(
-            path: DanteRoute.search.url,
-            builder: (BuildContext context, GoRouterState state) =>
-            const SearchPage(),
-          ),
-          GoRoute(
             path: DanteRoute.settings.url,
             builder: (BuildContext context, GoRouterState state) =>
                 const SettingsPage(),
@@ -128,11 +124,11 @@ enum DanteRoute {
     navigationUrl: '/',
   ),
   scanBook(
-    url: 'scan',
+    url: '/scan',
     navigationUrl: '/scan',
   ),
   settings(
-    url: 'settings',
+    url: '/settings',
     navigationUrl: '/settings',
   ),
   search(
@@ -144,11 +140,11 @@ enum DanteRoute {
     navigationUrl: '/settings/contributors',
   ),
   profile(
-    url: 'profile',
+    url: '/profile',
     navigationUrl: '/profile',
   ),
   bookDetail(
-    url: 'book/:bookId',
+    url: '/book/:bookId',
     navigationUrl: '/book/:bookId',
   );
 

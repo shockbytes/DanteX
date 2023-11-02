@@ -1,5 +1,15 @@
 {
   "add": "Hinzufügen",
+  "navigation": {
+    "library": "Meine Bücher",
+    "stats": "Statistiken",
+    "timeline": "Timeline",
+    "wishlist": "Wunschliste",
+    "recommendations": "Vorschläge",
+    "book-keeping": "Verwaltung",
+    "settings": "Einstellungen"
+  },
+  "anonymous-user": "Anonymous Bookworm",
   "account_creation_failed": "Dein Konto konnte nicht angelegt werden.",
   "add_book": {
     "manual": "Manuell eingeben",

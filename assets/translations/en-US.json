@@ -1,5 +1,14 @@
 {
   "add": "Add",
+  "navigation": {
+    "library": "My Library",
+    "stats": "Statistics",
+    "timeline": "Timeline",
+    "wishlist": "Wishlist",
+    "recommendations": "Recommendations",
+    "book-keeping": "Book Keeping",
+    "settings": "Settings"
+  },
   "account_creation_failed": "Failed to create account",
   "add_book": {
     "manual": "Add manual",

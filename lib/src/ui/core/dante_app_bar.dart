@@ -8,6 +8,7 @@ import 'package:dantex/src/ui/add/add_book_widget.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/platform_components.dart';
 import 'package:dantex/src/ui/search/dante_search_bar.dart';
+import 'package:dantex/src/util/layout_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -32,56 +33,14 @@ class DanteAppBar extends ConsumerWidget implements PreferredSizeWidget {
               horizontal: 16.0,
               vertical: 8.0,
             ),
-            child: Row(
-              children: [
-                PopupMenuButton<AddBookAction>(
-                  padding: const EdgeInsets.all(0),
-                  icon: Icon(
-                    Icons.add,
-                    size: 32,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  onSelected: (AddBookAction action) async =>
-                      _handleAddBookAction(context, action),
-                  itemBuilder: (BuildContext context) =>
-                      <PopupMenuEntry<AddBookAction>>[
-                    PopupMenuItem<AddBookAction>(
-                      value: AddBookAction.scan,
-                      child: _AddActionItem(
-                        text: 'add_book.scan'.tr(),
-                        iconData: Icons.camera_alt_outlined,
-                        color: Theme.of(context).colorScheme.secondary,
-                      ),
-                    ),
-                    PopupMenuItem<AddBookAction>(
-                      value: AddBookAction.query,
-                      child: _AddActionItem(
-                        text: 'add_book.query'.tr(),
-                        iconData: Icons.search,
-                        color: Theme.of(context).colorScheme.secondary,
-                      ),
-                    ),
-                    PopupMenuItem<AddBookAction>(
-                      value: AddBookAction.manual,
-                      child: _AddActionItem(
-                        text: 'add_book.manual'.tr(),
-                        iconData: Icons.edit_outlined,
-                        color: Theme.of(context).colorScheme.secondary,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(width: 12),
-                const Expanded(
-                  child: DanteSearchBar(),
-                ),
-                const SizedBox(width: 32),
-                InkWell(
-                  onTap: () => _openBottomSheet(context),
-                  child: UserAvatar(user: user),
-                ),
-                const SizedBox(width: 16),
-              ],
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                if (isDesktop(constraints)) {
+                  return _buildDesktopView(context);
+                } else {
+                  return _buildMobileView(context, user);
+                }
+              },
             ),
           ),
         );
@@ -92,13 +51,101 @@ class DanteAppBar extends ConsumerWidget implements PreferredSizeWidget {
     );
   }
 
+  Widget _buildDesktopView(BuildContext context) {
+    return Row(
+      children: [
+        const Spacer(),
+        const SizedBox(
+          width: 600,
+          child: DanteSearchBar(),
+        ),
+        const Spacer(),
+        TextButton(
+          onPressed: () async {
+            await _handleQueryAction(context);
+          },
+          child: _AddActionItem(
+            text: 'add_book.query'.tr(),
+            iconData: Icons.search,
+            color: Theme.of(context).colorScheme.secondary,
+          ),
+        ),
+        const SizedBox(width: 16),
+        TextButton(
+          onPressed: () {
+            // TODO Support manually adding books
+          },
+          child: _AddActionItem(
+            text: 'add_book.manual'.tr(),
+            iconData: Icons.edit_outlined,
+            color: Theme.of(context).colorScheme.secondary,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMobileView(BuildContext context, DanteUser? user) {
+    return Row(
+      children: [
+        PopupMenuButton<AddBookAction>(
+          padding: const EdgeInsets.all(0),
+          icon: Icon(
+            Icons.add,
+            size: 32,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+          onSelected: (AddBookAction action) async =>
+              _handleAddBookAction(context, action),
+          itemBuilder: (BuildContext context) =>
+              <PopupMenuEntry<AddBookAction>>[
+            PopupMenuItem<AddBookAction>(
+              value: AddBookAction.scan,
+              child: _AddActionItem(
+                text: 'add_book.scan'.tr(),
+                iconData: Icons.camera_alt_outlined,
+                color: Theme.of(context).colorScheme.secondary,
+              ),
+            ),
+            PopupMenuItem<AddBookAction>(
+              value: AddBookAction.query,
+              child: _AddActionItem(
+                text: 'add_book.query'.tr(),
+                iconData: Icons.search,
+                color: Theme.of(context).colorScheme.secondary,
+              ),
+            ),
+            PopupMenuItem<AddBookAction>(
+              value: AddBookAction.manual,
+              child: _AddActionItem(
+                text: 'add_book.manual'.tr(),
+                iconData: Icons.edit_outlined,
+                color: Theme.of(context).colorScheme.secondary,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(width: 12),
+        const Expanded(
+          child: DanteSearchBar(),
+        ),
+        const SizedBox(width: 32),
+        InkWell(
+          onTap: () => _openBottomSheet(context),
+          child: UserAvatar(user: user),
+        ),
+        const SizedBox(width: 16),
+      ],
+    );
+  }
+
   _handleAddBookAction(BuildContext context, AddBookAction action) async {
     switch (action) {
       case AddBookAction.scan:
         context.go(DanteRoute.scanBook.navigationUrl);
         break;
       case AddBookAction.query:
-        await _handleQueryAction(context, action);
+        await _handleQueryAction(context);
         break;
       case AddBookAction.manual:
         // TODO Support manually adding books
@@ -106,7 +153,7 @@ class DanteAppBar extends ConsumerWidget implements PreferredSizeWidget {
     }
   }
 
-  _handleQueryAction(BuildContext context, AddBookAction action) async {
+  _handleQueryAction(BuildContext context) async {
     final controller = TextEditingController();
     await showDanteInputDialog(
       context,
@@ -152,7 +199,7 @@ class DanteAppBar extends ConsumerWidget implements PreferredSizeWidget {
             children: [
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 12),
-                child: UserTag(),
+                child: UserTag(useMobileLayout: true),
               ),
               const DanteDivider(),
               GridView(
@@ -165,32 +212,32 @@ class DanteAppBar extends ConsumerWidget implements PreferredSizeWidget {
                 ),
                 children: [
                   _MenuItem(
-                    text: 'Statistics',
+                    text: 'navigation.stats'.tr(),
                     icon: Icons.pie_chart_outline,
                     onItemClicked: () {},
                   ),
                   _MenuItem(
-                    text: 'Timeline',
+                    text: 'navigation.timeline'.tr(),
                     icon: Icons.linear_scale,
                     onItemClicked: () {},
                   ),
                   _MenuItem(
-                    text: 'Wishlist',
+                    text: 'navigation.wishlist'.tr(),
                     icon: Icons.article,
                     onItemClicked: () {},
                   ),
                   _MenuItem(
-                    text: 'Recommendations',
+                    text: 'navigation.recommendations'.tr(),
                     icon: Icons.whatshot_outlined,
                     onItemClicked: () {},
                   ),
                   _MenuItem(
-                    text: 'Book keeping',
+                    text: 'navigation.book-keeping'.tr(),
                     icon: Icons.all_inbox_outlined,
                     onItemClicked: () {},
                   ),
                   _MenuItem(
-                    text: 'Settings',
+                    text: 'navigation.settings'.tr(),
                     icon: Icons.settings_outlined,
                     onItemClicked: () =>
                         context.go(DanteRoute.settings.navigationUrl),
@@ -273,7 +320,12 @@ class _MenuItem extends StatelessWidget {
 }
 
 class UserTag extends ConsumerWidget {
-  const UserTag({super.key});
+  final bool useMobileLayout;
+
+  const UserTag({
+    required this.useMobileLayout,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -281,25 +333,11 @@ class UserTag extends ConsumerWidget {
 
     return user.when(
       data: (user) {
-        return Row(
-          children: [
-            IconButton(
-              onPressed: () => context.go(DanteRoute.profile.navigationUrl),
-              icon: UserAvatar(user: user),
-            ),
-            const SizedBox(width: 4),
-            Expanded(
-              child: _getUserHeading(user),
-            ),
-            DanteOutlinedButton(
-              onPressed: () async => _handleLogout(context, ref, user),
-              child: const Text(
-                'Logout',
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ],
-        );
+        if (useMobileLayout) {
+          return _buildMobileView(context, user, ref);
+        } else {
+          return _buildDesktopView(context, user, ref);
+        }
       },
       loading: () {
         return const CircularProgressIndicator.adaptive();
@@ -311,11 +349,64 @@ class UserTag extends ConsumerWidget {
     );
   }
 
+  Widget _buildDesktopView(
+    BuildContext context,
+    DanteUser? user,
+    WidgetRef ref,
+  ) {
+    return Column(
+      children: [
+        IconButton(
+          onPressed: () => context.go(DanteRoute.profile.navigationUrl),
+          icon: UserAvatar(user: user),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+          child: _getUserHeading(user),
+        ),
+        TextButton(
+          onPressed: () async => _handleLogout(context, ref, user),
+          child: Text(
+            'logout'.tr(),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        danteDivider(context),
+      ],
+    );
+  }
+
+  Widget _buildMobileView(
+    BuildContext context,
+    DanteUser? user,
+    WidgetRef ref,
+  ) {
+    return Row(
+      children: [
+        IconButton(
+          onPressed: () => context.go(DanteRoute.profile.navigationUrl),
+          icon: UserAvatar(user: user),
+        ),
+        const SizedBox(width: 4),
+        Expanded(
+          child: _getUserHeading(user),
+        ),
+        danteOutlinedButton(
+          onPressed: () async => _handleLogout(context, ref, user),
+          child: Text(
+            'logout'.tr(),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _getUserHeading(DanteUser? user) {
     final String? name = user?.displayName;
     final String? email = user?.email;
     if (user?.source == AuthenticationSource.anonymous) {
-      return const Text('Anonymous Bookworm');
+      return Text('anonymous-user'.tr());
     }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -409,7 +500,7 @@ class BottomSheet extends ConsumerWidget {
             children: [
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 12),
-                child: UserTag(),
+                child: UserTag(useMobileLayout: true),
               ),
               const DanteDivider(),
               GridView(
