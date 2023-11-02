@@ -1,34 +1,50 @@
 import 'package:flutter/material.dart';
 
-class DanteComponents {
-  DanteComponents._();
+class DanteDivider extends StatelessWidget {
+  final double width;
+  const DanteDivider({this.width = 0.5, super.key});
 
-  static Divider divider(
-    BuildContext context, {
-    double width = 0.5,
-  }) {
+  @override
+  Widget build(BuildContext context) {
     return Divider(
       thickness: width,
       color: Theme.of(context).dividerColor.withOpacity(0.5),
     );
   }
+}
 
-  static TextField textField(
-    BuildContext context,
-    TextEditingController controller, {
-    bool obscureText = false,
-    TextInputAction textInputAction = TextInputAction.next,
-    TextInputType textInputType = TextInputType.text,
-    String? initialValue,
-    String? hint,
-    Widget? suffixIcon,
-    bool? enabled,
-    void Function(String)? onChanged,
-    int maxLines = 1,
-    String? errorText,
-  }) {
+class DanteTextField extends StatelessWidget {
+  final TextEditingController controller;
+  final bool obscureText;
+  final TextInputAction textInputAction;
+  final TextInputType textInputType;
+  final String? initialValue;
+  final String? hint;
+  final Widget? suffixIcon;
+  final bool? enabled;
+  final void Function(String)? onChanged;
+  final int maxLines;
+  final String? errorText;
+
+  const DanteTextField({
+    required this.controller,
+    this.textInputAction = TextInputAction.next,
+    this.textInputType = TextInputType.text,
+    this.maxLines = 1,
+    this.obscureText = false,
+    super.key,
+    this.initialValue,
+    this.hint,
+    this.suffixIcon,
+    this.enabled,
+    this.onChanged,
+    this.errorText,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     if (initialValue != null) {
-      controller.text = initialValue;
+      controller.text = initialValue ?? '';
     }
 
     return TextField(
@@ -86,26 +102,19 @@ class DanteComponents {
       ),
     );
   }
+}
 
-  static OutlinedButton outlinedButton({
-    required Widget child,
-    required void Function()? onPressed,
-    Key? key,
-  }) {
+class DanteOutlinedButton extends StatelessWidget {
+  final Widget child;
+  final void Function()? onPressed;
+  const DanteOutlinedButton({required this.child, super.key, this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
     return OutlinedButton(
       key: key,
       onPressed: onPressed,
       child: child,
-    );
-  }
-
-  static BackButton backButton({
-    required void Function()? onPressed,
-    Key? key,
-  }) {
-    return BackButton(
-      key: key,
-      onPressed: onPressed,
     );
   }
 }

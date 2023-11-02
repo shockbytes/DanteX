@@ -9,7 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class BookStatePage extends ConsumerWidget {
   final BookState _state;
 
-  const BookStatePage(this._state, {Key? key}) : super(key: key);
+  const BookStatePage(this._state, {super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

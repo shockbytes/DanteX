@@ -1,3 +1,5 @@
+// ignore_for_file: discarded_futures
+
 import 'package:dantex/src/data/authentication/entity/dante_user.dart';
 import 'package:dantex/src/data/authentication/firebase_authentication_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,8 +20,8 @@ void main() {
   const String testPassword = 'password';
 
   test('Get account returns DanteUser', () async {
-    final _fbAuth = MockFirebaseAuth();
-    final fbAuthRepo = FirebaseAuthenticationRepository(_fbAuth);
+    final fbAuth = MockFirebaseAuth();
+    final fbAuthRepo = FirebaseAuthenticationRepository(fbAuth);
     final User user = MockUser();
     final UserInfo userInfo = MockUserInfo();
     final DanteUser danteUser = DanteUser(
@@ -36,51 +38,51 @@ void main() {
     when(user.displayName).thenReturn('Dante User');
     when(user.email).thenReturn('dante.user@gmail.com');
     when(user.photoURL).thenReturn('https://photo-url.com');
-    when(user.getIdToken(false)).thenAnswer(
+    when(user.getIdToken()).thenAnswer(
       (_) async => Future<String>.value('authToken'),
     );
     when(user.isAnonymous).thenReturn(false);
     when(user.uid).thenReturn('1');
     when(user.providerData).thenReturn([userInfo]);
-    when(_fbAuth.currentUser).thenReturn(user);
+    when(fbAuth.currentUser).thenReturn(user);
 
     expect(
       await fbAuthRepo.getAccount(),
       danteUser,
     );
-    verify(_fbAuth.currentUser).called(1);
+    verify(fbAuth.currentUser).called(1);
   });
 
   group('Login', () {
     test('Login with Google returns user credential on success', () async {
-      final _fbAuth = MockFirebaseAuth();
-      final firebaseAuthRepo = FirebaseAuthenticationRepository(_fbAuth);
+      final fbAuth = MockFirebaseAuth();
+      final firebaseAuthRepo = FirebaseAuthenticationRepository(fbAuth);
       final userCred = MockUserCredential();
 
-      when(_fbAuth.signInWithProvider(any)).thenAnswer((_) async => userCred);
+      when(fbAuth.signInWithProvider(any)).thenAnswer((_) async => userCred);
 
       expect(await firebaseAuthRepo.loginWithGoogle(), userCred);
-      verify(_fbAuth.signInWithProvider(any)).called(1);
+      verify(fbAuth.signInWithProvider(any)).called(1);
     });
 
     test('Login anonymously returns User Credential on success', () async {
-      final _fbAuth = MockFirebaseAuth();
-      final firebaseAuthRepo = FirebaseAuthenticationRepository(_fbAuth);
+      final fbAuth = MockFirebaseAuth();
+      final firebaseAuthRepo = FirebaseAuthenticationRepository(fbAuth);
       final userCred = MockUserCredential();
 
-      when(_fbAuth.signInAnonymously()).thenAnswer((_) async => userCred);
+      when(fbAuth.signInAnonymously()).thenAnswer((_) async => userCred);
 
       expect(await firebaseAuthRepo.loginAnonymously(), userCred);
-      verify(_fbAuth.signInAnonymously()).called(1);
+      verify(fbAuth.signInAnonymously()).called(1);
     });
 
     test('Login with email returns User Credential on success', () async {
-      final _fbAuth = MockFirebaseAuth();
-      final firebaseAuthRepo = FirebaseAuthenticationRepository(_fbAuth);
+      final fbAuth = MockFirebaseAuth();
+      final firebaseAuthRepo = FirebaseAuthenticationRepository(fbAuth);
       final userCred = MockUserCredential();
 
       when(
-        _fbAuth.signInWithEmailAndPassword(
+        fbAuth.signInWithEmailAndPassword(
           email: testEmail,
           password: testPassword,
         ),
@@ -94,7 +96,7 @@ void main() {
         userCred,
       );
       verify(
-        _fbAuth.signInWithEmailAndPassword(
+        fbAuth.signInWithEmailAndPassword(
           email: testEmail,
           password: testPassword,
         ),
@@ -103,22 +105,22 @@ void main() {
   });
 
   test('logout returns void on success', () async {
-    final _fbAuth = MockFirebaseAuth();
-    final firebaseAuthRepo = FirebaseAuthenticationRepository(_fbAuth);
+    final fbAuth = MockFirebaseAuth();
+    final firebaseAuthRepo = FirebaseAuthenticationRepository(fbAuth);
 
-    when(_fbAuth.signOut()).thenAnswer((_) async => Future<void>);
+    when(fbAuth.signOut()).thenAnswer((_) async => Future<void>);
 
-    firebaseAuthRepo.logout();
-    verify(_fbAuth.signOut()).called(1);
+    await firebaseAuthRepo.logout();
+    verify(fbAuth.signOut()).called(1);
   });
 
   test(
     'fetchSignInMethodsForEmail maps sign in methods to AuthenticationSource',
     () async {
-      final _fbAuth = MockFirebaseAuth();
-      final firebaseAuthRepo = FirebaseAuthenticationRepository(_fbAuth);
+      final fbAuth = MockFirebaseAuth();
+      final firebaseAuthRepo = FirebaseAuthenticationRepository(fbAuth);
 
-      when(_fbAuth.fetchSignInMethodsForEmail(testEmail))
+      when(fbAuth.fetchSignInMethodsForEmail(testEmail))
           .thenAnswer((_) async => ['google.com', 'password', 'apple.com']);
 
       final signInMethods =
@@ -129,17 +131,17 @@ void main() {
         AuthenticationSource.mail,
         AuthenticationSource.unknown,
       ]);
-      verify(_fbAuth.fetchSignInMethodsForEmail(testEmail)).called(1);
+      verify(fbAuth.fetchSignInMethodsForEmail(testEmail)).called(1);
     },
   );
 
   test('Create mail account returns User Credential on success', () async {
-    final _fbAuth = MockFirebaseAuth();
-    final firebaseAuthRepo = FirebaseAuthenticationRepository(_fbAuth);
+    final fbAuth = MockFirebaseAuth();
+    final firebaseAuthRepo = FirebaseAuthenticationRepository(fbAuth);
     final userCred = MockUserCredential();
 
     when(
-      _fbAuth.createUserWithEmailAndPassword(
+      fbAuth.createUserWithEmailAndPassword(
         email: testEmail,
         password: testPassword,
       ),
@@ -153,7 +155,7 @@ void main() {
       userCred,
     );
     verify(
-      _fbAuth.createUserWithEmailAndPassword(
+      fbAuth.createUserWithEmailAndPassword(
         email: testEmail,
         password: testPassword,
       ),
@@ -162,13 +164,13 @@ void main() {
 
   test('Upgrade anonymous account returns User Credential on success',
       () async {
-    final _fbAuth = MockFirebaseAuth();
-    final firebaseAuthRepo = FirebaseAuthenticationRepository(_fbAuth);
+    final fbAuth = MockFirebaseAuth();
+    final firebaseAuthRepo = FirebaseAuthenticationRepository(fbAuth);
     final user = MockUser();
     final userCred = MockUserCredential();
 
     when(
-      _fbAuth.currentUser,
+      fbAuth.currentUser,
     ).thenReturn(user);
     when(user.linkWithCredential(any)).thenAnswer((_) async => userCred);
 
@@ -187,15 +189,15 @@ void main() {
   test(
       'Upgrade anonymous account throws FirebaseAuthException error when user not found',
       () async {
-    final _fbAuth = MockFirebaseAuth();
-    final firebaseAuthRepo = FirebaseAuthenticationRepository(_fbAuth);
+    final fbAuth = MockFirebaseAuth();
+    final firebaseAuthRepo = FirebaseAuthenticationRepository(fbAuth);
 
     when(
-      _fbAuth.currentUser,
+      fbAuth.currentUser,
     ).thenReturn(null);
 
     expect(
-      () async => await firebaseAuthRepo.upgradeAnonymousAccount(
+      () async => firebaseAuthRepo.upgradeAnonymousAccount(
         email: testEmail,
         password: testPassword,
       ),
@@ -204,31 +206,31 @@ void main() {
   });
 
   test('Update user password returns void on success', () {
-    final _fbAuth = MockFirebaseAuth();
-    final firebaseAuthRepo = FirebaseAuthenticationRepository(_fbAuth);
+    final fbAuth = MockFirebaseAuth();
+    final firebaseAuthRepo = FirebaseAuthenticationRepository(fbAuth);
     final user = MockUser();
 
-    when(_fbAuth.currentUser).thenReturn(user);
+    when(fbAuth.currentUser).thenReturn(user);
     when(user.updatePassword(any)).thenAnswer((_) async => Future<void>);
 
     firebaseAuthRepo.updateMailPassword(password: testPassword);
 
-    verify(_fbAuth.currentUser).called(1);
+    verify(fbAuth.currentUser).called(1);
     verify(user.updatePassword(testPassword)).called(1);
   });
 
   test(
       'Upgrade password throws FirebaseAuthException error when user not found',
       () async {
-    final _fbAuth = MockFirebaseAuth();
-    final firebaseAuthRepo = FirebaseAuthenticationRepository(_fbAuth);
+    final fbAuth = MockFirebaseAuth();
+    final firebaseAuthRepo = FirebaseAuthenticationRepository(fbAuth);
 
     when(
-      _fbAuth.currentUser,
+      fbAuth.currentUser,
     ).thenReturn(null);
 
     expect(
-      () async => await firebaseAuthRepo.updateMailPassword(
+      () async => firebaseAuthRepo.updateMailPassword(
         password: testPassword,
       ),
       throwsA(isA<FirebaseAuthException>()),
@@ -236,13 +238,72 @@ void main() {
   });
 
   test('Send password reset request returns void on success', () {
-    final _fbAuth = MockFirebaseAuth();
-    final firebaseAuthRepo = FirebaseAuthenticationRepository(_fbAuth);
+    final fbAuth = MockFirebaseAuth();
+    final firebaseAuthRepo = FirebaseAuthenticationRepository(fbAuth);
 
-    when(_fbAuth.sendPasswordResetEmail(email: testEmail))
+    when(fbAuth.sendPasswordResetEmail(email: testEmail))
         .thenAnswer((_) async => Future<void>);
 
     firebaseAuthRepo.sendPasswordResetRequest(email: testEmail);
-    verify(_fbAuth.sendPasswordResetEmail(email: testEmail)).called(1);
+    verify(fbAuth.sendPasswordResetEmail(email: testEmail)).called(1);
+  });
+
+  test('Delete user returns void on success', () async {
+    final fbAuth = MockFirebaseAuth();
+    final firebaseAuthRepo = FirebaseAuthenticationRepository(fbAuth);
+    final User user = MockUser();
+
+    when(fbAuth.currentUser).thenReturn(user);
+    when(user.delete()).thenAnswer((_) async => Future<void>);
+
+    await firebaseAuthRepo.deleteAccount();
+    verify(fbAuth.currentUser?.delete()).called(1);
+    verify(user.delete()).called(1);
+  });
+
+  test('Auth state changes returns DanteUser', () {
+    final fbAuth = MockFirebaseAuth();
+    final firebaseAuthRepo = FirebaseAuthenticationRepository(fbAuth);
+    final User user = MockUser();
+    final UserInfo userInfo = MockUserInfo();
+    final DanteUser danteUser = DanteUser(
+      givenName: 'Dante User',
+      displayName: 'Dante User',
+      email: 'dante.user@gmail.com',
+      photoUrl: 'https://photo-url.com',
+      authToken: 'authToken',
+      userId: '1',
+      source: AuthenticationSource.mail,
+    );
+
+    when(userInfo.providerId).thenReturn('password');
+    when(user.displayName).thenReturn('Dante User');
+    when(user.email).thenReturn('dante.user@gmail.com');
+    when(user.photoURL).thenReturn('https://photo-url.com');
+    when(user.getIdToken()).thenAnswer(
+      (_) async => Future<String>.value('authToken'),
+    );
+    when(user.isAnonymous).thenReturn(false);
+    when(user.uid).thenReturn('1');
+    when(user.providerData).thenReturn([userInfo]);
+
+    when(fbAuth.authStateChanges()).thenAnswer(
+      (_) => Stream.fromIterable(
+        [
+          null,
+          user,
+        ],
+      ),
+    );
+
+    expect(
+      firebaseAuthRepo.authStateChanges,
+      emitsInOrder(
+        [
+          null,
+          danteUser,
+        ],
+      ),
+    );
   });
 }

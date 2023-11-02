@@ -6,8 +6,8 @@ import 'package:dantex/src/providers/app_router.dart';
 import 'package:dantex/src/providers/authentication.dart';
 import 'package:dantex/src/ui/add/add_book_widget.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
-import 'package:dantex/src/ui/search/dante_search_bar.dart';
 import 'package:dantex/src/ui/core/platform_components.dart';
+import 'package:dantex/src/ui/search/dante_search_bar.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,7 +16,7 @@ import 'package:go_router/go_router.dart';
 enum AddBookAction { scan, query, manual }
 
 class DanteAppBar extends ConsumerWidget implements PreferredSizeWidget {
-  const DanteAppBar({Key? key}) : super(key: key);
+  const DanteAppBar({super.key});
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -108,18 +108,18 @@ class DanteAppBar extends ConsumerWidget implements PreferredSizeWidget {
 
   _handleQueryAction(BuildContext context, AddBookAction action) async {
     final controller = TextEditingController();
-    await PlatformComponents.showPlatformInputDialog(
+    await showDanteInputDialog(
       context,
       title: 'query_search.title'.tr(),
       hint: 'query_search.hint'.tr(),
       textInputAction: TextInputAction.search,
       actions: [
-        PlatformDialogAction(
+        DanteDialogAction(
           name: 'cancel'.tr(),
           action: (BuildContext context) => Navigator.of(context).pop(),
         ),
-        PlatformDialogAction(
-          name: 'search.search'.tr(),
+        DanteDialogAction(
+          name: 'search'.tr(),
           action: (BuildContext context) async {
             Navigator.of(context).pop();
             await openAddBookSheet(
@@ -154,7 +154,7 @@ class DanteAppBar extends ConsumerWidget implements PreferredSizeWidget {
                 padding: EdgeInsets.symmetric(horizontal: 12),
                 child: UserTag(),
               ),
-              DanteComponents.divider(context),
+              const DanteDivider(),
               GridView(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -245,8 +245,7 @@ class _MenuItem extends StatelessWidget {
     required this.text,
     required this.icon,
     required this.onItemClicked,
-    Key? key,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -292,7 +291,7 @@ class UserTag extends ConsumerWidget {
             Expanded(
               child: _getUserHeading(user),
             ),
-            DanteComponents.outlinedButton(
+            DanteOutlinedButton(
               onPressed: () async => _handleLogout(context, ref, user),
               child: const Text(
                 'Logout',
@@ -339,11 +338,11 @@ class UserTag extends ConsumerWidget {
           title: Text('anonymous_logout.title'.tr()),
           content: Text('anonymous_logout.description'.tr()),
           actions: <Widget>[
-            DanteComponents.outlinedButton(
+            DanteOutlinedButton(
               onPressed: () => Navigator.of(context).pop(),
               child: Text('cancel'.tr()),
             ),
-            DanteComponents.outlinedButton(
+            DanteOutlinedButton(
               onPressed: () async {
                 Navigator.of(context).pop();
                 await ref.watch(authenticationRepositoryProvider).logout();
@@ -412,7 +411,7 @@ class BottomSheet extends ConsumerWidget {
                 padding: EdgeInsets.symmetric(horizontal: 12),
                 child: UserTag(),
               ),
-              DanteComponents.divider(context),
+              const DanteDivider(),
               GridView(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),

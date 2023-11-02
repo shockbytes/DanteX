@@ -7,8 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ChangePasswordBottomSheet extends ConsumerStatefulWidget {
   const ChangePasswordBottomSheet({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   createState() => ChangePasswordBottomSheetState();
@@ -40,9 +40,8 @@ class ChangePasswordBottomSheetState
                 width: 360,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: DanteComponents.textField(
-                    context,
-                    _passwordController,
+                  child: DanteTextField(
+                    controller: _passwordController,
                     obscureText: true,
                     hint: 'password'.tr(),
                     errorText: _passwordErrorMessage,
@@ -53,7 +52,7 @@ class ChangePasswordBottomSheetState
                 ),
               ),
               const Spacer(),
-              DanteComponents.outlinedButton(
+              DanteOutlinedButton(
                 child: Text('change_password'.tr()),
                 onPressed: () async {
                   if (_isValidPassword()) {

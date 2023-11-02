@@ -11,7 +11,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 class BookDetailPage extends ConsumerWidget {
   final String id;
 
-  const BookDetailPage({required this.id, Key? key}) : super(key: key);
+  const BookDetailPage({required this.id, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -54,8 +54,13 @@ class BookDetailPage extends ConsumerWidget {
           bottomNavigationBar: _BookSaveState(book: book),
         );
       },
-      error: (error, stackTrace) => GenericErrorWidget(error),
-      loading: () => const CircularProgressIndicator.adaptive(),
+      error: (error, stackTrace) => GenericErrorWidget(
+        error,
+        key: const ValueKey('book-detail-error'),
+      ),
+      loading: () => const CircularProgressIndicator.adaptive(
+        key: ValueKey('book-detail-loading'),
+      ),
     );
   }
 }

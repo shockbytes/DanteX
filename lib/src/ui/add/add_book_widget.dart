@@ -32,8 +32,8 @@ class AddBookWidget extends ConsumerWidget {
   const AddBookWidget(
     this._query, {
     required this.appearance,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   const AddBookWidget.fullScreen({
     required String query,
@@ -189,7 +189,7 @@ class BookWidget extends ConsumerWidget {
               ],
             ),
             const SizedBox(height: 16),
-            DanteComponents.outlinedButton(
+            DanteOutlinedButton(
               onPressed: () async {
                 await ref
                     .read(bookRepositoryProvider)

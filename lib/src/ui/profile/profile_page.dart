@@ -13,8 +13,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ProfilePage extends ConsumerStatefulWidget {
   const ProfilePage({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   createState() => ProfilePageSate();
@@ -51,7 +51,7 @@ class ProfilePageSate extends ConsumerState<ProfilePage> {
                 visible: user?.source == AuthenticationSource.anonymous,
                 child: ProfileRowItem(
                   label: Text('upgrade_account'.tr()),
-                  button: DanteComponents.outlinedButton(
+                  button: DanteOutlinedButton(
                     onPressed: () async {
                       await _openUpgradeBottomSheet(context);
                     },
@@ -63,7 +63,7 @@ class ProfilePageSate extends ConsumerState<ProfilePage> {
                 visible: user?.source == AuthenticationSource.mail,
                 child: ProfileRowItem(
                   label: Text('change_password'.tr()),
-                  button: DanteComponents.outlinedButton(
+                  button: DanteOutlinedButton(
                     onPressed: () async {
                       await _openChangePasswordBottomSheet(context);
                     },

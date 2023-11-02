@@ -11,7 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class EmailLoginPage extends ConsumerStatefulWidget {
-  const EmailLoginPage({Key? key}) : super(key: key);
+  const EmailLoginPage({super.key});
 
   @override
   createState() => EmailLoginPageState();
@@ -32,7 +32,7 @@ class EmailLoginPageState extends ConsumerState<EmailLoginPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
-        leading: DanteComponents.backButton(
+        leading: BackButton(
           onPressed: () => context.pushReplacement(
             DanteRoute.login.navigationUrl,
           ),
@@ -64,9 +64,8 @@ class EmailLoginPageState extends ConsumerState<EmailLoginPage> {
                           ),
                           SizedBox(
                             width: 360,
-                            child: DanteComponents.textField(
-                              context,
-                              _emailController,
+                            child: DanteTextField(
+                              controller: _emailController,
                               enabled: _phase == LoginPhase.email,
                               textInputType: TextInputType.emailAddress,
                               hint: 'email'.tr(),
@@ -87,9 +86,8 @@ class EmailLoginPageState extends ConsumerState<EmailLoginPage> {
                                     key: ValueKey(_phase),
                                     padding:
                                         const EdgeInsets.symmetric(vertical: 8),
-                                    child: DanteComponents.textField(
-                                      context,
-                                      _passwordController,
+                                    child: DanteTextField(
+                                      controller: _passwordController,
                                       obscureText: true,
                                       hint: 'password'.tr(),
                                       errorText: _passwordErrorMessage,
@@ -117,7 +115,7 @@ class EmailLoginPageState extends ConsumerState<EmailLoginPage> {
                           ),
                           AnimatedSwitcher(
                             duration: const Duration(milliseconds: 500),
-                            child: DanteComponents.outlinedButton(
+                            child: DanteOutlinedButton(
                               key: ValueKey(_phase),
                               child: Text(_getButtonText()),
                               onPressed: _getButtonAction(),
@@ -223,12 +221,12 @@ class EmailLoginPageState extends ConsumerState<EmailLoginPage> {
   }
 
   Future<void> _buildForgotPasswordDialog() async {
-    return PlatformComponents.showPlatformDialog(
+    return showDanteDialog(
       context,
       title: 'reset_password'.tr(),
       content: 'reset_password_text'.tr(),
-      actions: <PlatformDialogAction>[
-        PlatformDialogAction(
+      actions: <DanteDialogAction>[
+        DanteDialogAction(
           action: (_) {
             // Close the dialog.
             Navigator.of(context).pop();
@@ -236,7 +234,7 @@ class EmailLoginPageState extends ConsumerState<EmailLoginPage> {
           name: 'no_thanks'.tr(),
           isPrimary: false,
         ),
-        PlatformDialogAction(
+        DanteDialogAction(
           action: (_) async {
             // Close the dialog.
             Navigator.of(context).pop();
@@ -255,7 +253,7 @@ class EmailLoginPageState extends ConsumerState<EmailLoginPage> {
   }
 
   Future<void> _buildGoogleAccountDialog() async {
-    return PlatformComponents.showPlatformDialog(
+    return showDanteDialog(
       context,
       title: 'email_in_use_title'.tr(),
       leading: const Icon(
@@ -263,8 +261,8 @@ class EmailLoginPageState extends ConsumerState<EmailLoginPage> {
         color: Colors.red,
       ),
       content: 'email_in_use_description'.tr(),
-      actions: <PlatformDialogAction>[
-        PlatformDialogAction(
+      actions: <DanteDialogAction>[
+        DanteDialogAction(
           action: (_) {
             // Close the dialog
             Navigator.of(context).pop();
@@ -330,7 +328,7 @@ enum LoginPhase {
 class LoginPageTitle extends StatelessWidget {
   final LoginPhase phase;
 
-  const LoginPageTitle({required this.phase, Key? key}) : super(key: key);
+  const LoginPageTitle({required this.phase, super.key});
 
   @override
   Widget build(BuildContext context) {

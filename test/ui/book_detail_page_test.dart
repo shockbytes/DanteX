@@ -15,7 +15,7 @@ void main() {
       ProviderScope(
         overrides: [
           bookProvider('book-id').overrideWith(
-            (provider) => book,
+            (provider) => Future.value(book),
           ),
         ],
         child: const MaterialApp(
@@ -23,6 +23,13 @@ void main() {
         ),
       ),
     );
+
+    final loading = find.byKey(
+      const ValueKey('book-detail-loading'),
+    );
+    expect(loading, findsOneWidget);
+
+    await tester.pump();
 
     final bookDetailTitle = find.byWidgetPredicate(
       (widget) =>
@@ -77,6 +84,31 @@ void main() {
         find.byKey(const ValueKey('book-detail-progress-indicator'));
     // Because the page count is 0 for this book, we shouldn't be showing the progress indicator
     expect(bookProgress, findsNothing);
+  });
+
+  testWidgets('Error widget shown when error fetching book', (tester) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          bookProvider('book-id').overrideWith(
+            (provider) => Future.error('Error fetching book'),
+          ),
+        ],
+        child: const MaterialApp(
+          home: BookDetailPage(id: 'book-id'),
+        ),
+      ),
+    );
+
+    final loading = find.byKey(
+      const ValueKey('book-detail-loading'),
+    );
+    expect(loading, findsOneWidget);
+
+    await tester.pump();
+
+    final errorWidget = find.byKey(const ValueKey('book-detail-error'));
+    expect(errorWidget, findsOneWidget);
   });
 }
 
