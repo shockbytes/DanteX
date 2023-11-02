@@ -5,10 +5,12 @@ import 'package:dantex/src/data/isbn/barcode_isbn_scanner_service.dart';
 import 'package:dantex/src/data/isbn/isbn_scanner_service.dart';
 import 'package:dantex/src/data/logging/error_only_filter.dart';
 import 'package:dantex/src/data/logging/firebase_log_output.dart';
+import 'package:dantex/src/data/search/search.dart';
 import 'package:dantex/src/providers/api.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:logger/logger.dart';
+import 'package:dantex/src/providers/repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -31,6 +33,14 @@ Future<String> scanIsbn(ScanIsbnRef ref, BuildContext context) {
 @riverpod
 Future<BookSuggestion> downloadBook(DownloadBookRef ref, String query) {
   return ref.watch(bookDownloaderProvider).downloadBook(query);
+}
+
+@riverpod
+Search search(SearchRef ref) {
+  return Search(
+    ref.read(bookRepositoryProvider),
+    ref.read(bookDownloaderProvider),
+  );
 }
 
 @riverpod

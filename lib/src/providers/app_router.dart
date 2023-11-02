@@ -6,6 +6,7 @@ import 'package:dantex/src/ui/login/email_login_page.dart';
 import 'package:dantex/src/ui/login/login_page.dart';
 import 'package:dantex/src/ui/main/main_page.dart';
 import 'package:dantex/src/ui/profile/profile_page.dart';
+import 'package:dantex/src/ui/search/search_page.dart';
 import 'package:dantex/src/ui/settings/contributors_page.dart';
 import 'package:dantex/src/ui/settings/settings_page.dart';
 import 'package:flutter/material.dart';
@@ -70,6 +71,11 @@ GoRouter goRouter(GoRouterRef ref) {
             const MainPage(),
         routes: [
           GoRoute(
+            path: DanteRoute.search.url,
+            builder: (BuildContext context, GoRouterState state) =>
+            const SearchPage(),
+          ),
+          GoRoute(
             path: DanteRoute.settings.url,
             builder: (BuildContext context, GoRouterState state) =>
                 const SettingsPage(),
@@ -128,6 +134,10 @@ enum DanteRoute {
   settings(
     url: 'settings',
     navigationUrl: '/settings',
+  ),
+  search(
+    url: 'search',
+    navigationUrl: '/search',
   ),
   contributors(
     url: 'contributors',
