@@ -15,6 +15,7 @@ import 'package:dantex/src/ui/settings/settings_page.dart';
 import 'package:dantex/src/ui/stats/stats_page.dart';
 import 'package:dantex/src/ui/timeline/timeline_page.dart';
 import 'package:dantex/src/ui/wishlist/wishlist_page.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -71,75 +72,81 @@ GoRouter goRouter(GoRouterRef ref) {
           ),
         ],
       ),
+      if (kIsWeb)
+        ShellRoute(
+          builder: (BuildContext context, GoRouterState state, Widget child) {
+            return DantePageScaffold(content: child);
+          },
+          routes: _mainRoutes(),
+        ),
+      // TODO Fix this navigation
+      if (!kIsWeb)
+        ..._mainRoutes(),
+    ],
+  );
+}
+
+List<GoRoute> _mainRoutes() => [
       GoRoute(
         path: DanteRoute.library.url,
         builder: (BuildContext context, GoRouterState state) =>
             const MainPage(),
+      ),
+      GoRoute(
+        path: DanteRoute.settings.url,
+        builder: (BuildContext context, GoRouterState state) =>
+            const SettingsPage(),
         routes: [
           GoRoute(
-            path: DanteRoute.settings.url,
+            path: DanteRoute.contributors.url,
             builder: (BuildContext context, GoRouterState state) =>
-                const SettingsPage(),
-            routes: [
-              GoRoute(
-                path: DanteRoute.contributors.url,
-                builder: (BuildContext context, GoRouterState state) =>
-                    const ContributorsPage(),
-              ),
-            ],
-          ),
-          GoRoute(
-            path: DanteRoute.profile.url,
-            builder: (BuildContext context, GoRouterState state) =>
-                const ProfilePage(),
-          ),
-          GoRoute(
-            path: DanteRoute.statistics.url,
-            builder: (BuildContext context, GoRouterState state) =>
-                const StatsPage(),
-          ),
-          GoRoute(
-            path: DanteRoute.timeline.url,
-            builder: (BuildContext context, GoRouterState state) =>
-                const TimelinePage(),
-          ),
-          GoRoute(
-            path: DanteRoute.wishlist.url,
-            builder: (BuildContext context, GoRouterState state) =>
-                const WishlistPage(),
-          ),
-          GoRoute(
-            path: DanteRoute.recommendations.url,
-            builder: (BuildContext context, GoRouterState state) =>
-                const RecommendationsPage(),
-          ),
-          GoRoute(
-            path: DanteRoute.bookManagement.url,
-            builder: (BuildContext context, GoRouterState state) =>
-                const BookManagementPage(),
-          ),
-          GoRoute(
-            path: DanteRoute.search.url,
-            builder: (BuildContext context, GoRouterState state) =>
-                const SearchPage(),
-          ),
-          GoRoute(
-            path: DanteRoute.scanBook.url,
-            builder: (BuildContext context, GoRouterState state) =>
-                const ScanBookPage(),
-          ),
-          GoRoute(
-            path: DanteRoute.bookDetail.url,
-            builder: (context, state) {
-              final bookId = state.pathParameters['bookId'] ?? '';
-              return BookDetailPage(id: bookId);
-            },
+                const ContributorsPage(),
           ),
         ],
       ),
-    ],
-  );
-}
+      GoRoute(
+        path: DanteRoute.profile.url,
+        builder: (BuildContext context, GoRouterState state) =>
+            const ProfilePage(),
+      ),
+      GoRoute(
+        path: DanteRoute.statistics.url,
+        builder: (BuildContext context, GoRouterState state) =>
+            const StatsPage(),
+      ),
+      GoRoute(
+        path: DanteRoute.timeline.url,
+        builder: (BuildContext context, GoRouterState state) =>
+            const TimelinePage(),
+      ),
+      GoRoute(
+        path: DanteRoute.wishlist.url,
+        builder: (BuildContext context, GoRouterState state) =>
+            const WishlistPage(),
+      ),
+      GoRoute(
+        path: DanteRoute.recommendations.url,
+        builder: (BuildContext context, GoRouterState state) =>
+            const RecommendationsPage(),
+      ),
+      GoRoute(
+        path: DanteRoute.bookManagement.url,
+        builder: (BuildContext context, GoRouterState state) =>
+            const BookManagementPage(),
+      ),
+      GoRoute(
+        path: DanteRoute.scanBook.url,
+        builder: (BuildContext context, GoRouterState state) =>
+            const ScanBookPage(),
+      ),
+      GoRoute(
+        path: DanteRoute.bookDetail.url,
+        builder: (context, state) {
+          final bookId = state.pathParameters['bookId'] ?? '';
+          return BookDetailPage(id: bookId);
+        },
+      ),
+    ];
 
 enum DanteRoute {
   boot(

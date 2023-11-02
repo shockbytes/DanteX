@@ -164,6 +164,7 @@ class DanteAppBar extends ConsumerWidget implements PreferredSizeWidget {
         DanteDialogAction(
           name: 'cancel'.tr(),
           action: (BuildContext context) {
+
           },
         ),
         DanteDialogAction(
@@ -184,70 +185,7 @@ class DanteAppBar extends ConsumerWidget implements PreferredSizeWidget {
     await showModalBottomSheet(
       context: context,
       barrierColor: Colors.transparent,
-      builder: (context) => Container(
-        color: Colors.transparent,
-        child: Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).bottomSheetTheme.backgroundColor,
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(12),
-              topRight: Radius.circular(12),
-            ),
-          ),
-          height: 280,
-          child: Column(
-            children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 12),
-                child: UserTag(useMobileLayout: true),
-              ),
-              const DanteDivider(),
-              GridView(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  mainAxisSpacing: 32,
-                  childAspectRatio: 2,
-                ),
-                children: [
-                  _MenuItem(
-                    text: 'navigation.stats',
-                    icon: Icons.pie_chart_outline,
-                    onItemClicked: () {},
-                  ),
-                  _MenuItem(
-                    text: 'navigation.timeline',
-                    icon: Icons.linear_scale,
-                    onItemClicked: () {},
-                  ),
-                  _MenuItem(
-                    text: 'navigation.wishlist',
-                    icon: Icons.article,
-                    onItemClicked: () {},
-                  ),
-                  _MenuItem(
-                    text: 'navigation.recommendations',
-                    icon: Icons.whatshot_outlined,
-                    onItemClicked: () {},
-                  ),
-                  _MenuItem(
-                    text: 'navigation.book-keeping',
-                    icon: Icons.all_inbox_outlined,
-                    onItemClicked: () {},
-                  ),
-                  _MenuItem(
-                    text: 'navigation.settings',
-                    icon: Icons.settings_outlined,
-                    onItemClicked: () =>
-                        context.go(DanteRoute.settings.navigationUrl),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
+      builder: (context) => const DanteBottomSheet(),
     );
   }
 }
@@ -478,8 +416,8 @@ class UserAvatar extends ConsumerWidget {
   }
 }
 
-class BottomSheet extends ConsumerWidget {
-  const BottomSheet({super.key});
+class DanteBottomSheet extends ConsumerWidget {
+  const DanteBottomSheet({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
