@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:dantex/src/data/authentication/authentication_repository.dart';
 import 'package:dantex/src/data/authentication/entity/dante_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class FirebaseAuthenticationRepository implements AuthenticationRepository {
   final FirebaseAuth _fbAuth;
@@ -89,9 +90,15 @@ class FirebaseAuthenticationRepository implements AuthenticationRepository {
 
   @override
   Future<UserCredential> loginWithGoogle() {
-    return _fbAuth.signInWithProvider(
-      GoogleAuthProvider(),
-    );
+    if (kIsWeb) {
+      return _fbAuth.signInWithPopup(
+        GoogleAuthProvider(),
+      );
+    } else {
+      return _fbAuth.signInWithProvider(
+        GoogleAuthProvider(),
+      );
+    }
   }
 
   @override
