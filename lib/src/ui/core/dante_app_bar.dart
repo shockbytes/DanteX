@@ -154,7 +154,7 @@ class DanteAppBar extends ConsumerWidget implements PreferredSizeWidget {
                 padding: EdgeInsets.symmetric(horizontal: 12),
                 child: UserTag(),
               ),
-              danteDivider(context),
+              const DanteDivider(),
               GridView(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -291,7 +291,7 @@ class UserTag extends ConsumerWidget {
             Expanded(
               child: _getUserHeading(user),
             ),
-            danteOutlinedButton(
+            DanteOutlinedButton(
               onPressed: () async => _handleLogout(context, ref, user),
               child: const Text(
                 'Logout',
@@ -338,11 +338,11 @@ class UserTag extends ConsumerWidget {
           title: Text('anonymous_logout.title'.tr()),
           content: Text('anonymous_logout.description'.tr()),
           actions: <Widget>[
-            danteOutlinedButton(
+            DanteOutlinedButton(
               onPressed: () => Navigator.of(context).pop(),
               child: Text('cancel'.tr()),
             ),
-            danteOutlinedButton(
+            DanteOutlinedButton(
               onPressed: () async {
                 Navigator.of(context).pop();
                 await ref.watch(authenticationRepositoryProvider).logout();
@@ -411,7 +411,7 @@ class BottomSheet extends ConsumerWidget {
                 padding: EdgeInsets.symmetric(horizontal: 12),
                 child: UserTag(),
               ),
-              danteDivider(context),
+              const DanteDivider(),
               GridView(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),

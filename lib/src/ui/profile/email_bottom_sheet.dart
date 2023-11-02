@@ -41,9 +41,8 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
               ),
               SizedBox(
                 width: 360,
-                child: danteTextField(
-                  context,
-                  _emailController,
+                child: DanteTextField(
+                  controller: _emailController,
                   enabled: _phase == LoginPhase.email,
                   textInputType: TextInputType.emailAddress,
                   hint: 'email'.tr(),
@@ -63,9 +62,8 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
                       Padding(
                         key: ValueKey(_phase),
                         padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: danteTextField(
-                          context,
-                          _passwordController,
+                        child: DanteTextField(
+                          controller: _passwordController,
                           obscureText: true,
                           hint: 'password'.tr(),
                           errorText: _passwordErrorMessage,
@@ -83,7 +81,7 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
               const Spacer(),
               AnimatedSwitcher(
                 duration: const Duration(milliseconds: 500),
-                child: danteOutlinedButton(
+                child: DanteOutlinedButton(
                   key: ValueKey(_phase),
                   child: Text(_getButtonText()),
                   onPressed: _getButtonAction(),

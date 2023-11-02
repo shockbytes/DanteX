@@ -54,8 +54,13 @@ class BookDetailPage extends ConsumerWidget {
           bottomNavigationBar: _BookSaveState(book: book),
         );
       },
-      error: (error, stackTrace) => GenericErrorWidget(error),
-      loading: () => const CircularProgressIndicator.adaptive(),
+      error: (error, stackTrace) => GenericErrorWidget(
+        error,
+        key: const ValueKey('book-detail-error'),
+      ),
+      loading: () => const CircularProgressIndicator.adaptive(
+        key: ValueKey('book-detail-loading'),
+      ),
     );
   }
 }

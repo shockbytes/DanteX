@@ -247,4 +247,63 @@ void main() {
     firebaseAuthRepo.sendPasswordResetRequest(email: testEmail);
     verify(fbAuth.sendPasswordResetEmail(email: testEmail)).called(1);
   });
+
+  test('Delete user returns void on success', () async {
+    final fbAuth = MockFirebaseAuth();
+    final firebaseAuthRepo = FirebaseAuthenticationRepository(fbAuth);
+    final User user = MockUser();
+
+    when(fbAuth.currentUser).thenReturn(user);
+    when(user.delete()).thenAnswer((_) async => Future<void>);
+
+    await firebaseAuthRepo.deleteAccount();
+    verify(fbAuth.currentUser?.delete()).called(1);
+    verify(user.delete()).called(1);
+  });
+
+  test('Auth state changes returns DanteUser', () {
+    final fbAuth = MockFirebaseAuth();
+    final firebaseAuthRepo = FirebaseAuthenticationRepository(fbAuth);
+    final User user = MockUser();
+    final UserInfo userInfo = MockUserInfo();
+    final DanteUser danteUser = DanteUser(
+      givenName: 'Dante User',
+      displayName: 'Dante User',
+      email: 'dante.user@gmail.com',
+      photoUrl: 'https://photo-url.com',
+      authToken: 'authToken',
+      userId: '1',
+      source: AuthenticationSource.mail,
+    );
+
+    when(userInfo.providerId).thenReturn('password');
+    when(user.displayName).thenReturn('Dante User');
+    when(user.email).thenReturn('dante.user@gmail.com');
+    when(user.photoURL).thenReturn('https://photo-url.com');
+    when(user.getIdToken()).thenAnswer(
+      (_) async => Future<String>.value('authToken'),
+    );
+    when(user.isAnonymous).thenReturn(false);
+    when(user.uid).thenReturn('1');
+    when(user.providerData).thenReturn([userInfo]);
+
+    when(fbAuth.authStateChanges()).thenAnswer(
+      (_) => Stream.fromIterable(
+        [
+          null,
+          user,
+        ],
+      ),
+    );
+
+    expect(
+      firebaseAuthRepo.authStateChanges,
+      emitsInOrder(
+        [
+          null,
+          danteUser,
+        ],
+      ),
+    );
+  });
 }

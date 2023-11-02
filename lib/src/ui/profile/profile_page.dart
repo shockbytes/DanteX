@@ -51,7 +51,7 @@ class ProfilePageSate extends ConsumerState<ProfilePage> {
                 visible: user?.source == AuthenticationSource.anonymous,
                 child: ProfileRowItem(
                   label: Text('upgrade_account'.tr()),
-                  button: danteOutlinedButton(
+                  button: DanteOutlinedButton(
                     onPressed: () async {
                       await _openUpgradeBottomSheet(context);
                     },
@@ -63,7 +63,7 @@ class ProfilePageSate extends ConsumerState<ProfilePage> {
                 visible: user?.source == AuthenticationSource.mail,
                 child: ProfileRowItem(
                   label: Text('change_password'.tr()),
-                  button: danteOutlinedButton(
+                  button: DanteOutlinedButton(
                     onPressed: () async {
                       await _openChangePasswordBottomSheet(context);
                     },

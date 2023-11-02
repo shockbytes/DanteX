@@ -189,7 +189,7 @@ class BookWidget extends ConsumerWidget {
               ],
             ),
             const SizedBox(height: 16),
-            danteOutlinedButton(
+            DanteOutlinedButton(
               onPressed: () async {
                 await ref
                     .read(bookRepositoryProvider)

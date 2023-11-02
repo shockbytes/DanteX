@@ -60,7 +60,7 @@ class LoginPageState extends ConsumerState<LoginPage> {
                           style: const TextStyle(fontSize: 12),
                         ),
                         const SizedBox(height: 24),
-                        danteOutlinedButton(
+                        DanteOutlinedButton(
                           onPressed: () async {
                             setState(() {
                               _isLoading = true;
@@ -92,7 +92,7 @@ class LoginPageState extends ConsumerState<LoginPage> {
                             ],
                           ),
                         ),
-                        danteOutlinedButton(
+                        DanteOutlinedButton(
                           onPressed: () => context.pushReplacement(
                             DanteRoute.emailLogin.navigationUrl,
                           ),
@@ -114,7 +114,7 @@ class LoginPageState extends ConsumerState<LoginPage> {
                           color: Theme.of(context).dividerColor,
                         ),
                         const SizedBox(height: 16),
-                        danteOutlinedButton(
+                        DanteOutlinedButton(
                           onPressed: () async {
                             setState(() {
                               _isLoading = true;

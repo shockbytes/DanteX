@@ -1,8 +1,9 @@
+import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:flutter/material.dart';
 
 class ProfileRowItem extends StatelessWidget {
   final Text label;
-  final OutlinedButton button;
+  final DanteOutlinedButton button;
 
   const ProfileRowItem({
     required this.label,

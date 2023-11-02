@@ -40,9 +40,8 @@ class ChangePasswordBottomSheetState
                 width: 360,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: danteTextField(
-                    context,
-                    _passwordController,
+                  child: DanteTextField(
+                    controller: _passwordController,
                     obscureText: true,
                     hint: 'password'.tr(),
                     errorText: _passwordErrorMessage,
@@ -53,7 +52,7 @@ class ChangePasswordBottomSheetState
                 ),
               ),
               const Spacer(),
-              danteOutlinedButton(
+              DanteOutlinedButton(
                 child: Text('change_password'.tr()),
                 onPressed: () async {
                   if (_isValidPassword()) {
