@@ -4,6 +4,8 @@ import 'package:dantex/src/data/book/firebase_book_label_repository.dart';
 import 'package:dantex/src/data/book/firebase_book_repository.dart';
 import 'package:dantex/src/data/recommendations/default_recommendations_repository.dart';
 import 'package:dantex/src/data/recommendations/recommendations_repository.dart';
+import 'package:dantex/src/data/book/firebase_page_record_repository.dart';
+import 'package:dantex/src/data/book/page_record_repository.dart';
 import 'package:dantex/src/data/settings/settings_repository.dart';
 import 'package:dantex/src/data/settings/shared_preferences_settings_repository.dart';
 import 'package:dantex/src/providers/api.dart';
@@ -30,6 +32,15 @@ RecommendationsRepository recommendationsRepository(RecommendationsRepositoryRef
 @riverpod
 BookLabelRepository bookLabelRepository(BookLabelRepositoryRef ref) =>
     FirebaseBookLabelRepository(
+      ref.watch(firebaseAuthProvider),
+      ref.watch(firebaseDatabaseProvider),
+    );
+
+@riverpod
+PageRecordRepository pageRecordRepository(
+  PageRecordRepositoryRef ref,
+) =>
+    FirebasePageRecordRepository(
       ref.watch(firebaseAuthProvider),
       ref.watch(firebaseDatabaseProvider),
     );

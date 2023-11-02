@@ -8,19 +8,6 @@ import 'package:realm/realm.dart';
 
 class RealmBookRepository implements BookRepository {
 
-  /* TODO Inject this
-    final Realm _realm = Realm(
-    Configuration.local(
-      [
-        RealmBook.schema,
-        RealmBookLabel.schema,
-        RealmPageRecord.schema,
-      ],
-      schemaVersion: 9, // 9 is the current schema version of the old app
-    ),
-  );
-   */
-
   final Realm _realm;
 
   RealmBookRepository(this._realm);
@@ -90,13 +77,19 @@ class RealmBookRepository implements BookRepository {
   }
 
   bool _hasRealmBookRequiredData(RealmBook book) {
-    // TODO Check this
-    return true;
+    return
+      book.id > -1 &&
+      book.title != null &&
+      book.subTitle != null &&
+      book.author != null &&
+      book.publishedDate != null &&
+      book.language != null;
   }
 
   bool _hasRealmBookLabelRequiredData(RealmBookLabel bookLabel) {
-    // TODO Check this
-    return true;
+    return bookLabel.bookId > -1 &&
+        bookLabel.title?.isNotEmpty == true &&
+        bookLabel.hexColor?.isNotEmpty == true;
   }
 
   @override
