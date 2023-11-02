@@ -163,12 +163,12 @@ class DanteAppBar extends ConsumerWidget implements PreferredSizeWidget {
       actions: [
         DanteDialogAction(
           name: 'cancel'.tr(),
-          action: (BuildContext context) => Navigator.of(context).pop(),
+          action: (BuildContext context) {
+          },
         ),
         DanteDialogAction(
           name: 'search'.tr(),
           action: (BuildContext context) async {
-            Navigator.of(context).pop();
             await openAddBookSheet(
               context,
               query: controller.text,

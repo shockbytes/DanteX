@@ -58,6 +58,7 @@ Future showDanteInputDialog(
 }) {
   return showPlatformDialog(
     context: context,
+    useRootNavigator: false,
     builder: (_) => PlatformAlertDialog(
       title: _buildDialogTitle(title, leading),
       content: PlatformTextField(
@@ -80,7 +81,10 @@ Future showDanteInputDialog(
                       : Theme.of(context).colorScheme.onSurface,
                 ),
               ),
-              onPressed: () => action.action(context),
+              onPressed: () {
+                Navigator.of(context).pop();
+                action.action(context);
+              },
             ),
           )
           .toList(),
