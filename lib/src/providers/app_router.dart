@@ -6,10 +6,15 @@ import 'package:dantex/src/ui/core/dante_page_scaffold.dart';
 import 'package:dantex/src/ui/login/email_login_page.dart';
 import 'package:dantex/src/ui/login/login_page.dart';
 import 'package:dantex/src/ui/main/main_page.dart';
+import 'package:dantex/src/ui/management/book_management_page.dart';
 import 'package:dantex/src/ui/profile/profile_page.dart';
 import 'package:dantex/src/ui/search/search_page.dart';
+import 'package:dantex/src/ui/recommendations/recommendations_page.dart';
 import 'package:dantex/src/ui/settings/contributors_page.dart';
 import 'package:dantex/src/ui/settings/settings_page.dart';
+import 'package:dantex/src/ui/stats/stats_page.dart';
+import 'package:dantex/src/ui/timeline/timeline_page.dart';
+import 'package:dantex/src/ui/wishlist/wishlist_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -35,7 +40,7 @@ GoRouter goRouter(GoRouterRef ref) {
       final isSplash = state.uri.toString() == DanteRoute.boot.navigationUrl;
       if (isSplash) {
         return isAuth
-            ? DanteRoute.dashboard.navigationUrl
+            ? DanteRoute.library.navigationUrl
             : DanteRoute.login.navigationUrl;
       }
 
@@ -43,7 +48,7 @@ GoRouter goRouter(GoRouterRef ref) {
           state.uri.toString() == DanteRoute.login.navigationUrl ||
               state.uri.toString() == DanteRoute.emailLogin.navigationUrl;
       if (isLoggingIn) {
-        return isAuth ? DanteRoute.dashboard.navigationUrl : null;
+        return isAuth ? DanteRoute.library.navigationUrl : null;
       }
 
       return isAuth ? null : DanteRoute.boot.navigationUrl;
@@ -67,7 +72,7 @@ GoRouter goRouter(GoRouterRef ref) {
         ],
       ),
       GoRoute(
-        path: DanteRoute.dashboard.url,
+        path: DanteRoute.library.url,
         builder: (BuildContext context, GoRouterState state) =>
             const MainPage(),
         routes: [
@@ -87,6 +92,36 @@ GoRouter goRouter(GoRouterRef ref) {
             path: DanteRoute.profile.url,
             builder: (BuildContext context, GoRouterState state) =>
                 const ProfilePage(),
+          ),
+          GoRoute(
+            path: DanteRoute.statistics.url,
+            builder: (BuildContext context, GoRouterState state) =>
+                const StatsPage(),
+          ),
+          GoRoute(
+            path: DanteRoute.timeline.url,
+            builder: (BuildContext context, GoRouterState state) =>
+                const TimelinePage(),
+          ),
+          GoRoute(
+            path: DanteRoute.wishlist.url,
+            builder: (BuildContext context, GoRouterState state) =>
+                const WishlistPage(),
+          ),
+          GoRoute(
+            path: DanteRoute.recommendations.url,
+            builder: (BuildContext context, GoRouterState state) =>
+                const RecommendationsPage(),
+          ),
+          GoRoute(
+            path: DanteRoute.bookManagement.url,
+            builder: (BuildContext context, GoRouterState state) =>
+                const BookManagementPage(),
+          ),
+          GoRoute(
+            path: DanteRoute.search.url,
+            builder: (BuildContext context, GoRouterState state) =>
+                const SearchPage(),
           ),
           GoRoute(
             path: DanteRoute.scanBook.url,
@@ -119,9 +154,9 @@ enum DanteRoute {
     url: 'email',
     navigationUrl: '/login/email',
   ),
-  dashboard(
-    url: '/',
-    navigationUrl: '/',
+  library(
+    url: '/library',
+    navigationUrl: '/library',
   ),
   scanBook(
     url: '/scan',
@@ -142,6 +177,26 @@ enum DanteRoute {
   profile(
     url: '/profile',
     navigationUrl: '/profile',
+  ),
+  statistics(
+    url: '/statistics',
+    navigationUrl: '/statistics',
+  ),
+  timeline(
+    url: '/timeline',
+    navigationUrl: '/timeline',
+  ),
+  wishlist(
+    url: '/wishlist',
+    navigationUrl: '/wishlist',
+  ),
+  recommendations(
+    url: '/recommendations',
+    navigationUrl: '/recommendations',
+  ),
+  bookManagement(
+    url: '/management',
+    navigationUrl: '/management',
   ),
   bookDetail(
     url: '/book/:bookId',

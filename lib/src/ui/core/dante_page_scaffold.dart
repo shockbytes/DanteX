@@ -107,8 +107,12 @@ class _DantePageScaffoldState extends State<DantePageScaffold> {
   void _onDestinationSelected(int destinationIndex) {
 
     final DanteRoute? route = switch (destinationIndex) {
-      0 => DanteRoute.dashboard,
-      // TODO Add other routes
+      0 => DanteRoute.library,
+      1 => DanteRoute.statistics,
+      2 => DanteRoute.timeline,
+      3 => DanteRoute.wishlist,
+      4 => DanteRoute.recommendations,
+      5 => DanteRoute.bookManagement,
       6 => DanteRoute.settings,
       int() => null,
     };

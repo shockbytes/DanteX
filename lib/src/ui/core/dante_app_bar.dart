@@ -212,32 +212,32 @@ class DanteAppBar extends ConsumerWidget implements PreferredSizeWidget {
                 ),
                 children: [
                   _MenuItem(
-                    text: 'navigation.stats'.tr(),
+                    text: 'navigation.stats',
                     icon: Icons.pie_chart_outline,
                     onItemClicked: () {},
                   ),
                   _MenuItem(
-                    text: 'navigation.timeline'.tr(),
+                    text: 'navigation.timeline',
                     icon: Icons.linear_scale,
                     onItemClicked: () {},
                   ),
                   _MenuItem(
-                    text: 'navigation.wishlist'.tr(),
+                    text: 'navigation.wishlist',
                     icon: Icons.article,
                     onItemClicked: () {},
                   ),
                   _MenuItem(
-                    text: 'navigation.recommendations'.tr(),
+                    text: 'navigation.recommendations',
                     icon: Icons.whatshot_outlined,
                     onItemClicked: () {},
                   ),
                   _MenuItem(
-                    text: 'navigation.book-keeping'.tr(),
+                    text: 'navigation.book-keeping',
                     icon: Icons.all_inbox_outlined,
                     onItemClicked: () {},
                   ),
                   _MenuItem(
-                    text: 'navigation.settings'.tr(),
+                    text: 'navigation.settings',
                     icon: Icons.settings_outlined,
                     onItemClicked: () =>
                         context.go(DanteRoute.settings.navigationUrl),
@@ -307,7 +307,7 @@ class _MenuItem extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            text,
+            text.tr(),
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Theme.of(context).colorScheme.onTertiaryContainer,
@@ -513,32 +513,41 @@ class BottomSheet extends ConsumerWidget {
                 ),
                 children: [
                   _MenuItem(
-                    text: 'Statistics',
+                    text: 'navigation.stats',
                     icon: Icons.pie_chart_outline,
-                    onItemClicked: () {},
+                    onItemClicked: () => context.go(
+                      DanteRoute.statistics.navigationUrl,
+                    ),
                   ),
                   _MenuItem(
-                    text: 'Timeline',
+                    text: 'navigation.timeline',
                     icon: Icons.linear_scale,
-                    onItemClicked: () {},
+                    onItemClicked: () => context.go(
+                      DanteRoute.timeline.navigationUrl,
+                    ),
                   ),
                   _MenuItem(
-                    text: 'Wishlist',
+                    text: 'navigation.wishlist',
                     icon: Icons.article,
-                    onItemClicked: () {},
+                    onItemClicked: () => context.go(
+                      DanteRoute.wishlist.navigationUrl,
+                    ),
                   ),
                   _MenuItem(
-                    text: 'Recommendations',
+                    text: 'navigation.recommendations',
                     icon: Icons.whatshot_outlined,
-                    onItemClicked: () {},
+                    onItemClicked: () => context.go(
+                      DanteRoute.recommendations.navigationUrl,
+                    ),
                   ),
                   _MenuItem(
-                    text: 'Book keeping',
+                    text: 'navigation.book-keeping',
                     icon: Icons.all_inbox_outlined,
-                    onItemClicked: () {},
+                    onItemClicked: () =>
+                        context.go(DanteRoute.bookManagement.navigationUrl),
                   ),
                   _MenuItem(
-                    text: 'Settings',
+                    text: 'navigation.settings',
                     icon: Icons.settings_outlined,
                     onItemClicked: () =>
                         context.go(DanteRoute.settings.navigationUrl),
