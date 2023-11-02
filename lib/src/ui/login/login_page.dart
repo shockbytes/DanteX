@@ -10,7 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({super.key});
 
   @override
   createState() => LoginPageState();
@@ -60,7 +60,7 @@ class LoginPageState extends ConsumerState<LoginPage> {
                           style: const TextStyle(fontSize: 12),
                         ),
                         const SizedBox(height: 24),
-                        DanteComponents.outlinedButton(
+                        danteOutlinedButton(
                           onPressed: () async {
                             setState(() {
                               _isLoading = true;
@@ -92,7 +92,7 @@ class LoginPageState extends ConsumerState<LoginPage> {
                             ],
                           ),
                         ),
-                        DanteComponents.outlinedButton(
+                        danteOutlinedButton(
                           onPressed: () => context.pushReplacement(
                             DanteRoute.emailLogin.navigationUrl,
                           ),
@@ -114,7 +114,7 @@ class LoginPageState extends ConsumerState<LoginPage> {
                           color: Theme.of(context).dividerColor,
                         ),
                         const SizedBox(height: 16),
-                        DanteComponents.outlinedButton(
+                        danteOutlinedButton(
                           onPressed: () async {
                             setState(() {
                               _isLoading = true;
@@ -160,12 +160,12 @@ class LoginPageState extends ConsumerState<LoginPage> {
   }
 
   Future<void> _buildAnonymousLoginDialog() async {
-    await PlatformComponents.showPlatformDialog(
+    await showDanteDialog(
       context,
       title: 'anonymous_login.title'.tr(),
       content: 'anonymous_login.description'.tr(),
-      actions: <PlatformDialogAction>[
-        PlatformDialogAction(
+      actions: <DanteDialogAction>[
+        DanteDialogAction(
           action: (_) {
             setState(() {
               _isLoading = false;
@@ -174,7 +174,7 @@ class LoginPageState extends ConsumerState<LoginPage> {
           },
           name: 'dismiss'.tr(),
         ),
-        PlatformDialogAction(
+        DanteDialogAction(
           action: (_) async {
             Navigator.of(context).pop();
             try {

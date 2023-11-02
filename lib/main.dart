@@ -63,7 +63,7 @@ Future<List<Override>> _initializeBlockingDependencies() async {
 }
 
 class DanteXApp extends ConsumerWidget {
-  const DanteXApp({Key? key}) : super(key: key);
+  const DanteXApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

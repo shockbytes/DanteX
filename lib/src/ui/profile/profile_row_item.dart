@@ -5,10 +5,10 @@ class ProfileRowItem extends StatelessWidget {
   final OutlinedButton button;
 
   const ProfileRowItem({
-    Key? key,
     required this.label,
     required this.button,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

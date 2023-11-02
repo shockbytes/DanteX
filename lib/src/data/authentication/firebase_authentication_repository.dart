@@ -166,7 +166,6 @@ class FirebaseAuthenticationRepository implements AuthenticationRepository {
 
   @override
   Future<void> deleteAccount() {
-    return _fbAuth.currentUser?.delete()
-        ?? Future.error('No user logged in.');
+    return _fbAuth.currentUser?.delete() ?? Future.error('No user logged in.');
   }
 }

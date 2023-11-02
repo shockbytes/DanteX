@@ -11,7 +11,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 class BookDetailPage extends ConsumerWidget {
   final String id;
 
-  const BookDetailPage({required this.id, Key? key}) : super(key: key);
+  const BookDetailPage({required this.id, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

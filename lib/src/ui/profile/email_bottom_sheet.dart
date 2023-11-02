@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class EmailBottomSheet extends ConsumerStatefulWidget {
-  const EmailBottomSheet({Key? key}) : super(key: key);
+  const EmailBottomSheet({super.key});
 
   @override
   createState() => EmailBottomSheetState();
@@ -41,7 +41,7 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
               ),
               SizedBox(
                 width: 360,
-                child: DanteComponents.textField(
+                child: danteTextField(
                   context,
                   _emailController,
                   enabled: _phase == LoginPhase.email,
@@ -63,7 +63,7 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
                       Padding(
                         key: ValueKey(_phase),
                         padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: DanteComponents.textField(
+                        child: danteTextField(
                           context,
                           _passwordController,
                           obscureText: true,
@@ -83,7 +83,7 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
               const Spacer(),
               AnimatedSwitcher(
                 duration: const Duration(milliseconds: 500),
-                child: DanteComponents.outlinedButton(
+                child: danteOutlinedButton(
                   key: ValueKey(_phase),
                   child: Text(_getButtonText()),
                   onPressed: _getButtonAction(),
@@ -162,7 +162,7 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
   }
 
   Future<void> _buildGoogleAccountDialog() async {
-    return PlatformComponents.showPlatformDialog(
+    return showDanteDialog(
       context,
       title: 'email_in_use_title'.tr(),
       leading: const Icon(
@@ -170,8 +170,8 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
         color: Colors.red,
       ),
       content: 'email_in_use_description'.tr(),
-      actions: <PlatformDialogAction>[
-        PlatformDialogAction(
+      actions: <DanteDialogAction>[
+        DanteDialogAction(
           action: (_) => Navigator.of(context).pop(),
           name: 'got_it'.tr(),
         ),
@@ -237,7 +237,7 @@ enum LoginPhase {
 class BottomSheetTitle extends StatelessWidget {
   final LoginPhase phase;
 
-  const BottomSheetTitle({required this.phase, Key? key}) : super(key: key);
+  const BottomSheetTitle({required this.phase, super.key});
 
   @override
   Widget build(BuildContext context) {

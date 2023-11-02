@@ -12,7 +12,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 class BookItemWidget extends StatelessWidget {
   final Book _book;
 
-  const BookItemWidget(this._book, {Key? key}) : super(key: key);
+  const BookItemWidget(this._book, {super.key});
 
   @override
   Widget build(BuildContext context) {

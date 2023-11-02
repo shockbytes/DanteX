@@ -10,7 +10,7 @@ class ThemedAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double elevation;
 
   const ThemedAppBar({
-    Key? key,
+    super.key,
     this.actions,
     this.automaticallyImplyLeading = true,
     this.leading,
@@ -18,7 +18,7 @@ class ThemedAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.border,
     this.shadowColor,
     this.elevation = 0.0,
-  }) : super(key: key);
+  });
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);

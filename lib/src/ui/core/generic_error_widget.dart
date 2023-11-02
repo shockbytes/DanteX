@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 class GenericErrorWidget extends StatelessWidget {
   final Object? _error;
 
-  const GenericErrorWidget(this._error, {Key? key}) : super(key: key);
+  const GenericErrorWidget(this._error, {super.key});
 
   @override
   Widget build(BuildContext context) {
