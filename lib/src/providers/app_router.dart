@@ -98,7 +98,8 @@ RouteBase _buildWebMainRoute() {
     routes: [
       GoRoute(
         path: DanteRoute.library.url,
-        builder: (BuildContext context, GoRouterState state) => const MainPage(),
+        builder: (BuildContext context, GoRouterState state) =>
+            const MainPage(),
       ),
       ..._mainRoutes,
     ],
@@ -166,74 +167,99 @@ List<RouteBase> _mainRoutes = [
 
 enum DanteRoute {
   boot(
-    url: '/boot',
+    webUrl: '/boot',
+    mobileUrl: '/boot',
     navigationUrl: '/boot',
   ),
   login(
-    url: '/login',
+    webUrl: '/login',
+    mobileUrl: '/login',
     navigationUrl: '/login',
   ),
   emailLogin(
-    url: 'email',
+    webUrl: 'email',
+    mobileUrl: 'email',
     navigationUrl: '/login/email',
   ),
   library(
-    url: '/',
+    webUrl: '/library',
+    mobileUrl: '/',
     navigationUrl: '/',
   ),
   scanBook(
-    url: '/scan',
+    webUrl: '/scan',
+    mobileUrl: 'scan',
     navigationUrl: '/scan',
   ),
   settings(
-    url: '/settings',
+    webUrl: '/settings',
+    mobileUrl: 'settings',
     navigationUrl: '/settings',
   ),
   search(
-    url: '/search',
+    webUrl: '/search',
+    mobileUrl: 'search',
     navigationUrl: '/search',
   ),
   contributors(
-    url: 'contributors',
+    webUrl: 'contributors',
+    mobileUrl: 'contributors',
     navigationUrl: '/settings/contributors',
   ),
   profile(
-    url: '/profile',
+    webUrl: '/profile',
+    mobileUrl: 'profile',
     navigationUrl: '/profile',
   ),
   statistics(
-    url: '/statistics',
+    webUrl: '/statistics',
+    mobileUrl: 'statistics',
     navigationUrl: '/statistics',
   ),
   timeline(
-    url: '/timeline',
+    webUrl: '/timeline',
+    mobileUrl: 'timeline',
     navigationUrl: '/timeline',
   ),
   wishlist(
-    url: '/wishlist',
+    webUrl: '/wishlist',
+    mobileUrl: 'wishlist',
     navigationUrl: '/wishlist',
   ),
   recommendations(
-    url: '/recommendations',
+    webUrl: '/recommendations',
+    mobileUrl: 'recommendations',
     navigationUrl: '/recommendations',
   ),
   bookManagement(
-    url: '/management',
+    webUrl: '/management',
+    mobileUrl: 'management',
     navigationUrl: '/management',
   ),
   bookDetail(
-    url: '/book/:bookId',
+    webUrl: '/book/:bookId',
+    mobileUrl: 'book/:bookId',
     navigationUrl: '/book/:bookId',
   );
 
-  /// Url used for registering the route in the [_router] field.
-  final String url;
+  /// Url used for registering the route in the [_router] field for Web.
+  final String _webUrl;
+
+  /// Url used for registering the route in the [_router] field for Mobile.
+  final String _mobileUrl;
 
   /// Used for navigating to another screen, when calling context.go()
-  final String navigationUrl;
+  final String _navigationUrl;
+
+  String get url => kIsWeb ? _webUrl : _mobileUrl;
+
+  String get navigationUrl => _navigationUrl;
 
   const DanteRoute({
-    required this.url,
-    required this.navigationUrl,
-  });
+    required String webUrl,
+    required String mobileUrl,
+    required String navigationUrl,
+  })  : _webUrl = webUrl,
+        _mobileUrl = mobileUrl,
+        _navigationUrl = navigationUrl;
 }
