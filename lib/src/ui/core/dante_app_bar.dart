@@ -309,7 +309,7 @@ class UserTag extends ConsumerWidget {
             textAlign: TextAlign.center,
           ),
         ),
-        danteDivider(context),
+        const DanteDivider(),
       ],
     );
   }
@@ -329,7 +329,7 @@ class UserTag extends ConsumerWidget {
         Expanded(
           child: _getUserHeading(user),
         ),
-        danteOutlinedButton(
+        DanteOutlinedButton(
           onPressed: () async => _handleLogout(context, ref, user),
           child: Text(
             'logout'.tr(),
