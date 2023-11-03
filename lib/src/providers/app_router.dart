@@ -8,8 +8,8 @@ import 'package:dantex/src/ui/login/login_page.dart';
 import 'package:dantex/src/ui/main/main_page.dart';
 import 'package:dantex/src/ui/management/book_management_page.dart';
 import 'package:dantex/src/ui/profile/profile_page.dart';
-import 'package:dantex/src/ui/search/search_page.dart';
 import 'package:dantex/src/ui/recommendations/recommendations_page.dart';
+import 'package:dantex/src/ui/search/search_page.dart';
 import 'package:dantex/src/ui/settings/contributors_page.dart';
 import 'package:dantex/src/ui/settings/settings_page.dart';
 import 'package:dantex/src/ui/stats/stats_page.dart';
@@ -86,7 +86,7 @@ RouteBase _buildMobileMainRoute() {
   return GoRoute(
     path: DanteRoute.library.url,
     builder: (BuildContext context, GoRouterState state) => const MainPage(),
-    routes: _mainRoutes
+    routes: _mainRoutes,
   );
 }
 
@@ -125,6 +125,10 @@ List<RouteBase> _mainRoutes = [
   GoRoute(
     path: DanteRoute.statistics.url,
     builder: (BuildContext context, GoRouterState state) => const StatsPage(),
+  ),
+  GoRoute(
+    path: DanteRoute.search.url,
+    builder: (BuildContext context, GoRouterState state) => const SearchPage(),
   ),
   GoRoute(
     path: DanteRoute.timeline.url,
