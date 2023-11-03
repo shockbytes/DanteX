@@ -163,9 +163,7 @@ class DanteAppBar extends ConsumerWidget implements PreferredSizeWidget {
       actions: [
         DanteDialogAction(
           name: 'cancel'.tr(),
-          action: (BuildContext context) {
-
-          },
+          action: (BuildContext context) {},
         ),
         DanteDialogAction(
           name: 'search'.tr(),
@@ -344,13 +342,28 @@ class UserTag extends ConsumerWidget {
     final String? name = user?.displayName;
     final String? email = user?.email;
     if (user?.source == AuthenticationSource.anonymous) {
-      return Text('anonymous-user'.tr());
+      return Text(
+        'anonymous-user'.tr(),
+        textAlign: TextAlign.center,
+      );
     }
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: useMobileLayout
+          ? CrossAxisAlignment.start
+          : CrossAxisAlignment.center,
       children: [
-        name != null ? Text(name) : const SizedBox.shrink(),
-        email != null ? Text(email) : const SizedBox.shrink(),
+        name != null
+            ? Text(
+                name,
+                textAlign: TextAlign.center,
+              )
+            : const SizedBox.shrink(),
+        email != null
+            ? Text(
+                email,
+                textAlign: TextAlign.center,
+              )
+            : const SizedBox.shrink(),
       ],
     );
   }

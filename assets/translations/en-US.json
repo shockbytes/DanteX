@@ -9,6 +9,7 @@
     "book-keeping": "Book Keeping",
     "settings": "Settings"
   },
+  "anonymous-user": "Anonymous Bookworm",
   "account_creation_failed": "Failed to create account",
   "add_book": {
     "manual": "Add manual",

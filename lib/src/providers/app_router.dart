@@ -190,7 +190,7 @@ enum DanteRoute {
     navigationUrl: '/settings',
   ),
   search(
-    url: 'search',
+    url: '/search',
     navigationUrl: '/search',
   ),
   contributors(
