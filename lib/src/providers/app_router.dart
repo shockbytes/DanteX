@@ -182,7 +182,7 @@ enum DanteRoute {
     navigationUrl: '/login/email',
   ),
   library(
-    webUrl: '/library',
+    webUrl: '/',
     mobileUrl: '/',
     navigationUrl: '/',
   ),

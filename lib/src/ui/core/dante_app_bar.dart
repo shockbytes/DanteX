@@ -166,7 +166,7 @@ class DanteAppBar extends ConsumerWidget implements PreferredSizeWidget {
           action: (BuildContext context) {},
         ),
         DanteDialogAction(
-          name: 'search'.tr(),
+          name: 'search.search'.tr(),
           action: (BuildContext context) async {
             await openAddBookSheet(
               context,
@@ -344,7 +344,7 @@ class UserTag extends ConsumerWidget {
     if (user?.source == AuthenticationSource.anonymous) {
       return Text(
         'anonymous-user'.tr(),
-        textAlign: TextAlign.center,
+        textAlign: useMobileLayout ? TextAlign.start : TextAlign.center,
       );
     }
     return Column(
