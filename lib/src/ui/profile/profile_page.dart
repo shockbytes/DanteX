@@ -27,12 +27,6 @@ class ProfilePageSate extends ConsumerState<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: ThemedAppBar(
-        leading: InkWell(
-          onTap: () => Navigator.of(context).pop(),
-          child: const Icon(
-            Icons.arrow_back,
-          ),
-        ),
         title: Text(
           'profile'.tr(),
           style: const TextStyle(

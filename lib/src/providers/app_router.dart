@@ -2,13 +2,20 @@ import 'package:dantex/src/providers/authentication.dart';
 import 'package:dantex/src/ui/add/scan_book_page.dart';
 import 'package:dantex/src/ui/book/book_detail_page.dart';
 import 'package:dantex/src/ui/boot_page.dart';
+import 'package:dantex/src/ui/core/dante_page_scaffold.dart';
 import 'package:dantex/src/ui/login/email_login_page.dart';
 import 'package:dantex/src/ui/login/login_page.dart';
 import 'package:dantex/src/ui/main/main_page.dart';
+import 'package:dantex/src/ui/management/book_management_page.dart';
 import 'package:dantex/src/ui/profile/profile_page.dart';
+import 'package:dantex/src/ui/recommendations/recommendations_page.dart';
 import 'package:dantex/src/ui/search/search_page.dart';
 import 'package:dantex/src/ui/settings/contributors_page.dart';
 import 'package:dantex/src/ui/settings/settings_page.dart';
+import 'package:dantex/src/ui/stats/stats_page.dart';
+import 'package:dantex/src/ui/timeline/timeline_page.dart';
+import 'package:dantex/src/ui/wishlist/wishlist_page.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -34,7 +41,7 @@ GoRouter goRouter(GoRouterRef ref) {
       final isSplash = state.uri.toString() == DanteRoute.boot.navigationUrl;
       if (isSplash) {
         return isAuth
-            ? DanteRoute.dashboard.navigationUrl
+            ? DanteRoute.library.navigationUrl
             : DanteRoute.login.navigationUrl;
       }
 
@@ -42,7 +49,7 @@ GoRouter goRouter(GoRouterRef ref) {
           state.uri.toString() == DanteRoute.login.navigationUrl ||
               state.uri.toString() == DanteRoute.emailLogin.navigationUrl;
       if (isLoggingIn) {
-        return isAuth ? DanteRoute.dashboard.navigationUrl : null;
+        return isAuth ? DanteRoute.library.navigationUrl : null;
       }
 
       return isAuth ? null : DanteRoute.boot.navigationUrl;
@@ -65,101 +72,194 @@ GoRouter goRouter(GoRouterRef ref) {
           ),
         ],
       ),
-      GoRoute(
-        path: DanteRoute.dashboard.url,
-        builder: (BuildContext context, GoRouterState state) =>
-            const MainPage(),
-        routes: [
-          GoRoute(
-            path: DanteRoute.search.url,
-            builder: (BuildContext context, GoRouterState state) =>
-            const SearchPage(),
-          ),
-          GoRoute(
-            path: DanteRoute.settings.url,
-            builder: (BuildContext context, GoRouterState state) =>
-                const SettingsPage(),
-            routes: [
-              GoRoute(
-                path: DanteRoute.contributors.url,
-                builder: (BuildContext context, GoRouterState state) =>
-                    const ContributorsPage(),
-              ),
-            ],
-          ),
-          GoRoute(
-            path: DanteRoute.profile.url,
-            builder: (BuildContext context, GoRouterState state) =>
-                const ProfilePage(),
-          ),
-          GoRoute(
-            path: DanteRoute.scanBook.url,
-            builder: (BuildContext context, GoRouterState state) =>
-                const ScanBookPage(),
-          ),
-          GoRoute(
-            path: DanteRoute.bookDetail.url,
-            builder: (context, state) {
-              final bookId = state.pathParameters['bookId'] ?? '';
-              return BookDetailPage(id: bookId);
-            },
-          ),
-        ],
-      ),
+      _buildMainRoutes(),
     ],
   );
 }
 
+/// TODO Explain difference of web and mobile routing
+RouteBase _buildMainRoutes() {
+  return kIsWeb ? _buildWebMainRoute() : _buildMobileMainRoute();
+}
+
+RouteBase _buildMobileMainRoute() {
+  return GoRoute(
+    path: DanteRoute.library.url,
+    builder: (BuildContext context, GoRouterState state) => const MainPage(),
+    routes: _mainRoutes,
+  );
+}
+
+RouteBase _buildWebMainRoute() {
+  return ShellRoute(
+    builder: (BuildContext context, GoRouterState state, Widget child) {
+      return DantePageScaffold(content: child);
+    },
+    routes: [
+      GoRoute(
+        path: DanteRoute.library.url,
+        builder: (BuildContext context, GoRouterState state) =>
+            const MainPage(),
+      ),
+      ..._mainRoutes,
+    ],
+  );
+}
+
+List<RouteBase> _mainRoutes = [
+  GoRoute(
+    path: DanteRoute.settings.url,
+    builder: (BuildContext context, GoRouterState state) =>
+        const SettingsPage(),
+    routes: [
+      GoRoute(
+        path: DanteRoute.contributors.url,
+        builder: (BuildContext context, GoRouterState state) =>
+            const ContributorsPage(),
+      ),
+    ],
+  ),
+  GoRoute(
+    path: DanteRoute.profile.url,
+    builder: (BuildContext context, GoRouterState state) => const ProfilePage(),
+  ),
+  GoRoute(
+    path: DanteRoute.statistics.url,
+    builder: (BuildContext context, GoRouterState state) => const StatsPage(),
+  ),
+  GoRoute(
+    path: DanteRoute.search.url,
+    builder: (BuildContext context, GoRouterState state) => const SearchPage(),
+  ),
+  GoRoute(
+    path: DanteRoute.timeline.url,
+    builder: (BuildContext context, GoRouterState state) =>
+        const TimelinePage(),
+  ),
+  GoRoute(
+    path: DanteRoute.wishlist.url,
+    builder: (BuildContext context, GoRouterState state) =>
+        const WishlistPage(),
+  ),
+  GoRoute(
+    path: DanteRoute.recommendations.url,
+    builder: (BuildContext context, GoRouterState state) =>
+        const RecommendationsPage(),
+  ),
+  GoRoute(
+    path: DanteRoute.bookManagement.url,
+    builder: (BuildContext context, GoRouterState state) =>
+        const BookManagementPage(),
+  ),
+  GoRoute(
+    path: DanteRoute.scanBook.url,
+    builder: (BuildContext context, GoRouterState state) =>
+        const ScanBookPage(),
+  ),
+  GoRoute(
+    path: DanteRoute.bookDetail.url,
+    builder: (context, state) {
+      final bookId = state.pathParameters['bookId'] ?? '';
+      return BookDetailPage(id: bookId);
+    },
+  ),
+];
+
 enum DanteRoute {
   boot(
-    url: '/boot',
+    webUrl: '/boot',
+    mobileUrl: '/boot',
     navigationUrl: '/boot',
   ),
   login(
-    url: '/login',
+    webUrl: '/login',
+    mobileUrl: '/login',
     navigationUrl: '/login',
   ),
   emailLogin(
-    url: 'email',
+    webUrl: 'email',
+    mobileUrl: 'email',
     navigationUrl: '/login/email',
   ),
-  dashboard(
-    url: '/',
+  library(
+    webUrl: '/',
+    mobileUrl: '/',
     navigationUrl: '/',
   ),
   scanBook(
-    url: 'scan',
+    webUrl: '/scan',
+    mobileUrl: 'scan',
     navigationUrl: '/scan',
   ),
   settings(
-    url: 'settings',
+    webUrl: '/settings',
+    mobileUrl: 'settings',
     navigationUrl: '/settings',
   ),
   search(
-    url: 'search',
+    webUrl: '/search',
+    mobileUrl: 'search',
     navigationUrl: '/search',
   ),
   contributors(
-    url: 'contributors',
+    webUrl: 'contributors',
+    mobileUrl: 'contributors',
     navigationUrl: '/settings/contributors',
   ),
   profile(
-    url: 'profile',
+    webUrl: '/profile',
+    mobileUrl: 'profile',
     navigationUrl: '/profile',
   ),
+  statistics(
+    webUrl: '/statistics',
+    mobileUrl: 'statistics',
+    navigationUrl: '/statistics',
+  ),
+  timeline(
+    webUrl: '/timeline',
+    mobileUrl: 'timeline',
+    navigationUrl: '/timeline',
+  ),
+  wishlist(
+    webUrl: '/wishlist',
+    mobileUrl: 'wishlist',
+    navigationUrl: '/wishlist',
+  ),
+  recommendations(
+    webUrl: '/recommendations',
+    mobileUrl: 'recommendations',
+    navigationUrl: '/recommendations',
+  ),
+  bookManagement(
+    webUrl: '/management',
+    mobileUrl: 'management',
+    navigationUrl: '/management',
+  ),
   bookDetail(
-    url: 'book/:bookId',
+    webUrl: '/book/:bookId',
+    mobileUrl: 'book/:bookId',
     navigationUrl: '/book/:bookId',
   );
 
-  /// Url used for registering the route in the [_router] field.
-  final String url;
+  /// Url used for registering the route in the [_router] field for Web.
+  final String _webUrl;
+
+  /// Url used for registering the route in the [_router] field for Mobile.
+  final String _mobileUrl;
 
   /// Used for navigating to another screen, when calling context.go()
-  final String navigationUrl;
+  final String _navigationUrl;
+
+  String get url => kIsWeb ? _webUrl : _mobileUrl;
+
+  String get navigationUrl => _navigationUrl;
 
   const DanteRoute({
-    required this.url,
-    required this.navigationUrl,
-  });
+    required String webUrl,
+    required String mobileUrl,
+    required String navigationUrl,
+  })  : _webUrl = webUrl,
+        _mobileUrl = mobileUrl,
+        _navigationUrl = navigationUrl;
 }

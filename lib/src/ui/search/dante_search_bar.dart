@@ -22,12 +22,15 @@ class DanteSearchBar extends StatelessWidget {
               color: Theme.of(context).colorScheme.onTertiaryContainer,
             ),
             const SizedBox(width: 4),
-            Center(
-              child: Text(
-                'search.hint'.tr(),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onTertiaryContainer,
+            Expanded(
+              child: Center(
+                child: Text(
+                  'search.hint'.tr(),
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onTertiaryContainer,
+                  ),
                 ),
               ),
             ),
