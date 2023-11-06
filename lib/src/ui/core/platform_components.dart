@@ -16,7 +16,7 @@ class DanteDialogAction {
 Future<void> showDanteDialog(
   BuildContext context, {
   required String title,
-  required String content,
+  required Widget content,
   Widget? leading,
   List<DanteDialogAction> actions = const [],
 }) {
@@ -24,7 +24,7 @@ Future<void> showDanteDialog(
     context: context,
     builder: (_) => PlatformAlertDialog(
       title: _buildDialogTitle(title, leading),
-      content: Text(content),
+      content: content,
       actions: actions
           .map(
             (action) => PlatformDialogAction(

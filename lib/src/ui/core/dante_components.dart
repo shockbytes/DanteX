@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class DanteDivider extends StatelessWidget {
   final double width;
@@ -25,6 +26,7 @@ class DanteTextField extends StatelessWidget {
   final void Function(String)? onChanged;
   final int maxLines;
   final String? errorText;
+  final TextInputFormatter? formatter;
 
   const DanteTextField({
     required this.controller,
@@ -39,6 +41,7 @@ class DanteTextField extends StatelessWidget {
     this.enabled,
     this.onChanged,
     this.errorText,
+    this.formatter,
   });
 
   @override
@@ -56,6 +59,7 @@ class DanteTextField extends StatelessWidget {
       textInputAction: textInputAction,
       maxLines: maxLines,
       onChanged: onChanged,
+      inputFormatters: [if (formatter != null) formatter!],
       decoration: InputDecoration(
         errorText: errorText,
         hintText: hint,

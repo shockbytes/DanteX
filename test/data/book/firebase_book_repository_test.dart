@@ -43,6 +43,7 @@ void main() {
       rating: 1,
       notes: 'notes',
       summary: 'summary',
+      labels: [],
     );
 
     when(user.uid).thenReturn('userId');

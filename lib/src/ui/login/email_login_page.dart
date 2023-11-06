@@ -117,8 +117,8 @@ class EmailLoginPageState extends ConsumerState<EmailLoginPage> {
                             duration: const Duration(milliseconds: 500),
                             child: DanteOutlinedButton(
                               key: ValueKey(_phase),
-                              child: Text(_getButtonText()),
                               onPressed: _getButtonAction(),
+                              child: Text(_getButtonText()),
                             ),
                           ),
                         ],
@@ -224,7 +224,7 @@ class EmailLoginPageState extends ConsumerState<EmailLoginPage> {
     return showDanteDialog(
       context,
       title: 'reset_password'.tr(),
-      content: 'reset_password_text'.tr(),
+      content: Text('reset_password_text'.tr()),
       actions: <DanteDialogAction>[
         DanteDialogAction(
           action: (_) {
@@ -260,7 +260,7 @@ class EmailLoginPageState extends ConsumerState<EmailLoginPage> {
         Icons.g_mobiledata,
         color: Colors.red,
       ),
-      content: 'email_in_use_description'.tr(),
+      content: Text('email_in_use_description'.tr()),
       actions: <DanteDialogAction>[
         DanteDialogAction(
           action: (_) {

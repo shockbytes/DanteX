@@ -15,7 +15,7 @@ void main() {
       ProviderScope(
         overrides: [
           bookProvider('book-id').overrideWith(
-            (provider) => Future.value(book),
+            (ref) => Stream.value(book),
           ),
         ],
         child: const MaterialApp(
@@ -71,7 +71,7 @@ void main() {
       ProviderScope(
         overrides: [
           bookProvider('book-id').overrideWith(
-            (provider) => book,
+            (ref) => Stream.value(book),
           ),
         ],
         child: const MaterialApp(
@@ -91,7 +91,7 @@ void main() {
       ProviderScope(
         overrides: [
           bookProvider('book-id').overrideWith(
-            (provider) => Future.error('Error fetching book'),
+            (ref) => Stream.error('Error fetching book'),
           ),
         ],
         child: const MaterialApp(

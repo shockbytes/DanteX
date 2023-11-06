@@ -1,6 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dantex/src/data/book/entity/book.dart';
+import 'package:dantex/src/data/book/entity/book_label.dart';
 import 'package:dantex/src/providers/book.dart';
+import 'package:dantex/src/providers/repository.dart';
+import 'package:dantex/src/ui/book/add_label_bottom_sheet.dart';
 import 'package:dantex/src/ui/core/generic_error_widget.dart';
 import 'package:dantex/src/util/extensions.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -206,19 +209,21 @@ class _BookActions extends StatelessWidget {
   }
 }
 
-class _BookLabels extends StatelessWidget {
+class _BookLabels extends ConsumerWidget {
   final Book book;
 
   const _BookLabels({required this.book})
       : super(key: const ValueKey('book-detail-labels'));
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Row(
       children: [
         OutlinedButton(
           key: const ValueKey('book-detail-add-label'),
-          onPressed: () {},
+          onPressed: () async {
+            await _showAddLabelBottomSheet(context, book.labels);
+          },
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -227,14 +232,63 @@ class _BookLabels extends StatelessWidget {
             ],
           ),
         ),
-        ...book.labels.map(
-          (bookLabel) => Chip(
-            key: ValueKey('book-label-chip-${bookLabel.title}'),
-            color: MaterialStateProperty.all(bookLabel.hexColor.toColor()),
-            label: Text(bookLabel.title),
-          ),
+        Row(
+          children: [
+            ...book.labels.map(
+              (bookLabel) => Padding(
+                padding: const EdgeInsets.only(left: 8),
+                child: Chip(
+                  key: ValueKey('book-label-chip-${bookLabel.title}'),
+                  deleteIcon: Icon(
+                    Icons.cancel,
+                    key: ValueKey('book-label-chip-${bookLabel.title}-delete'),
+                  ),
+                  deleteIconColor: bookLabel.hexColor.toColor(),
+                  padding: const EdgeInsets.symmetric(),
+                  onDeleted: () async {
+                    await ref
+                        .read(bookRepositoryProvider)
+                        .removeLabelFromBook(book.id, bookLabel.id);
+                  },
+                  label: Text(
+                    bookLabel.title,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: bookLabel.hexColor.toColor(),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  backgroundColor: Colors.transparent,
+                  shape: StadiumBorder(
+                    side: BorderSide(color: bookLabel.hexColor.toColor()),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ],
+    );
+  }
+
+  Future<void> _showAddLabelBottomSheet(
+    BuildContext context,
+    List<BookLabel> bookLabels,
+  ) async {
+    await showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
+            child: AddLabelBottomSheet(
+              book: book,
+            ),
+          ),
+        );
+      },
     );
   }
 }

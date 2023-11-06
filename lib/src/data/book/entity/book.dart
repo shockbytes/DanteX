@@ -5,7 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'book.freezed.dart';
 part 'book.g.dart';
 
-@freezed
+@Freezed(makeCollectionsUnmodifiable: false)
 class Book with _$Book {
   const Book._();
 
@@ -28,19 +28,11 @@ class Book with _$Book {
     required int rating,
     required String? notes,
     required String? summary,
-    @Default([]) List<BookLabel> labels,
+    @Default(<BookLabel>[]) List<BookLabel> labels,
   }) = _Book;
 
   factory Book.fromJson(Map<String, Object?> json) => _$BookFromJson(json);
 
   int get progressPercentage =>
       pageCount != 0 ? ((currentPage / pageCount) * 100).toInt() : 0;
-
-  void addLabel(BookLabel label) {
-    labels.add(label);
-  }
-
-  void removeLabel(String labelId) {
-    labels.removeWhere((label) => label.id == labelId);
-  }
 }

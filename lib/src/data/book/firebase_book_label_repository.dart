@@ -11,26 +11,43 @@ class FirebaseBookLabelRepository implements BookLabelRepository {
 
   @override
   Future<void> createBookLabel(BookLabel label) {
-    // TODO: implement createBookLabel
-    throw UnimplementedError();
+    final newRef = _labelsRef().push();
+
+    final data = label.copyWith(id: newRef.key!).toJson();
+
+    return newRef.set(data);
   }
 
   @override
   Future<void> deleteBookLabel(String id) {
-    // TODO: implement deleteBookLabel
-    throw UnimplementedError();
+    return _labelsRef().child(id).remove();
   }
 
   @override
   Stream<List<BookLabel>> getBookLabels() {
-    // TODO: implement getBookLabels
-    throw UnimplementedError();
+    return _labelsRef().onValue.map(
+      (DatabaseEvent event) {
+        final Map<String, dynamic>? data = event.snapshot.toMap();
+
+        if (data == null) {
+          return [];
+        }
+
+        return data.values.map(
+          (value) {
+            final Map<String, dynamic> bookMap =
+                (value as Map<dynamic, dynamic>).cast();
+            return BookLabel.fromJson(bookMap);
+          },
+        ).toList();
+      },
+    );
   }
 
-  DatabaseReference _rootRef() {
+  DatabaseReference _labelsRef() {
     // At this point we can assume that the customer is already logged in, even as anonymous user
     final user = _fbAuth.currentUser!.uid;
-    return _fbDb.ref('users/$user/labels');
+    return _fbDb.ref('users/$user/labels/');
   }
 }
 

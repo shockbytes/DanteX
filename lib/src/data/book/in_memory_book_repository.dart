@@ -39,7 +39,7 @@ class InMemoryBookRepository implements BookRepository {
   }
 
   @override
-  Future<Book> getBook(id) {
+  Stream<Book> getBook(id) {
     throw UnimplementedError('Not required');
   }
 
