@@ -105,17 +105,30 @@ class FirebaseBookRepository implements BookRepository {
 
   @override
   Future<void> addToForLater(Book book) {
-    return _addBook(book, BookState.readLater);
+    return _addBook(
+      book.copyWith(
+        forLaterDate: DateTime.now(),
+        startDate: null,
+        endDate: null,
+      ),
+      BookState.readLater,
+    );
   }
 
   @override
   Future<void> addToReading(Book book) {
-    return _addBook(book, BookState.reading);
+    return _addBook(
+      book.copyWith(startDate: DateTime.now(), endDate: null),
+      BookState.reading,
+    );
   }
 
   @override
   Future<void> addToRead(Book book) {
-    return _addBook(book, BookState.read);
+    return _addBook(
+      book.copyWith(endDate: DateTime.now()),
+      BookState.read,
+    );
   }
 
   Future<void> _addBook(Book book, BookState bookState) {

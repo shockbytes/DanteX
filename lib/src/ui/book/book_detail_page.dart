@@ -246,6 +246,8 @@ class _BookSaveState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final DateFormat format = DateFormat('dd MMM yyyy');
+
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -253,11 +255,34 @@ class _BookSaveState extends StatelessWidget {
           height: 60,
           child: Row(
             children: [
-              _IconSubtitle(
-                icon: Icons.bookmark_outline,
-                subtitle: book.wishlistDate.toString(),
+              Expanded(
+                child: Visibility(
+                  visible: book.forLaterDate != null,
+                  child: _IconSubtitle(
+                    icon: Icons.bookmark_outline,
+                    subtitle:
+                        format.format(book.forLaterDate ?? DateTime.now()),
+                  ),
+                ),
               ),
-              // TODO: Add other save states here
+              Expanded(
+                child: Visibility(
+                  visible: book.startDate != null,
+                  child: _IconSubtitle(
+                    icon: Icons.book_outlined,
+                    subtitle: format.format(book.startDate ?? DateTime.now()),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Visibility(
+                  visible: book.endDate != null,
+                  child: _IconSubtitle(
+                    icon: Icons.done_outline_outlined,
+                    subtitle: format.format(book.endDate ?? DateTime.now()),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
