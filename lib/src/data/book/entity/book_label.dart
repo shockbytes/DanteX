@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'book_label.freezed.dart';
 part 'book_label.g.dart';
 
-@freezed
+@Freezed(makeCollectionsUnmodifiable: false)
 class BookLabel with _$BookLabel {
   const factory BookLabel({
     required String id,

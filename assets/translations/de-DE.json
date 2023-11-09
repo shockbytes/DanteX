@@ -1,21 +1,19 @@
 {
-  "add": "Hinzufügen",
-  "navigation": {
-    "library": "Meine Bücher",
-    "stats": "Statistiken",
-    "timeline": "Timeline",
-    "wishlist": "Wunschliste",
-    "recommendations": "Vorschläge",
-    "book-keeping": "Verwaltung",
-    "settings": "Einstellungen"
-  },
-  "anonymous-user": "Anonymer Bücherwurm",
   "account_creation_failed": "Dein Konto konnte nicht angelegt werden.",
+  "add": "Hinzufügen",
   "add_book": {
     "manual": "Manuell eingeben",
     "query": "Titel suche",
     "scan": "Buchode scannen"
   },
+  "add_label_bottom_sheet": {
+    "choose_a_color": "TODO",
+    "create_new_label": "TODO",
+    "name": "TODO",
+    "no_labels_available": "TODO",
+    "pick_a_label": "TODO"
+  },
+  "anonymous-user": "Anonymer Bücherwurm",
   "anonymous_login": {
     "description": "Deine Daten sind gesichert, solange du eingeloggt bist. Wenn du dich ausloggst, werden all deine Daten gelöscht.\n\nDu kannst dein Konto später noch anlegen.",
     "title": "Anonymer Login"
@@ -51,6 +49,15 @@
   "login_with_email": "Weiter mit Mail",
   "login_with_google": "Weiter mit Google",
   "logout": "Logout",
+  "navigation": {
+    "book-keeping": "Verwaltung",
+    "library": "Meine Bücher",
+    "recommendations": "Vorschläge",
+    "settings": "Einstellungen",
+    "stats": "Statistiken",
+    "timeline": "Timeline",
+    "wishlist": "Wunschliste"
+  },
   "no_thanks": "TODO",
   "not_my_book": "Nicht mein Buch",
   "password": "Passwort",
@@ -65,13 +72,13 @@
   "reset_password": "TODO",
   "reset_password_text": "TODO",
   "search": {
-    "search": "Suchen",
+    "empty": {
+      "action": "Online suchen",
+      "description": "Nichts gefunden. Sollen wir online suchen?"
+    },
     "hint": "Durchsuche deine Bibliothek...",
     "page-hint": "Tippe etwas um deine Bibliothek zu durchsuchen!",
-    "empty": {
-      "description": "Nichts gefunden. Sollen wir online suchen?",
-      "action": "Online suchen"
-    }
+    "search": "Suchen"
   },
   "select": "Wählen",
   "settings": {

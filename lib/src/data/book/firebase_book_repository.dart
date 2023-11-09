@@ -14,7 +14,7 @@ class FirebaseBookRepository implements BookRepository {
 
   @override
   Future<void> create(Book book) {
-    final newRef = _rootRef().push();
+    final newRef = _booksRef().push();
 
     final data = book.copyWith(id: newRef.key!).toJson();
 
@@ -23,12 +23,12 @@ class FirebaseBookRepository implements BookRepository {
 
   @override
   Future<void> delete(String id) {
-    return _rootRef().child(id).remove();
+    return _booksRef().child(id).remove();
   }
 
   @override
   Stream<List<Book>> getAllBooks() {
-    return _rootRef().onValue.map(
+    return _booksRef().onValue.map(
       (DatabaseEvent event) {
         final Map<String, dynamic>? data = event.snapshot.toMap();
 
@@ -36,31 +36,28 @@ class FirebaseBookRepository implements BookRepository {
           return [];
         }
 
-        return data
-            .map(
-              (key, value) {
-                final Map<String, dynamic> bookMap =
-                    (value as Map<dynamic, dynamic>).cast();
-                final Book bookValue = Book.fromJson(bookMap);
-                return MapEntry(key, bookValue);
-              },
-            )
-            .values
-            .toList();
+        return data.values.map(
+          (value) {
+            final Map<String, dynamic> bookMap =
+                (value as Map<dynamic, dynamic>).cast();
+            return Book.fromJson(bookMap);
+          },
+        ).toList();
       },
     );
   }
 
   @override
-  Future<Book> getBook(String id) async {
-    final bookSnapshot = await _rootRef().child(id).get();
-    final bookMap = bookSnapshot.child(id).toMap();
+  Stream<Book> getBook(String id) {
+    return _booksRef().child(id).onValue.map((DatabaseEvent event) {
+      final Map<String, dynamic>? data = event.snapshot.toMap();
 
-    if (bookMap == null) {
-      throw Exception('Cannot read book with id $id as it does not exist!');
-    }
+      if (data == null) {
+        throw Exception('Cannot read book with id $id as it does not exist!');
+      }
 
-    return Book.fromJson(bookMap);
+      return Book.fromJson(data);
+    });
   }
 
   @override
@@ -83,16 +80,23 @@ class FirebaseBookRepository implements BookRepository {
 
   @override
   Future<void> update(Book book) {
-    return _rootRef().child(book.id).set(book);
+    return _booksRef().child(book.id).set(book.toJson());
   }
 
   @override
   Future<void> updateCurrentPage(String bookId, int currentPage) async {
-    final Book currentBook = await getBook(bookId);
+    final bookSnapshot = await _booksRef().child(bookId).get();
+    final bookMap = bookSnapshot.child(bookId).toMap();
+
+    if (bookMap == null) {
+      throw Exception('Cannot read book with id $bookId as it does not exist!');
+    }
+    final currentBook = Book.fromJson(bookMap);
+
     return update(currentBook.copyWith(currentPage: currentPage));
   }
 
-  DatabaseReference _rootRef() {
+  DatabaseReference _booksRef() {
     // At this point we can assume that the customer is already logged in, even as anonymous user
     final user = _fbAuth.currentUser!.uid;
     return _fbDb.ref('users/$user/books');
@@ -138,16 +142,35 @@ class FirebaseBookRepository implements BookRepository {
 
   @override
   Future<void> addLabelToBook(String bookId, BookLabel label) async {
-    final book = await getBook(bookId);
-    book.addLabel(label);
-    return update(book);
+    final bookSnapshot = await _booksRef().child(bookId).get();
+    final bookMap = bookSnapshot.child(bookId).toMap();
+
+    if (bookMap == null) {
+      throw Exception('Cannot read book with id $bookId as it does not exist!');
+    }
+    final book = Book.fromJson(bookMap);
+
+    return update(
+      book.copyWith(
+        labels: book.labels..add(label),
+      ),
+    );
   }
 
   @override
   Future<void> removeLabelFromBook(String bookId, String labelId) async {
-    final book = await getBook(bookId);
-    book.removeLabel(labelId);
-    return update(book);
+    final bookSnapshot = await _booksRef().child(bookId).get();
+    final bookMap = bookSnapshot.child(bookId).toMap();
+
+    if (bookMap == null) {
+      throw Exception('Cannot read book with id $bookId as it does not exist!');
+    }
+    final book = Book.fromJson(bookMap);
+    return update(
+      book.copyWith(
+        labels: book.labels..removeWhere((label) => label.id == labelId),
+      ),
+    );
   }
 }
 

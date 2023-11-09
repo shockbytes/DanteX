@@ -163,7 +163,7 @@ class LoginPageState extends ConsumerState<LoginPage> {
     await showDanteDialog(
       context,
       title: 'anonymous_login.title'.tr(),
-      content: 'anonymous_login.description'.tr(),
+      content: Text('anonymous_login.description'.tr()),
       actions: <DanteDialogAction>[
         DanteDialogAction(
           action: (_) {

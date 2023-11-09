@@ -6,7 +6,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'book.g.dart';
 
 @riverpod
-Future<Book> book(BookRef ref, String id) =>
+Stream<Book> book(BookRef ref, String id) =>
     ref.watch(bookRepositoryProvider).getBook(id);
 
 @riverpod

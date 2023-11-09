@@ -8,7 +8,7 @@ abstract class BookRepository {
 
   Stream<List<Book>> getAllBooks();
 
-  Future<Book> getBook(String id);
+  Stream<Book> getBook(String id);
 
   Future<void> create(Book book);
 

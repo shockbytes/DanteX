@@ -44,6 +44,8 @@ dependencies:
   freezed_annotation: ^2.4.1
   json_annotation: ^4.8.1
   intl: ^0.18.1
+  carousel_slider: ^4.2.1
+  flex_color_picker: ^3.3.0
 
 dev_dependencies:
   flutter_test:

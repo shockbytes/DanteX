@@ -83,8 +83,8 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
                 duration: const Duration(milliseconds: 500),
                 child: DanteOutlinedButton(
                   key: ValueKey(_phase),
-                  child: Text(_getButtonText()),
                   onPressed: _getButtonAction(),
+                  child: Text(_getButtonText()),
                 ),
               ),
             ],
@@ -167,7 +167,7 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
         Icons.g_mobiledata,
         color: Colors.red,
       ),
-      content: 'email_in_use_description'.tr(),
+      content: Text('email_in_use_description'.tr()),
       actions: <DanteDialogAction>[
         DanteDialogAction(
           action: (_) => Navigator.of(context).pop(),

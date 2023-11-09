@@ -11,10 +11,18 @@
   },
   "anonymous-user": "Anonymous Bookworm",
   "account_creation_failed": "Failed to create account",
+  "add": "Add",
   "add_book": {
     "manual": "Add manual",
     "query": "Title search",
     "scan": "Scan book"
+  },
+  "add_label_bottom_sheet": {
+    "choose_a_color": "Choose a color",
+    "create_new_label": "Create new label",
+    "name": "Name",
+    "no_labels_available": "No labels available.\nCreate a new label first.",
+    "pick_a_label": "Pick a label"
   },
   "anonymous_login": {
     "description": "Your data will be stored as long as you stay signed in. When you sign out, your data will be erased.\n\nYou can always upgrade to a regular account later on.",
@@ -65,13 +73,13 @@
   "reset_password": "Reset Password",
   "reset_password_text": "A link will be sent to your registered email address with instructions on how to reset your password.",
   "search": {
-    "search": "Search",
+    "empty": {
+      "action": "Search online",
+      "description": "Nothing found. Should we search online?"
+    },
     "hint": "Search your library...",
     "page-hint": "Start typing to search your library!",
-    "empty": {
-      "description": "Nothing found. Should we search online?",
-      "action": "Search online"
-    }
+    "search": "Search"
   },
   "select": "Select",
   "settings": {
