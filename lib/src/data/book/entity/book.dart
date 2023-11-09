@@ -21,13 +21,9 @@ class Book with _$Book {
     required int position,
     required String isbn,
     required String? thumbnailAddress,
-    required int startDate,
-    required int endDate,
-
-    /// Actually `forLaterDate` and should not be confused with BookState.WISHLIST. This mishap
-    /// is due to the initial naming and cannot be changed without breaking prior backups. So, just
-    /// treat this as `forLaterDate` and everything is fine
-    required int wishlistDate,
+    required DateTime? startDate,
+    required DateTime? endDate,
+    required DateTime? forLaterDate,
     required String language,
     required int rating,
     required String? notes,

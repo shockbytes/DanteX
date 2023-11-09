@@ -51,9 +51,9 @@ class GoogleBooksApi implements BookApi {
               .join(', ') ??
           '',
       thumbnailAddress: volumeInfo.imageLinks?.thumbnail,
-      startDate: 0,
-      endDate: 0,
-      wishlistDate: 0,
+      startDate: null,
+      endDate: null,
+      forLaterDate: null,
       language: volumeInfo.language ?? 'NA',
       rating: 0,
       notes: '',

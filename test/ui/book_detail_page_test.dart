@@ -126,9 +126,9 @@ Book _getTestBook({int? pageCount}) {
     isbn: '9780547928241',
     thumbnailAddress:
         'http://books.google.com/books/content?id=RXPjuQAACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api',
-    startDate: 0,
-    endDate: 0,
-    wishlistDate: 0,
+    startDate: DateTime.now(),
+    endDate: null,
+    forLaterDate: DateTime.now().subtract(const Duration(days: 1)),
     language: 'en',
     rating: 0,
     notes: '',
