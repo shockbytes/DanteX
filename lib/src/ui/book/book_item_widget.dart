@@ -5,6 +5,8 @@ import 'package:dantex/src/data/book/entity/book_state.dart';
 import 'package:dantex/src/providers/app_router.dart';
 import 'package:dantex/src/util/extensions.dart';
 import 'package:dantex/src/util/utils.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -12,7 +14,9 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 class BookItemWidget extends StatelessWidget {
   final Book _book;
 
-  const BookItemWidget(this._book, {super.key});
+  final ExpandableController _controller = ExpandableController();
+
+  BookItemWidget(this._book, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,89 +26,91 @@ class BookItemWidget extends StatelessWidget {
           DanteRoute.bookDetail.navigationUrl.replaceAll(':bookId', _book.id),
         );
       },
-      child: Container(
-        padding: const EdgeInsets.all(8.0),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: Theme.of(context).colorScheme.outline,
-            width: .2,
-          ),
-          borderRadius: BorderRadius.circular(12.0),
+      child: _buildCard(context),
+    );
+  }
+
+  Widget _buildCard(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Theme.of(context).colorScheme.outline,
+          width: .2,
         ),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: CachedNetworkImage(
-                    imageUrl: _book.thumbnailAddress!,
-                    width: 48,
-                  ),
+        borderRadius: BorderRadius.circular(12.0),
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: CachedNetworkImage(
+                  imageUrl: _book.thumbnailAddress!,
+                  width: 48,
                 ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        _book.title,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium
-                            ?.copyWith(
-                              color: Theme.of(context).colorScheme.onSurface,
-                            ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        _book.subTitle,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurfaceVariant,
-                            ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        _book.author,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurfaceVariant,
-                            ),
-                      ),
-                    ],
-                  ),
-                ),
-                Column(
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    IconButton(
-                      onPressed: () {
-                        // TODO Show overflow menu
-                      },
-                      icon: const Icon(Icons.more_horiz),
+                    Text(
+                      _book.title,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
                     ),
-                    if (_book.state == BookState.reading)
-                      _buildProgressCircle(
-                        context,
-                        currentPage: _book.currentPage,
-                        pageCount: _book.pageCount,
-                      ),
+                    const SizedBox(height: 8),
+                    Text(
+                      _book.subTitle,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
+                          ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      _book.author,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
+                          ),
+                    ),
                   ],
                 ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Align(
-              alignment: Alignment.topLeft,
-              child: Wrap(
-                spacing: 4.0,
-                children: _book.labels.map(_chipFromLabel).toList(),
               ),
+              Column(
+                children: [
+                  IconButton(
+                    onPressed: () => _controller.toggle(),
+                    icon: const Icon(Icons.more_horiz),
+                  ),
+                  if (_book.state == BookState.reading)
+                    _buildProgressCircle(
+                      context,
+                      currentPage: _book.currentPage,
+                      pageCount: _book.pageCount,
+                    ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Align(
+            alignment: Alignment.topLeft,
+            child: Wrap(
+              spacing: 4.0,
+              children: _book.labels.map(_chipFromLabel).toList(),
             ),
-          ],
-        ),
+          ),
+          ExpandablePanel(
+            collapsed: Container(),
+            expanded: _buildBookActions(context),
+            controller: _controller,
+          ),
+        ],
       ),
     );
   }
@@ -147,6 +153,105 @@ class BookItemWidget extends StatelessWidget {
       ),
       backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
       progressColor: Theme.of(context).colorScheme.onSecondaryContainer,
+    );
+  }
+
+  Widget _buildBookActions(BuildContext context) {
+    return GridView(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+      ),
+      children: [
+        if (_book.state != BookState.readLater)
+          _buildBookAction(
+            title: 'book-actions.move-to-later'.tr(),
+            icon: Icons.bookmark_outline,
+            color: Theme.of(context).colorScheme.secondary,
+            onClick: () {
+              // TODO Implement Move book to for later
+            },
+          ),
+        if (_book.state != BookState.reading)
+          _buildBookAction(
+          title: 'book-actions.move-to-reading'.tr(),
+          icon: Icons.bookmark_outline,
+          color: Theme.of(context).colorScheme.secondary,
+          onClick: () {
+            // TODO Implement Move book to reading
+          },
+        ),
+        if (_book.state != BookState.read)
+          _buildBookAction(
+          title: 'book-actions.move-to-read'.tr(),
+          icon: Icons.check,
+          color: Theme.of(context).colorScheme.secondary,
+          onClick: () {
+            // TODO Implement Move book to read
+          },
+        ),
+        _buildBookAction(
+          title: 'book-actions.share'.tr(),
+          icon: Icons.share_outlined,
+          color: Theme.of(context).colorScheme.secondary,
+          onClick: () {
+            // TODO Share book in ticket: TODO
+          },
+        ),
+        _buildBookAction(
+          title: 'book-actions.suggest'.tr(),
+          icon: Icons.whatshot_outlined,
+          color: Theme.of(context).colorScheme.secondary,
+          onClick: () {
+            // TODO Suggest book in ticket: TODO
+          },
+        ),
+        _buildBookAction(
+          title: 'book-actions.edit'.tr(),
+          icon: Icons.edit_outlined,
+          color: Theme.of(context).colorScheme.secondary,
+          onClick: () {
+            // TODO Edit book in ticket: TODO
+          },
+        ),
+        _buildBookAction(
+          title: 'book-actions.delete'.tr(),
+          icon: Icons.delete_outline,
+          color: Theme.of(context).colorScheme.error,
+          onClick: () {
+            // TODO Implement Delete book
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildBookAction({
+    required String title,
+    required IconData icon,
+    required VoidCallback onClick,
+    required Color color,
+  }) {
+    return InkWell(
+      onTap: onClick,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            icon,
+            color: color,
+          ),
+          const SizedBox(height: 4),
+          Text(
+            title,
+            style: TextStyle(
+              color: color,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
     );
   }
 }

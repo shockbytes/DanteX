@@ -31,6 +31,15 @@
     "description": "You are going to delete all your data right now. Proceeding now will permanently remove all your books.\n\n Do you want to proceed?",
     "title": "Anonymous Logout"
   },
+  "book-actions": {
+    "move-to-later": "Move to for later",
+    "move-to-reading": "move to reading",
+    "move-to-read": "Move to read",
+    "share": "Share",
+    "suggest": "Suggest",
+    "edit": "Edit",
+    "delete": "Delete"
+  },
   "book_detail": {
     "label": "Label",
     "notes": "Notes",
