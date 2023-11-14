@@ -5,6 +5,7 @@ import 'package:dantex/src/providers/app_router.dart';
 import 'package:dantex/src/providers/service.dart';
 import 'package:dantex/src/ui/book/book_image.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
+import 'package:dantex/src/ui/core/lottie_view.dart';
 import 'package:dantex/src/ui/core/themed_app_bar.dart';
 import 'package:dantex/src/ui/timeline/timeline_sort.dart';
 import 'package:dantex/src/util/extensions.dart';
@@ -15,8 +16,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
-/// TODO
-/// - Nice empty screen
 class TimelinePage extends ConsumerWidget {
   const TimelinePage({super.key});
 
@@ -57,10 +56,12 @@ class TimelinePage extends ConsumerWidget {
     );
   }
 
-  // TODO build nice screen
   Widget _buildEmptyScreen() {
-    return const Center(
-      child: Text('TODO some nice stuff here'),
+    return Center(
+      child: LottieView(
+        lottieAsset: '/assets/lottie/books-staple.json',
+        text: 'timeline.empty'.tr(),
+      ),
     );
   }
 
@@ -92,7 +93,8 @@ class TimelinePage extends ConsumerWidget {
     return StreamBuilder<TimelineSortStrategy>(
       stream: timeline.sortStrategy,
       builder: (context, snapshot) {
-        final TimelineSortStrategy sortStrategy = snapshot.data ?? TimelineSortStrategy.byEndState;
+        final TimelineSortStrategy sortStrategy =
+            snapshot.data ?? TimelineSortStrategy.byEndState;
 
         return SegmentedButton<TimelineSortStrategy>(
           onSelectionChanged: (Set<TimelineSortStrategy> selection) {
@@ -111,7 +113,7 @@ class TimelinePage extends ConsumerWidget {
               icon: const Icon(Icons.book_outlined),
             ),
           ],
-          selected: { sortStrategy },
+          selected: {sortStrategy},
         );
       },
     );

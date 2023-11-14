@@ -73,7 +73,8 @@
     "sorting": {
       "started-in": "Started in",
       "ended-in": "Finished in"
-    }
+    },
+    "empty": "There are no books in your library yet to build this view."
   },
   "reset": "Reset",
   "reset_password": "Reset Password",

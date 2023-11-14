@@ -72,7 +72,8 @@
     "sorting": {
       "started-in": "Gestartet in",
       "ended-in": "Fertig in"
-    }
+    },
+    "empty": "Es sind noch keine Bücher in deiner Bibliothek vorhanden, um hier etwas anzuzeigen."
   },
   "reset": "Zurücksetzen",
   "reset_password": "Password zurücksetzen",
