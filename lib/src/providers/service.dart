@@ -6,6 +6,7 @@ import 'package:dantex/src/data/isbn/isbn_scanner_service.dart';
 import 'package:dantex/src/data/logging/error_only_filter.dart';
 import 'package:dantex/src/data/logging/firebase_log_output.dart';
 import 'package:dantex/src/data/search/search.dart';
+import 'package:dantex/src/data/timeline/timeline.dart';
 import 'package:dantex/src/providers/api.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
@@ -40,6 +41,14 @@ Search search(SearchRef ref) {
   return Search(
     ref.read(bookRepositoryProvider),
     ref.read(bookDownloaderProvider),
+  );
+}
+
+@riverpod
+Timeline timeline(TimelineRef ref) {
+  return Timeline(
+    ref.read(settingsRepositoryProvider),
+    ref.read(bookRepositoryProvider),
   );
 }
 

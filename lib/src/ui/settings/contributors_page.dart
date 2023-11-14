@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/util/url_launcher.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -90,16 +91,7 @@ class _ContributorCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      clipBehavior: Clip.hardEdge,
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        side: BorderSide(
-          color: Theme.of(context).colorScheme.outline,
-          width: 0.5,
-        ),
-        borderRadius: const BorderRadius.all(Radius.circular(12)),
-      ),
+    return DanteOutlinedCard(
       child: switch (_contribution) {
         _Contributor() => _buildContributor(
             context,

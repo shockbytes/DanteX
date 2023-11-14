@@ -2,22 +2,14 @@ import 'package:flutter/material.dart';
 
 class ThemedAppBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget>? actions;
-  final bool automaticallyImplyLeading;
   final Widget? leading;
   final Widget? title;
-  final ShapeBorder? border;
-  final Color? shadowColor;
-  final double elevation;
 
   const ThemedAppBar({
     super.key,
     this.actions,
-    this.automaticallyImplyLeading = true,
     this.leading,
     this.title,
-    this.border,
-    this.shadowColor,
-    this.elevation = 0.0,
   });
 
   @override
@@ -27,14 +19,15 @@ class ThemedAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       actions: actions,
-      automaticallyImplyLeading: automaticallyImplyLeading,
-      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+      backgroundColor: Theme.of(context).colorScheme.background,
+      // Disable coloring of action bar on scroll
+      surfaceTintColor: Theme.of(context).colorScheme.background,
+      scrolledUnderElevation: 8,
+      shadowColor: Theme.of(context).colorScheme.onBackground,
       centerTitle: true,
-      elevation: elevation,
+      elevation: 0,
       leading: leading,
       title: title,
-      shape: border,
-      shadowColor: shadowColor,
     );
   }
 }

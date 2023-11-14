@@ -46,6 +46,7 @@ dependencies:
   intl: ^0.18.1
   carousel_slider: ^4.2.1
   flex_color_picker: ^3.3.0
+  timeline_tile: ^2.0.0
 
 dev_dependencies:
   flutter_test:
