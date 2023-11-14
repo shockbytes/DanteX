@@ -57,11 +57,9 @@ class TimelinePage extends ConsumerWidget {
   }
 
   Widget _buildEmptyScreen() {
-    return Center(
-      child: LottieView(
-        lottieAsset: '/assets/lottie/books-staple.json',
-        text: 'timeline.empty'.tr(),
-      ),
+    return LottieView(
+      lottieAsset: 'assets/lottie/books-staple.json',
+      text: 'timeline.empty'.tr(),
     );
   }
 

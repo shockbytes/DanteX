@@ -22,7 +22,7 @@ class ThemedAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Theme.of(context).colorScheme.background,
       // Disable coloring of action bar on scroll
       surfaceTintColor: Theme.of(context).colorScheme.background,
-      scrolledUnderElevation: 8,
+      scrolledUnderElevation: 4,
       shadowColor: Theme.of(context).colorScheme.onBackground,
       centerTitle: true,
       elevation: 0,

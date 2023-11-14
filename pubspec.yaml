@@ -77,5 +77,6 @@ flutter:
   assets:
     - assets/data/
     - assets/logo/
+    - assets/lottie/
     - assets/images/
     - assets/translations/
