@@ -242,7 +242,7 @@ class EmailLoginPageState extends ConsumerState<EmailLoginPage> {
                 .read(authenticationRepositoryProvider)
                 .sendPasswordResetRequest(email: _emailController.text);
             // Navigate back to the login page.
-            if (mounted) {
+            if (context.mounted) {
               context.pushReplacement(DanteRoute.login.navigationUrl);
             }
           },

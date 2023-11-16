@@ -146,3 +146,20 @@ class DanteOutlinedCard extends StatelessWidget {
     );
   }
 }
+
+class IconSubtitle extends StatelessWidget {
+  final IconData icon;
+  final String subtitle;
+
+  const IconSubtitle({required this.icon, required this.subtitle, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Icon(icon),
+        Text(subtitle),
+      ],
+    );
+  }
+}

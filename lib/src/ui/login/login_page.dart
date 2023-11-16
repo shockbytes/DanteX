@@ -92,6 +92,7 @@ class LoginPageState extends ConsumerState<LoginPage> {
                             ],
                           ),
                         ),
+                        const SizedBox(height: 8),
                         DanteOutlinedButton(
                           onPressed: () => context.pushReplacement(
                             DanteRoute.emailLogin.navigationUrl,

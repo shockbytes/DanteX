@@ -6,8 +6,8 @@ class InteractiveDanteSearchBar extends StatelessWidget {
 
   const InteractiveDanteSearchBar({
     required this.onQueryChanged,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -113,7 +113,7 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
               .read(authenticationRepositoryProvider)
               .fetchSignInMethodsForEmail(email: _emailController.text);
           if (listEquals(signInMethod, [AuthenticationSource.google])) {
-            if (mounted) {
+            if (context.mounted) {
               Navigator.of(context).pop();
             }
             await _buildGoogleAccountDialog();
@@ -134,7 +134,7 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
                   email: _emailController.text,
                   password: _passwordController.text,
                 );
-            if (mounted) {
+            if (context.mounted) {
               Navigator.of(context).pop();
               await Navigator.of(context).pushReplacement(
                 MaterialPageRoute(

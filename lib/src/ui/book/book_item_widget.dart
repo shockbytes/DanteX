@@ -1,8 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dantex/src/data/book/entity/book.dart';
 import 'package:dantex/src/data/book/entity/book_label.dart';
 import 'package:dantex/src/data/book/entity/book_state.dart';
 import 'package:dantex/src/providers/app_router.dart';
+import 'package:dantex/src/ui/book/book_image.dart';
 import 'package:dantex/src/ui/book/desktop_book_action_menu.dart';
 import 'package:dantex/src/ui/book/mobile_book_action_menu.dart';
 import 'package:dantex/src/util/extensions.dart';
@@ -87,12 +87,9 @@ class BookItemWidget extends StatelessWidget {
   Row _buildMainContentRow(BuildContext context) {
     return Row(
       children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(8.0),
-          child: CachedNetworkImage(
-            imageUrl: _book.thumbnailAddress!,
-            width: 48,
-          ),
+        BookImage(
+          _book.thumbnailAddress,
+          size: 48,
         ),
         const SizedBox(width: 16),
         Expanded(

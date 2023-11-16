@@ -4,6 +4,8 @@ import 'package:dantex/src/data/authentication/firebase_authentication_repositor
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:googleapis/drive/v3.dart' hide User;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'authentication.g.dart';
@@ -29,7 +31,9 @@ FirebaseDatabase firebaseDatabase(FirebaseDatabaseRef ref) =>
 AuthenticationRepository authenticationRepository(
   AuthenticationRepositoryRef ref,
 ) =>
-    FirebaseAuthenticationRepository(ref.watch(firebaseAuthProvider));
+    FirebaseAuthenticationRepository(
+      ref.watch(firebaseAuthProvider),
+    );
 
 @riverpod
 Future<DanteUser?> user(UserRef ref) {
@@ -37,3 +41,15 @@ Future<DanteUser?> user(UserRef ref) {
   ref.watch(authStateChangesProvider);
   return ref.watch(authenticationRepositoryProvider).getAccount();
 }
+
+@riverpod
+GoogleSignIn googleSignIn(
+  GoogleSignInRef ref,
+) =>
+    GoogleSignIn(
+      clientId:
+          '150599422814-moto7djse1tf7vtso7slemniki76ohg6.apps.googleusercontent.com',
+      scopes: [
+        DriveApi.driveFileScope,
+      ],
+    );
