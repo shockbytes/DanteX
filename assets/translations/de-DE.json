@@ -68,9 +68,16 @@
     "hint": "Title oder ISBN",
     "title": "Titelsuche"
   },
-  "reset": "TODO",
-  "reset_password": "TODO",
-  "reset_password_text": "TODO",
+  "timeline": {
+    "sorting": {
+      "started-in": "Gestartet in",
+      "ended-in": "Fertig in"
+    },
+    "empty": "Es sind noch keine Bücher in deiner Bibliothek vorhanden, um hier etwas anzuzeigen."
+  },
+  "reset": "Zurücksetzen",
+  "reset_password": "Password zurücksetzen",
+  "reset_password_text": "Wir versenden ein Email an deine registrierte Adresse, wo du weitere Instruktionen zum Zurücksetzen findest.",
   "search": {
     "empty": {
       "action": "Online suchen",

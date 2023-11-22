@@ -1,5 +1,6 @@
 import 'package:dantex/src/data/book/book_sort_strategy.dart';
 import 'package:dantex/src/data/settings/settings_repository.dart';
+import 'package:dantex/src/ui/timeline/timeline_sort.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,6 +12,7 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
   static const _keyRandomBooksEnabled = 'key_random_books_enabled';
   static const _keyThemeMode = 'key_theme_mode';
   static const _keySortStrategy = 'key_sort_strategy';
+  static const _keyTimelineSortStrategy = 'key_timeline_sort_strategy';
 
   final BehaviorSubject<ThemeMode> _themeModeSubject = BehaviorSubject();
 
@@ -72,5 +74,19 @@ class SharedPreferencesSettingsRepository implements SettingsRepository {
   @override
   Stream<ThemeMode> observeThemeMode() {
     return _themeModeSubject.stream;
+  }
+
+  @override
+  TimelineSortStrategy getTimelineSortStrategy() {
+    final int timelineSortStrategyOrdinal =
+        _sp.getInt(_keyTimelineSortStrategy) ?? 0;
+    return TimelineSortStrategy.values[timelineSortStrategyOrdinal];
+  }
+
+  @override
+  Future<void> setTimelineSortStrategy(
+    TimelineSortStrategy sortStrategy,
+  ) async {
+    await _sp.setInt(_keyTimelineSortStrategy, sortStrategy.index);
   }
 }

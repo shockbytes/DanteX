@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 class DanteDivider extends StatelessWidget {
   final double width;
+
   const DanteDivider({this.width = 0.5, super.key});
 
   @override
@@ -111,6 +112,7 @@ class DanteTextField extends StatelessWidget {
 class DanteOutlinedButton extends StatelessWidget {
   final Widget child;
   final void Function()? onPressed;
+
   const DanteOutlinedButton({required this.child, super.key, this.onPressed});
 
   @override
@@ -118,6 +120,28 @@ class DanteOutlinedButton extends StatelessWidget {
     return OutlinedButton(
       key: key,
       onPressed: onPressed,
+      child: child,
+    );
+  }
+}
+
+class DanteOutlinedCard extends StatelessWidget {
+  final Widget child;
+
+  const DanteOutlinedCard({required this.child, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      clipBehavior: Clip.hardEdge,
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        side: BorderSide(
+          color: Theme.of(context).colorScheme.outline,
+          width: 0.5,
+        ),
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
+      ),
       child: child,
     );
   }

@@ -69,6 +69,13 @@
     "hint": "Title or ISBN",
     "title": "Title search"
   },
+  "timeline": {
+    "sorting": {
+      "started-in": "Started in",
+      "ended-in": "Finished in"
+    },
+    "empty": "There are no books in your library yet to build this view."
+  },
   "reset": "Reset",
   "reset_password": "Reset Password",
   "reset_password_text": "A link will be sent to your registered email address with instructions on how to reset your password.",
