@@ -13,11 +13,11 @@ class WishlistPage extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         return Scaffold(
-          appBar: ThemedAppBar(
-            title: isDesktop(constraints)
-                ? null
-                : Text('navigation.wishlist'.tr())
-          ),
+          appBar: isDesktop(constraints)
+              ? null
+              : ThemedAppBar(
+                  title: Text('navigation.wishlist'.tr()),
+                ),
           body: const Center(
             child: BookStatePage(BookState.wishlist),
           ),
