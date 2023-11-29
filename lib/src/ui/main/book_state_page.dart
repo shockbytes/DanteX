@@ -3,6 +3,7 @@ import 'package:dantex/src/data/book/entity/book_state.dart';
 import 'package:dantex/src/providers/book.dart';
 import 'package:dantex/src/ui/book/book_item_widget.dart';
 import 'package:dantex/src/ui/core/generic_error_widget.dart';
+import 'package:dantex/src/util/layout_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -37,6 +38,20 @@ class _BooksScreen extends StatelessWidget {
       );
     }
 
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final DeviceFormFactor formFactor = getDeviceFormFactor(constraints);
+
+        return switch (formFactor) {
+          DeviceFormFactor.desktop => _buildLargeLayout(columns: 3),
+          DeviceFormFactor.tablet => _buildLargeLayout(columns: 2),
+          DeviceFormFactor.phone => _buildPhoneLayout(),
+        };
+      },
+    );
+  }
+
+  Widget _buildPhoneLayout() {
     return ListView.separated(
       padding: const EdgeInsets.all(16.0),
       physics: const BouncingScrollPhysics(),
@@ -44,6 +59,22 @@ class _BooksScreen extends StatelessWidget {
       itemBuilder: (context, index) => BookItemWidget(books[index]),
       separatorBuilder: (BuildContext context, int index) =>
           const SizedBox(height: 16),
+    );
+  }
+
+  Widget _buildLargeLayout({
+    required int columns,
+  }) {
+    return GridView.builder(
+      padding: const EdgeInsets.all(16),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: columns,
+        mainAxisSpacing: 16,
+        crossAxisSpacing: 16,
+        childAspectRatio: 4,
+      ),
+      itemBuilder: (context, index) => BookItemWidget(books[index]),
+      itemCount: books.length,
     );
   }
 }

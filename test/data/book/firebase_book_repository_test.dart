@@ -23,6 +23,13 @@ void main() {
     final oldDbRef = MockDatabaseReference();
     final newDbRef = MockDatabaseReference();
 
+    when(user.uid).thenReturn('userId');
+    when(fbAuth.currentUser).thenReturn(user);
+    when(fbDb.ref('users/userId/books')).thenReturn(oldDbRef);
+    when(oldDbRef.onValue).thenAnswer((_) => const Stream.empty());
+    when(oldDbRef.push()).thenReturn(newDbRef);
+    when(newDbRef.key).thenReturn('bookKey');
+
     final fbAuthRepo = FirebaseBookRepository(fbAuth, fbDb);
     final book = Book(
       id: 'id',
@@ -46,15 +53,9 @@ void main() {
       labels: [],
     );
 
-    when(user.uid).thenReturn('userId');
-    when(fbAuth.currentUser).thenReturn(user);
-    when(fbDb.ref('users/userId/books')).thenReturn(oldDbRef);
-    when(oldDbRef.push()).thenReturn(newDbRef);
-    when(newDbRef.key).thenReturn('bookKey');
-
     await fbAuthRepo.create(book);
-    verify(fbAuth.currentUser).called(1);
-    verify(fbDb.ref('users/userId/books')).called(1);
+    verify(fbAuth.currentUser).called(2);
+    verify(fbDb.ref('users/userId/books')).called(2);
     verify(oldDbRef.push()).called(1);
     verify(newDbRef.key).called(1);
     verify(newDbRef.set(book.copyWith(id: 'bookKey').toJson())).called(1);
@@ -67,17 +68,18 @@ void main() {
     final oldDbRef = MockDatabaseReference();
     final newDbRef = MockDatabaseReference();
 
-    final fbAuthRepo = FirebaseBookRepository(fbAuth, fbDb);
-
     when(user.uid).thenReturn('userId');
     when(fbAuth.currentUser).thenReturn(user);
     when(fbDb.ref('users/userId/books')).thenReturn(oldDbRef);
+    when(oldDbRef.onValue).thenAnswer((_) => const Stream.empty());
     when(oldDbRef.child('bookId')).thenReturn(newDbRef);
     when(newDbRef.remove()).thenAnswer((_) async {});
 
+    final fbAuthRepo = FirebaseBookRepository(fbAuth, fbDb);
+
     await fbAuthRepo.delete('bookId');
-    verify(fbAuth.currentUser).called(1);
-    verify(fbDb.ref('users/userId/books')).called(1);
+    verify(fbAuth.currentUser).called(2);
+    verify(fbDb.ref('users/userId/books')).called(2);
     verify(oldDbRef.child('bookId')).called(1);
     verify(newDbRef.remove()).called(1);
   });

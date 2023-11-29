@@ -5,12 +5,57 @@ import 'package:dantex/src/data/book/entity/book_state.dart';
 import 'package:dantex/src/data/book/search_criteria.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:rxdart/rxdart.dart';
 
 class FirebaseBookRepository implements BookRepository {
   final FirebaseAuth _fbAuth;
   final FirebaseDatabase _fbDb;
 
-  FirebaseBookRepository(this._fbAuth, this._fbDb);
+  final BehaviorSubject<List<Book>> _booksSubject = BehaviorSubject();
+
+  FirebaseBookRepository(this._fbAuth, this._fbDb) {
+    _setupBooksSubject();
+  }
+
+  void _setupBooksSubject() {
+    _booksRef().onValue.listen(
+      (DatabaseEvent event) {
+        switch (event.type) {
+          case DatabaseEventType.childAdded:
+            // TODO: Handle this case.
+            break;
+
+          case DatabaseEventType.childRemoved:
+            // TODO: Handle this case.
+            break;
+
+          case DatabaseEventType.childChanged:
+            // TODO: Handle this case.
+            break;
+          case DatabaseEventType.childMoved:
+            // No need to handle this case.
+            break;
+          case DatabaseEventType.value:
+            final Map<String, dynamic>? data = event.snapshot.toMap();
+
+            if (data == null) {
+              return;
+            }
+
+            final List<Book> books = data.values.map(
+              (value) {
+                final Map<String, dynamic> bookMap =
+                    (value as Map<dynamic, dynamic>).cast();
+                return Book.fromJson(bookMap);
+              },
+            ).toList();
+
+            _booksSubject.add(books);
+            break;
+        }
+      },
+    );
+  }
 
   @override
   Future<void> create(Book book) {
@@ -28,23 +73,7 @@ class FirebaseBookRepository implements BookRepository {
 
   @override
   Stream<List<Book>> getAllBooks() {
-    return _booksRef().onValue.map(
-      (DatabaseEvent event) {
-        final Map<String, dynamic>? data = event.snapshot.toMap();
-
-        if (data == null) {
-          return [];
-        }
-
-        return data.values.map(
-          (value) {
-            final Map<String, dynamic> bookMap =
-                (value as Map<dynamic, dynamic>).cast();
-            return Book.fromJson(bookMap);
-          },
-        ).toList();
-      },
-    );
+    return _booksSubject.stream;
   }
 
   @override
