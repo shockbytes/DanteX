@@ -7,6 +7,7 @@ import 'package:dantex/src/providers/authentication.dart';
 import 'package:dantex/src/ui/add/add_book_widget.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/platform_components.dart';
+import 'package:dantex/src/ui/core/user_avatar.dart';
 import 'package:dantex/src/ui/search/dante_search_bar.dart';
 import 'package:dantex/src/util/layout_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -132,7 +133,7 @@ class DanteAppBar extends ConsumerWidget implements PreferredSizeWidget {
         const SizedBox(width: 32),
         InkWell(
           onTap: () => _openBottomSheet(context),
-          child: UserAvatar(user: user),
+          child: UserAvatar(userImageUrl: user?.photoUrl),
         ),
         const SizedBox(width: 16),
       ],
@@ -294,7 +295,7 @@ class UserTag extends ConsumerWidget {
       children: [
         IconButton(
           onPressed: () => context.go(DanteRoute.profile.navigationUrl),
-          icon: UserAvatar(user: user),
+          icon: UserAvatar(userImageUrl: user?.photoUrl),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4.0),
@@ -321,7 +322,7 @@ class UserTag extends ConsumerWidget {
       children: [
         IconButton(
           onPressed: () => context.go(DanteRoute.profile.navigationUrl),
-          icon: UserAvatar(user: user),
+          icon: UserAvatar(userImageUrl: user?.photoUrl),
         ),
         const SizedBox(width: 4),
         Expanded(
@@ -397,35 +398,6 @@ class UserTag extends ConsumerWidget {
     } else {
       await ref.watch(authenticationRepositoryProvider).logout();
     }
-  }
-}
-
-class UserAvatar extends ConsumerWidget {
-  final DanteUser? user;
-
-  const UserAvatar({
-    required this.user,
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final String? photoUrl = user?.photoUrl;
-    if (photoUrl != null) {
-      return ClipRRect(
-        borderRadius: BorderRadius.circular(20.0),
-        child: CachedNetworkImage(
-          imageUrl: photoUrl,
-          width: 40,
-          height: 40,
-        ),
-      );
-    }
-    return Icon(
-      Icons.account_circle_outlined,
-      size: 32,
-      color: Theme.of(context).colorScheme.onSurface,
-    );
   }
 }
 
