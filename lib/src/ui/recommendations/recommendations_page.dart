@@ -25,7 +25,11 @@ class RecommendationsPage extends ConsumerWidget {
               : ThemedAppBar(
                   title: Text('navigation.recommendations'.tr()),
                 ),
-          body: _buildBody(context, recommendations, formFactor),
+          body: _buildBody(
+            context,
+            recommendations,
+            formFactor,
+          ),
           bottomNavigationBar: _buildNewRecommendationsHint(
             context,
             recommendations.newRecommendationsAvailableAt(),
@@ -41,31 +45,43 @@ class RecommendationsPage extends ConsumerWidget {
     DeviceFormFactor formFactor,
   ) {
     return FutureBuilder<List<BookRecommendation>>(
+      // ignore: discarded_futures
       future: recommendations.load(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           final List<BookRecommendation> recommendedBooks = snapshot.data!;
 
           if (recommendedBooks.isEmpty) {
-            // TODO Nice empty text
             return Expanded(
               child: Center(
-                child: Text('Nothing to show'),
+                child: Text('recommendations.empty'.tr()),
               ),
             );
           }
 
           return switch (formFactor) {
-            DeviceFormFactor.desktop =>
-              _buildLargeLayout(recommendedBooks, columns: 3),
-            DeviceFormFactor.tablet =>
-              _buildLargeLayout(recommendedBooks, columns: 2),
-            DeviceFormFactor.phone => _buildPhoneLayout(recommendedBooks),
+            DeviceFormFactor.desktop => _buildLargeLayout(
+                recommendedBooks,
+                recommendations,
+                columns: 3,
+              ),
+            DeviceFormFactor.tablet => _buildLargeLayout(
+                recommendedBooks,
+                recommendations,
+                columns: 2,
+              ),
+            DeviceFormFactor.phone => _buildPhoneLayout(
+                recommendedBooks,
+                recommendations,
+              ),
           };
         } else if (snapshot.hasError) {
-          // TODO Improve
           return Center(
-            child: Text(snapshot.error!.toString()),
+            child: Text(
+              'recommendations.error'.tr(
+                args: [snapshot.error!.toString()],
+              ),
+            ),
           );
         } else {
           return const Expanded(
@@ -76,13 +92,18 @@ class RecommendationsPage extends ConsumerWidget {
     );
   }
 
-  Widget _buildPhoneLayout(List<BookRecommendation> recommendedBooks) {
+  Widget _buildPhoneLayout(
+    List<BookRecommendation> recommendedBooks,
+    Recommendations recommendations,
+  ) {
     return ListView.separated(
       padding: const EdgeInsets.all(16.0),
       physics: const BouncingScrollPhysics(),
       itemCount: recommendedBooks.length,
       itemBuilder: (_, index) => RecommendationItemWidget(
         recommendedBooks[index],
+        onAddToWishlist: recommendations.addToWishlist,
+        onReportRecommendation: recommendations.reportRecommendation,
       ),
       separatorBuilder: (BuildContext context, int index) =>
           const SizedBox(height: 16),
@@ -90,7 +111,8 @@ class RecommendationsPage extends ConsumerWidget {
   }
 
   Widget _buildLargeLayout(
-    List<BookRecommendation> recommendedBooks, {
+    List<BookRecommendation> recommendedBooks,
+    Recommendations recommendations, {
     required int columns,
   }) {
     return GridView.builder(
@@ -104,6 +126,8 @@ class RecommendationsPage extends ConsumerWidget {
       ),
       itemBuilder: (_, index) => RecommendationItemWidget(
         recommendedBooks[index],
+        onAddToWishlist: recommendations.addToWishlist,
+        onReportRecommendation: recommendations.reportRecommendation,
       ),
       itemCount: recommendedBooks.length,
     );
@@ -122,8 +146,12 @@ class RecommendationsPage extends ConsumerWidget {
               height: 56,
               child: Center(
                 child: Text(
-                  // TODO Translate
-                  'New recommendations will be available on the ${DateFormat('dd. MMM yyyy').format(newRecommendationsAvailableAt)} again.',
+                  'recommendations.new-banner'.tr(
+                    args: [
+                      DateFormat('dd. MMM yyyy')
+                          .format(newRecommendationsAvailableAt),
+                    ],
+                  ),
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         color:
                             Theme.of(context).colorScheme.onTertiaryContainer,

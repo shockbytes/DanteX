@@ -1,38 +1,61 @@
 import 'package:dantex/src/data/recommendations/book_recommendation.dart';
 import 'package:dantex/src/ui/book/book_image.dart';
+import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/user_avatar.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class RecommendationItemWidget extends StatelessWidget {
-
   final BookRecommendation _recommendation;
 
-  const RecommendationItemWidget(this._recommendation, {super.key});
+  final Function(String recommendationId) onReportRecommendation;
+  final Function(BookRecommendation recommendation) onAddToWishlist;
+
+  const RecommendationItemWidget(
+    this._recommendation, {
+    required this.onReportRecommendation,
+    required this.onAddToWishlist,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return DanteOutlinedCard(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
             Row(
               children: [
-                BookImage(_recommendation.book.thumbnailAddress, size: 48),
+                BookImage(_recommendation.book.thumbnailAddress, size: 40),
                 const SizedBox(width: 16),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(_recommendation.book.title),
+                      Text(
+                        _recommendation.book.title,
+                        maxLines: 1,
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              color: Theme.of(context).colorScheme.onBackground,
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
                       const SizedBox(height: 4),
-                      Text(_recommendation.book.author),
+                      Text(
+                        _recommendation.book.author,
+                        maxLines: 1,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: Theme.of(context).colorScheme.onBackground,
+                            ),
+                      ),
                     ],
                   ),
                 ),
                 IconButton(
                   onPressed: () {
-                    // TODO Callback for reporting
+                    // TODO Show dialog first
+                    onReportRecommendation(_recommendation.recommendationId);
                   },
                   icon: Icon(
                     Icons.error_outline,
@@ -49,7 +72,13 @@ class RecommendationItemWidget extends StatelessWidget {
                   const Icon(Icons.format_quote_outlined),
                   const SizedBox(width: 4),
                   Expanded(
-                    child: Text(_recommendation.recommendation),
+                    child: Text(
+                      _recommendation.recommendation,
+                      maxLines: 4,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: Theme.of(context).colorScheme.onBackground,
+                          ),
+                    ),
                   ),
                   const SizedBox(width: 4),
                   const Icon(Icons.format_quote_outlined),
@@ -62,7 +91,12 @@ class RecommendationItemWidget extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text('- ${_recommendation.recommender.name}'),
+                  Text(
+                    '- ${_recommendation.recommender.name}',
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Theme.of(context).colorScheme.onBackground,
+                        ),
+                  ),
                   const SizedBox(width: 8),
                   UserAvatar(userImageUrl: _recommendation.recommender.picture),
                 ],
@@ -71,10 +105,10 @@ class RecommendationItemWidget extends StatelessWidget {
             const Spacer(),
             OutlinedButton(
               onPressed: () {
-                // TODO Add to wishlist
+                onAddToWishlist(_recommendation);
               },
               child: Text(
-                'Zur Wunschliste hinzufügen',
+                'recommendations.add-to-wishlist'.tr(),
               ),
             ),
             const SizedBox(height: 8),

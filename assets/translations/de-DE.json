@@ -151,5 +151,11 @@
   "upgrade_failed": "Wir konnten dein Konto leider nicht anlegen.",
   "version": "App Version",
   "version_number": "5.0",
-  "welcome_back": "Willkommen zurück!"
+  "welcome_back": "Willkommen zurück!",
+  "recommendations": {
+    "add-to-wishlist": "Zur Wunschliste hinzufügen",
+    "new-banner": "Neue Vorschläge sind wieder ab dem {} verfügbar.",
+    "empty": "Keine Vorschläge verfügbar.",
+    "error": "Oh nein! Während des Ladens der Vorschläge trat ein Fehler auf. Versuche es später nochmals.\n\nFehler: {}"
+  }
 }

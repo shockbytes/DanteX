@@ -32,4 +32,7 @@ class Recommendations {
   Future<void> recommendBook(Book book, String recommendation) {
     return _repository.recommendBook(book, recommendation);
   }
+
+  void addToWishlist(BookRecommendation recommendation) {
+  }
 }
