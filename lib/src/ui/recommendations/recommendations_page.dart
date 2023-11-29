@@ -52,9 +52,12 @@ class RecommendationsPage extends ConsumerWidget {
           final List<BookRecommendation> recommendedBooks = snapshot.data!;
 
           if (recommendedBooks.isEmpty) {
-            return Expanded(
-              child: Center(
-                child: Text('recommendations.empty'.tr()),
+            return Center(
+              child: Text(
+                'recommendations.empty'.tr(),
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
               ),
             );
           }
@@ -84,9 +87,7 @@ class RecommendationsPage extends ConsumerWidget {
             ),
           );
         } else {
-          return const Expanded(
-            child: DanteLoadingIndicator(),
-          );
+          return const DanteLoadingIndicator();
         }
       },
     );

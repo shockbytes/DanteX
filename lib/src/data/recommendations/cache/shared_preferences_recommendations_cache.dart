@@ -35,7 +35,17 @@ class SharedPreferencesRecommendationsCache extends RecommendationsCache {
       return null;
     }
 
-    return jsonDecode(data);
+    final decodedJson = json.decode(data);
+
+    final List<BookRecommendation> recommendations = [];
+
+    decodedJson.forEach(
+      (element) => recommendations.add(
+        BookRecommendation.fromJson(element),
+      ),
+    );
+
+    return recommendations;
   }
 
   @override
@@ -46,7 +56,10 @@ class SharedPreferencesRecommendationsCache extends RecommendationsCache {
   }
 
   Future<void> _put(List<BookRecommendation> content) async {
-    await _sp.setString(_contentCacheKey, jsonEncode(content));
+    await _sp.setString(
+      _contentCacheKey,
+      jsonEncode(content),
+    );
   }
 
   bool _isDataOutdated() {

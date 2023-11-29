@@ -14,6 +14,16 @@ class BookRecommendation {
     required this.recommendation,
   });
 
+
+  Map<String, dynamic> toJson() {
+    return {
+      'suggestionId': recommendationId,
+      'suggester': recommender.toJson(),
+      'suggestion': book.toJson(),
+      'recommendation': recommendation,
+    };
+  }
+
   static BookRecommendation fromJson(dynamic json) {
     return BookRecommendation(
       recommendationId: json['suggestionId'],
@@ -78,6 +88,21 @@ class RecommendedBook {
       summary: json['summary'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'subTitle': subTitle,
+      'author': author,
+      'state': state.name,
+      'pageCount': pageCount,
+      'publishedDate': publishedDate,
+      'isbn': isbn,
+      'thumbnailAddress': thumbnailAddress,
+      'language': language,
+      'summary': summary,
+    };
+  }
 }
 
 class BookRecommender {
@@ -94,6 +119,13 @@ class BookRecommender {
       name: json['name'],
       picture: json['picture'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'picture': picture,
+    };
   }
 }
 

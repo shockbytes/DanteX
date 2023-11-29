@@ -33,8 +33,7 @@ class DefaultRecommendationsRepository implements RecommendationsRepository {
     final List<BookRecommendation> recommendations =
         await _api.loadRecommendations();
 
-    // TODO Enable caching later...
-    // await _cache.put(recommendations);
+    await _cache.put(recommendations);
 
     return recommendations;
   }
