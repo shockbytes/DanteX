@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dantex/src/data/authentication/entity/dante_user.dart';
 import 'package:dantex/src/providers/app_router.dart';
 import 'package:dantex/src/providers/authentication.dart';
@@ -299,7 +298,7 @@ class UserTag extends ConsumerWidget {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4.0),
-          child: _getUserHeading(user),
+          child: _getUserHeading(context, user),
         ),
         TextButton(
           onPressed: () async => _handleLogout(context, ref, user),
@@ -326,7 +325,7 @@ class UserTag extends ConsumerWidget {
         ),
         const SizedBox(width: 4),
         Expanded(
-          child: _getUserHeading(user),
+          child: _getUserHeading(context, user),
         ),
         DanteOutlinedButton(
           onPressed: () async => _handleLogout(context, ref, user),
@@ -339,12 +338,15 @@ class UserTag extends ConsumerWidget {
     );
   }
 
-  Widget _getUserHeading(DanteUser? user) {
+  Widget _getUserHeading(BuildContext context, DanteUser? user) {
     final String? name = user?.displayName;
     final String? email = user?.email;
     if (user?.source == AuthenticationSource.anonymous) {
       return Text(
         'anonymous-user'.tr(),
+        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: Theme.of(context).colorScheme.tertiary,
+            ),
         textAlign: useMobileLayout ? TextAlign.start : TextAlign.center,
       );
     }
@@ -356,12 +358,18 @@ class UserTag extends ConsumerWidget {
         name != null
             ? Text(
                 name,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.tertiary,
+                    ),
                 textAlign: TextAlign.center,
               )
             : const SizedBox.shrink(),
         email != null
             ? Text(
                 email,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.tertiary,
+                    ),
                 textAlign: TextAlign.center,
               )
             : const SizedBox.shrink(),

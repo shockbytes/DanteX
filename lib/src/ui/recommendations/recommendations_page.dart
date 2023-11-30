@@ -2,6 +2,7 @@ import 'package:dantex/src/data/recommendations/book_recommendation.dart';
 import 'package:dantex/src/data/recommendations/recommendations.dart';
 import 'package:dantex/src/providers/service.dart';
 import 'package:dantex/src/ui/core/dante_loading_indicator.dart';
+import 'package:dantex/src/ui/core/generic_error_widget.dart';
 import 'package:dantex/src/ui/core/themed_app_bar.dart';
 import 'package:dantex/src/ui/recommendations/recommendation_item_widget.dart';
 import 'package:dantex/src/util/layout_utils.dart';
@@ -14,7 +15,11 @@ class RecommendationsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final Recommendations recommendations = ref.watch(recommendationsProvider);
+    final Recommendations recommendations = ref.read(recommendationsProvider);
+
+    ref.watch(bookRecommendationEventsProvider).whenData(
+          (event) => _handleEvent(context, event),
+        );
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -27,12 +32,13 @@ class RecommendationsPage extends ConsumerWidget {
                 ),
           body: _buildBody(
             context,
-            recommendations,
             formFactor,
+            ref,
           ),
           bottomNavigationBar: _buildNewRecommendationsHint(
             context,
             recommendations.newRecommendationsAvailableAt(),
+            formFactor,
           ),
         );
       },
@@ -41,68 +47,56 @@ class RecommendationsPage extends ConsumerWidget {
 
   Widget _buildBody(
     BuildContext context,
-    Recommendations recommendations,
     DeviceFormFactor formFactor,
+    WidgetRef ref,
   ) {
-    return FutureBuilder<List<BookRecommendation>>(
-      // ignore: discarded_futures
-      future: recommendations.load(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          final List<BookRecommendation> recommendedBooks = snapshot.data!;
+    return ref.watch(bookRecommendationsProvider).when(
+          data: (recommendedBooks) {
+            if (recommendedBooks.isEmpty) {
+              return Center(
+                child: Text(
+                  'recommendations.empty'.tr(),
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
+                ),
+              );
+            }
 
-          if (recommendedBooks.isEmpty) {
-            return Center(
-              child: Text(
-                'recommendations.empty'.tr(),
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      color: Theme.of(context).colorScheme.secondary,
-                    ),
-              ),
-            );
-          }
-
-          return switch (formFactor) {
-            DeviceFormFactor.desktop => _buildLargeLayout(
-                recommendedBooks,
-                recommendations,
-                columns: 3,
-              ),
-            DeviceFormFactor.tablet => _buildLargeLayout(
-                recommendedBooks,
-                recommendations,
-                columns: 2,
-              ),
-            DeviceFormFactor.phone => _buildPhoneLayout(
-                recommendedBooks,
-                recommendations,
-              ),
-          };
-        } else if (snapshot.hasError) {
-          return Center(
-            child: Text(
-              'recommendations.error'.tr(
-                args: [snapshot.error!.toString()],
-              ),
-            ),
-          );
-        } else {
-          return const DanteLoadingIndicator();
-        }
-      },
-    );
+            return switch (formFactor) {
+              DeviceFormFactor.desktop => _buildLargeLayout(
+                  recommendedBooks,
+                  ref,
+                  columns: 3,
+                ),
+              DeviceFormFactor.tablet => _buildLargeLayout(
+                  recommendedBooks,
+                  ref,
+                  columns: 2,
+                ),
+              DeviceFormFactor.phone => _buildPhoneLayout(
+                  recommendedBooks,
+                  ref,
+                ),
+            };
+          },
+          error: (error, stackTrace) => GenericErrorWidget(error),
+          loading: () => const DanteLoadingIndicator(),
+        );
   }
 
   Widget _buildPhoneLayout(
     List<BookRecommendation> recommendedBooks,
-    Recommendations recommendations,
+    WidgetRef ref,
   ) {
+    final Recommendations recommendations = ref.read(recommendationsProvider);
     return ListView.separated(
       padding: const EdgeInsets.all(16.0),
       physics: const BouncingScrollPhysics(),
       itemCount: recommendedBooks.length,
       itemBuilder: (_, index) => RecommendationItemWidget(
         recommendedBooks[index],
+        withHeight: 300,
         onAddToWishlist: recommendations.addToWishlist,
         onReportRecommendation: recommendations.reportRecommendation,
       ),
@@ -113,9 +107,11 @@ class RecommendationsPage extends ConsumerWidget {
 
   Widget _buildLargeLayout(
     List<BookRecommendation> recommendedBooks,
-    Recommendations recommendations, {
+    WidgetRef ref, {
     required int columns,
   }) {
+    final Recommendations recommendations = ref.read(recommendationsProvider);
+
     return GridView.builder(
       padding: const EdgeInsets.all(16),
       physics: const BouncingScrollPhysics(),
@@ -137,14 +133,16 @@ class RecommendationsPage extends ConsumerWidget {
   Widget _buildNewRecommendationsHint(
     BuildContext context,
     DateTime newRecommendationsAvailableAt,
+    DeviceFormFactor formFactor,
   ) {
+    final double height = formFactor == DeviceFormFactor.desktop ? 56 : 84;
     return Row(
       children: [
         Expanded(
           child: Card(
             color: Theme.of(context).colorScheme.tertiaryContainer,
             child: SizedBox(
-              height: 56,
+              height: height,
               child: Center(
                 child: Text(
                   'recommendations.new-banner'.tr(
@@ -164,6 +162,47 @@ class RecommendationsPage extends ConsumerWidget {
           ),
         ),
       ],
+    );
+  }
+
+  void _handleEvent(BuildContext context, RecommendationEvent event) {
+    // Hide current banner first.
+    ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+
+    switch (event) {
+      case MoveToWishlistEvent():
+        _showBanner(
+          context,
+          text: 'recommendations.events.move-to-wishlist.title'.tr(
+            args: [event.title],
+          ),
+        );
+        break;
+      case ReportRecommendationEvent():
+        _showBanner(
+          context,
+          text: 'recommendations.events.report.title'.tr(
+            args: [event.title],
+          ),
+        );
+        break;
+    }
+  }
+
+  void _showBanner(
+    BuildContext context, {
+    required String text,
+  }) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+        content: Text(
+          text,
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.onSecondaryContainer,
+          ),
+        ),
+      ),
     );
   }
 }

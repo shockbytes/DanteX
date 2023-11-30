@@ -8,20 +8,24 @@ import 'package:flutter/material.dart';
 class RecommendationItemWidget extends StatelessWidget {
   final BookRecommendation _recommendation;
 
-  final Function(String recommendationId) onReportRecommendation;
+  final double? withHeight;
+
+  final Function(BookRecommendation recommendation) onReportRecommendation;
   final Function(BookRecommendation recommendation) onAddToWishlist;
 
   const RecommendationItemWidget(
     this._recommendation, {
     required this.onReportRecommendation,
     required this.onAddToWishlist,
+    this.withHeight,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return DanteOutlinedCard(
-      child: Padding(
+      child: Container(
+        height: withHeight,
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
@@ -53,9 +57,16 @@ class RecommendationItemWidget extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  onPressed: () {
-                    // TODO Show dialog first
-                    onReportRecommendation(_recommendation.recommendationId);
+                  onPressed: () async {
+                    final bool? isConfirmed =
+                        await _askForReportingConfirmation(
+                      context,
+                      bookTitle: _recommendation.book.title,
+                    );
+
+                    if (isConfirmed == true) {
+                      onReportRecommendation(_recommendation);
+                    }
                   },
                   icon: Icon(
                     Icons.error_outline,
@@ -111,10 +122,49 @@ class RecommendationItemWidget extends StatelessWidget {
                 'recommendations.add-to-wishlist'.tr(),
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 4),
           ],
         ),
       ),
+    );
+  }
+
+  Future<bool?> _askForReportingConfirmation(
+    BuildContext context, {
+    required String bookTitle,
+  }) {
+    return showAdaptiveDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog.adaptive(
+          title: Text('recommendations.report-dialog.title'.tr()),
+          content: Text(
+            'recommendations.report-dialog.content'.tr(
+              args: [bookTitle],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context, false);
+              },
+              child: Text('cancel'.tr()),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context, true);
+              },
+              child: Text(
+                'recommendations.report-dialog.report'.tr(),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.error,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

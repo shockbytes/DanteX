@@ -5,6 +5,7 @@ import 'package:dantex/src/data/isbn/barcode_isbn_scanner_service.dart';
 import 'package:dantex/src/data/isbn/isbn_scanner_service.dart';
 import 'package:dantex/src/data/logging/error_only_filter.dart';
 import 'package:dantex/src/data/logging/firebase_log_output.dart';
+import 'package:dantex/src/data/recommendations/book_recommendation.dart';
 import 'package:dantex/src/data/recommendations/recommendations.dart';
 import 'package:dantex/src/data/search/search.dart';
 import 'package:dantex/src/data/timeline/timeline.dart';
@@ -70,6 +71,21 @@ Logger logger(LoggerRef ref) => Logger(
 @riverpod
 Recommendations recommendations(RecommendationsRef ref) {
   return Recommendations(
-    ref.read(recommendationsRepositoryProvider)
+    ref.read(recommendationsRepositoryProvider),
+    ref.read(bookRepositoryProvider),
   );
+}
+
+@Riverpod(keepAlive: true)
+Stream<List<BookRecommendation>> bookRecommendations(
+  BookRecommendationsRef ref,
+) {
+  return ref.watch(recommendationsProvider).recommendedBooks;
+}
+
+@riverpod
+Stream<RecommendationEvent> bookRecommendationEvents(
+  BookRecommendationEventsRef ref,
+) {
+  return ref.watch(recommendationsProvider).events;
 }

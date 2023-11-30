@@ -43,7 +43,7 @@ class RecommendedBook {
   final String publishedDate;
   final String isbn;
   final String? thumbnailAddress;
-  final String? language;
+  final String language;
   final String? summary;
 
   RecommendedBook({
