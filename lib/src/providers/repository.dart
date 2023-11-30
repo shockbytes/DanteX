@@ -2,9 +2,13 @@ import 'package:dantex/src/data/book/book_label_repository.dart';
 import 'package:dantex/src/data/book/book_repository.dart';
 import 'package:dantex/src/data/book/firebase_book_label_repository.dart';
 import 'package:dantex/src/data/book/firebase_book_repository.dart';
+import 'package:dantex/src/data/recommendations/default_recommendations_repository.dart';
+import 'package:dantex/src/data/recommendations/recommendations_repository.dart';
 import 'package:dantex/src/data/settings/settings_repository.dart';
 import 'package:dantex/src/data/settings/shared_preferences_settings_repository.dart';
+import 'package:dantex/src/providers/api.dart';
 import 'package:dantex/src/providers/authentication.dart';
+import 'package:dantex/src/providers/cache.dart';
 import 'package:dantex/src/providers/service.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -14,6 +18,13 @@ part 'repository.g.dart';
 BookRepository bookRepository(BookRepositoryRef ref) => FirebaseBookRepository(
       ref.watch(firebaseAuthProvider),
       ref.watch(firebaseDatabaseProvider),
+    );
+
+@riverpod
+RecommendationsRepository recommendationsRepository(RecommendationsRepositoryRef ref) => DefaultRecommendationsRepository(
+      ref.watch(recommendationsApiProvider),
+      ref.watch(recommendationsCacheProvider),
+      ref.watch(recommendationsReportCacheProvider),
     );
 
 @riverpod

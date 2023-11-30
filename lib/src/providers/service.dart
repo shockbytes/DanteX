@@ -5,13 +5,15 @@ import 'package:dantex/src/data/isbn/barcode_isbn_scanner_service.dart';
 import 'package:dantex/src/data/isbn/isbn_scanner_service.dart';
 import 'package:dantex/src/data/logging/error_only_filter.dart';
 import 'package:dantex/src/data/logging/firebase_log_output.dart';
+import 'package:dantex/src/data/recommendations/book_recommendation.dart';
+import 'package:dantex/src/data/recommendations/recommendations.dart';
 import 'package:dantex/src/data/search/search.dart';
 import 'package:dantex/src/data/timeline/timeline.dart';
 import 'package:dantex/src/providers/api.dart';
+import 'package:dantex/src/providers/repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:logger/logger.dart';
-import 'package:dantex/src/providers/repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -65,3 +67,25 @@ Logger logger(LoggerRef ref) => Logger(
       // Use Firebase logging only for production
       output: kDebugMode ? ConsoleOutput() : FirebaseLogOutput(),
     );
+
+@riverpod
+Recommendations recommendations(RecommendationsRef ref) {
+  return Recommendations(
+    ref.read(recommendationsRepositoryProvider),
+    ref.read(bookRepositoryProvider),
+  );
+}
+
+@riverpod
+Stream<List<BookRecommendation>> bookRecommendations(
+  BookRecommendationsRef ref,
+) {
+  return ref.watch(recommendationsProvider).recommendedBooks;
+}
+
+@riverpod
+Stream<RecommendationEvent> bookRecommendationEvents(
+  BookRecommendationEventsRef ref,
+) {
+  return ref.watch(recommendationsProvider).events;
+}

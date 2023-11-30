@@ -11,7 +11,6 @@
   },
   "anonymous-user": "Anonymous Bookworm",
   "account_creation_failed": "Failed to create account",
-  "add": "Add",
   "add_book": {
     "manual": "Add manual",
     "query": "Title search",
@@ -152,5 +151,24 @@
   "upgrade_failed": "Fail to upgrade account.",
   "version": "App Version",
   "version_number": "5.0",
-  "welcome_back": "Welcome back!"
+  "welcome_back": "Welcome back!",
+  "recommendations": {
+    "add-to-wishlist": "Add to wishlist",
+    "new-banner": "New recommendations will be available again at the {}.",
+    "empty": "No recommendations available.",
+    "error": "Oh no! An error occurred while trying to fetch your recommendations. Please try again later.\n\nReason: {}",
+    "report-dialog": {
+      "title": "Report recommendation",
+      "content": "Do you really want to report the book {}?\n\nYou will no longer see this book as a recommendation.",
+      "report": "Report"
+    },
+    "events": {
+      "move-to-wishlist": {
+        "title": "{} added to your wishlist."
+      },
+      "report": {
+        "title": "{} is reported. You will no longer see this recommendation."
+      }
+    }
+  }
 }

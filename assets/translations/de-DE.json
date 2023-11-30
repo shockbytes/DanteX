@@ -151,5 +151,24 @@
   "upgrade_failed": "Wir konnten dein Konto leider nicht anlegen.",
   "version": "App Version",
   "version_number": "5.0",
-  "welcome_back": "Willkommen zurück!"
+  "welcome_back": "Willkommen zurück!",
+  "recommendations": {
+    "add-to-wishlist": "Zur Wunschliste hinzufügen",
+    "new-banner": "Neue Vorschläge sind wieder ab dem {} verfügbar.",
+    "empty": "Keine Vorschläge verfügbar.",
+    "error": "Oh nein! Während des Ladens der Vorschläge trat ein Fehler auf. Versuche es später nochmals.\n\nFehler: {}",
+    "report-dialog": {
+      "title": "Vorschlag melden",
+      "content": "Willst du wirklich das Buch {} melden?\n\nDu wirst dieses Buch nicht mehr als Vorschlag sehen.",
+      "report": "Buch melden"
+    },
+    "events": {
+      "move-to-wishlist": {
+        "title": "{} wurde zur Wunschliste hinzugefügt."
+      },
+      "report": {
+        "title": "{} wurde gemeldet. Du wirst diesen Vorschlag nicht mehr sehen."
+      }
+    }
+  }
 }
