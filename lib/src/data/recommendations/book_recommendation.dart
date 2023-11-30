@@ -140,7 +140,8 @@ class RecommendationRequest {
 
   Map<String, dynamic> toJson() {
     return {
-      // TODO
+      'suggestion': recommendedBook.toJson(),
+      'recommendation': recommendation,
     };
   }
 }

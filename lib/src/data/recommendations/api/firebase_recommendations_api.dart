@@ -51,7 +51,7 @@ class FirebaseRecommendationsApi implements RecommendationsApi {
 
   @override
   Future<void> recommendBook(RecommendationRequest request) async {
-    final Response response = await _dio.post(
+    await _dio.post(
       '/suggestions',
       data: request.toJson(),
       options: Options(
