@@ -76,7 +76,7 @@ Recommendations recommendations(RecommendationsRef ref) {
   );
 }
 
-@Riverpod(keepAlive: true)
+@riverpod
 Stream<List<BookRecommendation>> bookRecommendations(
   BookRecommendationsRef ref,
 ) {
