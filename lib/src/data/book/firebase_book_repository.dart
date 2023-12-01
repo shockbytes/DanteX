@@ -22,18 +22,10 @@ class FirebaseBookRepository implements BookRepository {
       (DatabaseEvent event) {
         switch (event.type) {
           case DatabaseEventType.childAdded:
-            // TODO: Handle this case.
-            break;
-
           case DatabaseEventType.childRemoved:
-            // TODO: Handle this case.
-            break;
-
           case DatabaseEventType.childChanged:
-            // TODO: Handle this case.
-            break;
           case DatabaseEventType.childMoved:
-            // No need to handle this case.
+            // No need to handle these case.
             break;
           case DatabaseEventType.value:
             final Map<String, dynamic>? data = event.snapshot.toMap();

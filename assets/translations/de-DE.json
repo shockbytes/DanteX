@@ -155,6 +155,12 @@
     "reading": "Lesen",
     "wishlist": "Wunschliste"
   },
+  "empty-states": {
+    "read-later": "Du hast gerade keine Bücher, die du lesen kannst. Füge ein paar hinzu.",
+    "reading": "Warum liest du gerade kein Buch?",
+    "read": "Es gibt keine gelesenen Bücher. Los, schnapp dir ein Buch.",
+    "wishlist": "Du hast noch kein Buch zu deiner Wunschliste hinzugefügt."
+  },
   "upgrade": "Verknüpfen",
   "upgrade_account": "Konto verknüpfen",
   "upgrade_failed": "Wir konnten dein Konto leider nicht anlegen.",

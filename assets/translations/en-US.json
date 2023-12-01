@@ -155,6 +155,12 @@
     "reading": "Reading",
     "wishlist": "Wishlist"
   },
+  "empty-states": {
+    "read-later": "You have currently no books that you can read. Go add some.",
+    "reading": "Why are you not reading a book now?",
+    "read": "There are no finished books. Why not finish one?",
+    "wishlist": "You have not added a book to your wishlist yet."
+  },
   "upgrade": "Upgrade",
   "upgrade_account": "Upgrade account",
   "upgrade_failed": "Fail to upgrade account.",

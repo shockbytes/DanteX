@@ -1,8 +1,13 @@
+import 'dart:async';
+
+import 'package:dantex/src/data/book/book_repository.dart';
 import 'package:dantex/src/data/book/entity/book.dart';
 import 'package:dantex/src/data/book/entity/book_state.dart';
 import 'package:dantex/src/providers/book.dart';
+import 'package:dantex/src/providers/repository.dart';
 import 'package:dantex/src/ui/book/book_item_widget.dart';
 import 'package:dantex/src/ui/core/generic_error_widget.dart';
+import 'package:dantex/src/ui/main/empty_state_view.dart';
 import 'package:dantex/src/util/layout_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,18 +29,18 @@ class BookStatePage extends ConsumerWidget {
   }
 }
 
-class _BooksScreen extends StatelessWidget {
+class _BooksScreen extends ConsumerWidget {
   final List<Book> books;
   final BookState state;
 
   const _BooksScreen({required this.books, required this.state});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final BookRepository bookRepository = ref.read(bookRepositoryProvider);
+
     if (books.isEmpty) {
-      return Center(
-        child: Text('No books for the state ${state.name}'),
-      );
+      return EmptyStateView(state);
     }
 
     return LayoutBuilder(
@@ -43,26 +48,35 @@ class _BooksScreen extends StatelessWidget {
         final DeviceFormFactor formFactor = getDeviceFormFactor(constraints);
 
         return switch (formFactor) {
-          DeviceFormFactor.desktop => _buildLargeLayout(columns: 3),
-          DeviceFormFactor.tablet => _buildLargeLayout(columns: 2),
-          DeviceFormFactor.phone => _buildPhoneLayout(),
+          DeviceFormFactor.desktop =>
+            _buildLargeLayout(bookRepository, columns: 3),
+          DeviceFormFactor.tablet =>
+            _buildLargeLayout(bookRepository, columns: 2),
+          DeviceFormFactor.phone => _buildPhoneLayout(
+              bookRepository,
+            ),
         };
       },
     );
   }
 
-  Widget _buildPhoneLayout() {
+  Widget _buildPhoneLayout(BookRepository bookRepository) {
     return ListView.separated(
       padding: const EdgeInsets.all(16.0),
       physics: const BouncingScrollPhysics(),
       itemCount: books.length,
-      itemBuilder: (context, index) => BookItemWidget(books[index]),
+      itemBuilder: (context, index) => _buildItem(
+        books[index],
+        bookRepository,
+        useMobileLayout: true,
+      ),
       separatorBuilder: (BuildContext context, int index) =>
           const SizedBox(height: 16),
     );
   }
 
-  Widget _buildLargeLayout({
+  Widget _buildLargeLayout(
+    BookRepository bookRepository, {
     required int columns,
   }) {
     return GridView.builder(
@@ -73,8 +87,48 @@ class _BooksScreen extends StatelessWidget {
         crossAxisSpacing: 16,
         childAspectRatio: 4,
       ),
-      itemBuilder: (context, index) => BookItemWidget(books[index]),
+      itemBuilder: (context, index) => _buildItem(
+        books[index],
+        bookRepository,
+        useMobileLayout: true,
+      ),
       itemCount: books.length,
+    );
+  }
+
+  Widget _buildItem(
+    Book book,
+    BookRepository bookRepository, {
+    required bool useMobileLayout,
+  }) {
+    return BookItemWidget(
+      book,
+      useMobileLayout: false,
+      onBookDeleted: (Book book) => _handleBookDeletion(bookRepository, book),
+      onBookStateChanged: (book, state) => _handleBookUpdate(
+        bookRepository,
+        book,
+        state,
+      ),
+    );
+  }
+
+  void _handleBookUpdate(
+    BookRepository repository,
+    Book book,
+    BookState state,
+  ) {
+    unawaited(
+      repository.update(book.copyWith(state: state)),
+    );
+  }
+
+  void _handleBookDeletion(
+    BookRepository repository,
+    Book book,
+  ) {
+    unawaited(
+      repository.delete(book.id),
     );
   }
 }

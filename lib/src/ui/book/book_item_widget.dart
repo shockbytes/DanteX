@@ -15,8 +15,18 @@ class BookItemWidget extends StatelessWidget {
   final Book _book;
 
   final ExpandableController _controller = ExpandableController();
+  final bool useMobileLayout;
 
-  BookItemWidget(this._book, {super.key});
+  final Function(Book book, BookState updatedState) onBookStateChanged;
+  final Function(Book book) onBookDeleted;
+
+  BookItemWidget(
+    this._book, {
+    required this.useMobileLayout,
+    required this.onBookStateChanged,
+    required this.onBookDeleted,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -169,28 +179,22 @@ class BookItemWidget extends StatelessWidget {
             title: 'book-actions.move-to-later'.tr(),
             icon: Icons.bookmark_outline,
             color: Theme.of(context).colorScheme.secondary,
-            onClick: () {
-              // TODO Implement Move book to for later
-            },
+            onClick: () => onBookStateChanged(_book, BookState.readLater),
           ),
         if (_book.state != BookState.reading)
           _buildBookAction(
-          title: 'book-actions.move-to-reading'.tr(),
-          icon: Icons.bookmark_outline,
-          color: Theme.of(context).colorScheme.secondary,
-          onClick: () {
-            // TODO Implement Move book to reading
-          },
-        ),
+            title: 'book-actions.move-to-reading'.tr(),
+            icon: Icons.bookmark_outline,
+            color: Theme.of(context).colorScheme.secondary,
+            onClick: () => onBookStateChanged(_book, BookState.reading),
+          ),
         if (_book.state != BookState.read)
           _buildBookAction(
-          title: 'book-actions.move-to-read'.tr(),
-          icon: Icons.check,
-          color: Theme.of(context).colorScheme.secondary,
-          onClick: () {
-            // TODO Implement Move book to read
-          },
-        ),
+            title: 'book-actions.move-to-read'.tr(),
+            icon: Icons.check,
+            color: Theme.of(context).colorScheme.secondary,
+            onClick: () => onBookStateChanged(_book, BookState.read),
+          ),
         _buildBookAction(
           title: 'book-actions.share'.tr(),
           icon: Icons.share_outlined,
@@ -219,9 +223,7 @@ class BookItemWidget extends StatelessWidget {
           title: 'book-actions.delete'.tr(),
           icon: Icons.delete_outline,
           color: Theme.of(context).colorScheme.error,
-          onClick: () {
-            // TODO Implement Delete book
-          },
+          onClick: () => onBookDeleted(_book),
         ),
       ],
     );
