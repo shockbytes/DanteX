@@ -31,6 +31,15 @@
     "description": "You are going to delete all your data right now. Proceeding now will permanently remove all your books.\n\n Do you want to proceed?",
     "title": "Anonymous Logout"
   },
+  "book-actions": {
+    "move-to-later": "Move to for later",
+    "move-to-reading": "move to reading",
+    "move-to-read": "Move to read",
+    "share": "Share",
+    "suggest": "Suggest",
+    "edit": "Edit",
+    "delete": "Delete"
+  },
   "book_detail": {
     "label": "Label",
     "notes": "Notes",
@@ -145,6 +154,12 @@
     "read": "Read",
     "reading": "Reading",
     "wishlist": "Wishlist"
+  },
+  "empty-states": {
+    "read-later": "You have currently no books that you can read. Go add some.",
+    "reading": "Why are you not reading a book now?",
+    "read": "There are no finished books. Why not finish one?",
+    "wishlist": "You have not added a book to your wishlist yet."
   },
   "upgrade": "Upgrade",
   "upgrade_account": "Upgrade account",

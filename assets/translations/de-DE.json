@@ -22,6 +22,15 @@
     "description": "Du bist gerade im Begriff deine gesamten Daten zu löschen. Wenn du fortfährst, werden deine Bücher permanent gelöscht.\n\n Willst du fortfahren?",
     "title": "Anonymer Logout"
   },
+  "book-actions": {
+    "move-to-later": "Verschieben nach Später Lesen",
+    "move-to-reading": "Verschieben nach Lesen",
+    "move-to-read": "Verschieben nach Gelesen",
+    "share": "Teilen",
+    "suggest": "Vorschlagen",
+    "edit": "Editieren",
+    "delete": "Löschen"
+  },
   "book_detail": {
     "label": "Labels",
     "notes": "Notizen",
@@ -145,6 +154,12 @@
     "read": "Gelesen",
     "reading": "Lesen",
     "wishlist": "Wunschliste"
+  },
+  "empty-states": {
+    "read-later": "Du hast gerade keine Bücher, die du lesen kannst. Füge ein paar hinzu.",
+    "reading": "Warum liest du gerade kein Buch?",
+    "read": "Es gibt keine gelesenen Bücher. Los, schnapp dir ein Buch.",
+    "wishlist": "Du hast noch kein Buch zu deiner Wunschliste hinzugefügt."
   },
   "upgrade": "Verknüpfen",
   "upgrade_account": "Konto verknüpfen",

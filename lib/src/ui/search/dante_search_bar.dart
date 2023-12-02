@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class DanteSearchBar extends StatelessWidget {
-  const DanteSearchBar({Key? key}) : super(key: key);
+  const DanteSearchBar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +17,7 @@ class DanteSearchBar extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const SizedBox(width: 4),
             Icon(
               Icons.search_outlined,
               color: Theme.of(context).colorScheme.onTertiaryContainer,
