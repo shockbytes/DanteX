@@ -3,9 +3,10 @@ import 'package:dantex/src/data/book/entity/book.dart';
 import 'package:dantex/src/data/book/entity/book_label.dart';
 import 'package:dantex/src/data/book/entity/book_state.dart';
 import 'package:dantex/src/providers/app_router.dart';
+import 'package:dantex/src/ui/book/desktop_book_action_menu.dart';
+import 'package:dantex/src/ui/book/mobile_book_action_menu.dart';
 import 'package:dantex/src/util/extensions.dart';
 import 'package:dantex/src/util/utils.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -52,77 +53,103 @@ class BookItemWidget extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Row(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: CachedNetworkImage(
-                  imageUrl: _book.thumbnailAddress!,
-                  width: 48,
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      _book.title,
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurface,
-                          ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      _book.subTitle,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
-                          ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      _book.author,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
-                          ),
-                    ),
-                  ],
-                ),
-              ),
-              Column(
-                children: [
-                  IconButton(
-                    onPressed: () => _controller.toggle(),
-                    icon: const Icon(Icons.more_horiz),
-                  ),
-                  if (_book.state == BookState.reading)
-                    _buildProgressCircle(
-                      context,
-                      currentPage: _book.currentPage,
-                      pageCount: _book.pageCount,
-                    ),
-                ],
-              ),
-            ],
-          ),
+          _buildMainContentRow(context),
           const SizedBox(height: 8),
-          Align(
-            alignment: Alignment.topLeft,
-            child: Wrap(
-              spacing: 4.0,
-              children: _book.labels.map(_chipFromLabel).toList(),
-            ),
-          ),
-          ExpandablePanel(
-            collapsed: Container(),
-            expanded: _buildBookActions(context),
-            controller: _controller,
-          ),
+          _buildLabels(),
+          _buildMobileBookActions(context),
         ],
       ),
     );
+  }
+
+  ExpandablePanel _buildMobileBookActions(BuildContext context) {
+    return ExpandablePanel(
+      collapsed: Container(),
+      expanded: MobileBookActionMenu(
+        _book,
+        onBookDeleted: onBookDeleted,
+        onBookStateChanged: onBookStateChanged,
+      ),
+      controller: _controller,
+    );
+  }
+
+  Align _buildLabels() {
+    return Align(
+      alignment: Alignment.topLeft,
+      child: Wrap(
+        spacing: 4.0,
+        children: _book.labels.map(_chipFromLabel).toList(),
+      ),
+    );
+  }
+
+  Row _buildMainContentRow(BuildContext context) {
+    return Row(
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(8.0),
+          child: CachedNetworkImage(
+            imageUrl: _book.thumbnailAddress!,
+            width: 48,
+          ),
+        ),
+        const SizedBox(width: 16),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                _book.title,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                _book.subTitle,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                _book.author,
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+              ),
+            ],
+          ),
+        ),
+        Column(
+          children: [
+            _buildOverflowButton(),
+            if (_book.state == BookState.reading)
+              _buildProgressCircle(
+                context,
+                currentPage: _book.currentPage,
+                pageCount: _book.pageCount,
+              ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildOverflowButton() {
+    if (useMobileLayout) {
+      return IconButton(
+        onPressed: () => _controller.toggle(),
+        icon: const Icon(Icons.more_horiz),
+      );
+    } else {
+      return DesktopBookActionMenu(
+        _book,
+        onBookDeleted: onBookDeleted,
+        onBookStateChanged: onBookStateChanged,
+      );
+    }
   }
 
   Widget _chipFromLabel(BookLabel label) {
@@ -163,97 +190,6 @@ class BookItemWidget extends StatelessWidget {
       ),
       backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
       progressColor: Theme.of(context).colorScheme.onSecondaryContainer,
-    );
-  }
-
-  Widget _buildBookActions(BuildContext context) {
-    return GridView(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-      ),
-      children: [
-        if (_book.state != BookState.readLater)
-          _buildBookAction(
-            title: 'book-actions.move-to-later'.tr(),
-            icon: Icons.bookmark_outline,
-            color: Theme.of(context).colorScheme.secondary,
-            onClick: () => onBookStateChanged(_book, BookState.readLater),
-          ),
-        if (_book.state != BookState.reading)
-          _buildBookAction(
-            title: 'book-actions.move-to-reading'.tr(),
-            icon: Icons.bookmark_outline,
-            color: Theme.of(context).colorScheme.secondary,
-            onClick: () => onBookStateChanged(_book, BookState.reading),
-          ),
-        if (_book.state != BookState.read)
-          _buildBookAction(
-            title: 'book-actions.move-to-read'.tr(),
-            icon: Icons.check,
-            color: Theme.of(context).colorScheme.secondary,
-            onClick: () => onBookStateChanged(_book, BookState.read),
-          ),
-        _buildBookAction(
-          title: 'book-actions.share'.tr(),
-          icon: Icons.share_outlined,
-          color: Theme.of(context).colorScheme.secondary,
-          onClick: () {
-            // TODO Share book in ticket: TODO
-          },
-        ),
-        _buildBookAction(
-          title: 'book-actions.suggest'.tr(),
-          icon: Icons.whatshot_outlined,
-          color: Theme.of(context).colorScheme.secondary,
-          onClick: () {
-            // TODO Suggest book in ticket: TODO
-          },
-        ),
-        _buildBookAction(
-          title: 'book-actions.edit'.tr(),
-          icon: Icons.edit_outlined,
-          color: Theme.of(context).colorScheme.secondary,
-          onClick: () {
-            // TODO Edit book in ticket: TODO
-          },
-        ),
-        _buildBookAction(
-          title: 'book-actions.delete'.tr(),
-          icon: Icons.delete_outline,
-          color: Theme.of(context).colorScheme.error,
-          onClick: () => onBookDeleted(_book),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildBookAction({
-    required String title,
-    required IconData icon,
-    required VoidCallback onClick,
-    required Color color,
-  }) {
-    return InkWell(
-      onTap: onClick,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            icon,
-            color: color,
-          ),
-          const SizedBox(height: 4),
-          Text(
-            title,
-            style: TextStyle(
-              color: color,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
     );
   }
 }
