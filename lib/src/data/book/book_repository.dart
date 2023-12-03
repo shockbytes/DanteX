@@ -31,4 +31,8 @@ abstract class BookRepository {
   Future<void> addLabelToBook(String bookId, BookLabel label);
 
   Future<void> removeLabelFromBook(String bookId, String labelId);
+
+  Future<void> overwriteBooks(List<Book> books);
+
+  Future<void> mergeBooks(List<Book> books);
 }

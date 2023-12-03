@@ -193,6 +193,29 @@ class FirebaseBookRepository implements BookRepository {
       ),
     );
   }
+
+  @override
+  Future<void> overwriteBooks(List<Book> books) async {
+    // Remove all books.
+    await _booksRef().remove();
+    // Add each book in the list.
+    for (final book in books) {
+      await create(book);
+    }
+  }
+
+  @override
+  Future<void> mergeBooks(List<Book> books) async {
+    final existingBooks = await getAllBooks()
+        .map((books) => books.map((book) => book.isbn).toList())
+        .first;
+    // Add each book in the list if it doesn't exist yet.
+    for (final book in books) {
+      if (!existingBooks.contains(book.isbn)) {
+        await create(book);
+      }
+    }
+  }
 }
 
 extension DataSnapshotExtension on DataSnapshot {

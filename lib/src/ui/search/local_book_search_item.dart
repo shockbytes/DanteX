@@ -1,5 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dantex/src/data/search/search.dart';
+import 'package:dantex/src/ui/book/book_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -20,12 +20,9 @@ class LocalBookSearchItem extends ConsumerWidget {
       onTap: () => onBookClicked(_localBookSearchResult.bookId),
       child: Row(
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8.0),
-            child: CachedNetworkImage(
-              imageUrl: _localBookSearchResult.thumbnailAddress!,
-              width: 48,
-            ),
+          BookImage(
+            _localBookSearchResult.thumbnailAddress,
+            size: 48,
           ),
           const SizedBox(width: 16),
           Expanded(
@@ -38,9 +35,9 @@ class LocalBookSearchItem extends ConsumerWidget {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurface,
-                      fontWeight: FontWeight.bold,
-                  ),
+                        color: Theme.of(context).colorScheme.onSurface,
+                        fontWeight: FontWeight.bold,
+                      ),
                 ),
                 const SizedBox(height: 4),
                 Text(
@@ -48,8 +45,8 @@ class LocalBookSearchItem extends ConsumerWidget {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
                 ),
               ],
             ),

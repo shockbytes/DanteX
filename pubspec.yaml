@@ -48,6 +48,9 @@ dependencies:
   flex_color_picker: ^3.3.0
   timeline_tile: ^2.0.0
   expandable: ^5.0.1
+  googleapis: ^11.4.0
+  google_sign_in: ^6.1.6
+  extension_google_sign_in_as_googleapis_auth: ^2.0.11
 
 dev_dependencies:
   flutter_test:

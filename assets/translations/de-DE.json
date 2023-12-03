@@ -7,11 +7,11 @@
     "scan": "Buchode scannen"
   },
   "add_label_bottom_sheet": {
-    "choose_a_color": "TODO",
-    "create_new_label": "TODO",
-    "name": "TODO",
-    "no_labels_available": "TODO",
-    "pick_a_label": "TODO"
+    "choose_a_color": "Wähle eine Farbe",
+    "create_new_label": "Neues Label",
+    "name": "Name",
+    "no_labels_available": "Keine Label verfügbar.\nErstelle dein erstes Label.",
+    "pick_a_label": "Wähle ein Label"
   },
   "anonymous-user": "Anonymer Bücherwurm",
   "anonymous_login": {
@@ -23,18 +23,29 @@
     "title": "Anonymer Logout"
   },
   "book-actions": {
-    "move-to-later": "Verschieben nach Später Lesen",
-    "move-to-reading": "Verschieben nach Lesen",
-    "move-to-read": "Verschieben nach Gelesen",
-    "share": "Teilen",
-    "suggest": "Vorschlagen",
+    "delete": "Löschen",
     "edit": "Editieren",
-    "delete": "Löschen"
+    "move-to-later": "Verschieben nach Später Lesen",
+    "move-to-read": "Verschieben nach Gelesen",
+    "move-to-reading": "Verschieben nach Lesen",
+    "share": "Teilen",
+    "suggest": "Vorschlagen"
   },
   "book_detail": {
     "label": "Labels",
     "notes": "Notizen",
     "rate": "Bewerten"
+  },
+  "book_management": {
+    "backup": "Backup",
+    "merge": "Zusammenführen",
+    "merge_complete": "TODO",
+    "overwrite": "Überschreiben",
+    "overwrite_complete": "TODO",
+    "restore": "Wiederherstellen",
+    "restore_detail": "Wähle <b>zusammenfügen</b> um die gespeicherten Bücher beizubehalten und die Sammlung durch fehlende Bücher im Backup zu vervollständigen. Oder wähle <b>überschreiben</b> um alle Bücher am Gerät zu löschen und durch die komplette Sammlung des Backups zu ersetzen.",
+    "restore_strategy": "Wiederherstellungsstrategie",
+    "title": "Bücherverwaltung"
   },
   "cancel": "Zurück",
   "change": "Ändern",
@@ -48,9 +59,15 @@
   "email_in_use_description": "Die Email-Adresse ist bereits mit einem Google Konto verbunden. Bitte logge dich via Google für dieses Konto an.",
   "email_in_use_title": "Email bereits vergeben",
   "email_invalid": "Ungültige Email-Addresse",
+  "empty-states": {
+    "read": "Es gibt keine gelesenen Bücher. Los, schnapp dir ein Buch.",
+    "read-later": "Du hast gerade keine Bücher, die du lesen kannst. Füge ein paar hinzu.",
+    "reading": "Warum liest du gerade kein Buch?",
+    "wishlist": "Du hast noch kein Buch zu deiner Wunschliste hinzugefügt."
+  },
   "enter_email": "Gib deine Email-Adresse an",
   "enter_password": "Gib dein Passwort ein",
-  "forgot_password": "TODO",
+  "forgot_password": "Passwort vergessen?",
   "got_it": "Verstanden",
   "login": "Login",
   "login_failed": "Fehler beim Anmelden",
@@ -67,7 +84,7 @@
     "timeline": "Timeline",
     "wishlist": "Wunschliste"
   },
-  "no_thanks": "TODO",
+  "no_thanks": "Nein danke",
   "not_my_book": "Nicht mein Buch",
   "password": "Passwort",
   "password_empty": "Passwortfeld darf nicht leer sein!",
@@ -77,12 +94,24 @@
     "hint": "Title oder ISBN",
     "title": "Titelsuche"
   },
-  "timeline": {
-    "sorting": {
-      "started-in": "Gestartet in",
-      "ended-in": "Fertig in"
+  "recommendations": {
+    "add-to-wishlist": "Zur Wunschliste hinzufügen",
+    "empty": "Keine Vorschläge verfügbar.",
+    "error": "Oh nein! Während des Ladens der Vorschläge trat ein Fehler auf. Versuche es später nochmals.\n\nFehler: {}",
+    "events": {
+      "move-to-wishlist": {
+        "title": "{} wurde zur Wunschliste hinzugefügt."
+      },
+      "report": {
+        "title": "{} wurde gemeldet. Du wirst diesen Vorschlag nicht mehr sehen."
+      }
     },
-    "empty": "Es sind noch keine Bücher in deiner Bibliothek vorhanden, um hier etwas anzuzeigen."
+    "new-banner": "Neue Vorschläge sind wieder ab dem {} verfügbar.",
+    "report-dialog": {
+      "content": "Willst du wirklich das Buch {} melden?\n\nDu wirst dieses Buch nicht mehr als Vorschlag sehen.",
+      "report": "Buch melden",
+      "title": "Vorschlag melden"
+    }
   },
   "reset": "Zurücksetzen",
   "reset_password": "Password zurücksetzen",
@@ -155,35 +184,17 @@
     "reading": "Lesen",
     "wishlist": "Wunschliste"
   },
-  "empty-states": {
-    "read-later": "Du hast gerade keine Bücher, die du lesen kannst. Füge ein paar hinzu.",
-    "reading": "Warum liest du gerade kein Buch?",
-    "read": "Es gibt keine gelesenen Bücher. Los, schnapp dir ein Buch.",
-    "wishlist": "Du hast noch kein Buch zu deiner Wunschliste hinzugefügt."
+  "timeline": {
+    "empty": "Es sind noch keine Bücher in deiner Bibliothek vorhanden, um hier etwas anzuzeigen.",
+    "sorting": {
+      "ended-in": "Fertig in",
+      "started-in": "Gestartet in"
+    }
   },
   "upgrade": "Verknüpfen",
   "upgrade_account": "Konto verknüpfen",
   "upgrade_failed": "Wir konnten dein Konto leider nicht anlegen.",
   "version": "App Version",
   "version_number": "5.0",
-  "welcome_back": "Willkommen zurück!",
-  "recommendations": {
-    "add-to-wishlist": "Zur Wunschliste hinzufügen",
-    "new-banner": "Neue Vorschläge sind wieder ab dem {} verfügbar.",
-    "empty": "Keine Vorschläge verfügbar.",
-    "error": "Oh nein! Während des Ladens der Vorschläge trat ein Fehler auf. Versuche es später nochmals.\n\nFehler: {}",
-    "report-dialog": {
-      "title": "Vorschlag melden",
-      "content": "Willst du wirklich das Buch {} melden?\n\nDu wirst dieses Buch nicht mehr als Vorschlag sehen.",
-      "report": "Buch melden"
-    },
-    "events": {
-      "move-to-wishlist": {
-        "title": "{} wurde zur Wunschliste hinzugefügt."
-      },
-      "report": {
-        "title": "{} wurde gemeldet. Du wirst diesen Vorschlag nicht mehr sehen."
-      }
-    }
-  }
+  "welcome_back": "Willkommen zurück!"
 }

@@ -5,11 +5,13 @@ class DanteDialogAction {
   final String name;
   final bool isPrimary;
   final Function(BuildContext context) action;
+  final IconData? iconData;
 
   DanteDialogAction({
     required this.name,
     required this.action,
     this.isPrimary = true,
+    this.iconData,
   });
 }
 
@@ -19,8 +21,10 @@ Future<void> showDanteDialog(
   required Widget content,
   Widget? leading,
   List<DanteDialogAction> actions = const [],
+  bool barrierDismissible = false,
 }) {
   return showPlatformDialog(
+    barrierDismissible: barrierDismissible,
     context: context,
     builder: (_) => PlatformAlertDialog(
       title: _buildDialogTitle(title, leading),
@@ -28,15 +32,27 @@ Future<void> showDanteDialog(
       actions: actions
           .map(
             (action) => PlatformDialogAction(
-              child: Text(
-                action.name,
-                style: TextStyle(
-                  color: action.isPrimary
-                      ? Theme.of(context).colorScheme.primary
-                      : Theme.of(context).colorScheme.onSurface,
-                ),
-              ),
               onPressed: () => action.action(context),
+              child: Column(
+                children: [
+                  Visibility(
+                    child: Icon(
+                      action.iconData,
+                      color: action.isPrimary
+                          ? Theme.of(context).colorScheme.primary
+                          : Theme.of(context).colorScheme.onSurface,
+                    ),
+                  ),
+                  Text(
+                    action.name,
+                    style: TextStyle(
+                      color: action.isPrimary
+                          ? Theme.of(context).colorScheme.primary
+                          : Theme.of(context).colorScheme.onSurface,
+                    ),
+                  ),
+                ],
+              ),
             ),
           )
           .toList(),
@@ -97,6 +113,7 @@ Widget _buildDialogTitle(String title, Widget? leading) {
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       leading ?? const SizedBox.shrink(),
+      const SizedBox(width: 8),
       Text(title),
     ],
   );

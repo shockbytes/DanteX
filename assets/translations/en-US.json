@@ -1,15 +1,4 @@
 {
-  "add": "Add",
-  "navigation": {
-    "library": "My Library",
-    "stats": "Statistics",
-    "timeline": "Timeline",
-    "wishlist": "Wishlist",
-    "recommendations": "Recommendations",
-    "book-keeping": "Book Keeping",
-    "settings": "Settings"
-  },
-  "anonymous-user": "Anonymous Bookworm",
   "account_creation_failed": "Failed to create account",
   "add_book": {
     "manual": "Add manual",
@@ -23,6 +12,7 @@
     "no_labels_available": "No labels available.\nCreate a new label first.",
     "pick_a_label": "Pick a label"
   },
+  "anonymous-user": "Anonymous Bookworm",
   "anonymous_login": {
     "description": "Your data will be stored as long as you stay signed in. When you sign out, your data will be erased.\n\nYou can always upgrade to a regular account later on.",
     "title": "Anonymous Login"
@@ -32,18 +22,29 @@
     "title": "Anonymous Logout"
   },
   "book-actions": {
-    "move-to-later": "Move to for later",
-    "move-to-reading": "move to reading",
-    "move-to-read": "Move to read",
-    "share": "Share",
-    "suggest": "Suggest",
+    "delete": "Delete",
     "edit": "Edit",
-    "delete": "Delete"
+    "move-to-later": "Move to for later",
+    "move-to-read": "Move to read",
+    "move-to-reading": "move to reading",
+    "share": "Share",
+    "suggest": "Suggest"
   },
   "book_detail": {
     "label": "Label",
     "notes": "Notes",
     "rate": "Rate"
+  },
+  "book_management": {
+    "backup": "Backup",
+    "merge": "Merge",
+    "merge_complete": "Merge complete",
+    "overwrite": "Overwrite",
+    "overwrite_complete": "Overwrite complete",
+    "restore": "Restore",
+    "restore_detail": "Choose merge if you want to preserve the books on your device and complement the collection with the missing books in the backup. Or chose overwrite to completely delete all the books on your device and replace them with the books in the backup file.",
+    "restore_strategy": "Restore strategy",
+    "title": "Book management"
   },
   "cancel": "Cancel",
   "change": "Change",
@@ -57,6 +58,12 @@
   "email_in_use_description": "Your mail address is already associated with a Google Account. Please login via Google to use this account.",
   "email_in_use_title": "Email already in use",
   "email_invalid": "Invalid Email Address",
+  "empty-states": {
+    "read": "There are no finished books. Why not finish one?",
+    "read-later": "You have currently no books that you can read. Go add some.",
+    "reading": "Why are you not reading a book now?",
+    "wishlist": "You have not added a book to your wishlist yet."
+  },
   "enter_email": "Enter your email address",
   "enter_password": "Enter your password",
   "forgot_password": "Forgot password?",
@@ -67,6 +74,15 @@
   "login_with_email": "Login with Email",
   "login_with_google": "Login with Google",
   "logout": "Logout",
+  "navigation": {
+    "book-keeping": "Book Keeping",
+    "library": "My Library",
+    "recommendations": "Recommendations",
+    "settings": "Settings",
+    "stats": "Statistics",
+    "timeline": "Timeline",
+    "wishlist": "Wishlist"
+  },
   "no_thanks": "No thanks",
   "not_my_book": "Not my book",
   "password": "Password",
@@ -77,12 +93,24 @@
     "hint": "Title or ISBN",
     "title": "Title search"
   },
-  "timeline": {
-    "sorting": {
-      "started-in": "Started in",
-      "ended-in": "Finished in"
+  "recommendations": {
+    "add-to-wishlist": "Add to wishlist",
+    "empty": "No recommendations available.",
+    "error": "Oh no! An error occurred while trying to fetch your recommendations. Please try again later.\n\nReason: {}",
+    "events": {
+      "move-to-wishlist": {
+        "title": "{} added to your wishlist."
+      },
+      "report": {
+        "title": "{} is reported. You will no longer see this recommendation."
+      }
     },
-    "empty": "There are no books in your library yet to build this view."
+    "new-banner": "New recommendations will be available again at the {}.",
+    "report-dialog": {
+      "content": "Do you really want to report the book {}?\n\nYou will no longer see this book as a recommendation.",
+      "report": "Report",
+      "title": "Report recommendation"
+    }
   },
   "reset": "Reset",
   "reset_password": "Reset Password",
@@ -140,7 +168,7 @@
     },
     "data_privacy": {
       "data_privacy": "Data Privacy",
-      "terms_and_conditions": "Terms and Condictions",
+      "terms_and_conditions": "Terms and Conditions",
       "title": "Data Privacy",
       "tracking": "Tracking"
     },
@@ -155,35 +183,17 @@
     "reading": "Reading",
     "wishlist": "Wishlist"
   },
-  "empty-states": {
-    "read-later": "You have currently no books that you can read. Go add some.",
-    "reading": "Why are you not reading a book now?",
-    "read": "There are no finished books. Why not finish one?",
-    "wishlist": "You have not added a book to your wishlist yet."
+  "timeline": {
+    "empty": "There are no books in your library yet to build this view.",
+    "sorting": {
+      "ended-in": "Finished in",
+      "started-in": "Started in"
+    }
   },
   "upgrade": "Upgrade",
   "upgrade_account": "Upgrade account",
   "upgrade_failed": "Fail to upgrade account.",
   "version": "App Version",
   "version_number": "5.0",
-  "welcome_back": "Welcome back!",
-  "recommendations": {
-    "add-to-wishlist": "Add to wishlist",
-    "new-banner": "New recommendations will be available again at the {}.",
-    "empty": "No recommendations available.",
-    "error": "Oh no! An error occurred while trying to fetch your recommendations. Please try again later.\n\nReason: {}",
-    "report-dialog": {
-      "title": "Report recommendation",
-      "content": "Do you really want to report the book {}?\n\nYou will no longer see this book as a recommendation.",
-      "report": "Report"
-    },
-    "events": {
-      "move-to-wishlist": {
-        "title": "{} added to your wishlist."
-      },
-      "report": {
-        "title": "{} is reported. You will no longer see this recommendation."
-      }
-    }
-  }
+  "welcome_back": "Welcome back!"
 }
