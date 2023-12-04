@@ -84,7 +84,7 @@ class _DantePieChartState extends State<DantePieChart> {
           titleStyle: TextStyle(
             fontSize: fontSize,
             fontWeight: FontWeight.bold,
-            color: const Color(0xffffffff),
+            color: Colors.white12,
             shadows: shadows,
           ),
           badgeWidget: widget.badgeBuilder(

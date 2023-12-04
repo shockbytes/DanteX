@@ -103,6 +103,13 @@
     "language": {
       "title": "Sprachen",
       "empty": "Es liegen keine Daten für Sprachen vor."
+    },
+    "reading-time": {
+      "title": "Lesezeit",
+      "empty": "Es liegen keine Daten vor.",
+      "fastest-book": "Schnellstes Buch",
+      "slowest-book": "Langsamstes Buch",
+      "days": "{} Tage"
     }
   },
   "no_thanks": "Nein danke",

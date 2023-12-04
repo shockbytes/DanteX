@@ -102,6 +102,13 @@
     "language": {
       "title": "Languages",
       "empty": "No data for language distribution."
+    },
+    "reading-time": {
+      "title": "Reading time",
+      "empty": "No data available.",
+      "fastest-book": "Fastest book",
+      "slowest-book": "Slowest book",
+      "days": "{} days"
     }
   },
   "no_thanks": "No thanks",

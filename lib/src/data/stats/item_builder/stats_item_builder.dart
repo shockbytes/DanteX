@@ -10,7 +10,7 @@ import 'package:dantex/src/data/stats/stats_item.dart';
 /// -[x] Labels
 ///   -[x] UI: RadarChart
 /// -[x] Reading time (fastest, slowest book)
-///   -[ ] UI
+///   -[x] UI
 /// -[ ] Favorites (favorite author + first 5 star rating)
 ///   -[ ] UI
 /// -[ ] Book Per Months stats (most read books in month, average books per month)

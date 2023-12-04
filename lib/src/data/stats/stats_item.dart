@@ -54,9 +54,8 @@ class ReadingTimeStatsItem extends StatsItem {
 
   ReadingTimeStatsItem(this.dataState);
 
-  // TODO Translate
   @override
-  String get titleKey => 'Reading Time';
+  String get titleKey => 'stats.reading-time.title';
 
   @override
   ItemDesktopSize get desktopSize => ItemDesktopSize(width: 1, height: 1);
