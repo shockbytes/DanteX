@@ -6,7 +6,7 @@ import 'package:dantex/src/data/stats/stats_item.dart';
 
 class BooksAndPagesStatsItemBuilder implements StatsItemBuilder {
   @override
-  StatsItem build(List<Book> books) {
+  StatsItem buildStatsItem(List<Book> books) {
     final BooksAndPagesDataState dataState;
     if (books.isEmpty) {
       dataState = EmptyBooksAndPagesData();

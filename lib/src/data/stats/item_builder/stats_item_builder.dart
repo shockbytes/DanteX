@@ -14,5 +14,5 @@ import 'package:dantex/src/data/stats/stats_item.dart';
 /// -[ ] Book Per Months stats (most read books in month, average books per month)
 abstract class StatsItemBuilder {
 
-  StatsItem build(List<Book> books);
+  StatsItem buildStatsItem(List<Book> books);
 }

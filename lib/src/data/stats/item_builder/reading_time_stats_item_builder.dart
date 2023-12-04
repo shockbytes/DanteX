@@ -6,7 +6,7 @@ import 'package:dantex/src/data/stats/stats_item.dart';
 
 class ReadingTimeStatsItemBuilder implements StatsItemBuilder {
   @override
-  StatsItem build(List<Book> books) {
+  StatsItem buildStatsItem(List<Book> books) {
     // TODO: implement build
     throw UnimplementedError();
   }

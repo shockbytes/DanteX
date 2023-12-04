@@ -18,7 +18,7 @@ class DefaultStatsBuilder implements StatsBuilder {
   List<StatsItem> _buildStatsItems(List<Book> books) {
     return _itemBuilders
         .map(
-          (builder) => builder.build(books),
+          (builder) => builder.buildStatsItem(books),
         )
         .toList();
   }
