@@ -8,6 +8,7 @@ import 'package:dantex/src/util/layout_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class StatsPage extends ConsumerWidget {
   const StatsPage({super.key});
@@ -40,17 +41,52 @@ class StatsPage extends ConsumerWidget {
   ) {
     return ref.watch(statsBuilderItemsProvider).when(
           data: (List<StatsItem> items) {
-            // TODO Use form Factor for building a gridview?
-            return ListView.builder(
-              itemCount: items.length,
-              itemBuilder: (context, index) =>
-                  StatsItemWidgetResolver.resolveItem(
-                items[index],
-              ),
-            );
+            return switch (formFactor) {
+              DeviceFormFactor.desktop => _buildDesktopView(items),
+              DeviceFormFactor.tablet => _buildMobileView(items),
+              DeviceFormFactor.phone => _buildMobileView(items),
+            };
           },
           error: (error, stackTrace) => GenericErrorWidget(error),
           loading: () => const DanteLoadingIndicator(),
         );
+  }
+
+  Widget _buildDesktopView(List<StatsItem> items) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: GridView.custom(
+        gridDelegate: SliverQuiltedGridDelegate(
+          crossAxisCount: 4,
+          mainAxisSpacing: 4,
+          crossAxisSpacing: 4,
+          repeatPattern: QuiltedGridRepeatPattern.inverted,
+          pattern: items
+              .map(
+                (e) => QuiltedGridTile(
+                  e.desktopSize.height,
+                  e.desktopSize.width,
+                ),
+              )
+              .toList(),
+        ),
+        childrenDelegate: SliverChildBuilderDelegate(
+          childCount: items.length,
+          (context, index) => StatsItemWidgetResolver.resolveItem(
+            items[index],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMobileView(List<StatsItem> items) {
+    return ListView.builder(
+      physics: const BouncingScrollPhysics(),
+      itemCount: items.length,
+      itemBuilder: (context, index) => StatsItemWidgetResolver.resolveItem(
+        items[index],
+      ),
+    );
   }
 }

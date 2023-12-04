@@ -83,6 +83,19 @@
     "timeline": "Timeline",
     "wishlist": "Wishlist"
   },
+  "stats": {
+    "books-and-pages": {
+      "title": "Books & Pages",
+      "empty": "No data available.",
+      "books": "Books",
+      "books-waiting": "{} books waiting",
+      "books-reading": "{} books reading",
+      "books-read": "{} books read",
+      "pages": "Pages",
+      "pages-waiting": "{} pages waiting",
+      "pages-read": "{} pages read"
+    }
+  },
   "no_thanks": "No thanks",
   "not_my_book": "Not my book",
   "password": "Password",

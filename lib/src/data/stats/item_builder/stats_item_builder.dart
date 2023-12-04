@@ -3,16 +3,25 @@ import 'package:dantex/src/data/book/entity/book.dart';
 import 'package:dantex/src/data/stats/stats_item.dart';
 
 /// TODO Required subclasses
-/// -[x] Books and Pages Diagram (PieChart)
-/// -[ ] Pages per Month (including goal)
-/// -[ ] Books per Month (including goals)
+/// -[x] Books and Pages
+///   -[x] UI: PieChart
+/// -[x] Languages
+///   -[x] UI: PieChart
+/// -[x] Labels
+///   -[ ] UI: RadarChart
+/// -[x] Reading time (fastest, slowest book)
+///   -[ ] UI
+/// -[ ] Pages per Month
+///   -[ ] UI (including goals)
+/// -[ ] Books per Month
+///   -[ ] UI (including goals)
 /// -[ ] Books per Year
-/// -[ ] Reading time (fastest, slowest book)
+///   -[ ] UI
 /// -[ ] Favorites (favorite author + first 5 star rating)
-/// -[ ] Languages (Pie Chart)
-/// -[ ] Labels (RadarChart)
+///   -[ ] UI
 /// -[ ] Book Per Months stats (most read books in month, average books per month)
-abstract class StatsItemBuilder {
+///   -[ ] UI
+abstract class StatsItemBuilder<T extends StatsItem> {
 
-  StatsItem buildStatsItem(List<Book> books);
+  T buildStatsItem(List<Book> books);
 }

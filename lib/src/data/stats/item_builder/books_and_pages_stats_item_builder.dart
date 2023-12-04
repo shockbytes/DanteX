@@ -4,9 +4,9 @@ import 'package:dantex/src/data/book/entity/book_state.dart';
 import 'package:dantex/src/data/stats/item_builder/stats_item_builder.dart';
 import 'package:dantex/src/data/stats/stats_item.dart';
 
-class BooksAndPagesStatsItemBuilder implements StatsItemBuilder {
+class BooksAndPagesStatsItemBuilder implements StatsItemBuilder<BooksAndPagesStatsItem> {
   @override
-  StatsItem buildStatsItem(List<Book> books) {
+  BooksAndPagesStatsItem buildStatsItem(List<Book> books) {
     final BooksAndPagesDataState dataState;
     if (books.isEmpty) {
       dataState = EmptyBooksAndPagesData();

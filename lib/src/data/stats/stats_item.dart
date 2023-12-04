@@ -1,17 +1,32 @@
 import 'package:dantex/src/data/book/entity/book.dart';
 
+class ItemDesktopSize {
+  final int width;
+  final int height;
+
+  ItemDesktopSize({
+    required this.width,
+    required this.height,
+  });
+}
+
 sealed class StatsItem {
-  String title();
+  String get titleKey;
+
+  /// The cross- and main axis size this item should occupy on desktop devices.
+  ItemDesktopSize get desktopSize;
 }
 
 class BooksAndPagesStatsItem extends StatsItem {
-
   final BooksAndPagesDataState dataState;
 
   BooksAndPagesStatsItem(this.dataState);
 
   @override
-  String title() => 'Books & Pages'; // TODO Translate
+  String get titleKey => 'stats.books-and-pages.title';
+
+  @override
+  ItemDesktopSize get desktopSize => ItemDesktopSize(width: 2, height: 1);
 }
 
 sealed class BooksAndPagesDataState {}
@@ -34,15 +49,17 @@ class BooksAndPagesData extends BooksAndPagesDataState {
   });
 }
 
-
 class ReadingTimeStatsItem extends StatsItem {
-
   final ReadingTimeDataState dataState;
 
   ReadingTimeStatsItem(this.dataState);
 
+  // TODO Translate
   @override
-  String title() => 'Reading Time'; // TODO Translate
+  String get titleKey => 'Reading Time';
+
+  @override
+  ItemDesktopSize get desktopSize => ItemDesktopSize(width: 1, height: 1);
 }
 
 sealed class ReadingTimeDataState {}
@@ -59,3 +76,50 @@ class ReadingTimeData extends ReadingTimeDataState {
   });
 }
 
+class LanguageStatsItem extends StatsItem {
+
+  final LanguageDataState dataState;
+
+  LanguageStatsItem(this.dataState);
+
+  @override
+  ItemDesktopSize get desktopSize => ItemDesktopSize(width: 1, height: 1);
+
+  @override
+  String get titleKey => 'Languages';
+}
+sealed class LanguageDataState {}
+
+class EmptyLanguageData extends LanguageDataState {}
+
+class LanguageData extends LanguageDataState {
+  final Map<String, int> languageDistribution;
+
+  LanguageData({
+    required this.languageDistribution,
+  });
+}
+
+class LabelStatsItem extends StatsItem {
+
+  final LabelDataState dataState;
+
+  LabelStatsItem(this.dataState);
+
+  @override
+  ItemDesktopSize get desktopSize => ItemDesktopSize(width: 1, height: 1);
+
+  @override
+  String get titleKey => 'Labels';
+}
+sealed class LabelDataState {}
+
+class EmptyLabelData extends LabelDataState {}
+
+class LabelData extends LabelDataState {
+  final Map<String, int> labelDistribution;
+
+  LabelData({
+    required this.labelDistribution,
+  });
+}
