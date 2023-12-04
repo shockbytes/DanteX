@@ -11,7 +11,7 @@ class ScanBookPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      body: ref.watch(scanIsbnProvider(context)).maybeWhen(
+      body: ref.watch(scanIsbnProvider).maybeWhen(
         data: (query) {
           // Query might be invalid if user aborts scan process.
           if (query == _invalidIsbn) {

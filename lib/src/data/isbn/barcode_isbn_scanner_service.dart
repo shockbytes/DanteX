@@ -5,7 +5,7 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 class BarcodeIsbnScannerService implements IsbnScannerService {
   @override
-  Future<String> scanIsbn(BuildContext context) {
+  Future<String> scanIsbn() {
     return FlutterBarcodeScanner.scanBarcode(
       '#00000000', // Transparent line
       'cancel'.tr(),
