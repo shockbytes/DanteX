@@ -8,18 +8,19 @@ import 'package:dantex/src/data/stats/stats_item.dart';
 /// -[x] Languages
 ///   -[x] UI: PieChart
 /// -[x] Labels
-///   -[ ] UI: RadarChart
+///   -[x] UI: RadarChart
 /// -[x] Reading time (fastest, slowest book)
 ///   -[ ] UI
+/// -[ ] Favorites (favorite author + first 5 star rating)
+///   -[ ] UI
+/// -[ ] Book Per Months stats (most read books in month, average books per month)
+///   -[ ] UI
+///
 /// -[ ] Pages per Month
 ///   -[ ] UI (including goals)
 /// -[ ] Books per Month
 ///   -[ ] UI (including goals)
 /// -[ ] Books per Year
-///   -[ ] UI
-/// -[ ] Favorites (favorite author + first 5 star rating)
-///   -[ ] UI
-/// -[ ] Book Per Months stats (most read books in month, average books per month)
 ///   -[ ] UI
 abstract class StatsItemBuilder<T extends StatsItem> {
 

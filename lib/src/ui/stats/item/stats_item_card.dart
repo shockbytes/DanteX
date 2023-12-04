@@ -6,9 +6,9 @@ class StatsItemCard extends StatelessWidget {
   final Widget content;
 
   const StatsItemCard({
-    super.key,
     required this.title,
     required this.content,
+    super.key,
   });
 
   @override
@@ -18,7 +18,12 @@ class StatsItemCard extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            Text(title),
+            Text(
+              title,
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.onBackground,
+                  ),
+            ),
             const SizedBox(height: 16),
             content,
           ],

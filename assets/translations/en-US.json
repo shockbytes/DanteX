@@ -94,6 +94,14 @@
       "pages": "Pages",
       "pages-waiting": "{} pages waiting",
       "pages-read": "{} pages read"
+    },
+    "label": {
+      "title": "Labels",
+      "empty": "No data for label distribution."
+    },
+    "language": {
+      "title": "Languages",
+      "empty": "No data for language distribution."
     }
   },
   "no_thanks": "No thanks",

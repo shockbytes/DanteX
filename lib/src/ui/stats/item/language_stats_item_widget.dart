@@ -26,8 +26,7 @@ class LanguageStatsItemWidget extends StatelessWidget {
   Widget _buildContent() {
     final LanguageDataState state = _item.dataState;
     return switch (state) {
-      // TODO Translate
-      EmptyLanguageData() => EmptyStatsView('No data for languages'),
+      EmptyLanguageData() => EmptyStatsView('stats.language.empty'.tr()),
       LanguageData() => _buildChart(state),
     };
   }

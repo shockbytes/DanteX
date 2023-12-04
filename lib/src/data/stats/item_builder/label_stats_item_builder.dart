@@ -23,6 +23,10 @@ class LabelStatsItemBuilder implements StatsItemBuilder<LabelStatsItem> {
         .groupListsBy((element) => element.title)
         .map((key, value) => MapEntry(key, value.length));
 
+    if (distribution.isEmpty) {
+      return EmptyLabelData();
+    }
+
     return LabelData(labelDistribution: distribution);
   }
 }

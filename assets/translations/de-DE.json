@@ -95,6 +95,14 @@
       "pages": "Seiten",
       "pages-waiting": "{} Seiten warten",
       "pages-read": "{} Seiten gelesen"
+    },
+    "label": {
+      "title": "Labels",
+      "empty": "Es liegen keine Daten für Labels vor."
+    },
+    "language": {
+      "title": "Sprachen",
+      "empty": "Es liegen keine Daten für Sprachen vor."
     }
   },
   "no_thanks": "Nein danke",

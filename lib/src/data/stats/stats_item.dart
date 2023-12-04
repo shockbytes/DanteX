@@ -86,7 +86,7 @@ class LanguageStatsItem extends StatsItem {
   ItemDesktopSize get desktopSize => ItemDesktopSize(width: 1, height: 1);
 
   @override
-  String get titleKey => 'Languages';
+  String get titleKey => 'stats.language.title';
 }
 sealed class LanguageDataState {}
 
@@ -110,7 +110,7 @@ class LabelStatsItem extends StatsItem {
   ItemDesktopSize get desktopSize => ItemDesktopSize(width: 1, height: 1);
 
   @override
-  String get titleKey => 'Labels';
+  String get titleKey => 'stats.label.title';
 }
 sealed class LabelDataState {}
 
