@@ -122,3 +122,12 @@ class LabelData extends LabelDataState {
     required this.labelDistribution,
   });
 }
+
+class PagesPerMonthStatsItem extends StatsItem {
+  @override
+  ItemDesktopSize get desktopSize => ItemDesktopSize(width: 3, height: 1);
+
+  @override
+  String get titleKey => 'stats.pages-per-month.title';
+
+}

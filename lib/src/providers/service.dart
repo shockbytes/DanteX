@@ -12,6 +12,7 @@ import 'package:dantex/src/data/stats/default_stats_builder.dart';
 import 'package:dantex/src/data/stats/item_builder/books_and_pages_stats_item_builder.dart';
 import 'package:dantex/src/data/stats/item_builder/label_stats_item_builder.dart';
 import 'package:dantex/src/data/stats/item_builder/language_stats_item_builder.dart';
+import 'package:dantex/src/data/stats/item_builder/pages_per_month_stats_item_builder.dart';
 import 'package:dantex/src/data/stats/item_builder/reading_time_stats_item_builder.dart';
 import 'package:dantex/src/data/stats/item_builder/stats_item_builder.dart';
 import 'package:dantex/src/data/stats/stats_builder.dart';
@@ -111,6 +112,7 @@ List<StatsItemBuilder> _provideStatsItemBuilders() {
     ReadingTimeStatsItemBuilder(),
     LanguageStatsItemBuilder(),
     LabelStatsItemBuilder(),
+    PagesPerMonthStatsItemBuilder(),
   ];
 }
 
