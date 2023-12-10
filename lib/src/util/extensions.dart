@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:collection/collection.dart';
 import 'package:dantex/src/data/book/entity/book.dart';
+import 'package:dantex/src/data/book/entity/book_state.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 extension HexColor on String {
@@ -27,5 +28,11 @@ extension BookListX on Iterable<Book> {
     return sorted(
       (a, b) => a.startDate?.compareTo(b.startDate ?? DateTime.now()) ?? -1,
     );
+  }
+
+  List<Book> filterReadBooks() {
+    return where(
+      (book) => book.state == BookState.read,
+    ).toList();
   }
 }
