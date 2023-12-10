@@ -6,7 +6,6 @@ import 'package:dantex/src/data/stats/stats_item.dart';
 import 'package:dantex/src/util/extensions.dart';
 
 class MiscStatsItemBuilder extends StatsItemBuilder<MiscStatsItem> {
-
   final DateTime _currentDateTime;
 
   MiscStatsItemBuilder(this._currentDateTime);
@@ -33,6 +32,10 @@ class MiscStatsItemBuilder extends StatsItemBuilder<MiscStatsItem> {
         )
         .sortedByStartDate();
 
+    if (doneBooks.isEmpty) {
+      return 0;
+    }
+
     final DateTime start = doneBooks.firstOrNull?.startDate ?? DateTime.now();
     final DateTime startCorrected = DateTime(start.year, start.month);
 
@@ -40,7 +43,8 @@ class MiscStatsItemBuilder extends StatsItemBuilder<MiscStatsItem> {
     // the output by 30 and add +1 (+1 because of the last month, as it just
     // started, but the days are not added to the datetime).
     // That will give a close enough estimate.
-    final int monthsReading = (_currentDateTime.difference(startCorrected).inDays ~/ 30) + 1;
+    final int monthsReading =
+        (_currentDateTime.difference(startCorrected).inDays ~/ 30) + 1;
 
     if (monthsReading == 0) {
       return doneBooks.length.toDouble();
@@ -51,7 +55,9 @@ class MiscStatsItemBuilder extends StatsItemBuilder<MiscStatsItem> {
 
   MostActiveMonth? _mostActiveMonth(List<Book> books) {
     final List<Book> booksOfMostReadMonth = books
-            .where((book) => book.state == BookState.read)
+            .where(
+              (book) => book.state == BookState.read && book.endDate != null,
+            )
             .groupListsBy(
               (book) => '${book.endDate!.month}-${book.endDate!.year}',
             )

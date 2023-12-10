@@ -4,7 +4,8 @@ import 'package:dantex/src/data/book/entity/book_state.dart';
 import 'package:dantex/src/data/stats/item_builder/stats_item_builder.dart';
 import 'package:dantex/src/data/stats/stats_item.dart';
 
-class ReadingTimeStatsItemBuilder implements StatsItemBuilder<ReadingTimeStatsItem> {
+class ReadingTimeStatsItemBuilder
+    implements StatsItemBuilder<ReadingTimeStatsItem> {
   @override
   ReadingTimeStatsItem buildStatsItem(List<Book> books) {
     final ReadingTimeDataState dataState;
@@ -21,7 +22,9 @@ class ReadingTimeStatsItemBuilder implements StatsItemBuilder<ReadingTimeStatsIt
     final List<Book> finishedSortedBooks = books
         .where(
           (element) =>
-              element.state == BookState.read && element.startDate != null,
+              element.state == BookState.read &&
+              element.startDate != null &&
+              element.endDate != null,
         )
         .sorted(
           (a, b) =>

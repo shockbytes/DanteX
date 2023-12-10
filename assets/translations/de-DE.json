@@ -111,6 +111,15 @@
       "fastest-book": "Schnellstes Buch",
       "slowest-book": "Langsamstes Buch",
       "days": "{} Tage"
+    },
+    "misc": {
+      "title": "Verschiedenes",
+      "average-books": {
+        "description": "Bücher pro Monat"
+      },
+      "most-read-month": {
+        "description": "Bücher im {}"
+      }
     }
   },
   "no_thanks": "Nein danke",

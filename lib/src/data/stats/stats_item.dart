@@ -1,4 +1,5 @@
 import 'package:dantex/src/data/book/entity/book.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'stats_item.freezed.dart';
@@ -177,10 +178,17 @@ class MiscData extends MiscDataState with _$MiscData {
 
 @Freezed()
 class MostActiveMonth with _$MostActiveMonth {
-  const factory MostActiveMonth({
+
+  MostActiveMonth._();
+
+  factory MostActiveMonth({
     required DateTime month,
     required List<Book> books,
   }) = _MostActiveMonth;
+
+  String get formattedMonth => DateFormat('MMM yyyy').format(month);
+
+  int get bookCount => books.length;
 }
 
 class PagesPerMonthStatsItem extends StatsItem {

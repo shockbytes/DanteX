@@ -110,6 +110,15 @@
       "fastest-book": "Fastest book",
       "slowest-book": "Slowest book",
       "days": "{} days"
+    },
+    "misc": {
+      "title": "Misc",
+      "average-books": {
+        "description": "Bücher per Month"
+      },
+      "most-read-month": {
+        "description": "Books in {}"
+      }
     }
   },
   "no_thanks": "No thanks",

@@ -35,6 +35,63 @@ class MiscStatsItemWidget extends StatelessWidget with MobileStatsMixin {
   }
 
   Widget _buildMiscContent(BuildContext context, MiscData dataState) {
-    return Text('av');
+    return Row(
+      children: [
+        _buildMiscWidget(
+          context,
+          content: dataState.averageBooksPerMonth.toStringAsFixed(2),
+          description: 'stats.misc.average-books.description'.tr(),
+        ),
+        _buildMostActiveMonthWidget(context, dataState),
+      ],
+    );
+  }
+
+  Widget _buildMostActiveMonthWidget(BuildContext context, MiscData dataState) {
+    if (dataState.mostActiveMonth == null) {
+      return const SizedBox.shrink();
+    }
+
+    final String content =
+        dataState.mostActiveMonth?.bookCount.toString() ?? '---';
+
+    final String description = 'stats.misc.most-read-month.description'.tr(
+      args: [dataState.mostActiveMonth!.formattedMonth],
+    );
+
+    return _buildMiscWidget(
+      context,
+      content: content,
+      description: description,
+    );
+  }
+
+  Widget _buildMiscWidget(
+    BuildContext context, {
+    required String content,
+    required String description,
+  }) {
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            content,
+            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.onBackground,
+                ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            description,
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.onBackground,
+                ),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
   }
 }

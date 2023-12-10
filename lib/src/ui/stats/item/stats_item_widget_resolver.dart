@@ -26,7 +26,10 @@ class StatsItemWidgetResolver {
           isMobile: isMobile,
         ),
       PagesPerMonthStatsItem() => PagesPerMonthStatsItemWidget(item),
-      MiscStatsItem() => MiscStatsItemWidget(item, isMobile: isMobile,),
+      MiscStatsItem() => MiscStatsItemWidget(
+          item,
+          isMobile: isMobile,
+        ),
       // TODO: Handle this case.
       FavoritesStatsItem() => Container(),
       // TODO: Handle this case.
