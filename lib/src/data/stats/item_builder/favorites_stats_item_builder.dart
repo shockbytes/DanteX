@@ -24,7 +24,7 @@ class FavoritesStatsItemBuilder extends StatsItemBuilder<FavoritesStatsItem> {
     return books
             .groupListsBy((e) => e.author)
             .entries
-            .sorted((a, b) => a.value.length - b.value.length)
+            .sorted((a, b) => b.value.length - a.value.length)
             .firstOrNull
             ?.value ??
         [];

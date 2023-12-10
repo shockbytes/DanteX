@@ -4,9 +4,13 @@ import 'package:dantex/src/data/book/entity/book_state.dart';
 import 'package:dantex/src/data/stats/item_builder/stats_item_builder.dart';
 import 'package:dantex/src/data/stats/stats_item.dart';
 import 'package:dantex/src/util/extensions.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class MiscStatsItemBuilder extends StatsItemBuilder<MiscStatsItem> {
+
+  final DateTime _currentDateTime;
+
+  MiscStatsItemBuilder(this._currentDateTime);
+
   @override
   MiscStatsItem buildStatsItem(List<Book> books) {
     final MiscDataState dataState =
@@ -30,11 +34,13 @@ class MiscStatsItemBuilder extends StatsItemBuilder<MiscStatsItem> {
         .sortedByStartDate();
 
     final DateTime start = doneBooks.firstOrNull?.startDate ?? DateTime.now();
+    final DateTime startCorrected = DateTime(start.year, start.month);
 
     // Unfortunately Dart does not offer a `inMonths` method, so just divide
-    // the output by 30. That will give a close enough estimate.
-    final int monthsReading =
-        (start.difference(DateTime.now()).inDays / 30) as int;
+    // the output by 30 and add +1 (+1 because of the last month, as it just
+    // started, but the days are not added to the datetime).
+    // That will give a close enough estimate.
+    final int monthsReading = (_currentDateTime.difference(startCorrected).inDays ~/ 30) + 1;
 
     if (monthsReading == 0) {
       return doneBooks.length.toDouble();
@@ -50,7 +56,7 @@ class MiscStatsItemBuilder extends StatsItemBuilder<MiscStatsItem> {
               (book) => '${book.endDate!.month}-${book.endDate!.year}',
             )
             .entries
-            .sorted((a, b) => a.value.length - b.value.length)
+            .sorted((a, b) => b.value.length - a.value.length)
             .firstOrNull
             ?.value ??
         [];
@@ -59,10 +65,12 @@ class MiscStatsItemBuilder extends StatsItemBuilder<MiscStatsItem> {
       return null;
     }
 
-    final DateTime date = booksOfMostReadMonth.first.endDate!;
+    final DateTime date = DateTime(
+      booksOfMostReadMonth.first.endDate!.year,
+      booksOfMostReadMonth.first.endDate!.month,
+    );
     return MostActiveMonth(
-      formattedMonthAndYear:
-          DateFormat(DateFormat.YEAR_ABBR_MONTH).format(date),
+      month: date,
       books: booksOfMostReadMonth,
     );
   }

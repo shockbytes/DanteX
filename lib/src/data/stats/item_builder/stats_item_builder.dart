@@ -3,28 +3,8 @@ import 'package:dantex/src/data/book/entity/book.dart';
 import 'package:dantex/src/data/stats/stats_item.dart';
 
 /// TODO Required subclasses
-/// -[x] Books and Pages
-///   -[x] Logic
-///   -[x] UI: PieChart
-///   -[x] Dark Mode
-///   -[x] Mobile Layout
-/// -[x] Languages
-///   -[x] Logic
-///   -[x] UI: PieChart
-///   -[x] Dark Mode
-///   -[x] Mobile Layout
-/// -[x] Labels
-///   -[x] Logic
-///   -[x] UI: RadarChart
-///   -[x] Dark Mode
-///   -[x] Mobile Layout
-/// -[x] Reading time (fastest, slowest book)
-///   -[x] Logic
-///   -[x] UI
-///   -[x] Dark Mode
-///   -[x] Mobile Layout
 /// -[ ] Misc stats (most read books in month, average books per month)
-///   -[x] Logic
+///   -[~] Logic
 ///   -[ ] UI
 ///   -[ ] Dark Mode
 ///   -[ ] Mobile Layout

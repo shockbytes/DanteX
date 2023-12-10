@@ -117,7 +117,7 @@ List<StatsItemBuilder> _provideStatsItemBuilders() {
     LabelStatsItemBuilder(),
     // PagesPerMonthStatsItemBuilder(),
     // FavoritesStatsItemBuilder(),
-    // MiscStatsItemBuilder(),
+    MiscStatsItemBuilder(DateTime.now()),
     // BooksPerYearStatsItemBuilder(),
   ];
 }

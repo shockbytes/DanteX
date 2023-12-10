@@ -1,4 +1,7 @@
 import 'package:dantex/src/data/book/entity/book.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'stats_item.freezed.dart';
 
 class ItemDesktopSize {
   final int width;
@@ -139,14 +142,13 @@ sealed class FavoritesDataState {}
 
 class EmptyFavoritesData extends FavoritesDataState {}
 
-class FavoritesData extends FavoritesDataState {
-  final List<Book> favoriteAuthor;
-  final Book? firstFiveStarBook;
+@Freezed()
+class FavoritesData extends FavoritesDataState with _$FavoritesData {
 
-  FavoritesData({
-    required this.favoriteAuthor,
-    required this.firstFiveStarBook,
-  });
+  const factory FavoritesData({
+    required List<Book> favoriteAuthor,
+    required Book? firstFiveStarBook,
+  }) = _FavoritesData;
 }
 
 class MiscStatsItem extends StatsItem {
@@ -165,24 +167,20 @@ sealed class MiscDataState {}
 
 class EmptyMiscData extends MiscDataState {}
 
-class MiscData extends MiscDataState {
-  final double averageBooksPerMonth;
-  final MostActiveMonth? mostActiveMonth;
-
-  MiscData({
-    required this.averageBooksPerMonth,
-    required this.mostActiveMonth,
-  });
+@Freezed()
+class MiscData extends MiscDataState with _$MiscData {
+  const factory MiscData({
+    required double averageBooksPerMonth,
+    required MostActiveMonth? mostActiveMonth,
+  }) = _MiscData;
 }
 
-class MostActiveMonth {
-  final String formattedMonthAndYear;
-  final List<Book> books;
-
-  MostActiveMonth({
-    required this.formattedMonthAndYear,
-    required this.books,
-  });
+@Freezed()
+class MostActiveMonth with _$MostActiveMonth {
+  const factory MostActiveMonth({
+    required DateTime month,
+    required List<Book> books,
+  }) = _MostActiveMonth;
 }
 
 class PagesPerMonthStatsItem extends StatsItem {
