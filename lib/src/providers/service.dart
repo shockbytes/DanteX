@@ -112,9 +112,9 @@ StatsBuilder statsBuilder(StatsBuilderRef ref) {
 List<StatsItemBuilder> _provideStatsItemBuilders() {
   return [
     BooksAndPagesStatsItemBuilder(),
-    // ReadingTimeStatsItemBuilder(),
-    // LanguageStatsItemBuilder(),
-    // LabelStatsItemBuilder(),
+    ReadingTimeStatsItemBuilder(),
+    LanguageStatsItemBuilder(),
+    LabelStatsItemBuilder(),
     // PagesPerMonthStatsItemBuilder(),
     // FavoritesStatsItemBuilder(),
     // MiscStatsItemBuilder(),

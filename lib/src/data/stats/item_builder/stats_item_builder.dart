@@ -11,24 +11,24 @@ import 'package:dantex/src/data/stats/stats_item.dart';
 /// -[x] Languages
 ///   -[x] Logic
 ///   -[x] UI: PieChart
-///   -[ ] Dark Mode
-///   -[ ] Mobile Layout
+///   -[x] Dark Mode
+///   -[x] Mobile Layout
 /// -[x] Labels
 ///   -[x] Logic
 ///   -[x] UI: RadarChart
-///   -[ ] Dark Mode
-///   -[ ] Mobile Layout
+///   -[x] Dark Mode
+///   -[x] Mobile Layout
 /// -[x] Reading time (fastest, slowest book)
 ///   -[x] Logic
 ///   -[x] UI
-///   -[ ] Dark Mode
-///   -[ ] Mobile Layout
-/// -[ ] Favorites (favorite author + first 5 star rating)
+///   -[x] Dark Mode
+///   -[x] Mobile Layout
+/// -[ ] Misc stats (most read books in month, average books per month)
 ///   -[x] Logic
 ///   -[ ] UI
 ///   -[ ] Dark Mode
 ///   -[ ] Mobile Layout
-/// -[ ] Misc stats (most read books in month, average books per month)
+/// -[ ] Favorites (favorite author + first 5 star rating)
 ///   -[x] Logic
 ///   -[ ] UI
 ///   -[ ] Dark Mode

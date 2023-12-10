@@ -3,15 +3,18 @@ import 'package:dantex/src/data/stats/stats_item.dart';
 import 'package:dantex/src/ui/stats/item/chart/dante_pie_chart.dart';
 import 'package:dantex/src/ui/stats/item/empty_stats_view.dart';
 import 'package:dantex/src/ui/stats/item/stats_item_card.dart';
+import 'package:dantex/src/ui/stats/item/util/mobile_stats_mixin.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-class LanguageStatsItemWidget extends StatelessWidget {
+class LanguageStatsItemWidget extends StatelessWidget with MobileStatsMixin {
   final LanguageStatsItem _item;
+  final bool isMobile;
 
   const LanguageStatsItemWidget(
     this._item, {
+    required this.isMobile,
     super.key,
   });
 
@@ -19,7 +22,11 @@ class LanguageStatsItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return StatsItemCard(
       title: _item.titleKey.tr(),
-      content: Expanded(child: _buildContent()),
+      content: resolveTopLevelWidget(
+        isMobile: isMobile,
+        child: _buildContent(),
+        mobileHeight: 240
+      ),
     );
   }
 
@@ -38,7 +45,6 @@ class LanguageStatsItemWidget extends StatelessWidget {
       titleBuilder: (_, value) => value.toString(),
     );
   }
-
 }
 
 class _Badge extends StatelessWidget {
@@ -62,7 +68,6 @@ class _Badge extends StatelessWidget {
         shape: BoxShape.circle,
         border: Border.all(
           color: Colors.grey,
-          width: 1,
         ),
         boxShadow: <BoxShadow>[
           BoxShadow(
@@ -81,7 +86,7 @@ class _Badge extends StatelessWidget {
 
   Widget _buildFlag() {
     if (language.toLowerCase() == _languageNotAvailable) {
-      return Text('NA');
+      return Text('stats.label.na'.tr());
     }
 
     return CachedNetworkImage(
@@ -94,7 +99,6 @@ class _Badge extends StatelessWidget {
   }
 
   String _normalizeLanguage(String language) {
-
     if (language.toLowerCase() == 'en') {
       return 'GB';
     }

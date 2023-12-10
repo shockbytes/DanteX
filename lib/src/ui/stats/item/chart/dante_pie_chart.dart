@@ -34,6 +34,16 @@ class _DantePieChartState extends State<DantePieChart> {
         Theme.of(context).colorScheme.secondaryContainer,
       ];
 
+  List<Color> get _textColors => [
+        Theme.of(context).colorScheme.onPrimary,
+        Theme.of(context).colorScheme.onPrimaryContainer,
+        Theme.of(context).colorScheme.onTertiaryContainer,
+        Theme.of(context).colorScheme.onError,
+        Theme.of(context).colorScheme.onTertiary,
+        Theme.of(context).colorScheme.onSecondary,
+        Theme.of(context).colorScheme.onSecondaryContainer,
+      ];
+
   int _touchedIndex = -1;
 
   @override
@@ -84,7 +94,7 @@ class _DantePieChartState extends State<DantePieChart> {
           titleStyle: TextStyle(
             fontSize: fontSize,
             fontWeight: FontWeight.bold,
-            color: Colors.white12,
+            color: _textColors[index % length],
             shadows: shadows,
           ),
           badgeWidget: widget.badgeBuilder(

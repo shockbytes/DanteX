@@ -1,15 +1,18 @@
 import 'package:dantex/src/data/stats/stats_item.dart';
 import 'package:dantex/src/ui/stats/item/empty_stats_view.dart';
 import 'package:dantex/src/ui/stats/item/stats_item_card.dart';
+import 'package:dantex/src/ui/stats/item/util/mobile_stats_mixin.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-class LabelStatsItemWidget extends StatelessWidget {
+class LabelStatsItemWidget extends StatelessWidget with MobileStatsMixin {
   final LabelStatsItem _item;
+  final bool isMobile;
 
   const LabelStatsItemWidget(
     this._item, {
+    required this.isMobile,
     super.key,
   });
 
@@ -17,19 +20,21 @@ class LabelStatsItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return StatsItemCard(
       title: _item.titleKey.tr(),
-      content: _buildContent(context),
+      content: resolveTopLevelWidget(
+        child: _buildContent(context),
+        isMobile: isMobile,
+        mobileHeight: 280,
+      ),
     );
   }
 
   Widget _buildContent(BuildContext context) {
     final LabelDataState state = _item.dataState;
     return switch (state) {
-      EmptyLabelData() => Expanded(
-          child: EmptyStatsView(
-            'stats.label.empty'.tr(),
-          ),
+      EmptyLabelData() => EmptyStatsView(
+          'stats.label.empty'.tr(),
         ),
-      LabelData() => Flexible(child: _buildChart(context, state)),
+      LabelData() => _buildChart(context, state),
     };
   }
 
@@ -50,7 +55,7 @@ class LabelStatsItemWidget extends StatelessWidget {
                   )
                   .toList(),
               borderWidth: 2,
-            )
+            ),
           ],
           radarBackgroundColor: Colors.transparent,
           borderData: FlBorderData(show: false),
@@ -75,7 +80,6 @@ class LabelStatsItemWidget extends StatelessWidget {
           tickBorderData: const BorderSide(color: Colors.transparent),
           gridBorderData: BorderSide(
             color: Theme.of(context).colorScheme.tertiary,
-            width: 1,
           ),
         ),
       ),

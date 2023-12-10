@@ -3,14 +3,17 @@ import 'package:dantex/src/data/stats/stats_item.dart';
 import 'package:dantex/src/ui/book/book_image.dart';
 import 'package:dantex/src/ui/stats/item/empty_stats_view.dart';
 import 'package:dantex/src/ui/stats/item/stats_item_card.dart';
+import 'package:dantex/src/ui/stats/item/util/mobile_stats_mixin.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-class ReadingTimeStatsItemWidget extends StatelessWidget {
+class ReadingTimeStatsItemWidget extends StatelessWidget with MobileStatsMixin {
   final ReadingTimeStatsItem _item;
+  final bool isMobile;
 
   const ReadingTimeStatsItemWidget(
     this._item, {
+    required this.isMobile,
     super.key,
   });
 
@@ -25,7 +28,8 @@ class ReadingTimeStatsItemWidget extends StatelessWidget {
   Widget _buildContent(BuildContext context) {
     final ReadingTimeDataState dataState = _item.dataState;
     return switch (dataState) {
-      EmptyReadingTimeData() => Expanded(
+      EmptyReadingTimeData() => resolveTopLevelWidget(
+          isMobile: isMobile,
           child: EmptyStatsView('stats.reading-time.empty'.tr()),
         ),
       ReadingTimeData() => _buildReadingTimeContent(context, dataState),
@@ -36,7 +40,8 @@ class ReadingTimeStatsItemWidget extends StatelessWidget {
     BuildContext context,
     ReadingTimeData dataState,
   ) {
-    return Expanded(
+    return resolveTopLevelWidget(
+      isMobile: isMobile,
       child: Row(
         children: [
           _buildReadingTimeWidget(

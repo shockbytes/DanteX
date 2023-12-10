@@ -11,7 +11,10 @@ class EmptyStatsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text(_text),
+      child: Text(
+        _text,
+        style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+      ),
     );
   }
 }

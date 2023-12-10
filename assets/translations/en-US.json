@@ -101,7 +101,8 @@
     },
     "language": {
       "title": "Languages",
-      "empty": "No data for language distribution."
+      "empty": "No data for language distribution.",
+      "na": "NA"
     },
     "reading-time": {
       "title": "Reading time",

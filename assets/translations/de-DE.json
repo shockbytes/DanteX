@@ -98,7 +98,8 @@
     },
     "label": {
       "title": "Labels",
-      "empty": "Es liegen keine Daten für Labels vor."
+      "empty": "Es liegen keine Daten für Labels vor.",
+      "na": "NA"
     },
     "language": {
       "title": "Sprachen",
