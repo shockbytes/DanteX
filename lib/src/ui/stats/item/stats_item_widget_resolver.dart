@@ -21,6 +21,12 @@ class StatsItemWidgetResolver {
       LanguageStatsItem() => LanguageStatsItemWidget(item),
       LabelStatsItem() => LabelStatsItemWidget(item),
       PagesPerMonthStatsItem() => PagesPerMonthStatsItemWidget(item),
+      // TODO: Handle this case.
+      FavoritesStatsItem() => Container(),
+      // TODO: Handle this case.
+      MiscStatsItem() => Container(),
+      // TODO: Handle this case.
+      BooksPerYearStatsItem() => Container(),
     };
   }
 }

@@ -6,8 +6,8 @@ import 'package:dantex/src/data/stats/stats_item.dart';
 /// -[x] Books and Pages
 ///   -[x] Logic
 ///   -[x] UI: PieChart
-///   -[ ] Dark Mode
-///   -[ ] Mobile Layout
+///   -[x] Dark Mode
+///   -[x] Mobile Layout
 /// -[x] Languages
 ///   -[x] Logic
 ///   -[x] UI: PieChart
@@ -33,15 +33,15 @@ import 'package:dantex/src/data/stats/stats_item.dart';
 ///   -[ ] UI
 ///   -[ ] Dark Mode
 ///   -[ ] Mobile Layout
+/// -[ ] Books per Year
+///   -[x] Logic
+///   -[ ] UI
+///   -[ ] Dark Mode
+///   -[ ] Mobile Layout
 /// -[ ] Books per Month
 ///   -[ ] Logic
 ///   -[ ] UI
 ///   -[ ] Goals
-///   -[ ] Dark Mode
-///   -[ ] Mobile Layout
-/// -[ ] Books per Year
-///   -[x] Logic
-///   -[ ] UI
 ///   -[ ] Dark Mode
 ///   -[ ] Mobile Layout
 /// -[ ] Pages per Month

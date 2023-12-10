@@ -83,6 +83,7 @@ class StatsPage extends ConsumerWidget {
   Widget _buildMobileView(List<StatsItem> items) {
     return ListView.builder(
       physics: const BouncingScrollPhysics(),
+      padding: const EdgeInsets.all(16),
       itemCount: items.length,
       itemBuilder: (context, index) => StatsItemWidgetResolver.resolveItem(
         items[index],
