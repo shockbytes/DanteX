@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:dantex/src/data/book/entity/book.dart';
 import 'package:dantex/src/data/stats/item_builder/stats_item_builder.dart';
 import 'package:dantex/src/data/stats/stats_item.dart';
+import 'package:dantex/src/util/extensions.dart';
 
 class FavoritesStatsItemBuilder extends StatsItemBuilder<FavoritesStatsItem> {
   @override
@@ -32,8 +33,7 @@ class FavoritesStatsItemBuilder extends StatsItemBuilder<FavoritesStatsItem> {
   Book? _firstFiveStarRating(List<Book> books) {
     return books
         .where((book) => book.rating == 5 && book.startDate != null)
-        .sorted((a, b) =>
-            a.startDate?.compareTo(b.startDate ?? DateTime.now()) ?? -1)
+        .sortedByStartDate()
         .firstOrNull;
   }
 }

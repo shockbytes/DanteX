@@ -76,7 +76,6 @@ class ReadingTimeData extends ReadingTimeDataState {
 }
 
 class LanguageStatsItem extends StatsItem {
-
   final LanguageDataState dataState;
 
   LanguageStatsItem(this.dataState);
@@ -87,6 +86,7 @@ class LanguageStatsItem extends StatsItem {
   @override
   String get titleKey => 'stats.language.title';
 }
+
 sealed class LanguageDataState {}
 
 class EmptyLanguageData extends LanguageDataState {}
@@ -100,7 +100,6 @@ class LanguageData extends LanguageDataState {
 }
 
 class LabelStatsItem extends StatsItem {
-
   final LabelDataState dataState;
 
   LabelStatsItem(this.dataState);
@@ -111,6 +110,7 @@ class LabelStatsItem extends StatsItem {
   @override
   String get titleKey => 'stats.label.title';
 }
+
 sealed class LabelDataState {}
 
 class EmptyLabelData extends LabelDataState {}
@@ -124,7 +124,6 @@ class LabelData extends LabelDataState {
 }
 
 class FavoritesStatsItem extends StatsItem {
-
   final FavoritesDataState dataState;
 
   FavoritesStatsItem(this.dataState);
@@ -135,6 +134,7 @@ class FavoritesStatsItem extends StatsItem {
   @override
   String get titleKey => 'stats.favorites.title';
 }
+
 sealed class FavoritesDataState {}
 
 class EmptyFavoritesData extends FavoritesDataState {}
@@ -149,11 +149,46 @@ class FavoritesData extends FavoritesDataState {
   });
 }
 
+class MiscStatsItem extends StatsItem {
+  final MiscDataState dataState;
+
+  MiscStatsItem(this.dataState);
+
+  @override
+  ItemDesktopSize get desktopSize => ItemDesktopSize(width: 1, height: 1);
+
+  @override
+  String get titleKey => 'stats.misc.title';
+}
+
+sealed class MiscDataState {}
+
+class EmptyMiscData extends MiscDataState {}
+
+class MiscData extends MiscDataState {
+  final double averageBooksPerMonth;
+  final MostActiveMonth? mostActiveMonth;
+
+  MiscData({
+    required this.averageBooksPerMonth,
+    required this.mostActiveMonth,
+  });
+}
+
+class MostActiveMonth {
+  final String formattedMonthAndYear;
+  final List<Book> books;
+
+  MostActiveMonth({
+    required this.formattedMonthAndYear,
+    required this.books,
+  });
+}
+
 class PagesPerMonthStatsItem extends StatsItem {
   @override
   ItemDesktopSize get desktopSize => ItemDesktopSize(width: 3, height: 1);
 
   @override
   String get titleKey => 'stats.pages-per-month.title';
-
 }

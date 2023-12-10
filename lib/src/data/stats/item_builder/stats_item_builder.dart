@@ -18,8 +18,8 @@ import 'package:dantex/src/data/stats/stats_item.dart';
 /// -[ ] Favorites (favorite author + first 5 star rating)
 ///   -[x] Logic
 ///   -[ ] UI
-/// -[ ] Book Per Months stats (most read books in month, average books per month)
-///   -[ ] Logic
+/// -[ ] Misc stats (most read books in month, average books per month)
+///   -[x] Logic
 ///   -[ ] UI
 /// -[ ] Pages per Month
 ///   -[ ] Logic

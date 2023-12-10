@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:collection/collection.dart';
+import 'package:dantex/src/data/book/entity/book.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 extension HexColor on String {
@@ -17,5 +19,13 @@ final DateFormat _dfMonth = DateFormat('MMMM yyyy');
 extension DateTimeX on DateTime {
   String formatWithMonthAndYear() {
     return _dfMonth.format(this);
+  }
+}
+
+extension BookListX on Iterable<Book> {
+  List<Book> sortedByStartDate() {
+    return sorted(
+      (a, b) => a.startDate?.compareTo(b.startDate ?? DateTime.now()) ?? -1,
+    );
   }
 }
