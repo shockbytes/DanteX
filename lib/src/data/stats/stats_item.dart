@@ -123,6 +123,32 @@ class LabelData extends LabelDataState {
   });
 }
 
+class FavoritesStatsItem extends StatsItem {
+
+  final FavoritesDataState dataState;
+
+  FavoritesStatsItem(this.dataState);
+
+  @override
+  ItemDesktopSize get desktopSize => ItemDesktopSize(width: 2, height: 1);
+
+  @override
+  String get titleKey => 'stats.favorites.title';
+}
+sealed class FavoritesDataState {}
+
+class EmptyFavoritesData extends FavoritesDataState {}
+
+class FavoritesData extends FavoritesDataState {
+  final List<Book> favoriteAuthor;
+  final Book? firstFiveStarBook;
+
+  FavoritesData({
+    required this.favoriteAuthor,
+    required this.firstFiveStarBook,
+  });
+}
+
 class PagesPerMonthStatsItem extends StatsItem {
   @override
   ItemDesktopSize get desktopSize => ItemDesktopSize(width: 3, height: 1);

@@ -7,7 +7,6 @@ import 'package:dantex/src/data/stats/stats_item.dart';
 class PagesPerMonthStatsItemBuilder implements StatsItemBuilder<PagesPerMonthStatsItem> {
   @override
   PagesPerMonthStatsItem buildStatsItem(List<Book> books) {
-    // TODO: implement buildStatsItem
     return PagesPerMonthStatsItem();
   }
 
