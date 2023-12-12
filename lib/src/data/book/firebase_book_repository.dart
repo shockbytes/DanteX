@@ -111,7 +111,11 @@ class FirebaseBookRepository implements BookRepository {
   }
 
   @override
-  Future<void> updateCurrentPage(String bookId, int currentPage) async {
+  Future<void> updatePageInfo({
+    required String bookId,
+    required int currentPage,
+    required int pageCount,
+  }) async {
     final bookSnapshot = await _booksRef().child(bookId).get();
     final bookMap = bookSnapshot.child(bookId).toMap();
 
@@ -120,7 +124,9 @@ class FirebaseBookRepository implements BookRepository {
     }
     final currentBook = Book.fromJson(bookMap);
 
-    return update(currentBook.copyWith(currentPage: currentPage));
+    return update(
+      currentBook.copyWith(currentPage: currentPage, pageCount: pageCount),
+    );
   }
 
   DatabaseReference _booksRef() {
