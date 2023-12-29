@@ -114,12 +114,27 @@
     },
     "misc": {
       "title": "Verschiedenes",
+      "empty": "Keine Daten verfügbar.",
       "average-books": {
         "description": "Bücher pro Monat"
       },
       "most-read-month": {
         "description": "Bücher im {}"
       }
+    },
+    "favorites": {
+      "title": "Favoriten",
+      "empty": "Keine Daten für Favoriten vorhanden.",
+      "favorite-author": "Liebingsautor",
+      "first-five-star-book": "Erstes 5-Sterne Buch"
+    },
+    "books-per-year": {
+      "title": "Bücher pro Jahr",
+      "empty": "Es liegen keine Daten vor."
+    },
+    "books-per-month": {
+      "title": "Bücher pro Monat",
+      "empty": "Es liegen keine Daten vor."
     }
   },
   "no_thanks": "Nein danke",

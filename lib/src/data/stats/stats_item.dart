@@ -223,3 +223,29 @@ class BooksPerYearData extends BooksPerYearDataState {
     required this.booksPerYearDistribution,
   });
 }
+
+class BooksPerMonthStatsItem extends StatsItem {
+  final BooksPerMonthDataState dataState;
+
+  BooksPerMonthStatsItem(this.dataState);
+
+  @override
+  ItemDesktopSize get desktopSize => ItemDesktopSize(width: 2, height: 1);
+
+  @override
+  String get titleKey => 'stats.books-per-month.title';
+}
+
+
+sealed class BooksPerMonthDataState {}
+
+class EmptyBooksPerMonthData extends BooksPerMonthDataState {}
+
+class BooksPerMonthData extends BooksPerMonthDataState {
+  // Map contains Map<DateTime, Amount of books>
+  final Map<DateTime, int> booksPerMonthDistribution;
+
+  BooksPerMonthData({
+    required this.booksPerMonthDistribution,
+  });
+}

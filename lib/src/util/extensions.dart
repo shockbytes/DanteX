@@ -32,7 +32,7 @@ extension BookListX on Iterable<Book> {
 
   List<Book> filterReadBooks() {
     return where(
-      (book) => book.state == BookState.read,
+      (book) => book.state == BookState.read && book.endDate != null,
     ).toList();
   }
 }

@@ -1,5 +1,7 @@
 import 'package:dantex/src/data/stats/stats_item.dart';
 import 'package:dantex/src/ui/stats/item/books_and_pages_stats_item_widget.dart';
+import 'package:dantex/src/ui/stats/item/books_per_month_stats_item_widget.dart';
+import 'package:dantex/src/ui/stats/item/favorites_stats_item_widget.dart';
 import 'package:dantex/src/ui/stats/item/label_stats_item_widget.dart';
 import 'package:dantex/src/ui/stats/item/language_stats_item_widget.dart';
 import 'package:dantex/src/ui/stats/item/misc_stats_item_widget.dart';
@@ -30,10 +32,16 @@ class StatsItemWidgetResolver {
           item,
           isMobile: isMobile,
         ),
-      // TODO: Handle this case.
-      FavoritesStatsItem() => Container(),
+      FavoritesStatsItem() => FavoritesStatsItemWidget(
+          item,
+          isMobile: isMobile,
+        ),
       // TODO: Handle this case.
       BooksPerYearStatsItem() => Container(),
+      BooksPerMonthStatsItem() => BooksPerMonthStatsItemWidget(
+          item,
+          isMobile: isMobile,
+        ),
     };
   }
 }
