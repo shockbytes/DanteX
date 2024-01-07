@@ -1,13 +1,18 @@
 import 'package:collection/collection.dart';
 import 'package:dantex/src/data/authentication/authentication_repository.dart';
 import 'package:dantex/src/data/authentication/entity/dante_user.dart';
+import 'package:dantex/src/data/authentication/on_user_authenticated_plugin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class FirebaseAuthenticationRepository implements AuthenticationRepository {
   final FirebaseAuth _fbAuth;
+  final List<OnUserAuthenticatedPlugin> _onUserAuthenticatedPlugins;
 
-  FirebaseAuthenticationRepository(this._fbAuth);
+  FirebaseAuthenticationRepository(
+    this._fbAuth,
+    this._onUserAuthenticatedPlugins,
+  );
 
   @override
   Stream<DanteUser?> get authStateChanges =>
@@ -35,7 +40,7 @@ class FirebaseAuthenticationRepository implements AuthenticationRepository {
       return null;
     }
 
-    return DanteUser(
+    final DanteUser user = DanteUser(
       givenName: fbUser.displayName,
       displayName: fbUser.displayName,
       email: fbUser.email,
@@ -44,6 +49,10 @@ class FirebaseAuthenticationRepository implements AuthenticationRepository {
       userId: fbUser.uid,
       source: _retrieveAuthenticationSource(fbUser),
     );
+
+    _callOnUserAuthenticatedPlugins(user);
+
+    return user;
   }
 
   AuthenticationSource _retrieveAuthenticationSource(User user) {
@@ -55,6 +64,12 @@ class FirebaseAuthenticationRepository implements AuthenticationRepository {
       return AuthenticationSource.mail;
     } else {
       return AuthenticationSource.unknown;
+    }
+  }
+
+  void _callOnUserAuthenticatedPlugins(DanteUser user) {
+    for (var plugin in _onUserAuthenticatedPlugins) {
+      plugin.onUserAuthenticated(user);
     }
   }
 

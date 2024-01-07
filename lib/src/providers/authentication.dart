@@ -1,6 +1,8 @@
 import 'package:dantex/src/data/authentication/authentication_repository.dart';
 import 'package:dantex/src/data/authentication/entity/dante_user.dart';
 import 'package:dantex/src/data/authentication/firebase_authentication_repository.dart';
+import 'package:dantex/src/data/authentication/on_user_authenticated_plugin.dart';
+import 'package:dantex/src/data/authentication/plugin/dummy_on_user_authenticated_plugin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -33,7 +35,12 @@ AuthenticationRepository authenticationRepository(
 ) =>
     FirebaseAuthenticationRepository(
       ref.watch(firebaseAuthProvider),
+      _provideOnUserAuthenticatedPlugins(),
     );
+
+List<OnUserAuthenticatedPlugin> _provideOnUserAuthenticatedPlugins() => [
+      DummyOnUserAuthenticatedPlugin(),
+    ];
 
 @riverpod
 Future<DanteUser?> user(UserRef ref) {
