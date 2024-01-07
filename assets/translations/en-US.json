@@ -83,6 +83,59 @@
     "timeline": "Timeline",
     "wishlist": "Wishlist"
   },
+  "stats": {
+    "books-and-pages": {
+      "title": "Books & Pages",
+      "empty": "No data available.",
+      "books": "Books",
+      "books-waiting": "{} books waiting",
+      "books-reading": "{} books reading",
+      "books-read": "{} books read",
+      "pages": "Pages",
+      "pages-waiting": "{} pages waiting",
+      "pages-read": "{} pages read"
+    },
+    "label": {
+      "title": "Labels",
+      "empty": "No data for label distribution."
+    },
+    "language": {
+      "title": "Languages",
+      "empty": "No data for language distribution.",
+      "na": "NA"
+    },
+    "reading-time": {
+      "title": "Reading time",
+      "empty": "No data available.",
+      "fastest-book": "Fastest book",
+      "slowest-book": "Slowest book",
+      "days": "{} days"
+    },
+    "misc": {
+      "title": "Misc",
+      "empty": "No data available.",
+      "average-books": {
+        "description": "Books per Month"
+      },
+      "most-read-month": {
+        "description": "Books in {}"
+      }
+    },
+    "favorites": {
+      "title": "Favorites",
+      "empty": "No data for favorites available.",
+      "favorite-author": "Favorite Author",
+      "first-five-star-book": "First 5-star rating"
+    },
+    "books-per-year": {
+      "title": "Books per year",
+      "empty": "No data available"
+    },
+    "books-per-month": {
+      "title": "Books per month",
+      "empty": "No data available"
+    }
+  },
   "no_thanks": "No thanks",
   "not_my_book": "Not my book",
   "password": "Password",

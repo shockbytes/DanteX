@@ -8,11 +8,22 @@ import 'package:dantex/src/data/logging/firebase_log_output.dart';
 import 'package:dantex/src/data/recommendations/book_recommendation.dart';
 import 'package:dantex/src/data/recommendations/recommendations.dart';
 import 'package:dantex/src/data/search/search.dart';
+import 'package:dantex/src/data/stats/default_stats_builder.dart';
+import 'package:dantex/src/data/stats/item_builder/books_and_pages_stats_item_builder.dart';
+import 'package:dantex/src/data/stats/item_builder/books_per_month_stats_item_builder.dart';
+import 'package:dantex/src/data/stats/item_builder/books_per_year_stats_item_builder.dart';
+import 'package:dantex/src/data/stats/item_builder/favorites_stats_item_builder.dart';
+import 'package:dantex/src/data/stats/item_builder/label_stats_item_builder.dart';
+import 'package:dantex/src/data/stats/item_builder/language_stats_item_builder.dart';
+import 'package:dantex/src/data/stats/item_builder/misc_stats_item_builder.dart';
+import 'package:dantex/src/data/stats/item_builder/reading_time_stats_item_builder.dart';
+import 'package:dantex/src/data/stats/item_builder/stats_item_builder.dart';
+import 'package:dantex/src/data/stats/stats_builder.dart';
+import 'package:dantex/src/data/stats/stats_item.dart';
 import 'package:dantex/src/data/timeline/timeline.dart';
 import 'package:dantex/src/providers/api.dart';
 import 'package:dantex/src/providers/repository.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
 import 'package:logger/logger.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,8 +40,8 @@ IsbnScannerService isbnScannerService(IsbnScannerServiceRef ref) =>
     BarcodeIsbnScannerService();
 
 @riverpod
-Future<String> scanIsbn(ScanIsbnRef ref, BuildContext context) {
-  return ref.watch(isbnScannerServiceProvider).scanIsbn(context);
+Future<String> scanIsbn(ScanIsbnRef ref) {
+  return ref.watch(isbnScannerServiceProvider).scanIsbn();
 }
 
 @riverpod
@@ -88,4 +99,33 @@ Stream<RecommendationEvent> bookRecommendationEvents(
   BookRecommendationEventsRef ref,
 ) {
   return ref.watch(recommendationsProvider).events;
+}
+
+@riverpod
+StatsBuilder statsBuilder(StatsBuilderRef ref) {
+  return DefaultStatsBuilder(
+    ref.read(bookRepositoryProvider),
+    _provideStatsItemBuilders(),
+  );
+}
+
+List<StatsItemBuilder> _provideStatsItemBuilders() {
+  return [
+    BooksAndPagesStatsItemBuilder(),
+    ReadingTimeStatsItemBuilder(),
+    LanguageStatsItemBuilder(),
+    LabelStatsItemBuilder(),
+    // PagesPerMonthStatsItemBuilder(),
+    BooksPerMonthStatsItemBuilder(),
+    MiscStatsItemBuilder(DateTime.now()),
+    FavoritesStatsItemBuilder(),
+    BooksPerYearStatsItemBuilder(),
+  ];
+}
+
+@riverpod
+Stream<List<StatsItem>> statsBuilderItems(
+  StatsBuilderItemsRef ref,
+) {
+  return ref.watch(statsBuilderProvider).buildStats();
 }
