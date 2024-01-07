@@ -31,9 +31,6 @@ class FavoritesStatsItemBuilder extends StatsItemBuilder<FavoritesStatsItem> {
   }
 
   Book? _firstFiveStarRating(List<Book> books) {
-
-    return books.first;
-
     return books
         .where((book) => book.rating == 5 && book.startDate != null)
         .sortedByStartDate()

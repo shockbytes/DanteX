@@ -25,7 +25,7 @@ class LanguageStatsItemWidget extends StatelessWidget with MobileStatsMixin {
       content: resolveTopLevelWidget(
         isMobile: isMobile,
         child: _buildContent(),
-        mobileHeight: 240
+        mobileHeight: 240,
       ),
     );
   }
