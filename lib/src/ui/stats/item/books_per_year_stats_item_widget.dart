@@ -4,18 +4,17 @@ import 'package:dantex/src/ui/stats/item/chart/dante_line_chart.dart';
 import 'package:dantex/src/ui/stats/item/empty_stats_view.dart';
 import 'package:dantex/src/ui/stats/item/stats_item_card.dart';
 import 'package:dantex/src/ui/stats/item/util/mobile_stats_mixin.dart';
-import 'package:dantex/src/util/extensions.dart';
 import 'package:dantex/src/util/point_2d.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-class BooksPerMonthStatsItemWidget extends StatelessWidget
+class BooksPerYearStatsItemWidget extends StatelessWidget
     with MobileStatsMixin {
-  final BooksPerMonthStatsItem _item;
+  final BooksPerYearStatsItem _item;
 
   final bool isMobile;
 
-  const BooksPerMonthStatsItemWidget(
+  const BooksPerYearStatsItemWidget(
     this._item, {
     required this.isMobile,
     super.key,
@@ -33,28 +32,28 @@ class BooksPerMonthStatsItemWidget extends StatelessWidget
   }
 
   Widget _buildContent(BuildContext context) {
-    final BooksPerMonthDataState state = _item.dataState;
+    final BooksPerYearDataState state = _item.dataState;
     return switch (state) {
-      EmptyBooksPerMonthData() => EmptyStatsView(
-          'stats.books-per-month.empty'.tr(),
+      EmptyBooksPerYearData() => EmptyStatsView(
+          'stats.books-per-year.empty'.tr(),
         ),
-      BooksPerMonthData() => _buildChart(context, state),
+      BooksPerYearData() => _buildChart(context, state),
     };
   }
 
-  Widget _buildChart(BuildContext context, BooksPerMonthData state) {
+  Widget _buildChart(BuildContext context, BooksPerYearData state) {
     return DanteLineChart(
-      _buildPoints(state.booksPerMonthDistribution),
-      xConverter: (double x) => state.booksPerMonthDistribution.entries
+      _buildPoints(state.booksPerYearDistribution),
+      xConverter: (double x) => state.booksPerYearDistribution.entries
           .toList()[x.toInt()]
           .key
-          .formatWithMonthAndYearShort(),
+          .toString(),
       isMobile: isMobile,
     );
   }
 
-  List<Point2D> _buildPoints(Map<DateTime, int> booksPerMonthDistribution) {
-    return booksPerMonthDistribution.entries
+  List<Point2D> _buildPoints(Map<int, int> booksPerYearDistribution) {
+    return booksPerYearDistribution.entries
         .mapIndexed(
           (index, e) => Point2D(
             x: index.toDouble(),

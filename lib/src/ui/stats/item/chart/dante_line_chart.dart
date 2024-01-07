@@ -4,100 +4,35 @@ import 'package:flutter/material.dart';
 
 class DanteLineChart extends StatelessWidget {
   final List<Color> _gradientColors = [
-    Colors.cyan,
+    Colors.lightBlue,
     Colors.blue,
   ];
 
-  final Color _gridColor = Colors.red;
-
   final List<Point2D> _points;
   final String Function(double x) xConverter;
+  final bool isMobile;
 
   DanteLineChart(
     this._points, {
     required this.xConverter,
+    required this.isMobile,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 2, // TODO
+      aspectRatio: isMobile ? 3 : 2,
       child: LineChart(
-        _buildLineChartData(),
+        _buildLineChartData(context),
       ),
     );
   }
 
-  Widget _bottomTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(
-      fontWeight: FontWeight.bold,
-      fontSize: 16,
-    );
-    Widget text;
-    // TODO
-    switch (value.toInt()) {
-      case 2:
-        text = const Text('MAR', style: style);
-        break;
-      case 5:
-        text = const Text('JUN', style: style);
-        break;
-      case 8:
-        text = const Text('SEP', style: style);
-        break;
-      default:
-        text = const Text('', style: style);
-        break;
-    }
-
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      child: text,
-    );
-  }
-
-  // TODO
-  Widget _leftTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(
-      fontWeight: FontWeight.bold,
-      fontSize: 15,
-    );
-    String text;
-    switch (value.toInt()) {
-      case 1:
-        text = '10K';
-        break;
-      case 3:
-        text = '30k';
-        break;
-      case 5:
-        text = '50k';
-        break;
-      default:
-        return Container();
-    }
-
-    return Text(text, style: style, textAlign: TextAlign.left);
-  }
-
-  LineChartData _buildLineChartData() {
+  LineChartData _buildLineChartData(BuildContext context) {
     return LineChartData(
-      gridData: FlGridData(
-        horizontalInterval: 1,
-        verticalInterval: 1,
-        getDrawingHorizontalLine: (value) {
-          return FlLine(
-            color: _gridColor,
-            strokeWidth: 1,
-          );
-        },
-        getDrawingVerticalLine: (value) {
-          return FlLine(
-            color: _gridColor,
-            strokeWidth: 1,
-          );
-        },
+      gridData: const FlGridData(
+        show: false,
       ),
       titlesData: FlTitlesData(
         bottomTitles: AxisTitles(
@@ -105,22 +40,30 @@ class DanteLineChart extends StatelessWidget {
             showTitles: true,
             reservedSize: 30,
             interval: 1,
-            getTitlesWidget: _bottomTitleWidgets,
+            getTitlesWidget: (double value, TitleMeta meta) =>
+                _bottomTitleWidgets(
+              context,
+              value,
+              meta,
+            ),
           ),
         ),
         leftTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
             interval: 1,
-            getTitlesWidget: _leftTitleWidgets,
+            getTitlesWidget: (double value, TitleMeta meta) => _buildLegendText(
+              context,
+              value.toString(),
+            ),
             reservedSize: 42,
           ),
         ),
+        rightTitles: const AxisTitles(),
+        topTitles: const AxisTitles(),
       ),
       borderData: FlBorderData(
-        show: true,
-        // TODO
-        border: Border.all(color: const Color(0xff37434d)),
+        show: false,
       ),
       minX: 0,
       // maxX: 11,
@@ -148,6 +91,32 @@ class DanteLineChart extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _bottomTitleWidgets(
+    BuildContext context,
+    double value,
+    TitleMeta meta,
+  ) {
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      child: _buildLegendText(
+        context,
+        xConverter(value),
+      ),
+    );
+  }
+
+  Widget _buildLegendText(BuildContext context, String text) {
+    return Text(
+      text,
+      style: TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 16,
+        color: Theme.of(context).colorScheme.onSurface,
+      ),
+      textAlign: TextAlign.left,
     );
   }
 }

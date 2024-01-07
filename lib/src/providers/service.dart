@@ -16,7 +16,6 @@ import 'package:dantex/src/data/stats/item_builder/favorites_stats_item_builder.
 import 'package:dantex/src/data/stats/item_builder/label_stats_item_builder.dart';
 import 'package:dantex/src/data/stats/item_builder/language_stats_item_builder.dart';
 import 'package:dantex/src/data/stats/item_builder/misc_stats_item_builder.dart';
-import 'package:dantex/src/data/stats/item_builder/pages_per_month_stats_item_builder.dart';
 import 'package:dantex/src/data/stats/item_builder/reading_time_stats_item_builder.dart';
 import 'package:dantex/src/data/stats/item_builder/stats_item_builder.dart';
 import 'package:dantex/src/data/stats/stats_builder.dart';
@@ -120,7 +119,7 @@ List<StatsItemBuilder> _provideStatsItemBuilders() {
     BooksPerMonthStatsItemBuilder(),
     MiscStatsItemBuilder(DateTime.now()),
     FavoritesStatsItemBuilder(),
-    // BooksPerYearStatsItemBuilder(),
+    BooksPerYearStatsItemBuilder(),
   ];
 }
 
