@@ -2,6 +2,7 @@
 
 import 'package:dantex/src/data/authentication/entity/dante_user.dart';
 import 'package:dantex/src/data/authentication/firebase_authentication_repository.dart';
+import 'package:dantex/src/data/authentication/on_user_authenticated_plugin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -18,10 +19,11 @@ import 'firebase_authentication_repository_test.mocks.dart';
 void main() {
   const String testEmail = 'test@mail.com';
   const String testPassword = 'password';
+  const List<OnUserAuthenticatedPlugin> onAuthPlugins = [];
 
   test('Get account returns DanteUser', () async {
     final fbAuth = MockFirebaseAuth();
-    final fbAuthRepo = FirebaseAuthenticationRepository(fbAuth);
+    final fbAuthRepo = FirebaseAuthenticationRepository(fbAuth, onAuthPlugins);
     final User user = MockUser();
     final UserInfo userInfo = MockUserInfo();
     final DanteUser danteUser = DanteUser(
@@ -56,7 +58,10 @@ void main() {
   group('Login', () {
     test('Login with Google returns user credential on success', () async {
       final fbAuth = MockFirebaseAuth();
-      final firebaseAuthRepo = FirebaseAuthenticationRepository(fbAuth);
+      final firebaseAuthRepo = FirebaseAuthenticationRepository(
+        fbAuth,
+        onAuthPlugins,
+      );
       final userCred = MockUserCredential();
 
       when(fbAuth.signInWithProvider(any)).thenAnswer((_) async => userCred);
@@ -67,7 +72,10 @@ void main() {
 
     test('Login anonymously returns User Credential on success', () async {
       final fbAuth = MockFirebaseAuth();
-      final firebaseAuthRepo = FirebaseAuthenticationRepository(fbAuth);
+      final firebaseAuthRepo = FirebaseAuthenticationRepository(
+        fbAuth,
+        onAuthPlugins,
+      );
       final userCred = MockUserCredential();
 
       when(fbAuth.signInAnonymously()).thenAnswer((_) async => userCred);
@@ -78,7 +86,10 @@ void main() {
 
     test('Login with email returns User Credential on success', () async {
       final fbAuth = MockFirebaseAuth();
-      final firebaseAuthRepo = FirebaseAuthenticationRepository(fbAuth);
+      final firebaseAuthRepo = FirebaseAuthenticationRepository(
+        fbAuth,
+        onAuthPlugins,
+      );
       final userCred = MockUserCredential();
 
       when(
@@ -106,7 +117,10 @@ void main() {
 
   test('logout returns void on success', () async {
     final fbAuth = MockFirebaseAuth();
-    final firebaseAuthRepo = FirebaseAuthenticationRepository(fbAuth);
+    final firebaseAuthRepo = FirebaseAuthenticationRepository(
+      fbAuth,
+      onAuthPlugins,
+    );
 
     when(fbAuth.signOut()).thenAnswer((_) async => Future<void>);
 
@@ -118,7 +132,10 @@ void main() {
     'fetchSignInMethodsForEmail maps sign in methods to AuthenticationSource',
     () async {
       final fbAuth = MockFirebaseAuth();
-      final firebaseAuthRepo = FirebaseAuthenticationRepository(fbAuth);
+      final firebaseAuthRepo = FirebaseAuthenticationRepository(
+        fbAuth,
+        onAuthPlugins,
+      );
 
       when(fbAuth.fetchSignInMethodsForEmail(testEmail))
           .thenAnswer((_) async => ['google.com', 'password', 'apple.com']);
@@ -137,7 +154,10 @@ void main() {
 
   test('Create mail account returns User Credential on success', () async {
     final fbAuth = MockFirebaseAuth();
-    final firebaseAuthRepo = FirebaseAuthenticationRepository(fbAuth);
+    final firebaseAuthRepo = FirebaseAuthenticationRepository(
+      fbAuth,
+      onAuthPlugins,
+    );
     final userCred = MockUserCredential();
 
     when(
@@ -165,7 +185,10 @@ void main() {
   test('Upgrade anonymous account returns User Credential on success',
       () async {
     final fbAuth = MockFirebaseAuth();
-    final firebaseAuthRepo = FirebaseAuthenticationRepository(fbAuth);
+    final firebaseAuthRepo = FirebaseAuthenticationRepository(
+      fbAuth,
+      onAuthPlugins,
+    );
     final user = MockUser();
     final userCred = MockUserCredential();
 
@@ -190,7 +213,10 @@ void main() {
       'Upgrade anonymous account throws FirebaseAuthException error when user not found',
       () async {
     final fbAuth = MockFirebaseAuth();
-    final firebaseAuthRepo = FirebaseAuthenticationRepository(fbAuth);
+    final firebaseAuthRepo = FirebaseAuthenticationRepository(
+      fbAuth,
+      onAuthPlugins,
+    );
 
     when(
       fbAuth.currentUser,
@@ -207,7 +233,10 @@ void main() {
 
   test('Update user password returns void on success', () {
     final fbAuth = MockFirebaseAuth();
-    final firebaseAuthRepo = FirebaseAuthenticationRepository(fbAuth);
+    final firebaseAuthRepo = FirebaseAuthenticationRepository(
+      fbAuth,
+      onAuthPlugins,
+    );
     final user = MockUser();
 
     when(fbAuth.currentUser).thenReturn(user);
@@ -223,7 +252,10 @@ void main() {
       'Upgrade password throws FirebaseAuthException error when user not found',
       () async {
     final fbAuth = MockFirebaseAuth();
-    final firebaseAuthRepo = FirebaseAuthenticationRepository(fbAuth);
+    final firebaseAuthRepo = FirebaseAuthenticationRepository(
+      fbAuth,
+      onAuthPlugins,
+    );
 
     when(
       fbAuth.currentUser,
@@ -239,7 +271,10 @@ void main() {
 
   test('Send password reset request returns void on success', () {
     final fbAuth = MockFirebaseAuth();
-    final firebaseAuthRepo = FirebaseAuthenticationRepository(fbAuth);
+    final firebaseAuthRepo = FirebaseAuthenticationRepository(
+      fbAuth,
+      onAuthPlugins,
+    );
 
     when(fbAuth.sendPasswordResetEmail(email: testEmail))
         .thenAnswer((_) async => Future<void>);
@@ -250,7 +285,10 @@ void main() {
 
   test('Delete user returns void on success', () async {
     final fbAuth = MockFirebaseAuth();
-    final firebaseAuthRepo = FirebaseAuthenticationRepository(fbAuth);
+    final firebaseAuthRepo = FirebaseAuthenticationRepository(
+      fbAuth,
+      onAuthPlugins,
+    );
     final User user = MockUser();
 
     when(fbAuth.currentUser).thenReturn(user);
@@ -263,7 +301,10 @@ void main() {
 
   test('Auth state changes returns DanteUser', () {
     final fbAuth = MockFirebaseAuth();
-    final firebaseAuthRepo = FirebaseAuthenticationRepository(fbAuth);
+    final firebaseAuthRepo = FirebaseAuthenticationRepository(
+      fbAuth,
+      onAuthPlugins,
+    );
     final User user = MockUser();
     final UserInfo userInfo = MockUserInfo();
     final DanteUser danteUser = DanteUser(

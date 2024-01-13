@@ -6,6 +6,7 @@ part of 'realm_book.dart';
 // RealmObjectGenerator
 // **************************************************************************
 
+// ignore_for_file: type=lint
 class RealmBook extends _RealmBook
     with RealmEntity, RealmObjectBase, RealmObject {
   static var _defaultsSet = false;

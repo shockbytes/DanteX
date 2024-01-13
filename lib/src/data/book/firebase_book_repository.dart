@@ -2,8 +2,8 @@ import 'package:dantex/src/data/book/book_repository.dart';
 import 'package:dantex/src/data/book/entity/book.dart';
 import 'package:dantex/src/data/book/entity/book_label.dart';
 import 'package:dantex/src/data/book/entity/book_state.dart';
-import 'package:dantex/src/data/book/search_criteria.dart';
 import 'package:dantex/src/data/book/firebase_utils.dart';
+import 'package:dantex/src/data/book/search_criteria.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:rxdart/rxdart.dart';
@@ -70,7 +70,7 @@ class FirebaseBookRepository implements BookRepository {
   }
 
   @override
-  Stream<Book> getBook(String id) async {
+  Stream<Book> getBook(String id) {
     return _booksRef().child(id).onValue.map((DatabaseEvent event) {
       final Map<String, dynamic>? data = event.snapshot.toMap();
 

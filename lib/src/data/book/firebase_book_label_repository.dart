@@ -1,5 +1,6 @@
 import 'package:dantex/src/data/book/book_label_repository.dart';
 import 'package:dantex/src/data/book/entity/book_label.dart';
+import 'package:dantex/src/data/book/firebase_utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 

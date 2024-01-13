@@ -1,13 +1,13 @@
-import 'package:dantex/src/core/book_core.dart';
 import 'package:dantex/src/data/book/book_repository.dart';
 import 'package:dantex/src/data/book/entity/book.dart';
 import 'package:dantex/src/data/book/entity/book_label.dart';
 import 'package:dantex/src/data/book/entity/book_state.dart';
 import 'package:dantex/src/data/book/realm/realm_book.dart';
+import 'package:dantex/src/data/book/search_criteria.dart';
 import 'package:realm/realm.dart';
 
-class RealmBookRepository implements BookRepository {
 
+class RealmBookRepository implements BookRepository {
   final Realm _realm;
 
   RealmBookRepository(this._realm);
@@ -25,65 +25,60 @@ class RealmBookRepository implements BookRepository {
   }
 
   @override
-  Stream<List<Book>> listenAllBooks() {
+  Stream<Book> getBook(String id) {
     // Not required.
     throw UnimplementedError();
   }
 
   @override
-  Future<Book> getBook(String id) {
-    // Not required.
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<List<Book>> getAllBooks() async {
-    return _realm
-        .all<RealmBook>()
-        .where(_hasRealmBookRequiredData)
-        .map(
-          (rb) => Book(
-            id: rb.id.toString(),
-            title: rb.title!,
-            subTitle: rb.subTitle!,
-            author: rb.author!,
-            state: BookState.values[rb.ordinalState],
-            pageCount: rb.pageCount,
-            currentPage: rb.currentPage,
-            publishedDate: rb.publishedDate!,
-            position: rb.position,
-            isbn: rb.isbn!,
-            thumbnailAddress: rb.thumbnailAddress,
-            startDate: rb.startDate,
-            endDate: rb.endDate,
-            wishlistDate: rb.wishlistDate,
-            language: rb.language!,
-            rating: rb.rating,
-            notes: rb.notes,
-            summary: rb.summary,
-            labels: rb.labels
-                .where(_hasRealmBookLabelRequiredData)
-                .map(
-                  (rbl) => BookLabel(
-                    id: rbl.bookId.toString(),
-                    title: rbl.title!,
-                    hexColor: rbl.hexColor!,
-                  ),
-                )
-                .toList(),
-          ),
-        )
-        .toList();
+  Stream<List<Book>> getAllBooks() {
+    return Stream.value(
+      _realm
+          .all<RealmBook>()
+          .where(_hasRealmBookRequiredData)
+          .map(
+            (rb) => Book(
+              id: rb.id.toString(),
+              title: rb.title!,
+              subTitle: rb.subTitle!,
+              author: rb.author!,
+              state: BookState.values[rb.ordinalState],
+              pageCount: rb.pageCount,
+              currentPage: rb.currentPage,
+              publishedDate: rb.publishedDate!,
+              position: rb.position,
+              isbn: rb.isbn!,
+              thumbnailAddress: rb.thumbnailAddress,
+              startDate: DateTime.fromMillisecondsSinceEpoch(rb.startDate),
+              endDate: DateTime.fromMillisecondsSinceEpoch(rb.endDate),
+              forLaterDate: DateTime.fromMillisecondsSinceEpoch(rb.wishlistDate),
+              language: rb.language!,
+              rating: rb.rating,
+              notes: rb.notes,
+              summary: rb.summary,
+              labels: rb.labels
+                  .where(_hasRealmBookLabelRequiredData)
+                  .map(
+                    (rbl) => BookLabel(
+                      id: rbl.bookId.toString(),
+                      title: rbl.title!,
+                      hexColor: rbl.hexColor!,
+                    ),
+                  )
+                  .toList(),
+            ),
+          )
+          .toList(),
+    );
   }
 
   bool _hasRealmBookRequiredData(RealmBook book) {
-    return
-      book.id > -1 &&
-      book.title != null &&
-      book.subTitle != null &&
-      book.author != null &&
-      book.publishedDate != null &&
-      book.language != null;
+    return book.id > -1 &&
+        book.title != null &&
+        book.subTitle != null &&
+        book.author != null &&
+        book.publishedDate != null &&
+        book.language != null;
   }
 
   bool _hasRealmBookLabelRequiredData(RealmBookLabel bookLabel) {
@@ -149,6 +144,16 @@ class RealmBookRepository implements BookRepository {
   @override
   Future<void> removeLabelFromBook(String bookId, String labelId) {
     // Not required.
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> mergeBooks(List<Book> books) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> overwriteBooks(List<Book> books) {
     throw UnimplementedError();
   }
 }

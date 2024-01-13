@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:dantex/src/data/book/book_repository.dart';
 import 'package:dantex/src/data/book/entity/book.dart';
 import 'package:dantex/src/data/book/entity/page_record.dart';
-import 'package:dantex/src/data/book/migration/migration_score.dart';
+import 'package:dantex/src/data/book/migration/migration_result.dart';
 import 'package:dantex/src/data/book/page_record_repository.dart';
 import 'package:dantex/src/data/settings/settings_repository.dart';
 import 'package:logger/logger.dart';
@@ -39,7 +39,7 @@ class MigrationRunner {
       return status;
     }
 
-    final MigrationScore score = await _migrate();
+    final MigrationResult score = await _migrate();
     final MigrationStatus newStatus = score.statusFromScore();
     _updateMigrationStatus(newStatus);
     return newStatus;
@@ -51,7 +51,7 @@ class MigrationRunner {
         MigrationStatus.required;
   }
 
-  Future<MigrationScore> _migrate() async {
+  Future<MigrationResult> _migrate() async {
     final ({int migratedBooks, int booksToMigrate}) booksStat =
         await _migrateBooks();
 
@@ -60,7 +60,7 @@ class MigrationRunner {
       int pageRecordsToMigrate
     }) pageRecordsStats = await _migratePageRecords();
 
-    return MigrationScore(
+    return MigrationResult(
       booksToMigrate: booksStat.booksToMigrate,
       migratedBooks: booksStat.migratedBooks,
       pageRecordsToMigrate: pageRecordsStats.pageRecordsToMigrate,
@@ -70,7 +70,7 @@ class MigrationRunner {
 
   /// Returns no. of migrated instances and potential no. of migrations
   Future<({int migratedBooks, int booksToMigrate})> _migrateBooks() async {
-    final List<Book> booksToMigrate = await _bookSource.getAllBooks();
+    final List<Book> booksToMigrate = await _bookSource.getAllBooks().first;
 
     int migratedBooks = 0;
     for (int i = 0; i < booksToMigrate.length; i++) {

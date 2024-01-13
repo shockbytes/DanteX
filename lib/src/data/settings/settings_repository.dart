@@ -1,6 +1,6 @@
 import 'package:dantex/src/data/book/book_sort_strategy.dart';
 import 'package:dantex/src/ui/timeline/timeline_sort.dart';
-import 'package:dantex/src/data/book/migration/migration_score.dart';
+import 'package:dantex/src/data/book/migration/migration_result.dart';
 import 'package:flutter/material.dart';
 
 abstract class SettingsRepository {
