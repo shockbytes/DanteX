@@ -24,7 +24,7 @@ class DesktopBookActionMenu extends StatelessWidget {
       icon: const Icon(
         Icons.more_horiz,
       ),
-      onSelected: _handleAction,
+      onSelected: (BookAction action) => _handleAction(context, action),
       itemBuilder: (BuildContext context) => <PopupMenuEntry<BookAction>>[
         if (_book.state != BookState.readLater)
           PopupMenuItem(
@@ -54,14 +54,6 @@ class DesktopBookActionMenu extends StatelessWidget {
             ),
           ),
         PopupMenuItem(
-          value: BookAction.share,
-          child: _DesktopMenuActionItem(
-            text: 'book-actions.share'.tr(),
-            iconData: Icons.share_outlined,
-            color: Theme.of(context).colorScheme.secondary,
-          ),
-        ),
-        PopupMenuItem(
           value: BookAction.recommend,
           child: _DesktopMenuActionItem(
             text: 'book-actions.suggest'.tr(),
@@ -89,7 +81,7 @@ class DesktopBookActionMenu extends StatelessWidget {
     );
   }
 
-  void _handleAction(BookAction value) {
+  void _handleAction(BuildContext context, BookAction value) {
     switch (value) {
       case BookAction.moveToReadLater:
         onBookStateChanged(_book, BookState.readLater);
@@ -101,7 +93,7 @@ class DesktopBookActionMenu extends StatelessWidget {
         onBookStateChanged(_book, BookState.read);
         break;
       case BookAction.share:
-        // TODO: Handle this case.
+        // Do not provide Share action for desktop UI.
         break;
       case BookAction.recommend:
         // TODO: Handle this case.

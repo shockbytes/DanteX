@@ -30,6 +30,7 @@
     "share": "Share",
     "suggest": "Suggest"
   },
+  "share-book": "Hey! I am currently reading {title} from {author} and I find it awesome!",
   "book_detail": {
     "label": "Label",
     "notes": "Notes",
