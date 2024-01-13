@@ -33,6 +33,9 @@ class MigrationRunner {
 
   Future<MigrationStatus> migrateIfRequired() async {
     if (!Platform.isAndroid) {
+      _logger.i(
+        'No migration will run, as the underlying platform is not Android.',
+      );
       return MigrationStatus.unsupportedPlatform;
     }
 

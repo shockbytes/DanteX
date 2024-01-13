@@ -44,7 +44,6 @@ List<OnUserAuthenticatedPlugin> _provideOnUserAuthenticatedPlugins(
   AuthenticationRepositoryRef ref,
 ) =>
     [
-      DummyOnUserAuthenticatedPlugin(),
       RealmMigrationOnUserAuthenticatedPlugin(
         ref.read(migrationRunnerProvider),
       ),
