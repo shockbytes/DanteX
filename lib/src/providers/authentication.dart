@@ -3,6 +3,8 @@ import 'package:dantex/src/data/authentication/entity/dante_user.dart';
 import 'package:dantex/src/data/authentication/firebase_authentication_repository.dart';
 import 'package:dantex/src/data/authentication/on_user_authenticated_plugin.dart';
 import 'package:dantex/src/data/authentication/plugin/dummy_on_user_authenticated_plugin.dart';
+import 'package:dantex/src/data/authentication/plugin/realm_migration_on_user_authenticated_plugin.dart';
+import 'package:dantex/src/providers/migration.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -35,11 +37,17 @@ AuthenticationRepository authenticationRepository(
 ) =>
     FirebaseAuthenticationRepository(
       ref.watch(firebaseAuthProvider),
-      _provideOnUserAuthenticatedPlugins(),
+      _provideOnUserAuthenticatedPlugins(ref),
     );
 
-List<OnUserAuthenticatedPlugin> _provideOnUserAuthenticatedPlugins() => [
+List<OnUserAuthenticatedPlugin> _provideOnUserAuthenticatedPlugins(
+  AuthenticationRepositoryRef ref,
+) =>
+    [
       DummyOnUserAuthenticatedPlugin(),
+      RealmMigrationOnUserAuthenticatedPlugin(
+        ref.read(migrationRunnerProvider),
+      ),
     ];
 
 @riverpod

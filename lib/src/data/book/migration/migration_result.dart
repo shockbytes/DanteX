@@ -22,7 +22,8 @@ class MigrationResult {
 }
 
 enum MigrationStatus {
-  required,
-  migrated,
-  failed,
+  required, // A migration needs to run
+  migrated, // A migration has been executed
+  failed, // The migration failed
+  unsupportedPlatform, // Migrations will only run on Android
 }

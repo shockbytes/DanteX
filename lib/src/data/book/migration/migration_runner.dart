@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:dantex/src/data/book/book_repository.dart';
 import 'package:dantex/src/data/book/entity/book.dart';
@@ -30,8 +31,11 @@ class MigrationRunner {
         _pageRecordTarget = pageRecordTarget,
         _pageRecordSource = pageRecordSource;
 
-  // TODO Call this method
   Future<MigrationStatus> migrateIfRequired() async {
+    if (!Platform.isAndroid) {
+      return MigrationStatus.unsupportedPlatform;
+    }
+
     final MigrationStatus status = await _migrationStatus();
 
     // If status is not required, return the current status.
@@ -39,9 +43,11 @@ class MigrationRunner {
       return status;
     }
 
-    final MigrationResult score = await _migrate();
-    final MigrationStatus newStatus = score.statusFromScore();
+    final MigrationResult result = await _migrate();
+    final MigrationStatus newStatus = result.statusFromScore();
+    _logResult(result);
     _updateMigrationStatus(newStatus);
+
     return newStatus;
   }
 
@@ -116,6 +122,15 @@ class MigrationRunner {
     return (
       migratedPageRecords: migratedPageRecords,
       pageRecordsToMigrate: pageRecordsToMigrate.length,
+    );
+  }
+
+  void _logResult(MigrationResult r) {
+    _logger.i(
+      'Migration result status: ${r.statusFromScore().name}\n'
+      '----------------------\n'
+      'Migrated books: ${r.migratedBooks} / ${r.booksToMigrate}\n'
+      'Migrated pages: ${r.migratedPageRecords} / ${r.pageRecordsToMigrate}\n',
     );
   }
 
