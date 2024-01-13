@@ -48,16 +48,20 @@ class LoginPageState extends ConsumerState<LoginPage> {
                         const SizedBox(height: 16),
                         Text(
                           'welcome_back'.tr(),
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.onSurface,
                           ),
                         ),
                         const SizedBox(height: 12),
                         Text(
                           'login_with_account'.tr(),
                           textAlign: TextAlign.center,
-                          style: const TextStyle(fontSize: 12),
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
                         ),
                         const SizedBox(height: 24),
                         DanteOutlinedButton(
