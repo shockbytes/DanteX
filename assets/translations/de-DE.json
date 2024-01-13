@@ -31,6 +31,7 @@
     "share": "Teilen",
     "suggest": "Vorschlagen"
   },
+  "share-book": "Hi! Ich lese gerade {title} von {author} und finde es großartig!",
   "book_detail": {
     "label": "Labels",
     "notes": "Notizen",

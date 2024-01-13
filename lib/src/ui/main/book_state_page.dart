@@ -90,7 +90,7 @@ class _BooksScreen extends ConsumerWidget {
       itemBuilder: (context, index) => _buildItem(
         books[index],
         bookRepository,
-        useMobileLayout: true,
+        useMobileLayout: false,
       ),
       itemCount: books.length,
     );
@@ -103,7 +103,7 @@ class _BooksScreen extends ConsumerWidget {
   }) {
     return BookItemWidget(
       book,
-      useMobileLayout: false,
+      useMobileLayout: useMobileLayout,
       onBookDeleted: (Book book) => _handleBookDeletion(bookRepository, book),
       onBookStateChanged: (book, state) => _handleBookUpdate(
         bookRepository,
