@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dantex/src/data/book/entity/book.dart';
 import 'package:dantex/src/data/book/entity/book_label.dart';
+import 'package:dantex/src/providers/app_router.dart';
 import 'package:dantex/src/providers/book.dart';
 import 'package:dantex/src/providers/repository.dart';
 import 'package:dantex/src/ui/book/add_label_bottom_sheet.dart';
@@ -9,6 +10,7 @@ import 'package:dantex/src/util/extensions.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class BookDetailPage extends ConsumerWidget {
@@ -71,16 +73,24 @@ class BookDetailPage extends ConsumerWidget {
 class _IconSubtitle extends StatelessWidget {
   final IconData icon;
   final String subtitle;
+  final void Function()? onTap;
 
-  const _IconSubtitle({required this.icon, required this.subtitle});
+  const _IconSubtitle({
+    required this.icon,
+    required this.subtitle,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Icon(icon),
-        Text(subtitle),
-      ],
+    return InkWell(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Icon(icon),
+          Text(subtitle),
+        ],
+      ),
     );
   }
 }
@@ -196,6 +206,9 @@ class _BookActions extends StatelessWidget {
           child: _IconSubtitle(
             icon: Icons.assignment,
             subtitle: 'book_detail.notes'.tr(),
+            onTap: () async => context.push(
+              DanteRoute.bookNotes.navigationUrl.replaceAll(':bookId', book.id),
+            ),
           ),
         ),
         Expanded(

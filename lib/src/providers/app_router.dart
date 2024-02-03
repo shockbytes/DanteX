@@ -1,6 +1,7 @@
 import 'package:dantex/src/providers/authentication.dart';
 import 'package:dantex/src/ui/add/scan_book_page.dart';
 import 'package:dantex/src/ui/book/book_detail_page.dart';
+import 'package:dantex/src/ui/book/book_notes_page.dart';
 import 'package:dantex/src/ui/boot_page.dart';
 import 'package:dantex/src/ui/core/dante_page_scaffold.dart';
 import 'package:dantex/src/ui/login/email_login_page.dart';
@@ -163,6 +164,13 @@ List<RouteBase> _mainRoutes = [
       return BookDetailPage(id: bookId);
     },
   ),
+  GoRoute(
+    path: DanteRoute.bookNotes.url,
+    builder: (context, state) {
+      final bookId = state.pathParameters['bookId'] ?? '';
+      return BookNotesPage(id: bookId);
+    },
+  ),
 ];
 
 enum DanteRoute {
@@ -240,6 +248,11 @@ enum DanteRoute {
     webUrl: '/book/:bookId',
     mobileUrl: 'book/:bookId',
     navigationUrl: '/book/:bookId',
+  ),
+  bookNotes(
+    webUrl: '/book/:bookId/notes',
+    mobileUrl: 'book/:bookId/notes',
+    navigationUrl: '/book/:bookId/notes',
   );
 
   /// Url used for registering the route in the [_router] field for Web.

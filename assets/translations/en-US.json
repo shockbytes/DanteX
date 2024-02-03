@@ -30,7 +30,6 @@
     "share": "Share",
     "suggest": "Suggest"
   },
-  "share-book": "Hey! I am currently reading {title} from {author} and I find it awesome!",
   "book_detail": {
     "label": "Label",
     "notes": "Notes",
@@ -46,6 +45,11 @@
     "restore_detail": "Choose merge if you want to preserve the books on your device and complement the collection with the missing books in the backup. Or chose overwrite to completely delete all the books on your device and replace them with the books in the backup file.",
     "restore_strategy": "Restore strategy",
     "title": "Book management"
+  },
+  "book_notes": {
+    "my_notes": "My notes",
+    "my_thoughts": "My thoughts belong here...",
+    "subtitle": "Write down your thoughts, feelings or some general remarks about {title}"
   },
   "cancel": "Cancel",
   "change": "Change",
@@ -84,59 +88,6 @@
     "timeline": "Timeline",
     "wishlist": "Wishlist"
   },
-  "stats": {
-    "books-and-pages": {
-      "title": "Books & Pages",
-      "empty": "No data available.",
-      "books": "Books",
-      "books-waiting": "{} books waiting",
-      "books-reading": "{} books reading",
-      "books-read": "{} books read",
-      "pages": "Pages",
-      "pages-waiting": "{} pages waiting",
-      "pages-read": "{} pages read"
-    },
-    "label": {
-      "title": "Labels",
-      "empty": "No data for label distribution."
-    },
-    "language": {
-      "title": "Languages",
-      "empty": "No data for language distribution.",
-      "na": "NA"
-    },
-    "reading-time": {
-      "title": "Reading time",
-      "empty": "No data available.",
-      "fastest-book": "Fastest book",
-      "slowest-book": "Slowest book",
-      "days": "{} days"
-    },
-    "misc": {
-      "title": "Misc",
-      "empty": "No data available.",
-      "average-books": {
-        "description": "Books per Month"
-      },
-      "most-read-month": {
-        "description": "Books in {}"
-      }
-    },
-    "favorites": {
-      "title": "Favorites",
-      "empty": "No data for favorites available.",
-      "favorite-author": "Favorite Author",
-      "first-five-star-book": "First 5-star rating"
-    },
-    "books-per-year": {
-      "title": "Books per year",
-      "empty": "No data available"
-    },
-    "books-per-month": {
-      "title": "Books per month",
-      "empty": "No data available"
-    }
-  },
   "no_thanks": "No thanks",
   "not_my_book": "Not my book",
   "password": "Password",
@@ -169,6 +120,7 @@
   "reset": "Reset",
   "reset_password": "Reset Password",
   "reset_password_text": "A link will be sent to your registered email address with instructions on how to reset your password.",
+  "save": "Save",
   "search": {
     "empty": {
       "action": "Search online",
@@ -228,8 +180,62 @@
     },
     "title": "Settings"
   },
+  "share-book": "Hey! I am currently reading {title} from {author} and I find it awesome!",
   "sign_in": "Sign in",
   "sign_up_with_mail": "Sign up with email",
+  "stats": {
+    "books-and-pages": {
+      "books": "Books",
+      "books-read": "{} books read",
+      "books-reading": "{} books reading",
+      "books-waiting": "{} books waiting",
+      "empty": "No data available.",
+      "pages": "Pages",
+      "pages-read": "{} pages read",
+      "pages-waiting": "{} pages waiting",
+      "title": "Books & Pages"
+    },
+    "books-per-month": {
+      "empty": "No data available",
+      "title": "Books per month"
+    },
+    "books-per-year": {
+      "empty": "No data available",
+      "title": "Books per year"
+    },
+    "favorites": {
+      "empty": "No data for favorites available.",
+      "favorite-author": "Favorite Author",
+      "first-five-star-book": "First 5-star rating",
+      "title": "Favorites"
+    },
+    "label": {
+      "empty": "No data for label distribution.",
+      "title": "Labels"
+    },
+    "language": {
+      "empty": "No data for language distribution.",
+      "na": "NA",
+      "title": "Languages"
+    },
+    "misc": {
+      "average-books": {
+        "description": "Books per Month"
+      },
+      "empty": "No data available.",
+      "most-read-month": {
+        "description": "Books in {}"
+      },
+      "title": "Misc"
+    },
+    "reading-time": {
+      "days": "{} days",
+      "empty": "No data available.",
+      "fastest-book": "Fastest book",
+      "slowest-book": "Slowest book",
+      "title": "Reading time"
+    }
+  },
   "stay_anonymous": "Stay Anonymous",
   "tabs": {
     "for_later": "For later",

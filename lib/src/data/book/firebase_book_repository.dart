@@ -222,6 +222,16 @@ class FirebaseBookRepository implements BookRepository {
       }
     }
   }
+
+  @override
+  Future<void> deleteNotes(String bookId) async {
+    return _booksRef().child(bookId).update({'notes': null});
+  }
+
+  @override
+  Future<void> saveNotes(String bookId, String notes) {
+    return _booksRef().child(bookId).update({'notes': notes});
+  }
 }
 
 extension DataSnapshotExtension on DataSnapshot {
