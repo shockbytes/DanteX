@@ -1,4 +1,6 @@
+import 'package:collection/collection.dart';
 import 'package:dantex/src/data/book/book_repository.dart';
+import 'package:dantex/src/data/book/book_sort_strategy.dart';
 import 'package:dantex/src/data/book/entity/book.dart';
 import 'package:dantex/src/data/book/entity/book_label.dart';
 import 'package:dantex/src/data/book/entity/book_state.dart';
@@ -82,12 +84,16 @@ class FirebaseBookRepository implements BookRepository {
   }
 
   @override
-  Stream<List<Book>> getBooksForState(BookState state) {
+  Stream<List<Book>> getBooksForState(
+    BookState state,
+    BookSortStrategy sortStrategy,
+  ) {
     return getAllBooks().map(
       (books) => books
           .where(
             (book) => book.state == state,
           )
+          .sorted(sortStrategy.comparator())
           .toList(),
     );
   }

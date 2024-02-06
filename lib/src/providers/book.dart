@@ -14,5 +14,8 @@ Stream<List<Book>> booksForState(
   BooksForStateRef ref,
   BookState bookState,
 ) {
-  return ref.watch(bookRepositoryProvider).getBooksForState(bookState);
+  final bookSortStrategy = ref.watch(sortingStrategyProvider);
+  return ref
+      .watch(bookRepositoryProvider)
+      .getBooksForState(bookState, bookSortStrategy);
 }

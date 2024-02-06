@@ -1,10 +1,14 @@
+import 'package:dantex/src/data/book/book_sort_strategy.dart';
 import 'package:dantex/src/data/book/entity/book.dart';
 import 'package:dantex/src/data/book/entity/book_label.dart';
 import 'package:dantex/src/data/book/entity/book_state.dart';
 import 'package:dantex/src/data/book/search_criteria.dart';
 
 abstract class BookRepository {
-  Stream<List<Book>> getBooksForState(BookState state);
+  Stream<List<Book>> getBooksForState(
+    BookState state,
+    BookSortStrategy sortStrategy,
+  );
 
   Stream<List<Book>> getAllBooks();
 
