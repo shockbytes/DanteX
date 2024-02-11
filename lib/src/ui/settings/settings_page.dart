@@ -21,6 +21,7 @@ class SettingsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final SettingsRepository repository = ref.watch(settingsRepositoryProvider);
+    final sortingStrategy = ref.watch(sortingStrategyProvider);
     return Scaffold(
       appBar: ThemedAppBar(
         title: Text('settings.title'.tr()),
@@ -62,7 +63,7 @@ class SettingsPage extends ConsumerWidget {
                 title: Text('settings.books.sort'.tr()),
                 value: _buildTextValue(
                   context,
-                  repository.getSortingStrategy().strategyName,
+                  sortingStrategy.strategyName,
                 ),
                 leading: const Icon(Icons.sort_outlined),
                 onPressed: (context) async {
@@ -71,7 +72,7 @@ class SettingsPage extends ConsumerWidget {
                     builder: (context) => SingleChoiceDialog<BookSortStrategy>(
                       title: 'settings.books.sort_choose_title'.tr(),
                       icon: Icons.sort_outlined,
-                      selectedValue: repository.getSortingStrategy(),
+                      selectedValue: sortingStrategy,
                       choices: BookSortStrategy.values
                           .map(
                             (e) => Choice<BookSortStrategy>(
@@ -81,7 +82,9 @@ class SettingsPage extends ConsumerWidget {
                           )
                           .toList(),
                       onValueSelected: (BookSortStrategy selectedStrategy) {
-                        repository.setSortingStrategy(selectedStrategy);
+                        ref
+                            .read(sortingStrategyProvider.notifier)
+                            .set(selectedStrategy);
                       },
                     ),
                   );

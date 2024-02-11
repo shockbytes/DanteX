@@ -1,5 +1,6 @@
 import 'package:dantex/src/data/book/book_label_repository.dart';
 import 'package:dantex/src/data/book/book_repository.dart';
+import 'package:dantex/src/data/book/book_sort_strategy.dart';
 import 'package:dantex/src/data/book/firebase_book_label_repository.dart';
 import 'package:dantex/src/data/book/firebase_book_repository.dart';
 import 'package:dantex/src/data/recommendations/default_recommendations_repository.dart';
@@ -21,7 +22,10 @@ BookRepository bookRepository(BookRepositoryRef ref) => FirebaseBookRepository(
     );
 
 @riverpod
-RecommendationsRepository recommendationsRepository(RecommendationsRepositoryRef ref) => DefaultRecommendationsRepository(
+RecommendationsRepository recommendationsRepository(
+  RecommendationsRepositoryRef ref,
+) =>
+    DefaultRecommendationsRepository(
       ref.watch(recommendationsApiProvider),
       ref.watch(recommendationsCacheProvider),
       ref.watch(recommendationsReportCacheProvider),
@@ -63,5 +67,17 @@ class IsTrackingEnabled extends _$IsTrackingEnabled {
         .watch(settingsRepositoryProvider)
         .setIsTrackingEnabled(isTrackingEnabled: !state);
     state = !state;
+  }
+}
+
+@riverpod
+class SortingStrategy extends _$SortingStrategy {
+  @override
+  BookSortStrategy build() =>
+      ref.watch(settingsRepositoryProvider).getSortingStrategy();
+
+  void set(BookSortStrategy strategy) {
+    ref.watch(settingsRepositoryProvider).setSortingStrategy(strategy);
+    state = strategy;
   }
 }
