@@ -39,4 +39,8 @@ abstract class BookRepository {
   Future<void> overwriteBooks(List<Book> books);
 
   Future<void> mergeBooks(List<Book> books);
+
+  Future<void> deleteNotes(String bookId);
+
+  Future<void> saveNotes(String bookId, String notes);
 }

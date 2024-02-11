@@ -31,7 +31,6 @@
     "share": "Teilen",
     "suggest": "Vorschlagen"
   },
-  "share-book": "Hi! Ich lese gerade {title} von {author} und finde es großartig!",
   "book_detail": {
     "label": "Labels",
     "notes": "Notizen",
@@ -47,6 +46,11 @@
     "restore_detail": "Wähle <b>zusammenfügen</b> um die gespeicherten Bücher beizubehalten und die Sammlung durch fehlende Bücher im Backup zu vervollständigen. Oder wähle <b>überschreiben</b> um alle Bücher am Gerät zu löschen und durch die komplette Sammlung des Backups zu ersetzen.",
     "restore_strategy": "Wiederherstellungsstrategie",
     "title": "Bücherverwaltung"
+  },
+  "book_notes": {
+    "my_notes": "",
+    "my_thoughts": "",
+    "subtitle": "Write down your thoughts, feelings or some general remarks about {title}"
   },
   "cancel": "Zurück",
   "change": "Ändern",
@@ -85,59 +89,6 @@
     "timeline": "Timeline",
     "wishlist": "Wunschliste"
   },
-  "stats": {
-    "books-and-pages": {
-      "title": "Bücher & Seiten",
-      "empty": "Es liegen keine Daten vor.",
-      "books": "Bücher",
-      "books-waiting": "{} Bücher warten",
-      "books-reading": "{} Bücher werden gelesen",
-      "books-read": "{} Bücher gelesen",
-      "pages": "Seiten",
-      "pages-waiting": "{} Seiten warten",
-      "pages-read": "{} Seiten gelesen"
-    },
-    "label": {
-      "title": "Labels",
-      "empty": "Es liegen keine Daten für Labels vor.",
-      "na": "NA"
-    },
-    "language": {
-      "title": "Sprachen",
-      "empty": "Es liegen keine Daten für Sprachen vor."
-    },
-    "reading-time": {
-      "title": "Lesezeit",
-      "empty": "Es liegen keine Daten vor.",
-      "fastest-book": "Schnellstes Buch",
-      "slowest-book": "Langsamstes Buch",
-      "days": "{} Tage"
-    },
-    "misc": {
-      "title": "Verschiedenes",
-      "empty": "Keine Daten verfügbar.",
-      "average-books": {
-        "description": "Bücher pro Monat"
-      },
-      "most-read-month": {
-        "description": "Bücher im {}"
-      }
-    },
-    "favorites": {
-      "title": "Favoriten",
-      "empty": "Keine Daten für Favoriten vorhanden.",
-      "favorite-author": "Liebingsautor",
-      "first-five-star-book": "Erstes 5-Sterne Buch"
-    },
-    "books-per-year": {
-      "title": "Bücher pro Jahr",
-      "empty": "Es liegen keine Daten vor."
-    },
-    "books-per-month": {
-      "title": "Bücher pro Monat",
-      "empty": "Es liegen keine Daten vor."
-    }
-  },
   "no_thanks": "Nein danke",
   "not_my_book": "Nicht mein Buch",
   "password": "Passwort",
@@ -170,6 +121,7 @@
   "reset": "Zurücksetzen",
   "reset_password": "Password zurücksetzen",
   "reset_password_text": "Wir versenden ein Email an deine registrierte Adresse, wo du weitere Instruktionen zum Zurücksetzen findest.",
+  "save": "",
   "search": {
     "empty": {
       "action": "Online suchen",
@@ -229,8 +181,62 @@
     },
     "title": "Einstellungen"
   },
+  "share-book": "Hi! Ich lese gerade {title} von {author} und finde es großartig!",
   "sign_in": "Anmelden",
   "sign_up_with_mail": "Anmelden mit Email",
+  "stats": {
+    "books-and-pages": {
+      "books": "Bücher",
+      "books-read": "{} Bücher gelesen",
+      "books-reading": "{} Bücher werden gelesen",
+      "books-waiting": "{} Bücher warten",
+      "empty": "Es liegen keine Daten vor.",
+      "pages": "Seiten",
+      "pages-read": "{} Seiten gelesen",
+      "pages-waiting": "{} Seiten warten",
+      "title": "Bücher & Seiten"
+    },
+    "books-per-month": {
+      "empty": "Es liegen keine Daten vor.",
+      "title": "Bücher pro Monat"
+    },
+    "books-per-year": {
+      "empty": "Es liegen keine Daten vor.",
+      "title": "Bücher pro Jahr"
+    },
+    "favorites": {
+      "empty": "Keine Daten für Favoriten vorhanden.",
+      "favorite-author": "Liebingsautor",
+      "first-five-star-book": "Erstes 5-Sterne Buch",
+      "title": "Favoriten"
+    },
+    "label": {
+      "empty": "Es liegen keine Daten für Labels vor.",
+      "na": "NA",
+      "title": "Labels"
+    },
+    "language": {
+      "empty": "Es liegen keine Daten für Sprachen vor.",
+      "title": "Sprachen"
+    },
+    "misc": {
+      "average-books": {
+        "description": "Bücher pro Monat"
+      },
+      "empty": "Keine Daten verfügbar.",
+      "most-read-month": {
+        "description": "Bücher im {}"
+      },
+      "title": "Verschiedenes"
+    },
+    "reading-time": {
+      "days": "{} Tage",
+      "empty": "Es liegen keine Daten vor.",
+      "fastest-book": "Schnellstes Buch",
+      "slowest-book": "Langsamstes Buch",
+      "title": "Lesezeit"
+    }
+  },
   "stay_anonymous": "Anonym bleiben",
   "tabs": {
     "for_later": "Für später",
