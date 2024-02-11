@@ -20,7 +20,11 @@ abstract class BookRepository {
 
   Future<void> delete(String id);
 
-  Future<void> updateCurrentPage(String bookId, int currentPage);
+  Future<void> updatePageInfo({
+    required String bookId,
+    required int currentPage,
+    required int pageCount,
+  });
 
   Stream<List<Book>> search(SearchCriteria criteria);
 

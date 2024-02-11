@@ -23,6 +23,7 @@ class DanteTextField extends StatelessWidget {
   final String? initialValue;
   final String? hint;
   final Widget? suffixIcon;
+  final Widget? label;
   final bool? enabled;
   final void Function(String)? onChanged;
   final int maxLines;
@@ -43,6 +44,7 @@ class DanteTextField extends StatelessWidget {
     this.onChanged,
     this.errorText,
     this.formatter,
+    this.label,
   });
 
   @override
@@ -62,6 +64,7 @@ class DanteTextField extends StatelessWidget {
       onChanged: onChanged,
       inputFormatters: [if (formatter != null) formatter!],
       decoration: InputDecoration(
+        label: label,
         errorText: errorText,
         hintText: hint,
         suffixIcon: suffixIcon,

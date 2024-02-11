@@ -5,13 +5,13 @@ import 'package:dantex/src/providers/app_router.dart';
 import 'package:dantex/src/providers/book.dart';
 import 'package:dantex/src/providers/repository.dart';
 import 'package:dantex/src/ui/book/add_label_bottom_sheet.dart';
+import 'package:dantex/src/ui/book/book_progress_indicator.dart';
 import 'package:dantex/src/ui/core/generic_error_widget.dart';
 import 'package:dantex/src/util/extensions.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class BookDetailPage extends ConsumerWidget {
   final String id;
@@ -47,7 +47,7 @@ class BookDetailPage extends ConsumerWidget {
                 children: [
                   _BookInfo(book: book),
                   const SizedBox(height: 20),
-                  _BookProgress(book: book),
+                  BookProgress(book: book),
                   const SizedBox(height: 20),
                   _BookActions(book: book),
                   const SizedBox(height: 20),
@@ -135,53 +135,6 @@ class _BookInfo extends StatelessWidget {
         ),
         // TODO: Add collapseable text field for description here
       ],
-    );
-  }
-}
-
-class _BookProgress extends StatelessWidget {
-  final Book book;
-
-  const _BookProgress({required this.book});
-
-  @override
-  Widget build(BuildContext context) {
-    return Visibility(
-      visible: book.pageCount > 0,
-      child: SizedBox(
-        height: 140,
-        child: CircularPercentIndicator(
-          key: const ValueKey('book-detail-progress-indicator'),
-          radius: 70.0,
-          lineWidth: 2.0,
-          circularStrokeCap: CircularStrokeCap.round,
-          animation: true,
-          widgetIndicator: Icon(
-            Icons.circle,
-            size: 12,
-            color: Theme.of(context).colorScheme.secondaryContainer,
-          ),
-          percent: book.currentPage / book.pageCount,
-          center: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.menu_book_outlined,
-                color: Theme.of(context).colorScheme.secondaryContainer,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                '${book.currentPage} / ${book.pageCount}',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
-              ),
-            ],
-          ),
-          backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
-          progressColor: Theme.of(context).colorScheme.onSecondaryContainer,
-        ),
-      ),
     );
   }
 }

@@ -20,6 +20,7 @@ Future<void> showDanteDialog(
   required String title,
   required Widget content,
   Widget? leading,
+  Widget? trailing,
   List<DanteDialogAction> actions = const [],
   bool barrierDismissible = false,
 }) {
@@ -27,7 +28,7 @@ Future<void> showDanteDialog(
     barrierDismissible: barrierDismissible,
     context: context,
     builder: (_) => PlatformAlertDialog(
-      title: _buildDialogTitle(title, leading),
+      title: _buildDialogTitle(title, leading, trailing),
       content: content,
       actions: actions
           .map(
@@ -65,6 +66,7 @@ Future showDanteInputDialog(
   required String title,
   required TextEditingController controller,
   Widget? leading,
+  Widget? trailing,
   String? hint,
   int maxLines = 1,
   TextInputAction textInputAction = TextInputAction.next,
@@ -76,7 +78,7 @@ Future showDanteInputDialog(
     context: context,
     useRootNavigator: false,
     builder: (_) => PlatformAlertDialog(
-      title: _buildDialogTitle(title, leading),
+      title: _buildDialogTitle(title, leading, trailing),
       content: PlatformTextField(
         controller: controller,
         obscureText: obscureText,
@@ -108,13 +110,16 @@ Future showDanteInputDialog(
   );
 }
 
-Widget _buildDialogTitle(String title, Widget? leading) {
+Widget _buildDialogTitle(String title, Widget? leading, Widget? trailing) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       leading ?? const SizedBox.shrink(),
       const SizedBox(width: 8),
-      Text(title),
+      Expanded(
+        child: Text(title),
+      ),
+      trailing ?? const SizedBox.shrink(),
     ],
   );
 }

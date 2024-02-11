@@ -51,6 +51,15 @@
     "my_thoughts": "My thoughts belong here...",
     "subtitle": "Write down your thoughts, feelings or some general remarks about {title}"
   },
+  "book_progress": {
+    "current_page": "Current page",
+    "enter_pages": "Enter pages",
+    "error": "Error",
+    "error_current_page": "Current page cannot be greater than page count",
+    "ok": "Ok",
+    "page_count": "Pages",
+    "save": "Save"
+  },
   "cancel": "Cancel",
   "change": "Change",
   "change_password": "Change password",

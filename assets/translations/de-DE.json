@@ -52,6 +52,15 @@
     "my_thoughts": "",
     "subtitle": "Write down your thoughts, feelings or some general remarks about {title}"
   },
+  "book_progress": {
+    "current_page": "TODO",
+    "enter_pages": "TODO",
+    "error": "TODO",
+    "error_current_page": "TODO",
+    "ok": "TODO",
+    "page_count": "TODO",
+    "save": "TODO"
+  },
   "cancel": "Zurück",
   "change": "Ändern",
   "change_password": "Passwort ändern",
