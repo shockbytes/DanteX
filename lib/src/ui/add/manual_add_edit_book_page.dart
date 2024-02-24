@@ -1,6 +1,7 @@
 import 'package:dantex/src/data/book/entity/book_state.dart';
 import 'package:dantex/src/data/core/language.dart';
-import 'package:dantex/src/ui/add/language_picker.dart';
+import 'package:dantex/src/ui/add/date_picker_widget.dart';
+import 'package:dantex/src/ui/add/language_picker_widget.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/themed_app_bar.dart';
 import 'package:dantex/src/util/layout_utils.dart';
@@ -8,17 +9,18 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 /// TODO
-/// 2. Manual Add book
-///   -[ ] Web
-///   -[ ] Translations
+/// 2. Manual Add book UI
+///   -[x] Web
+///   -[x] Translations
 ///   -[ ] App
 ///   -[ ] Dark Mode
 /// 3. Upload image
-/// 4. Entry points for edit book:
+/// 4. Save manual book
+/// 5. Entry points for edit book:
 ///   - Overflow
 ///   - Detail Page
-/// 4. Edit existing book
-/// 5. Test
+/// 6. Edit existing book
+/// 7. Test
 ///   - Web
 ///   - App
 class ManualAddEditBookPage extends StatefulWidget {
@@ -175,9 +177,13 @@ class _ManualAddEditBookPageState extends State<ManualAddEditBookPage> {
               hint: 'add-manual.subtitle'.tr(),
             ),
             const SizedBox(height: 16),
-            Text('TODO DatePicker PublishDate'),
+            DatePickerWidget(
+              onDateSelected: (DateTime date) {
+                print(date);
+              },
+            ),
             const SizedBox(height: 16),
-            LanguagePicker(
+            LanguagePickerWidget(
               onLanguageSelected: (Language language) {
                 print(language);
               },

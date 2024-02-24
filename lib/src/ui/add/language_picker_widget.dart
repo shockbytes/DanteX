@@ -3,21 +3,21 @@ import 'package:dantex/src/data/core/language.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-class LanguagePicker extends StatefulWidget {
+class LanguagePickerWidget extends StatefulWidget {
   final Language preSelectedLanguage;
   final Function(Language language) onLanguageSelected;
 
-  const LanguagePicker({
+  const LanguagePickerWidget({
     required this.onLanguageSelected,
     this.preSelectedLanguage = Language.na,
     super.key,
   });
 
   @override
-  State<LanguagePicker> createState() => _LanguagePickerState();
+  State<LanguagePickerWidget> createState() => _LanguagePickerWidgetState();
 }
 
-class _LanguagePickerState extends State<LanguagePicker> {
+class _LanguagePickerWidgetState extends State<LanguagePickerWidget> {
   final List<Language> _supportedLanguages = Language.values;
   Language _selectedLanguage = Language.na;
 
@@ -37,7 +37,9 @@ class _LanguagePickerState extends State<LanguagePicker> {
           style: Theme.of(context).textTheme.titleMedium,
         ),
         Container(
-          constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
+          constraints: BoxConstraints(
+            maxWidth: MediaQuery.of(context).size.width,
+          ),
           alignment: Alignment.center,
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(

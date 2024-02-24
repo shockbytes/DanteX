@@ -18,6 +18,10 @@
     "title": "Language",
     "empty": "Choose a language"
   },
+  "date-picker": {
+    "title": "Publish Date",
+    "empty": "Choose a date"
+  },
   "countries": {
     "not-available": "Not specified",
     "us": "English",
