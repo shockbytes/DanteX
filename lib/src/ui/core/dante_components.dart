@@ -63,6 +63,9 @@ class DanteTextField extends StatelessWidget {
       maxLines: maxLines,
       onChanged: onChanged,
       inputFormatters: [if (formatter != null) formatter!],
+      style: TextStyle(
+        color: Theme.of(context).colorScheme.onSurface,
+      ),
       decoration: InputDecoration(
         label: label,
         errorText: errorText,

@@ -34,7 +34,9 @@ class _LanguagePickerWidgetState extends State<LanguagePickerWidget> {
       children: [
         Text(
           'language-picker.title'.tr(),
-          style: Theme.of(context).textTheme.titleMedium,
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
         ),
         Container(
           constraints: BoxConstraints(
@@ -45,7 +47,10 @@ class _LanguagePickerWidgetState extends State<LanguagePickerWidget> {
             borderRadius: const BorderRadius.all(
               Radius.circular(4),
             ),
-            border: Border.all(width: 0.7),
+            border: Border.all(
+              width: 0.7,
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
           ),
           child: DropdownButtonHideUnderline(
             child: DropdownButton<Language>(
@@ -53,6 +58,9 @@ class _LanguagePickerWidgetState extends State<LanguagePickerWidget> {
               hint: Text(
                 'language-picker.empty'.tr(),
                 textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
               ),
               icon: Icon(
                 Icons.arrow_drop_down,
@@ -67,10 +75,13 @@ class _LanguagePickerWidgetState extends State<LanguagePickerWidget> {
                     child: Row(
                       children: [
                         const SizedBox(width: 12),
-                        _buildCountryFlag(language),
+                        _buildCountryFlag(context, language),
                         const SizedBox(width: 16),
                         Text(
                           language.translationKey.tr(),
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
                         ),
                       ],
                     ),
@@ -93,12 +104,17 @@ class _LanguagePickerWidgetState extends State<LanguagePickerWidget> {
     );
   }
 
-  Widget _buildCountryFlag(Language language) {
+  Widget _buildCountryFlag(BuildContext context, Language language) {
     if (language.countryCode == null) {
-      return const SizedBox(
+      return SizedBox(
         width: 48,
         child: Center(
-          child: Text('NA'),
+          child: Text(
+            'NA',
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
+          ),
         ),
       );
     }

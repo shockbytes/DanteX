@@ -32,7 +32,9 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
       children: [
         Text(
           'date-picker.title'.tr(),
-          style: Theme.of(context).textTheme.titleMedium,
+          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
         ),
         Container(
           constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width),
@@ -42,7 +44,10 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
             borderRadius: const BorderRadius.all(
               Radius.circular(4),
             ),
-            border: Border.all(width: 0.7),
+            border: Border.all(
+              width: 0.7,
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
           ),
           child: InkWell(
             child: Row(
@@ -52,7 +57,9 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
                 Center(
                   child: Text(
                     _selectedDateTime?.formatDefault() ?? 'date-picker.empty'.tr(),
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
                   ),
                 ),
               ],

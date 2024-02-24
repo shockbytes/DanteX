@@ -1,5 +1,6 @@
 import 'package:dantex/src/data/book/entity/book_state.dart';
 import 'package:dantex/src/data/core/language.dart';
+import 'package:dantex/src/ui/add/book_cover_picker_widget.dart';
 import 'package:dantex/src/ui/add/date_picker_widget.dart';
 import 'package:dantex/src/ui/add/language_picker_widget.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
@@ -9,13 +10,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 /// TODO
-/// 2. Manual Add book UI
-///   -[x] Web
-///   -[x] Translations
-///   -[ ] App
-///   -[ ] Dark Mode
-/// 3. Upload image
-/// 4. Save manual book
+/// 3. Save manual book
+/// 4. Upload image
 /// 5. Entry points for edit book:
 ///   - Overflow
 ///   - Detail Page
@@ -48,13 +44,16 @@ class _ManualAddEditBookPageState extends State<ManualAddEditBookPage> {
           title: Text(_title ?? ''),
         ),
         Expanded(
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              return switch (getDeviceFormFactor(constraints)) {
-                DeviceFormFactor.desktop => _buildDesktopLayout(context),
-                _ => _buildMobileLayout(context),
-              };
-            },
+          child: Container(
+            color: Theme.of(context).colorScheme.surface,
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return switch (getDeviceFormFactor(constraints)) {
+                  DeviceFormFactor.desktop => _buildDesktopLayout(context),
+                  _ => _buildMobileLayout(context),
+                };
+              },
+            ),
           ),
         ),
         Container(
@@ -101,9 +100,9 @@ class _ManualAddEditBookPageState extends State<ManualAddEditBookPage> {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: ListView(
         shrinkWrap: true,
-        itemExtent: 16,
         children: [
           _buildRequiredInformationCard(isDesktop: false),
+          const SizedBox(height: 16),
           _buildOptionalInformationCard(
             context,
             isDesktop: false,
@@ -121,13 +120,13 @@ class _ManualAddEditBookPageState extends State<ManualAddEditBookPage> {
           children: [
             if (isDesktop) ...[
               const Spacer(),
-              Text('Image'),
+              BookCoverPickerWidget(),
               const Spacer(),
             ],
             Row(
               children: [
                 if (!isDesktop) ...[
-                  Text('Image'),
+                  BookCoverPickerWidget(),
                   const SizedBox(width: 16),
                 ],
                 Expanded(
@@ -169,7 +168,9 @@ class _ManualAddEditBookPageState extends State<ManualAddEditBookPage> {
           children: [
             Text(
               'add-manual.optional-info'.tr(),
-              style: Theme.of(context).textTheme.titleLarge,
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
             ),
             const SizedBox(height: 32),
             DanteTextField(
@@ -207,7 +208,7 @@ class _ManualAddEditBookPageState extends State<ManualAddEditBookPage> {
 
   Widget _buildStateButton(BookState state) {
     return SizedBox(
-      width: 140,
+      width: 120,
       child: OutlinedButton(
         onPressed: () {},
         // icon: state.icon,
