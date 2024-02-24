@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dantex/src/data/book/book_repository.dart';
 import 'package:dantex/src/data/book/entity/book.dart';
 import 'package:dantex/src/data/book/entity/book_state.dart';
+import 'package:dantex/src/providers/app_router.dart';
 import 'package:dantex/src/providers/book.dart';
 import 'package:dantex/src/providers/repository.dart';
 import 'package:dantex/src/ui/book/book_item_widget.dart';
@@ -11,6 +12,7 @@ import 'package:dantex/src/ui/main/empty_state_view.dart';
 import 'package:dantex/src/util/layout_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class BookStatePage extends ConsumerWidget {
   final BookState _state;
@@ -48,11 +50,18 @@ class _BooksScreen extends ConsumerWidget {
         final DeviceFormFactor formFactor = getDeviceFormFactor(constraints);
 
         return switch (formFactor) {
-          DeviceFormFactor.desktop =>
-            _buildLargeLayout(bookRepository, columns: 3),
-          DeviceFormFactor.tablet =>
-            _buildLargeLayout(bookRepository, columns: 2),
+          DeviceFormFactor.desktop => _buildLargeLayout(
+              context,
+              bookRepository,
+              columns: 3,
+            ),
+          DeviceFormFactor.tablet => _buildLargeLayout(
+              context,
+              bookRepository,
+              columns: 2,
+            ),
           DeviceFormFactor.phone => _buildPhoneLayout(
+              context,
               bookRepository,
             ),
         };
@@ -60,22 +69,26 @@ class _BooksScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildPhoneLayout(BookRepository bookRepository) {
+  Widget _buildPhoneLayout(
+    BuildContext context,
+    BookRepository bookRepository,
+  ) {
     return ListView.separated(
       padding: const EdgeInsets.all(16.0),
       physics: const BouncingScrollPhysics(),
       itemCount: books.length,
       itemBuilder: (context, index) => _buildItem(
+        context,
         books[index],
         bookRepository,
         useMobileLayout: true,
       ),
-      separatorBuilder: (BuildContext context, int index) =>
-          const SizedBox(height: 16),
+      separatorBuilder: (BuildContext context, int index) => const SizedBox(height: 16),
     );
   }
 
   Widget _buildLargeLayout(
+    BuildContext context,
     BookRepository bookRepository, {
     required int columns,
   }) {
@@ -88,6 +101,7 @@ class _BooksScreen extends ConsumerWidget {
         childAspectRatio: 4,
       ),
       itemBuilder: (context, index) => _buildItem(
+        context,
         books[index],
         bookRepository,
         useMobileLayout: false,
@@ -97,6 +111,7 @@ class _BooksScreen extends ConsumerWidget {
   }
 
   Widget _buildItem(
+    BuildContext context,
     Book book,
     BookRepository bookRepository, {
     required bool useMobileLayout,
@@ -110,6 +125,7 @@ class _BooksScreen extends ConsumerWidget {
         book,
         state,
       ),
+      onBookEditClicked: (Book book) => _handleBookEditClicked(context, book),
     );
   }
 
@@ -129,6 +145,15 @@ class _BooksScreen extends ConsumerWidget {
   ) {
     unawaited(
       repository.delete(book.id),
+    );
+  }
+
+  void _handleBookEditClicked(
+    BuildContext context,
+    Book book,
+  ) {
+    context.go(
+        DanteRoute.editBook.navigationUrl.replaceAll(':bookId', book.id),
     );
   }
 }

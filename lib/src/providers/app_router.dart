@@ -161,7 +161,14 @@ List<RouteBase> _mainRoutes = [
   GoRoute(
     path: DanteRoute.manualAdd.url,
     builder: (BuildContext context, GoRouterState state) =>
-        ManualAddEditBookPage(),
+        const ManualAddEditBookPage(),
+  ),
+  GoRoute(
+    path: DanteRoute.editBook.url,
+    builder: (context, state) {
+      final bookId = state.pathParameters['bookId'] ?? '';
+      return ManualAddEditBookPage(bookId: bookId);
+    },
   ),
   GoRoute(
     path: DanteRoute.bookDetail.url,
@@ -209,6 +216,11 @@ enum DanteRoute {
     webUrl: '/add-manual',
     mobileUrl: 'add-manual',
     navigationUrl: '/add-manual',
+  ),
+  editBook(
+    webUrl: '/edit/:bookId',
+    mobileUrl: 'edit/:bookId',
+    navigationUrl: '/edit/:bookId',
   ),
   settings(
     webUrl: '/settings',

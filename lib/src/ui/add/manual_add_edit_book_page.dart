@@ -12,15 +12,18 @@ import 'package:flutter/material.dart';
 /// TODO
 /// 3. Save manual book
 /// 4. Upload image
-/// 5. Entry points for edit book:
-///   - Overflow
-///   - Detail Page
-/// 6. Edit existing book
-/// 7. Test
+/// 5. Edit existing book
+/// 6. Test
 ///   - Web
 ///   - App
 class ManualAddEditBookPage extends StatefulWidget {
-  const ManualAddEditBookPage({super.key});
+
+  final String? bookId;
+
+  const ManualAddEditBookPage({
+    super.key,
+    this.bookId,
+  });
 
   @override
   State<ManualAddEditBookPage> createState() => _ManualAddEditBookPageState();
@@ -35,6 +38,16 @@ class _ManualAddEditBookPageState extends State<ManualAddEditBookPage> {
   final TextEditingController _summaryController = TextEditingController();
 
   String? _title = '';
+
+  @override
+  void initState() {
+    // TODO
+
+    print('EDIT Book');
+    print(widget.bookId);
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -169,8 +182,8 @@ class _ManualAddEditBookPageState extends State<ManualAddEditBookPage> {
             Text(
               'add-manual.optional-info'.tr(),
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
             ),
             const SizedBox(height: 32),
             DanteTextField(
