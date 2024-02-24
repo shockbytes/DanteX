@@ -6,6 +6,44 @@
     "query": "Titel suche",
     "scan": "Buchode scannen"
   },
+  "add-manual": {
+    "title": "Buchtitel",
+    "authors": "Autor(en)",
+    "page-count": "Seitenzahl",
+    "optional-info": "Optionale Informationen",
+    "subtitle": "Untertitel",
+    "isbn": "ISBN Buchnummer",
+    "summary": "Zusammenfassung"
+  },
+  "language-picker": {
+    "title": "Sprache",
+    "empty": "Wähle eine Sprache"
+  },
+  "countries": {
+    "not-available": "Nicht vorhanden",
+    "us": "Englisch",
+    "de": "Deutsch",
+    "it": "Italienisch",
+    "fr": "Französisch",
+    "es": "Spanisch",
+    "pt": "Portugiesisch",
+    "nl": "Holländisch",
+    "se": "Swedisch",
+    "dk": "Dänisch",
+    "no": "Norwegisch",
+    "fi": "Finnisch",
+    "tr": "Türkisch",
+    "ch": "Chinesisch",
+    "ua": "Ukrainisch",
+    "ru": "Russisch",
+    "pl": "Polisch",
+    "ro": "Rumänisch",
+    "bg": "Bulgarisch",
+    "hr": "Kroatisch",
+    "hu": "Ungarisch",
+    "id": "Indonesisch",
+    "th": "Thai"
+  },
   "add_label_bottom_sheet": {
     "choose_a_color": "Wähle eine Farbe",
     "create_new_label": "Neues Label",

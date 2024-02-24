@@ -1,7 +1,10 @@
 import 'package:dantex/src/data/book/entity/book_state.dart';
+import 'package:dantex/src/data/core/language.dart';
+import 'package:dantex/src/ui/add/language_picker.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/themed_app_bar.dart';
 import 'package:dantex/src/util/layout_utils.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 /// TODO
@@ -18,7 +21,14 @@ import 'package:flutter/material.dart';
 /// 5. Test
 ///   - Web
 ///   - App
-class ManualAddEditBookPage extends StatelessWidget {
+class ManualAddEditBookPage extends StatefulWidget {
+  const ManualAddEditBookPage({super.key});
+
+  @override
+  State<ManualAddEditBookPage> createState() => _ManualAddEditBookPageState();
+}
+
+class _ManualAddEditBookPageState extends State<ManualAddEditBookPage> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _authorController = TextEditingController();
   final TextEditingController _pageController = TextEditingController();
@@ -26,15 +36,14 @@ class ManualAddEditBookPage extends StatelessWidget {
   final TextEditingController _isbnController = TextEditingController();
   final TextEditingController _summaryController = TextEditingController();
 
-  ManualAddEditBookPage({super.key});
+  String? _title = '';
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         ThemedAppBar(
-          // TODO
-          title: Text('Book Title goes here'),
+          title: Text(_title ?? ''),
         ),
         Expanded(
           child: LayoutBuilder(
@@ -74,7 +83,10 @@ class ManualAddEditBookPage extends StatelessWidget {
           ),
           const SizedBox(width: 64),
           Expanded(
-            child: _buildOptionalInformationCard(isDesktop: true),
+            child: _buildOptionalInformationCard(
+              context,
+              isDesktop: true,
+            ),
           ),
         ],
       ),
@@ -83,36 +95,48 @@ class ManualAddEditBookPage extends StatelessWidget {
 
   // TODO
   Widget _buildMobileLayout(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      children: [
-        _buildRequiredInformationCard(isDesktop: false),
-        _buildOptionalInformationCard(isDesktop: false),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: ListView(
+        shrinkWrap: true,
+        itemExtent: 16,
+        children: [
+          _buildRequiredInformationCard(isDesktop: false),
+          _buildOptionalInformationCard(
+            context,
+            isDesktop: false,
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _buildRequiredInformationCard({ required bool isDesktop }) {
+  Widget _buildRequiredInformationCard({required bool isDesktop}) {
     return Card(
       child: Container(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            if (isDesktop)...[
+            if (isDesktop) ...[
               const Spacer(),
               Text('Image'),
               const Spacer(),
             ],
             Row(
               children: [
-                if (!isDesktop)...[
+                if (!isDesktop) ...[
                   Text('Image'),
                   const SizedBox(width: 16),
                 ],
                 Expanded(
                   child: DanteTextField(
                     controller: _titleController,
-                    hint: 'Title',
+                    hint: 'add-manual.title'.tr(),
+                    onChanged: (String? changedTitle) {
+                      setState(() {
+                        _title = changedTitle;
+                      });
+                    },
                   ),
                 ),
               ],
@@ -120,51 +144,57 @@ class ManualAddEditBookPage extends StatelessWidget {
             const SizedBox(height: 16),
             DanteTextField(
               controller: _authorController,
-              hint: 'Authors',
+              hint: 'add-manual.authors'.tr(),
             ),
             const SizedBox(height: 16),
             DanteTextField(
               controller: _pageController,
-              hint: 'Page Count',
+              hint: 'add-manual.page-count'.tr(),
             ),
-            if (isDesktop)
-              const Spacer(),
+            if (isDesktop) const Spacer(),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildOptionalInformationCard({required bool isDesktop}) {
+  Widget _buildOptionalInformationCard(BuildContext context, {required bool isDesktop}) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text('Optional information'),
+            Text(
+              'add-manual.optional-info'.tr(),
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
             const SizedBox(height: 32),
             DanteTextField(
               controller: _subtitleController,
-              hint: 'Subtitle',
+              hint: 'add-manual.subtitle'.tr(),
             ),
             const SizedBox(height: 16),
-            Text('DatePicker PublishDate'),
+            Text('TODO DatePicker PublishDate'),
             const SizedBox(height: 16),
-            Text('Language'),
+            LanguagePicker(
+              onLanguageSelected: (Language language) {
+                print(language);
+              },
+            ),
             const SizedBox(height: 16),
             DanteTextField(
               controller: _isbnController,
-              hint: 'ISBN',
+              hint: 'add-manual.isbn'.tr(),
             ),
             const SizedBox(height: 16),
             DanteTextField(
               controller: _summaryController,
-              hint: 'Summary',
+              hint: 'add-manual.summary'.tr(),
               maxLines: 5,
             ),
           ],
-        )
+        ),
       ),
     );
   }

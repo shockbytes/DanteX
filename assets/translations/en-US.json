@@ -5,6 +5,44 @@
     "query": "Title search",
     "scan": "Scan book"
   },
+  "add-manual": {
+    "title": "Book Title",
+    "authors": "Author(s)",
+    "page-count": "Page Count",
+    "optional-info": "Optional Information",
+    "subtitle": "Subtitle",
+    "isbn": "ISBN number",
+    "summary": "Summary"
+  },
+  "language-picker": {
+    "title": "Language",
+    "empty": "Choose a language"
+  },
+  "countries": {
+    "not-available": "Not specified",
+    "us": "English",
+    "de": "German",
+    "it": "Italian",
+    "fr": "French",
+    "es": "Spanish",
+    "pt": "Portuguese",
+    "nl": "Dutch",
+    "se": "Swedish",
+    "dk": "Danish",
+    "no": "Norwegian",
+    "fi": "Finnish",
+    "tr": "Turkish",
+    "ch": "Chinese",
+    "ua": "Ukrainian",
+    "ru": "Russian",
+    "pl": "Polish",
+    "ro": "Romanian",
+    "bg": "Bulgarian",
+    "hr": "Croatian",
+    "hu": "Hungarian",
+    "id": "Indonesian",
+    "th": "Thai"
+  },
   "add_label_bottom_sheet": {
     "choose_a_color": "Choose a color",
     "create_new_label": "Create new label",
