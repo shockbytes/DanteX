@@ -80,7 +80,7 @@ class DanteTextField extends StatelessWidget {
           borderRadius: const BorderRadius.all(Radius.circular(5.0)),
           borderSide: BorderSide(
             color: Theme.of(context).colorScheme.secondary,
-            width: 2,
+            width: 1,
           ),
         ),
         errorBorder: OutlineInputBorder(

@@ -1,4 +1,5 @@
 import 'package:dantex/src/providers/authentication.dart';
+import 'package:dantex/src/ui/add/manual_add_edit_book_page.dart';
 import 'package:dantex/src/ui/add/scan_book_page.dart';
 import 'package:dantex/src/ui/book/book_detail_page.dart';
 import 'package:dantex/src/ui/book/book_notes_page.dart';
@@ -158,6 +159,11 @@ List<RouteBase> _mainRoutes = [
         const ScanBookPage(),
   ),
   GoRoute(
+    path: DanteRoute.manualAdd.url,
+    builder: (BuildContext context, GoRouterState state) =>
+        ManualAddEditBookPage(),
+  ),
+  GoRoute(
     path: DanteRoute.bookDetail.url,
     builder: (context, state) {
       final bookId = state.pathParameters['bookId'] ?? '';
@@ -198,6 +204,11 @@ enum DanteRoute {
     webUrl: '/scan',
     mobileUrl: 'scan',
     navigationUrl: '/scan',
+  ),
+  manualAdd(
+    webUrl: '/add-manual',
+    mobileUrl: 'add-manual',
+    navigationUrl: '/add-manual',
   ),
   settings(
     webUrl: '/settings',

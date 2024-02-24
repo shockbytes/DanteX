@@ -73,7 +73,7 @@ class DanteAppBar extends ConsumerWidget implements PreferredSizeWidget {
         const SizedBox(width: 16),
         TextButton(
           onPressed: () {
-            // TODO Support manually adding books
+            context.go(DanteRoute.manualAdd.navigationUrl);
           },
           child: _AddActionItem(
             text: 'add_book.manual'.tr(),
@@ -148,7 +148,7 @@ class DanteAppBar extends ConsumerWidget implements PreferredSizeWidget {
         await _handleQueryAction(context);
         break;
       case AddBookAction.manual:
-        // TODO Support manually adding books
+        context.go(DanteRoute.manualAdd.navigationUrl);
         break;
     }
   }
