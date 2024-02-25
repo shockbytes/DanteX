@@ -25,7 +25,7 @@
   },
   "countries": {
     "not-available": "Nicht vorhanden",
-    "us": "Englisch",
+    "gb": "Englisch",
     "de": "Deutsch",
     "it": "Italienisch",
     "fr": "Französisch",
@@ -172,7 +172,7 @@
   "reset": "Zurücksetzen",
   "reset_password": "Password zurücksetzen",
   "reset_password_text": "Wir versenden ein Email an deine registrierte Adresse, wo du weitere Instruktionen zum Zurücksetzen findest.",
-  "save": "",
+  "save": "Speichern",
   "search": {
     "empty": {
       "action": "Online suchen",

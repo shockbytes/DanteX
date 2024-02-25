@@ -1,23 +1,29 @@
+import 'dart:async';
+
+import 'package:dantex/src/data/book/entity/book.dart';
 import 'package:dantex/src/data/book/entity/book_state.dart';
 import 'package:dantex/src/data/core/language.dart';
-import 'package:dantex/src/ui/add/book_cover_picker_widget.dart';
-import 'package:dantex/src/ui/add/date_picker_widget.dart';
-import 'package:dantex/src/ui/add/language_picker_widget.dart';
+import 'package:dantex/src/providers/repository.dart';
+import 'package:dantex/src/ui/add/widgets/book_cover_picker_widget.dart';
+import 'package:dantex/src/ui/add/widgets/date_picker_widget.dart';
+import 'package:dantex/src/ui/add/widgets/language_picker_widget.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/themed_app_bar.dart';
 import 'package:dantex/src/util/layout_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 /// TODO
-/// 3. Save manual book
-/// 4. Upload image
-/// 5. Edit existing book
-/// 6. Test
-///   - Web
-///   - App
-class ManualAddEditBookPage extends StatefulWidget {
-
+/// -[ ] Upload image
+/// -[ ] Save/Update book
+/// -[ ] Edit existing book
+/// -[ ] Test
+///   -[ ] Web
+///   -[ ] App
+/// -[ ] Back Navigation
+class ManualAddEditBookPage extends ConsumerStatefulWidget {
   final String? bookId;
 
   const ManualAddEditBookPage({
@@ -26,10 +32,10 @@ class ManualAddEditBookPage extends StatefulWidget {
   });
 
   @override
-  State<ManualAddEditBookPage> createState() => _ManualAddEditBookPageState();
+  ConsumerState<ManualAddEditBookPage> createState() => _ManualAddEditBookPageState();
 }
 
-class _ManualAddEditBookPageState extends State<ManualAddEditBookPage> {
+class _ManualAddEditBookPageState extends ConsumerState<ManualAddEditBookPage> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _authorController = TextEditingController();
   final TextEditingController _pageController = TextEditingController();
@@ -37,23 +43,56 @@ class _ManualAddEditBookPageState extends State<ManualAddEditBookPage> {
   final TextEditingController _isbnController = TextEditingController();
   final TextEditingController _summaryController = TextEditingController();
 
+  final LanguageController _languageController = LanguageController(Language.na);
+  final BookCoverController _bookCoverController = BookCoverController(null);
+  final DateController _publishDateController = DateController(null);
+
   String? _title = '';
+
+  bool get _isInEditMode => widget.bookId != null;
 
   @override
   void initState() {
-    // TODO
-
-    print('EDIT Book');
-    print(widget.bookId);
-
     super.initState();
+
+    if (widget.bookId != null) {
+      _loadBookById();
+    }
+  }
+
+  void _loadBookById() {
+    unawaited(
+      ref.read(bookRepositoryProvider).getBook(widget.bookId!).first.then(_initializeWithBook),
+    );
+  }
+
+  void _initializeWithBook(Book book) {
+    _bookCoverController.value = book.thumbnailAddress;
+    _publishDateController.value = DateTime.parse(book.publishedDate);
+    _languageController.value = Language.fromCountryCode(book.language);
+
+    _titleController.text = book.title;
+    _authorController.text = book.author;
+    _pageController.text = book.pageCount.toString();
+    _subtitleController.text = book.subTitle;
+    _isbnController.text = book.isbn;
+    _summaryController.text = book.summary ?? '';
+
+    setState(() {
+      _title = book.title;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ThemedAppBar(
+        ThemedAppBar.withBackNavigation(
+          context: context,
+          onBack: () {
+            // TODO Handle back navigation
+            context.pop();
+          },
           title: Text(_title ?? ''),
         ),
         Expanded(
@@ -72,15 +111,65 @@ class _ManualAddEditBookPageState extends State<ManualAddEditBookPage> {
         Container(
           color: Theme.of(context).colorScheme.tertiaryContainer,
           height: 100,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              _buildStateButton(BookState.readLater),
-              _buildStateButton(BookState.reading),
-              _buildStateButton(BookState.read),
-            ],
+          child: _buildActionButtons(context),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildActionButtons(BuildContext context) {
+    if (_isInEditMode) {
+      return _buildEditBookActionButtons(context);
+    } else {
+      return _buildNewBookActionButtons();
+    }
+  }
+
+  Widget _buildEditBookActionButtons(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        TextButton.icon(
+          onPressed: () {
+            context.pop();
+          },
+          icon: Icon(
+            Icons.close,
+            color: Theme.of(context).colorScheme.error,
+          ),
+          label: Text(
+            'dismiss'.tr(),
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: Theme.of(context).colorScheme.error,
+                ),
           ),
         ),
+        TextButton.icon(
+          onPressed: () {
+            // TODO Save
+          },
+          icon: Icon(
+            Icons.check_circle_outline_outlined,
+            color: Theme.of(context).colorScheme.onTertiaryContainer,
+          ),
+          label: Text(
+            'save'.tr(),
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+              color: Theme.of(context).colorScheme.onTertiaryContainer,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildNewBookActionButtons() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        _buildBookStateButton(BookState.readLater),
+        _buildBookStateButton(BookState.reading),
+        _buildBookStateButton(BookState.read),
       ],
     );
   }
@@ -107,7 +196,6 @@ class _ManualAddEditBookPageState extends State<ManualAddEditBookPage> {
     );
   }
 
-  // TODO
   Widget _buildMobileLayout(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -133,13 +221,19 @@ class _ManualAddEditBookPageState extends State<ManualAddEditBookPage> {
           children: [
             if (isDesktop) ...[
               const Spacer(),
-              BookCoverPickerWidget(),
+              BookCoverPickerWidget(
+                controller: _bookCoverController,
+                size: 200,
+              ),
               const Spacer(),
             ],
             Row(
               children: [
                 if (!isDesktop) ...[
-                  BookCoverPickerWidget(),
+                  BookCoverPickerWidget(
+                    controller: _bookCoverController,
+                    size: 64,
+                  ),
                   const SizedBox(width: 16),
                 ],
                 Expanded(
@@ -192,15 +286,11 @@ class _ManualAddEditBookPageState extends State<ManualAddEditBookPage> {
             ),
             const SizedBox(height: 16),
             DatePickerWidget(
-              onDateSelected: (DateTime date) {
-                print(date);
-              },
+              controller: _publishDateController,
             ),
             const SizedBox(height: 16),
             LanguagePickerWidget(
-              onLanguageSelected: (Language language) {
-                print(language);
-              },
+              controller: _languageController,
             ),
             const SizedBox(height: 16),
             DanteTextField(
@@ -219,14 +309,37 @@ class _ManualAddEditBookPageState extends State<ManualAddEditBookPage> {
     );
   }
 
-  Widget _buildStateButton(BookState state) {
+  Widget _buildBookStateButton(BookState state) {
     return SizedBox(
       width: 120,
       child: OutlinedButton(
-        onPressed: () {},
-        // icon: state.icon,
-        child: Text(state.name),
+        onPressed: _saveNewBook,
+        child: Text(_getTitleForBookState(state)),
       ),
     );
+  }
+
+  void _saveNewBook() {
+    if (!_hasBookRequiredInformation()) {
+      // TODO Show error information
+    }
+
+    // TODO Save new book
+    // ref.read(bookRepositoryProvider).create(book);
+    // TODO Navigate back
+  }
+
+  bool _hasBookRequiredInformation() {
+    // TODO
+    return false;
+  }
+
+  String _getTitleForBookState(BookState state) {
+    return switch (state) {
+      BookState.readLater => 'tabs.for_later'.tr(),
+      BookState.reading => 'tabs.reading'.tr(),
+      BookState.read => 'tabs.read'.tr(),
+      BookState.wishlist => 'tabs.wishlist'.tr(),
+    };
   }
 }

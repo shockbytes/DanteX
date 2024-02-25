@@ -4,8 +4,11 @@ enum Language {
     translationKey: 'countries.not-available',
   ),
   english(
-    countryCode: 'US',
-    translationKey: 'countries.us',
+    countryCode: 'GB',
+    translationKey: 'countries.gb',
+    alternativeCountryCodes: [
+      'en',
+    ],
   ),
   german(
     countryCode: 'DE',
@@ -90,9 +93,25 @@ enum Language {
 
   final String? countryCode;
   final String translationKey;
+  final List<String> alternativeCountryCodes;
+
+  List<String?> get countryCodes {
+    return [
+      countryCode?.toLowerCase(),
+      ...alternativeCountryCodes.map((a) => a.toLowerCase()),
+    ];
+  }
 
   const Language({
     required this.countryCode,
     required this.translationKey,
+    this.alternativeCountryCodes = const [],
   });
+
+  static Language fromCountryCode(String countryCode) {
+    return Language.values.firstWhere(
+      (element) => element.countryCodes.contains(countryCode.toLowerCase()),
+      orElse: () => Language.na,
+    );
+  }
 }

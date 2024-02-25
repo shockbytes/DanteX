@@ -31,7 +31,7 @@ class LoginPageState extends ConsumerState<LoginPage> {
             child: _isLoading
                 ? const CircularProgressIndicator.adaptive()
                 : Container(
-                    width: MediaQuery.of(context).size.width * 0.6,
+                    width: _getContainerWidth(),
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16.0),
@@ -152,6 +152,15 @@ class LoginPageState extends ConsumerState<LoginPage> {
         ),
       ),
     );
+  }
+
+  double _getContainerWidth() {
+    final double multiplier = _isDesktop() ? 0.3 : 0.6;
+    return MediaQuery.of(context).size.width * multiplier;
+  }
+
+  bool _isDesktop() {
+    return MediaQuery.of(context).size.width > 1200;
   }
 
   void _loginErrorReceived(Exception exception, StackTrace stackTrace) {

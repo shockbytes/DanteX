@@ -2,28 +2,15 @@ import 'package:dantex/src/util/extensions.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-class DatePickerWidget extends StatefulWidget {
-  final DateTime? preSelectedDate;
-  final Function(DateTime date) onDateSelected;
+class DatePickerWidget extends StatelessWidget {
+  final DateController controller;
+  final Function(DateTime date)? onDateSelected;
 
   const DatePickerWidget({
-    required this.onDateSelected,
-    this.preSelectedDate,
+    required this.controller,
+    this.onDateSelected,
     super.key,
   });
-
-  @override
-  State<DatePickerWidget> createState() => _DatePickerWidgetState();
-}
-
-class _DatePickerWidgetState extends State<DatePickerWidget> {
-  DateTime? _selectedDateTime;
-
-  @override
-  void initState() {
-    _selectedDateTime = widget.preSelectedDate;
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,19 +37,24 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
             ),
           ),
           child: InkWell(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const SizedBox(width: 16),
-                Center(
-                  child: Text(
-                    _selectedDateTime?.formatDefault() ?? 'date-picker.empty'.tr(),
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurface,
+            child: ValueListenableBuilder<DateTime?>(
+              valueListenable: controller,
+              builder: (context, selectedDateTime, _) {
+                return Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const SizedBox(width: 16),
+                    Center(
+                      child: Text(
+                        selectedDateTime?.formatDefault() ?? 'date-picker.empty'.tr(),
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
+                      ),
                     ),
-                  ),
-                ),
-              ],
+                  ],
+                );
+              },
             ),
             onTap: () async {
               final DateTime? selectedDateTime = await showDatePicker(
@@ -72,11 +64,8 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
               );
 
               if (selectedDateTime != null) {
-                widget.onDateSelected(selectedDateTime);
-
-                setState(() {
-                  _selectedDateTime = selectedDateTime;
-                });
+                onDateSelected?.call(selectedDateTime);
+                controller.value = selectedDateTime;
               }
             },
           ),
@@ -84,4 +73,8 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
       ],
     );
   }
+}
+
+class DateController extends ValueNotifier<DateTime?> {
+  DateController(super.value);
 }
