@@ -20,12 +20,14 @@ class BookItemWidget extends StatelessWidget {
 
   final Function(Book book, BookState updatedState) onBookStateChanged;
   final Function(Book book) onBookDeleted;
+  final Function(Book book) onBookEditClicked;
 
   BookItemWidget(
     this._book, {
     required this.useMobileLayout,
     required this.onBookStateChanged,
     required this.onBookDeleted,
+    required this.onBookEditClicked,
     super.key,
   });
 
@@ -69,6 +71,7 @@ class BookItemWidget extends StatelessWidget {
         _book,
         onBookDeleted: onBookDeleted,
         onBookStateChanged: onBookStateChanged,
+        onBookEditClicked: onBookEditClicked,
       ),
       controller: _controller,
     );
@@ -145,6 +148,7 @@ class BookItemWidget extends StatelessWidget {
         _book,
         onBookDeleted: onBookDeleted,
         onBookStateChanged: onBookStateChanged,
+        onBookEditClicked: onBookEditClicked,
       );
     }
   }

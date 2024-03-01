@@ -9,11 +9,13 @@ class DesktopBookActionMenu extends StatelessWidget {
 
   final Function(Book book, BookState updatedState) onBookStateChanged;
   final Function(Book book) onBookDeleted;
+  final Function(Book book) onBookEditClicked;
 
   const DesktopBookActionMenu(
     this._book, {
     required this.onBookStateChanged,
     required this.onBookDeleted,
+    required this.onBookEditClicked,
     super.key,
   });
 
@@ -99,7 +101,7 @@ class DesktopBookActionMenu extends StatelessWidget {
         // TODO: Handle this case.
         break;
       case BookAction.edit:
-        // TODO: Handle this case.
+        onBookEditClicked(_book);
         break;
       case BookAction.delete:
         onBookDeleted(_book);

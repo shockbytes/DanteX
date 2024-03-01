@@ -14,6 +14,21 @@ class ThemedAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.bottom,
   });
 
+  ThemedAppBar.withBackNavigation({
+    required this.title,
+    required BuildContext context,
+    required VoidCallback onBack,
+    super.key,
+    this.actions,
+    this.bottom,
+  }) : leading = IconButton(
+          onPressed: onBack,
+          icon: Icon(
+            Icons.arrow_back,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
+        );
+
   @override
   Size get preferredSize {
     // If we have a bottom widget, for example a tab bar as part of the app bar

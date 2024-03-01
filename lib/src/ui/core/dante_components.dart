@@ -63,6 +63,9 @@ class DanteTextField extends StatelessWidget {
       maxLines: maxLines,
       onChanged: onChanged,
       inputFormatters: [if (formatter != null) formatter!],
+      style: TextStyle(
+        color: Theme.of(context).colorScheme.onSurface,
+      ),
       decoration: InputDecoration(
         label: label,
         errorText: errorText,
@@ -80,7 +83,7 @@ class DanteTextField extends StatelessWidget {
           borderRadius: const BorderRadius.all(Radius.circular(5.0)),
           borderSide: BorderSide(
             color: Theme.of(context).colorScheme.secondary,
-            width: 2,
+            width: 1,
           ),
         ),
         errorBorder: OutlineInputBorder(

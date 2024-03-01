@@ -6,6 +6,53 @@
     "query": "Titel suche",
     "scan": "Buchode scannen"
   },
+  "add-manual": {
+    "title": "Buchtitel",
+    "authors": "Autor(en)",
+    "page-count": "Seitenzahl",
+    "optional-info": "Optionale Informationen",
+    "subtitle": "Untertitel",
+    "isbn": "ISBN Buchnummer",
+    "summary": "Zusammenfassung",
+    "error": {
+      "missing-information": "TODO Missing information",
+      "update": "TODO update",
+      "create": "TODO create"
+    }
+  },
+  "language-picker": {
+    "title": "Sprache",
+    "empty": "Wähle eine Sprache"
+  },
+  "date-picker": {
+    "title": "Veröffentlichungsdatum",
+    "empty": "Wähle ein Datum"
+  },
+  "countries": {
+    "not-available": "Nicht vorhanden",
+    "gb": "Englisch",
+    "de": "Deutsch",
+    "it": "Italienisch",
+    "fr": "Französisch",
+    "es": "Spanisch",
+    "pt": "Portugiesisch",
+    "nl": "Holländisch",
+    "se": "Swedisch",
+    "dk": "Dänisch",
+    "no": "Norwegisch",
+    "fi": "Finnisch",
+    "tr": "Türkisch",
+    "ch": "Chinesisch",
+    "ua": "Ukrainisch",
+    "ru": "Russisch",
+    "pl": "Polisch",
+    "ro": "Rumänisch",
+    "bg": "Bulgarisch",
+    "hr": "Kroatisch",
+    "hu": "Ungarisch",
+    "id": "Indonesisch",
+    "th": "Thai"
+  },
   "add_label_bottom_sheet": {
     "choose_a_color": "Wähle eine Farbe",
     "create_new_label": "Neues Label",
@@ -130,7 +177,7 @@
   "reset": "Zurücksetzen",
   "reset_password": "Password zurücksetzen",
   "reset_password_text": "Wir versenden ein Email an deine registrierte Adresse, wo du weitere Instruktionen zum Zurücksetzen findest.",
-  "save": "",
+  "save": "Speichern",
   "search": {
     "empty": {
       "action": "Online suchen",

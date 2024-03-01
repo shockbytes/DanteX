@@ -10,11 +10,13 @@ class MobileBookActionMenu extends StatelessWidget {
 
   final Function(Book book, BookState updatedState) onBookStateChanged;
   final Function(Book book) onBookDeleted;
+  final Function(Book book) onBookEditClicked;
 
   const MobileBookActionMenu(
     this._book, {
     required this.onBookStateChanged,
     required this.onBookDeleted,
+    required this.onBookEditClicked,
     super.key,
   });
 
@@ -69,9 +71,7 @@ class MobileBookActionMenu extends StatelessWidget {
               title: 'book-actions.edit'.tr(),
               icon: Icons.edit_outlined,
               color: Theme.of(context).colorScheme.secondary,
-              onClick: () {
-                // TODO Edit book in ticket: TODO
-              },
+              onClick: () => onBookEditClicked(_book),
             ),
             _buildBookAction(
               title: 'book-actions.delete'.tr(),
