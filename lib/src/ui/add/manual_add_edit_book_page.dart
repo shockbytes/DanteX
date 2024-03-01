@@ -9,6 +9,7 @@ import 'package:dantex/src/ui/add/widgets/date_picker_widget.dart';
 import 'package:dantex/src/ui/add/widgets/language_picker_widget.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/themed_app_bar.dart';
+import 'package:dantex/src/util/extensions.dart';
 import 'package:dantex/src/util/layout_utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -17,12 +18,9 @@ import 'package:go_router/go_router.dart';
 
 /// TODO
 /// -[ ] Upload image
-/// -[ ] Save/Update book
-/// -[ ] Edit existing book
 /// -[ ] Test
 ///   -[ ] Web
 ///   -[ ] App
-/// -[ ] Back Navigation
 class ManualAddEditBookPage extends ConsumerStatefulWidget {
   final String? bookId;
 
@@ -48,6 +46,7 @@ class _ManualAddEditBookPageState extends ConsumerState<ManualAddEditBookPage> {
   final DateController _publishDateController = DateController(null);
 
   String? _title = '';
+  Book? _bookEditMode;
 
   bool get _isInEditMode => widget.bookId != null;
 
@@ -67,8 +66,10 @@ class _ManualAddEditBookPageState extends ConsumerState<ManualAddEditBookPage> {
   }
 
   void _initializeWithBook(Book book) {
+    _bookEditMode = book;
+
     _bookCoverController.value = book.thumbnailAddress;
-    _publishDateController.value = DateTime.parse(book.publishedDate);
+    _publishDateController.value = book.publishedDate.parseWithDefaultDateFormat();
     _languageController.value = Language.fromCountryCode(book.language);
 
     _titleController.text = book.title;
@@ -111,21 +112,21 @@ class _ManualAddEditBookPageState extends ConsumerState<ManualAddEditBookPage> {
         Container(
           color: Theme.of(context).colorScheme.tertiaryContainer,
           height: 100,
-          child: _buildActionButtons(context),
+          child: _buildActionButtons(),
         ),
       ],
     );
   }
 
-  Widget _buildActionButtons(BuildContext context) {
+  Widget _buildActionButtons() {
     if (_isInEditMode) {
-      return _buildEditBookActionButtons(context);
+      return _buildEditBookActionButtons();
     } else {
       return _buildNewBookActionButtons();
     }
   }
 
-  Widget _buildEditBookActionButtons(BuildContext context) {
+  Widget _buildEditBookActionButtons() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -145,9 +146,7 @@ class _ManualAddEditBookPageState extends ConsumerState<ManualAddEditBookPage> {
           ),
         ),
         TextButton.icon(
-          onPressed: () {
-            // TODO Save
-          },
+          onPressed: _saveExistingBook,
           icon: Icon(
             Icons.check_circle_outline_outlined,
             color: Theme.of(context).colorScheme.onTertiaryContainer,
@@ -155,8 +154,8 @@ class _ManualAddEditBookPageState extends ConsumerState<ManualAddEditBookPage> {
           label: Text(
             'save'.tr(),
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              color: Theme.of(context).colorScheme.onTertiaryContainer,
-            ),
+                  color: Theme.of(context).colorScheme.onTertiaryContainer,
+                ),
           ),
         ),
       ],
@@ -313,25 +312,95 @@ class _ManualAddEditBookPageState extends ConsumerState<ManualAddEditBookPage> {
     return SizedBox(
       width: 120,
       child: OutlinedButton(
-        onPressed: _saveNewBook,
+        onPressed: () async => _saveNewBook(state),
         child: Text(_getTitleForBookState(state)),
       ),
     );
   }
 
-  void _saveNewBook() {
+  Future<void> _saveExistingBook() async {
     if (!_hasBookRequiredInformation()) {
-      // TODO Show error information
+      _showError(errorKey: 'add-manual.error.missing-information');
     }
 
-    // TODO Save new book
-    // ref.read(bookRepositoryProvider).create(book);
-    // TODO Navigate back
+    //  Save new book and navigate back
+    try {
+      await ref
+          .read(bookRepositoryProvider)
+          .update(
+        _bookEditMode!.copyWith(
+          title: _titleController.text,
+          author: _authorController.text,
+          pageCount: int.tryParse(_pageController.text) ?? 0,
+          subTitle: _subtitleController.text,
+          publishedDate: _publishDateController.value?.formatDefault() ?? _bookEditMode!.publishedDate,
+          isbn: _isbnController.text,
+          thumbnailAddress: _bookCoverController.value,
+          language: _languageController.value.countryCode ?? _bookEditMode!.language,
+          summary: _summaryController.text,
+        ),
+      )
+          .then(
+            (value) => context.pop(),
+      );
+    } catch (e) {
+      _showError(errorKey: 'add-manual.error.update');
+    }
+  }
+
+  Future<void> _saveNewBook(BookState bookState) async {
+    if (!_hasBookRequiredInformation()) {
+      _showError(errorKey: 'add-manual.error.missing-information');
+    }
+
+    //  Save new book and navigate back
+    try {
+      await ref
+          .read(bookRepositoryProvider)
+          .create(
+            Book(
+              id: '',
+              title: _titleController.text,
+              subTitle: _subtitleController.text,
+              author: _authorController.text,
+              state: bookState,
+              pageCount: int.tryParse(_pageController.text) ?? 0,
+              currentPage: 0,
+              publishedDate: _publishDateController.value?.formatDefault() ?? '',
+              position: 0,
+              isbn: _isbnController.text,
+              thumbnailAddress: _bookCoverController.value,
+              startDate: (bookState == BookState.reading) ? DateTime.now() : null,
+              endDate: (bookState == BookState.read) ? DateTime.now() : null,
+              forLaterDate: (bookState == BookState.readLater) ? DateTime.now() : null,
+              language: _languageController.value.countryCode ?? 'na',
+              rating: 0,
+              notes: '',
+              summary: _summaryController.text,
+            ),
+          )
+          .then(
+            (value) => context.pop(),
+          );
+    } catch (e) {
+      print(e);
+      _showError(errorKey: 'add-manual.error.create');
+    }
   }
 
   bool _hasBookRequiredInformation() {
-    // TODO
-    return false;
+    return _hasValue(_titleController, (v) => v.text.isNotEmpty) &&
+        _hasValue(_authorController, (v) => v.text.isNotEmpty) &&
+        _hasValue(_pageController, (v) => int.tryParse(v.text) != null);
+  }
+
+  bool _hasValue<T>(ValueNotifier<T?> vn, bool Function(T value) probe) {
+    return vn.value != null && probe(vn.value as T);
+  }
+
+  void _showError({required String errorKey}) {
+    // TODO Show error information
+    print('Missing data: ${errorKey.tr()}');
   }
 
   String _getTitleForBookState(BookState state) {

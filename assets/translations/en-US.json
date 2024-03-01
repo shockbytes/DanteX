@@ -12,7 +12,12 @@
     "optional-info": "Optional Information",
     "subtitle": "Subtitle",
     "isbn": "ISBN number",
-    "summary": "Summary"
+    "summary": "Summary",
+    "error": {
+      "missing-information": "TODO Missing information",
+      "update": "TODO update",
+      "create": "TODO create"
+    }
   },
   "language-picker": {
     "title": "Language",

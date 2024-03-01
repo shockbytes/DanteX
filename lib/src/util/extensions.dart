@@ -19,6 +19,13 @@ final DateFormat _dfDefault = DateFormat('dd.MM.yyyy');
 final DateFormat _dfMonth = DateFormat('MMMM yyyy');
 final DateFormat _dfMonthShort = DateFormat('MMM yy');
 
+extension StringX on String {
+
+  DateTime parseWithDefaultDateFormat() {
+    return _dfDefault.parse(this);
+  }
+}
+
 extension DateTimeX on DateTime {
   String formatWithMonthAndYear() {
     return _dfMonth.format(this);
