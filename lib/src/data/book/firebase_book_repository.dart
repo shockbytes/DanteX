@@ -238,6 +238,16 @@ class FirebaseBookRepository implements BookRepository {
   Future<void> saveNotes(String bookId, String notes) {
     return _booksRef().child(bookId).update({'notes': notes});
   }
+
+  @override
+  Future<void> updatePositions(List<Book> books) async {
+    final Map<String, Object?> updateMap = {};
+    for (var i = 0; i < books.length; i++) {
+      final book = books[i];
+      updateMap[book.id] = book.copyWith(position: i).toJson();
+    }
+    await _booksRef().update(updateMap);
+  }
 }
 
 extension DataSnapshotExtension on DataSnapshot {

@@ -46,6 +46,9 @@
 		<key>CADisableMinimumFrameDurationOnPhone</key>
 		<true />
 		<!-- Google Sign-in Section -->
+		<key>GIDClientID</key>
+		<!-- Copied from GoogleService-Info.plist key CLIENT_ID -->
+		<string>150599422814-eorssa86b5b5l2p2h4ri8bhg82jqsovj.apps.googleusercontent.com</string>
 		<key>CFBundleURLTypes</key>
 		<array>
 			<dict>

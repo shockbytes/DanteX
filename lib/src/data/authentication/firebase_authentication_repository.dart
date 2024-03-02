@@ -3,11 +3,13 @@ import 'package:dantex/src/data/authentication/authentication_repository.dart';
 import 'package:dantex/src/data/authentication/entity/dante_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:google_sign_in/google_sign_in.dart';
 
 class FirebaseAuthenticationRepository implements AuthenticationRepository {
   final FirebaseAuth _fbAuth;
+  final GoogleSignIn googleSignIn;
 
-  FirebaseAuthenticationRepository(this._fbAuth);
+  FirebaseAuthenticationRepository(this._fbAuth, this.googleSignIn);
 
   @override
   Stream<DanteUser?> get authStateChanges =>
@@ -89,14 +91,22 @@ class FirebaseAuthenticationRepository implements AuthenticationRepository {
   }
 
   @override
-  Future<UserCredential> loginWithGoogle() {
+  Future<UserCredential> loginWithGoogle() async {
     if (kIsWeb) {
       return _fbAuth.signInWithPopup(
         GoogleAuthProvider(),
       );
     } else {
-      return _fbAuth.signInWithProvider(
-        GoogleAuthProvider(),
+      final googleSignInAccount = await googleSignIn.signIn();
+      final GoogleSignInAuthentication? googleAuth =
+          await googleSignInAccount?.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+      return _fbAuth.signInWithCredential(
+        credential,
       );
     }
   }
