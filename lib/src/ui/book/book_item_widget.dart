@@ -32,6 +32,7 @@ class BookItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      borderRadius: BorderRadius.circular(12.0),
       onTap: () {
         context.go(
           DanteRoute.bookDetail.navigationUrl.replaceAll(':bookId', _book.id),

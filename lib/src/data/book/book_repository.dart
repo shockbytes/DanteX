@@ -47,4 +47,6 @@ abstract class BookRepository {
   Future<void> deleteNotes(String bookId);
 
   Future<void> saveNotes(String bookId, String notes);
+
+  Future<void> updatePositions(List<Book> books);
 }

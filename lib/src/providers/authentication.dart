@@ -33,6 +33,7 @@ AuthenticationRepository authenticationRepository(
 ) =>
     FirebaseAuthenticationRepository(
       ref.watch(firebaseAuthProvider),
+      ref.watch(googleSignInProvider),
     );
 
 @riverpod
@@ -42,13 +43,11 @@ Future<DanteUser?> user(UserRef ref) {
   return ref.watch(authenticationRepositoryProvider).getAccount();
 }
 
-@riverpod
+@Riverpod(keepAlive: true)
 GoogleSignIn googleSignIn(
   GoogleSignInRef ref,
 ) =>
     GoogleSignIn(
-      clientId:
-          '150599422814-moto7djse1tf7vtso7slemniki76ohg6.apps.googleusercontent.com',
       scopes: [
         DriveApi.driveFileScope,
       ],
