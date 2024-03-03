@@ -108,6 +108,11 @@
     "hint": "Title oder ISBN",
     "title": "Titelsuche"
   },
+  "random_book": {
+    "description": "TODO",
+    "move_to_reading": "TODO",
+    "title": "TODO"
+  },
   "recommendations": {
     "add-to-wishlist": "Zur Wunschliste hinzufügen",
     "empty": "Keine Vorschläge verfügbar.",
