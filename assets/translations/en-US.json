@@ -120,6 +120,8 @@
       }
     },
     "new-banner": "New recommendations will be available again at the {}.",
+    "nope": "Nope",
+    "other_suggestions": "Maybe one of them?",
     "report-dialog": {
       "content": "Do you really want to report the book {}?\n\nYou will no longer see this book as a recommendation.",
       "report": "Report",

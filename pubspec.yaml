@@ -18,12 +18,12 @@ dependencies:
   lottie: ^3.0.0
   google_fonts: ^6.1.0
   # Firebase
-  firebase_crashlytics: ^3.3.6
-  firebase_database: ^10.2.6
-  firebase_analytics: ^10.5.0
-  firebase_auth: ^4.10.0
-  firebase_core: ^2.16.0
-  firebase_storage: ^11.2.7
+  firebase_crashlytics: ^3.4.16
+  firebase_database: ^10.4.7
+  firebase_analytics: ^10.8.7
+  firebase_auth: ^4.17.6
+  firebase_core: ^2.25.5
+  firebase_storage: ^11.6.7
 
   url_launcher: ^6.1.14
   cached_network_image: ^3.3.0
@@ -39,16 +39,15 @@ dependencies:
   flutter_barcode_scanner: ^2.0.0
   settings_ui: ^2.0.2
   logger: ^2.0.2+1
-  easy_localization: ^3.0.3
+  easy_localization: ^3.0.5
   rxdart: ^0.27.7
   freezed_annotation: ^2.4.1
   json_annotation: ^4.8.1
-  intl: ^0.18.1
   carousel_slider: ^4.2.1
   flex_color_picker: ^3.3.0
   timeline_tile: ^2.0.0
   expandable: ^5.0.1
-  googleapis: ^12.0.0
+  googleapis: ^13.0.0
   google_sign_in: ^6.1.6
   extension_google_sign_in_as_googleapis_auth: ^2.0.11
   fl_chart: ^0.66.1

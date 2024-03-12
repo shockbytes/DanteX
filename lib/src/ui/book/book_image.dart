@@ -15,7 +15,7 @@ class BookImage extends StatelessWidget {
   Widget build(BuildContext context) {
     if (_imageUrl != null) {
       return CachedNetworkImage(
-        imageUrl: _imageUrl!,
+        imageUrl: _imageUrl,
         width: size,
       );
     } else {
