@@ -120,7 +120,9 @@
         "title": "{} wurde gemeldet. Du wirst diesen Vorschlag nicht mehr sehen."
       }
     },
-    "new-banner": "Neue Vorschläge sind wieder ab dem {} verfügbar.",
+    "new-banner": "TODO",
+    "nope": "TODO",
+    "other_suggestions": "Maybe one of them?",
     "report-dialog": {
       "content": "Willst du wirklich das Buch {} melden?\n\nDu wirst dieses Buch nicht mehr als Vorschlag sehen.",
       "report": "Buch melden",
