@@ -1,6 +1,7 @@
 import 'package:dantex/src/data/book/entity/book.dart';
 import 'package:dantex/src/data/book/entity/book_state.dart';
 import 'package:dantex/src/ui/book/book_action.dart';
+import 'package:dantex/src/ui/book/recommend_book_bottom_sheet.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -81,7 +82,7 @@ class DesktopBookActionMenu extends StatelessWidget {
     );
   }
 
-  void _handleAction(BuildContext context, BookAction value) {
+  Future<void> _handleAction(BuildContext context, BookAction value) async {
     switch (value) {
       case BookAction.moveToReadLater:
         onBookStateChanged(_book, BookState.readLater);
@@ -96,7 +97,21 @@ class DesktopBookActionMenu extends StatelessWidget {
         // Do not provide Share action for desktop UI.
         break;
       case BookAction.recommend:
-        // TODO: Handle this case.
+        await showModalBottomSheet(
+          useSafeArea: true,
+          context: context,
+          showDragHandle: true,
+          isScrollControlled: true,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+          ),
+          barrierColor: Colors.black54,
+          builder: (context) =>
+              RecommendBookBottomSheet(book: _book, isWeb: true),
+        );
         break;
       case BookAction.edit:
         // TODO: Handle this case.

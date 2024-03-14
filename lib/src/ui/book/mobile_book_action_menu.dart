@@ -1,5 +1,6 @@
 import 'package:dantex/src/data/book/entity/book.dart';
 import 'package:dantex/src/data/book/entity/book_state.dart';
+import 'package:dantex/src/ui/book/recommend_book_bottom_sheet.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/util/share_helper.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -61,9 +62,20 @@ class MobileBookActionMenu extends StatelessWidget {
               title: 'book-actions.suggest'.tr(),
               icon: Icons.whatshot_outlined,
               color: Theme.of(context).colorScheme.secondary,
-              onClick: () {
-                // TODO Suggest book in ticket: TODO
-              },
+              onClick: () async => showModalBottomSheet(
+                useSafeArea: true,
+                context: context,
+                showDragHandle: true,
+                isScrollControlled: true,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                  ),
+                ),
+                barrierColor: Colors.black54,
+                builder: (context) => RecommendBookBottomSheet(book: _book),
+              ),
             ),
             _buildBookAction(
               title: 'book-actions.edit'.tr(),
