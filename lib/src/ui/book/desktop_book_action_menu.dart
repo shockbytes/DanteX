@@ -96,7 +96,7 @@ class DesktopBookActionMenu extends StatelessWidget {
         // Do not provide Share action for desktop UI.
         break;
       case BookAction.recommend:
-        // TODO: Handle this case.
+        // _showSuggestBookDialog();
         break;
       case BookAction.edit:
         // TODO: Handle this case.

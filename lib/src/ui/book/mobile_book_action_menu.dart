@@ -1,6 +1,7 @@
 import 'package:dantex/src/data/book/entity/book.dart';
 import 'package:dantex/src/data/book/entity/book_state.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
+import 'package:dantex/src/ui/core/platform_components.dart';
 import 'package:dantex/src/util/share_helper.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -61,9 +62,11 @@ class MobileBookActionMenu extends StatelessWidget {
               title: 'book-actions.suggest'.tr(),
               icon: Icons.whatshot_outlined,
               color: Theme.of(context).colorScheme.secondary,
-              onClick: () {
-                // TODO Suggest book in ticket: TODO
-              },
+              onClick: () async => showDanteDialog(
+                context,
+                title: 'TODO',
+                content: _RecommendBookDialog(),
+              ),
             ),
             _buildBookAction(
               title: 'book-actions.edit'.tr(),
@@ -111,5 +114,12 @@ class MobileBookActionMenu extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class _RecommendBookDialog extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return const Text('TODO');
   }
 }
