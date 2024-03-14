@@ -58,7 +58,6 @@ class _RecommendBookBottomSheetState
               controller: textController,
               maxLines: 6,
               hint: 'recommendations.enter_recommendation'.tr(),
-              // formatter: LengthLimitingTextInputFormatter(180),
               maxLength: 180,
               buildCounter: (
                 context, {
