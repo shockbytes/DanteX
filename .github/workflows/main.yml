@@ -2,8 +2,8 @@ name: Flutter Workflow
 
 on: [push, workflow_dispatch]
 jobs:
-  build:
-    runs-on: macos-latest
+  ios:
+    runs-on: macos-14
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -15,7 +15,42 @@ jobs:
           java-version: '11'
 
       - name: Install Flutter
-        uses: subosito/flutter-action@v2
+        uses: subosito/flutter-action@v2.12.0
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Generate code
+        run: flutter pub run build_runner build --delete-conflicting-outputs
+
+      - name: Run tests
+        run: flutter test --coverage
+
+      - name: Create GoogleService-Info.plist file
+        env:
+          GOOGLE_SERVICES_INFO_PLIST: ${{ secrets.GOOGLE_SERVICES_INFO_PLIST }}
+        run: touch ${GITHUB_WORKSPACE}/ios/Runner/GoogleService-Info.plist && echo $GOOGLE_SERVICES_INFO_PLIST > ${GITHUB_WORKSPACE}/ios/Runner/GoogleService-Info.plist
+
+      - name: Build iOS
+        run: flutter build ios --release --no-codesign
+
+  android:
+    runs-on: macos-14
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2.12.0
         with:
           channel: 'stable'
           cache: true
@@ -37,13 +72,32 @@ jobs:
       - name: Build Android appbundle
         run: flutter build appbundle
 
-      - name: Create GoogleService-Info.plist file
-        env:
-          GOOGLE_SERVICES_INFO_PLIST: ${{ secrets.GOOGLE_SERVICES_INFO_PLIST }}
-        run: touch ${GITHUB_WORKSPACE}/ios/Runner/GoogleService-Info.plist && echo $GOOGLE_SERVICES_INFO_PLIST > ${GITHUB_WORKSPACE}/ios/Runner/GoogleService-Info.plist
+  web:
+    runs-on: macos-14
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Build iOS
-        run: flutter build ios --release --no-codesign
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2.12.0
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Generate code
+        run: flutter pub run build_runner build --delete-conflicting-outputs
+
+      - name: Run tests
+        run: flutter test --coverage
 
       - name: Build Web
         run: flutter build web

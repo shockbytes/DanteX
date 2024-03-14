@@ -107,6 +107,11 @@
     "hint": "Title or ISBN",
     "title": "Title search"
   },
+  "random_book": {
+    "description": "Can't decide which book to read next? We've got you covered. Let us decide for you what you should read next.",
+    "move_to_reading": "Move To Reading",
+    "title": "Pick Random Book"
+  },
   "recommendations": {
     "add-to-wishlist": "Add to wishlist",
     "empty": "No recommendations available.",
