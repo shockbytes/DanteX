@@ -115,6 +115,7 @@
   "recommendations": {
     "add-to-wishlist": "Add to wishlist",
     "empty": "No recommendations available.",
+    "enter_recommendation": "Enter your recommendation",
     "error": "Oh no! An error occurred while trying to fetch your recommendations. Please try again later.\n\nReason: {}",
     "events": {
       "move-to-wishlist": {
@@ -131,7 +132,9 @@
       "content": "Do you really want to report the book {}?\n\nYou will no longer see this book as a recommendation.",
       "report": "Report",
       "title": "Report recommendation"
-    }
+    },
+    "success": "Wonderful. Your recommendation will be shown to other users. Thank you!",
+    "suggest": "Suggest"
   },
   "reset": "Reset",
   "reset_password": "Reset Password",

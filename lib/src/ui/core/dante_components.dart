@@ -29,6 +29,13 @@ class DanteTextField extends StatelessWidget {
   final int maxLines;
   final String? errorText;
   final TextInputFormatter? formatter;
+  final Widget? Function(
+    BuildContext context, {
+    required int currentLength,
+    required bool isFocused,
+    required int? maxLength,
+  })? buildCounter;
+  final int? maxLength;
 
   const DanteTextField({
     required this.controller,
@@ -45,6 +52,8 @@ class DanteTextField extends StatelessWidget {
     this.errorText,
     this.formatter,
     this.label,
+    this.buildCounter,
+    this.maxLength,
   });
 
   @override
@@ -61,8 +70,10 @@ class DanteTextField extends StatelessWidget {
       keyboardType: textInputType,
       textInputAction: textInputAction,
       maxLines: maxLines,
+      maxLength: maxLength,
       onChanged: onChanged,
       inputFormatters: [if (formatter != null) formatter!],
+      buildCounter: buildCounter,
       decoration: InputDecoration(
         label: label,
         errorText: errorText,

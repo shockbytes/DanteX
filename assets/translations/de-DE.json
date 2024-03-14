@@ -116,6 +116,7 @@
   "recommendations": {
     "add-to-wishlist": "Zur Wunschliste hinzufügen",
     "empty": "Keine Vorschläge verfügbar.",
+    "enter_recommendation": "TODO",
     "error": "Oh nein! Während des Ladens der Vorschläge trat ein Fehler auf. Versuche es später nochmals.\n\nFehler: {}",
     "events": {
       "move-to-wishlist": {
@@ -132,7 +133,9 @@
       "content": "Willst du wirklich das Buch {} melden?\n\nDu wirst dieses Buch nicht mehr als Vorschlag sehen.",
       "report": "Buch melden",
       "title": "Vorschlag melden"
-    }
+    },
+    "success": "TODO",
+    "suggest": "TODO"
   },
   "reset": "Zurücksetzen",
   "reset_password": "Password zurücksetzen",
