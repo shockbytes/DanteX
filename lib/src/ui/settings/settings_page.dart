@@ -1,8 +1,10 @@
 import 'package:dantex/src/data/book/book_sort_strategy.dart';
+import 'package:dantex/src/data/logging/event.dart';
 import 'package:dantex/src/data/settings/settings_repository.dart';
 import 'package:dantex/src/providers/app_router.dart';
 import 'package:dantex/src/providers/authentication.dart';
 import 'package:dantex/src/providers/repository.dart';
+import 'package:dantex/src/providers/service.dart';
 import 'package:dantex/src/ui/core/themed_app_bar.dart';
 import 'package:dantex/src/ui/settings/single_choice_dialog.dart';
 import 'package:dantex/src/util/url_launcher.dart';
@@ -157,8 +159,10 @@ class SettingsPage extends ConsumerWidget {
               SettingsTile(
                 title: Text('settings.data_privacy.terms_and_conditions'.tr()),
                 leading: const Icon(Icons.verified_user_outlined),
-                onPressed: (context) async =>
-                    tryLaunchUrl('https://dantebooks.com/#/terms'),
+                onPressed: (context) async {
+                  ref.read(loggerProvider).trackEvent(OpenTermsOfServices());
+                  return tryLaunchUrl('https://dantebooks.com/#/terms');
+                },
               ),
             ],
           ),
