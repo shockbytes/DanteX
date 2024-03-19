@@ -82,13 +82,13 @@ class DanteXApp extends ConsumerWidget {
           theme: ThemeData(
             colorSchemeSeed: Colors.white,
             brightness: Brightness.light,
-            textTheme: GoogleFonts.nunitoTextTheme(),
+            fontFamily: GoogleFonts.nunito().fontFamily,
             useMaterial3: true,
           ),
           darkTheme: ThemeData(
             colorSchemeSeed: Colors.white,
             brightness: Brightness.dark,
-            textTheme: GoogleFonts.nunitoTextTheme(),
+            fontFamily: GoogleFonts.nunito().fontFamily,
             useMaterial3: true,
           ),
         );
