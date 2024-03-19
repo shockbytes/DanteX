@@ -1,5 +1,7 @@
 import 'package:dantex/src/data/authentication/entity/dante_user.dart';
+import 'package:dantex/src/data/logging/event.dart';
 import 'package:dantex/src/providers/authentication.dart';
+import 'package:dantex/src/providers/service.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/handle.dart';
 import 'package:dantex/src/ui/core/platform_components.dart';
@@ -134,6 +136,7 @@ class EmailBottomSheetState extends ConsumerState<EmailBottomSheet> {
                   email: _emailController.text,
                   password: _passwordController.text,
                 );
+            ref.read(loggerProvider).trackEvent(DanteEvent.anonymousUpgrade);
             if (context.mounted) {
               Navigator.of(context).pop();
               await Navigator.of(context).pushReplacement(

@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:dantex/src/data/authentication/entity/dante_user.dart';
+import 'package:dantex/src/data/logging/event.dart';
 import 'package:dantex/src/providers/app_router.dart';
 import 'package:dantex/src/providers/authentication.dart';
+import 'package:dantex/src/providers/service.dart';
 import 'package:dantex/src/ui/add/add_book_widget.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/platform_components.dart';
@@ -396,6 +398,10 @@ class UserTag extends ConsumerWidget {
             DanteOutlinedButton(
               onPressed: () async {
                 Navigator.of(context).pop();
+                ref.read(loggerProvider).trackEvent(
+                  DanteEvent.appLogout,
+                  props: {'source': 'anonymous'},
+                );
                 await ref.watch(authenticationRepositoryProvider).logout();
               },
               child: Text('logout'.tr()),
@@ -404,6 +410,10 @@ class UserTag extends ConsumerWidget {
         ),
       );
     } else {
+      ref.read(loggerProvider).trackEvent(
+        DanteEvent.appLogout,
+        props: {'source': user?.source},
+      );
       await ref.watch(authenticationRepositoryProvider).logout();
     }
   }
