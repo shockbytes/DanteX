@@ -1,6 +1,8 @@
 import 'package:dantex/src/data/authentication/entity/dante_user.dart';
+import 'package:dantex/src/data/logging/event.dart' hide AuthenticationSource;
 import 'package:dantex/src/providers/app_router.dart';
 import 'package:dantex/src/providers/authentication.dart';
+import 'package:dantex/src/providers/service.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/platform_components.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -174,6 +176,9 @@ class EmailLoginPageState extends ConsumerState<EmailLoginPage> {
                 email: _emailController.text,
                 password: _passwordController.text,
               );
+          ref.read(loggerProvider).trackEvent(
+                OpenLogin(LoginSource('email')),
+              );
         } on Exception catch (exception, stackTrace) {
           setState(() {
             _isLoading = false;
@@ -238,9 +243,19 @@ class EmailLoginPageState extends ConsumerState<EmailLoginPage> {
           action: (_) async {
             // Close the dialog.
             Navigator.of(context).pop();
-            await ref
-                .read(authenticationRepositoryProvider)
-                .sendPasswordResetRequest(email: _emailController.text);
+            try {
+              await ref
+                  .read(authenticationRepositoryProvider)
+                  .sendPasswordResetRequest(email: _emailController.text);
+              ref.read(loggerProvider).trackEvent(ResetPasswordSuccess());
+            } catch (e, s) {
+              ref.read(loggerProvider).e(
+                    'Failed to reset password',
+                    error: e,
+                    stackTrace: s,
+                  );
+              ref.read(loggerProvider).trackEvent(ResetPasswordFailed());
+            }
             // Navigate back to the login page.
             if (context.mounted) {
               context.pushReplacement(DanteRoute.login.navigationUrl);

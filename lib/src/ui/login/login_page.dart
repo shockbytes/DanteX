@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:dantex/src/data/logging/event.dart';
 import 'package:dantex/src/providers/app_router.dart';
 import 'package:dantex/src/providers/authentication.dart';
+import 'package:dantex/src/providers/service.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/platform_components.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -73,6 +75,9 @@ class LoginPageState extends ConsumerState<LoginPage> {
                               await ref
                                   .read(authenticationRepositoryProvider)
                                   .loginWithGoogle();
+                              ref.read(loggerProvider).trackEvent(
+                                    OpenLogin(LoginSource('google')),
+                                  );
                             } on Exception catch (exception, stackTrace) {
                               _loginErrorReceived(exception, stackTrace);
                             }
@@ -186,6 +191,9 @@ class LoginPageState extends ConsumerState<LoginPage> {
               await ref
                   .read(authenticationRepositoryProvider)
                   .loginAnonymously();
+              ref.read(loggerProvider).trackEvent(
+                    OpenLogin(LoginSource('email')),
+                  );
             } on Exception catch (exception, stackTrace) {
               _loginErrorReceived(exception, stackTrace);
             }

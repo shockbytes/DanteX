@@ -1,4 +1,6 @@
+import 'package:dantex/src/data/logging/event.dart';
 import 'package:dantex/src/providers/authentication.dart';
+import 'package:dantex/src/providers/service.dart';
 import 'package:dantex/src/ui/core/dante_components.dart';
 import 'package:dantex/src/ui/core/handle.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -57,9 +59,25 @@ class ChangePasswordBottomSheetState
                 onPressed: () async {
                   if (_isValidPassword()) {
                     Navigator.of(context).pop();
-                    await ref
-                        .read(authenticationRepositoryProvider)
-                        .updateMailPassword(password: _passwordController.text);
+                    try {
+                      await ref
+                          .read(authenticationRepositoryProvider)
+                          .updateMailPassword(
+                            password: _passwordController.text,
+                          );
+                      ref
+                          .read(loggerProvider)
+                          .trackEvent(UpdateMailPasswordSuccess());
+                    } catch (e, s) {
+                      ref.read(loggerProvider).e(
+                            'Failed to reset password',
+                            error: e,
+                            stackTrace: s,
+                          );
+                      ref
+                          .read(loggerProvider)
+                          .trackEvent(UpdateMailPasswordFailure());
+                    }
                   }
                 },
               ),
