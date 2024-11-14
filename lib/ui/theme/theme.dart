@@ -11,8 +11,10 @@ class CustomTheme {
   }
 
   static ThemeData darkThemeData() {
-    return lightThemeData().copyWith(
+    return ThemeData(
       brightness: Brightness.dark,
+      colorSchemeSeed: Colors.white,
+      fontFamily: GoogleFonts.nunito().fontFamily,
     );
   }
 }

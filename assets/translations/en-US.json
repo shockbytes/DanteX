@@ -72,6 +72,7 @@
   "email_in_use_description": "Your mail address is already associated with a Google Account. Please login via Google to use this account.",
   "email_in_use_title": "Email already in use",
   "email_invalid": "Invalid Email Address",
+  "email_login": "Email Login",
   "empty-states": {
     "read": "There are no finished books. Why not finish one?",
     "read-later": "You have currently no books that you can read. Go add some.",

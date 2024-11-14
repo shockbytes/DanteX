@@ -2,7 +2,7 @@
 // ignore_for_file: lines_longer_than_80_chars, avoid_classes_with_only_static_members
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
-    show defaultTargetPlatform, kIsWeb, TargetPlatform;
+    show TargetPlatform, defaultTargetPlatform, kIsWeb;
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -73,8 +73,10 @@ class DefaultFirebaseOptions {
     projectId: 'dante-166506',
     databaseURL: 'https://dante-166506.firebaseio.com',
     storageBucket: 'dante-166506.appspot.com',
-    androidClientId: '150599422814-d66dntqhg58fins21hfj96eu6v1p9vgt.apps.googleusercontent.com',
-    iosClientId: '150599422814-eorssa86b5b5l2p2h4ri8bhg82jqsovj.apps.googleusercontent.com',
+    androidClientId:
+        '150599422814-d66dntqhg58fins21hfj96eu6v1p9vgt.apps.googleusercontent.com',
+    iosClientId:
+        '150599422814-eorssa86b5b5l2p2h4ri8bhg82jqsovj.apps.googleusercontent.com',
     iosBundleId: 'at.shockbytes.dantex',
   );
 }

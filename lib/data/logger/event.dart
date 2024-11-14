@@ -1,0 +1,1 @@
+enum DanteEvent { openLogin, appLogin }

@@ -73,6 +73,7 @@
   "email_in_use_description": "Die Email-Adresse ist bereits mit einem Google Konto verbunden. Bitte logge dich via Google für dieses Konto an.",
   "email_in_use_title": "Email bereits vergeben",
   "email_invalid": "Ungültige Email-Addresse",
+  "email_login": "Email Login",
   "empty-states": {
     "read": "Es gibt keine gelesenen Bücher. Los, schnapp dir ein Buch.",
     "read-later": "Du hast gerade keine Bücher, die du lesen kannst. Füge ein paar hinzu.",
