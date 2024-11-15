@@ -10,7 +10,7 @@ FirebaseAuth firebaseAuth(Ref ref) => FirebaseAuth.instance;
 
 @riverpod
 Stream<User?> authStateChanges(Ref ref) =>
-    ref.read(firebaseAuthProvider).authStateChanges();
+    ref.watch(firebaseAuthProvider).authStateChanges();
 
 @riverpod
 GoogleSignIn googleSignIn(Ref ref) => GoogleSignIn();

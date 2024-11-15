@@ -64,12 +64,14 @@
   "cancel": "Zurück",
   "change": "Ändern",
   "change_password": "Passwort ändern",
+  "confirm_password": "Passwort bestätigen",
   "continue": "Weiter",
   "delete": "Löschen",
   "delete_anyway": "Trotzdem löschen",
   "dismiss": "Abbrechen",
   "dont_have_account": "Noch kein Konto?",
   "email": "Email",
+  "email_already_in_use": "Email bereits vergeben",
   "email_empty": "Email-Feld darf nicht leer sein!",
   "email_in_use_description": "Die Email-Adresse ist bereits mit einem Google Konto verbunden. Bitte logge dich via Google für dieses Konto an.",
   "email_in_use_title": "Email bereits vergeben",
@@ -105,6 +107,8 @@
   "password": "Passwort",
   "password_empty": "Passwortfeld darf nicht leer sein!",
   "password_too_short": "Das Passwort muss mindestens 6 Zeichen lang sein!",
+  "password_too_weak": "Das Passwort ist zu schwach.",
+  "passwords_must_match": "Passwörter müssen übereinstimmen",
   "profile": "Profil",
   "query_search": {
     "hint": "Title oder ISBN",
@@ -205,6 +209,7 @@
   "share-book": "Hi! Ich lese gerade {title} von {author} und finde es großartig!",
   "sign_in": "Anmelden",
   "sign_up": "Registrieren",
+  "sign_up_rules": "Erstellen Sie ein Konto mit Ihrer E-Mail-Adresse und einem Passwort. Das Passwort muss mindestens 10 Zeichen lang sein und mindestens einen Großbuchstaben, einen Kleinbuchstaben, eine Zahl und ein Sonderzeichen enthalten.",
   "stats": {
     "books-and-pages": {
       "books": "Bücher",

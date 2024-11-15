@@ -63,12 +63,14 @@
   "cancel": "Cancel",
   "change": "Change",
   "change_password": "Change password",
+  "confirm_password": "Confirm Password",
   "continue": "Continue",
   "delete": "Delete",
   "delete_anyway": "Delete anyway",
   "dismiss": "Dismiss",
   "dont_have_account": "Don't have an account?",
   "email": "Email",
+  "email_already_in_use": "Email already in use",
   "email_empty": "Email can not be empty",
   "email_in_use_description": "Your mail address is already associated with a Google Account. Please login via Google to use this account.",
   "email_in_use_title": "Email already in use",
@@ -104,6 +106,8 @@
   "password": "Password",
   "password_empty": "Password can not be empty",
   "password_too_short": "Password must have at least 6 digits!",
+  "password_too_weak": "Password is too weak",
+  "passwords_must_match": "Passwords must match",
   "profile": "Profile",
   "query_search": {
     "hint": "Title or ISBN",
@@ -204,6 +208,7 @@
   "share-book": "Hey! I am currently reading {title} from {author} and I find it awesome!",
   "sign_in": "Sign in",
   "sign_up": "Sign up",
+  "sign_up_rules": "Create an account using your email address and a password. Passwords must be 10 characters in length and have at least one uppercase character, one lowercase character, one number, and one special character.",
   "stats": {
     "books-and-pages": {
       "books": "Books",

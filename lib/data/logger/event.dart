@@ -1,1 +1,1 @@
-enum DanteEvent { openLogin, appLogin }
+enum DanteEvent { openLogin, appLogin, appSignUp }

@@ -1,5 +1,5 @@
-import 'package:dantex/data/providers/auth.dart';
-import 'package:dantex/ui/login/login_page.dart';
+import 'package:dantex/providers/auth.dart';
+import 'package:dantex/ui/auth/sign_in_page.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
@@ -14,14 +14,14 @@ void main() {
   // Disable EasyLocalization logs for tests
   EasyLocalization.logger.enableBuildModes = [];
 
-  group('Given a LoginPage widget', () {
+  group('Given a SignInPage widget', () {
     group('When tapping the anonymous sign in button', () {
       patrolWidgetTest('Then the anonymous sign in dialog should be shown',
           ($) async {
         await $.pumpWidget(
           const ProviderScope(
             child: MaterialApp(
-              home: LoginPage(),
+              home: SignInPage(),
             ),
           ),
         );
@@ -34,24 +34,24 @@ void main() {
       });
     });
     group('When the anonymous sign in dialog is shown', () {
-      patrolWidgetTest('Then dismissing should return to the login page',
+      patrolWidgetTest('Then dismissing should return to the sign up page',
           ($) async {
         await $.pumpWidget(
           const ProviderScope(
             child: MaterialApp(
-              home: LoginPage(),
+              home: SignInPage(),
             ),
           ),
         );
 
         await $(#anonymous_sign_in_button).tap();
 
-        // Dismiss the anonymous login and verify that the dialog is gone and
+        // Dismiss the anonymous sign up and verify that the dialog is gone and
         // the progress indicator is no longer shown.
         await $(#dismiss_anonymous_sign_in_button).tap();
         expect($(#anonymous_sign_in_dialog), findsNothing);
       });
-      patrolWidgetTest('Then proceeding should call login anonymously',
+      patrolWidgetTest('Then proceeding should call sign up anonymously',
           ($) async {
         final mockFirebaseAuth = MockFirebaseAuth();
         await $.pumpWidget(
@@ -60,14 +60,14 @@ void main() {
               firebaseAuthProvider.overrideWithValue(mockFirebaseAuth),
             ],
             child: const MaterialApp(
-              home: LoginPage(),
+              home: SignInPage(),
             ),
           ),
         );
 
         await $(#anonymous_sign_in_button).tap();
 
-        // Proceed with the anonymous login and verify that the dialog is gone.
+        // Proceed with the anonymous sign up and verify that the dialog is gone.
         await $(#proceed_anonymous_sign_in_button).tap();
         expect($(#anonymous_sign_in_dialog), findsNothing);
         // Confirm that we have signed in anonymously.
@@ -75,7 +75,7 @@ void main() {
       });
     });
     group('When anonymous sign in fails', () {
-      patrolWidgetTest('Then the login error snackbar should be shown',
+      patrolWidgetTest('Then the sign up error snackbar should be shown',
           ($) async {
         final mockFirebaseAuth = MockFirebaseAuth();
         whenCalling(Invocation.method(#signInAnonymously, null))
@@ -87,15 +87,15 @@ void main() {
               firebaseAuthProvider.overrideWithValue(mockFirebaseAuth),
             ],
             child: const MaterialApp(
-              home: LoginPage(),
+              home: SignInPage(),
             ),
           ),
         );
 
         await $(#anonymous_sign_in_button).tap();
 
-        // Proceed with the anonymous login and verify that the snackbar appears
-        // for failed login.
+        // Proceed with the anonymous sign up and verify that the snackbar appears
+        // for failed sign up.
         await $(#proceed_anonymous_sign_in_button).tap();
         expect($(#sign_in_failed_snackbar), findsOneWidget);
       });
@@ -111,7 +111,7 @@ void main() {
               googleSignInProvider.overrideWithValue(mockGoogleSignIn),
             ],
             child: const MaterialApp(
-              home: LoginPage(),
+              home: SignInPage(),
             ),
           ),
         );
@@ -136,7 +136,7 @@ void main() {
               googleSignInProvider.overrideWithValue(mockGoogleSignIn),
             ],
             child: const MaterialApp(
-              home: LoginPage(),
+              home: SignInPage(),
             ),
           ),
         );
@@ -157,7 +157,7 @@ void main() {
               firebaseAuthProvider.overrideWithValue(mockFirebaseAuth),
             ],
             child: const MaterialApp(
-              home: LoginPage(),
+              home: SignInPage(),
             ),
           ),
         );
@@ -182,7 +182,7 @@ void main() {
               firebaseAuthProvider.overrideWithValue(mockFirebaseAuth),
             ],
             child: const MaterialApp(
-              home: LoginPage(),
+              home: SignInPage(),
             ),
           ),
         );

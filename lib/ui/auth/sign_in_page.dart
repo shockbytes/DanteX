@@ -1,23 +1,25 @@
 import 'package:dantex/data/logger/event.dart';
-import 'package:dantex/data/providers/auth.dart';
-import 'package:dantex/data/providers/logger.dart';
-import 'package:dantex/ui/login/loading_button.dart';
+import 'package:dantex/providers/auth.dart';
+import 'package:dantex/providers/logger.dart';
+import 'package:dantex/ui/auth/loading_button.dart';
+import 'package:dantex/ui/auth/sign_up_page.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
-class LoginPage extends ConsumerStatefulWidget {
-  const LoginPage({super.key});
+class SignInPage extends ConsumerStatefulWidget {
+  const SignInPage({super.key});
 
-  static String get routeName => 'login';
+  static String get routeName => 'sign-in';
   static String get routeLocation => '/$routeName';
 
   @override
-  ConsumerState<LoginPage> createState() => _LoginPageState();
+  ConsumerState<SignInPage> createState() => _SignInPageState();
 }
 
-class _LoginPageState extends ConsumerState<LoginPage> {
+class _SignInPageState extends ConsumerState<SignInPage> {
   bool _signingIn = false;
   bool _maskPassword = true;
   final _formKey = GlobalKey<FormState>();
@@ -185,7 +187,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       const SizedBox(width: 4),
                       GestureDetector(
                         key: const ValueKey('create_account_button'),
-                        onTap: () {},
+                        onTap: () async =>
+                            context.pushNamed(SignUpPage.routeName),
                         child: Text(
                           'sign_up'.tr(),
                           style: Theme.of(context)
