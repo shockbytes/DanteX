@@ -1,4 +1,5 @@
 import 'package:dantex/providers/auth.dart';
+import 'package:dantex/ui/auth/forgot_password.dart';
 import 'package:dantex/ui/auth/sign_in_page.dart';
 import 'package:dantex/ui/auth/sign_up_page.dart';
 import 'package:dantex/ui/auth/splash_page.dart';
@@ -47,6 +48,13 @@ GoRouter router(Ref ref) {
             name: SignUpPage.routeName,
             builder: (context, state) {
               return const SignUpPage();
+            },
+          ),
+          GoRoute(
+            path: ForgotPasswordPage.routeLocation,
+            name: ForgotPasswordPage.routeName,
+            builder: (context, state) {
+              return const ForgotPasswordPage();
             },
           ),
         ],

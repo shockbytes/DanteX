@@ -1,6 +1,7 @@
 import 'package:dantex/data/logger/event.dart';
 import 'package:dantex/providers/auth.dart';
 import 'package:dantex/providers/logger.dart';
+import 'package:dantex/ui/auth/forgot_password.dart';
 import 'package:dantex/ui/auth/loading_button.dart';
 import 'package:dantex/ui/auth/sign_up_page.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -127,7 +128,8 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                     alignment: Alignment.centerRight,
                     child: GestureDetector(
                       key: const ValueKey('forgot_password_button'),
-                      onTap: () {},
+                      onTap: () async =>
+                          context.pushNamed(ForgotPasswordPage.routeName),
                       child: Text(
                         'forgot_password'.tr(),
                         style: TextStyle(

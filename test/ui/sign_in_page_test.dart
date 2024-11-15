@@ -15,24 +15,6 @@ void main() {
   EasyLocalization.logger.enableBuildModes = [];
 
   group('Given a SignInPage widget', () {
-    group('When tapping the anonymous sign in button', () {
-      patrolWidgetTest('Then the anonymous sign in dialog should be shown',
-          ($) async {
-        await $.pumpWidget(
-          const ProviderScope(
-            child: MaterialApp(
-              home: SignInPage(),
-            ),
-          ),
-        );
-
-        await $(#anonymous_sign_in_button).tap();
-
-        expect($(#anonymous_sign_in_dialog), findsOneWidget);
-        expect($(#dismiss_anonymous_sign_in_button), findsOneWidget);
-        expect($(#proceed_anonymous_sign_in_button), findsOneWidget);
-      });
-    });
     group('When the anonymous sign in dialog is shown', () {
       patrolWidgetTest('Then dismissing should return to the sign up page',
           ($) async {
@@ -72,6 +54,24 @@ void main() {
         expect($(#anonymous_sign_in_dialog), findsNothing);
         // Confirm that we have signed in anonymously.
         expect(mockFirebaseAuth.currentUser, isNotNull);
+      });
+    });
+    group('When anonymous sign in succeeds', () {
+      patrolWidgetTest('Then the anonymous sign in dialog should be shown',
+          ($) async {
+        await $.pumpWidget(
+          const ProviderScope(
+            child: MaterialApp(
+              home: SignInPage(),
+            ),
+          ),
+        );
+
+        await $(#anonymous_sign_in_button).tap();
+
+        expect($(#anonymous_sign_in_dialog), findsOneWidget);
+        expect($(#dismiss_anonymous_sign_in_button), findsOneWidget);
+        expect($(#proceed_anonymous_sign_in_button), findsOneWidget);
       });
     });
     group('When anonymous sign in fails', () {
@@ -148,7 +148,7 @@ void main() {
       });
     });
 
-    group('When Email sign in succeeds', () {
+    group('When email sign in succeeds', () {
       patrolWidgetTest('Then the user should be signed in', ($) async {
         final mockFirebaseAuth = MockFirebaseAuth();
         await $.pumpWidget(
@@ -169,7 +169,7 @@ void main() {
         expect(mockFirebaseAuth.currentUser, isNotNull);
       });
     });
-    group('When Email sign in fails', () {
+    group('When email sign in fails', () {
       patrolWidgetTest('Then the user should be not be signed in', ($) async {
         final mockFirebaseAuth = MockFirebaseAuth();
 

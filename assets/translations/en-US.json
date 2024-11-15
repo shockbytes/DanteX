@@ -21,6 +21,7 @@
     "description": "You are going to delete all your data right now. Proceeding now will permanently remove all your books.\n\n Do you want to proceed?",
     "title": "Anonymous Logout"
   },
+  "back_to_sign_in": "Back to sign in",
   "book-actions": {
     "delete": "Delete",
     "edit": "Edit",
@@ -85,6 +86,9 @@
   "enter_email": "Enter your email address",
   "enter_password": "Enter your password",
   "forgot_password": "Forgot password?",
+  "forgot_password_info": "Enter your email address and we'll send you a link to reset your password.",
+  "forgot_password_sent": "Email sent",
+  "forgot_password_sent_info": "Check your email and open the link we sent to continue.",
   "got_it": "Got it",
   "login": "Login",
   "login_failed": "Failed to login",
@@ -105,6 +109,7 @@
   "not_my_book": "Not my book",
   "password": "Password",
   "password_empty": "Password can not be empty",
+  "password_reset_failed": "Failed to reset password",
   "password_too_short": "Password must have at least 6 digits!",
   "password_too_weak": "Password is too weak",
   "passwords_must_match": "Passwords must match",
@@ -156,6 +161,7 @@
     "search": "Search"
   },
   "select": "Select",
+  "send_link_email": "Send link to email",
   "settings": {
     "about": {
       "contributor_invite_description": "Tap here",

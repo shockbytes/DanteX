@@ -22,6 +22,7 @@
     "description": "Du bist gerade im Begriff deine gesamten Daten zu löschen. Wenn du fortfährst, werden deine Bücher permanent gelöscht.\n\n Willst du fortfahren?",
     "title": "Anonymer Logout"
   },
+  "back_to_sign_in": "Zurück zum Login",
   "book-actions": {
     "delete": "Löschen",
     "edit": "Editieren",
@@ -86,6 +87,9 @@
   "enter_email": "Gib deine Email-Adresse an",
   "enter_password": "Gib dein Passwort ein",
   "forgot_password": "Passwort vergessen?",
+  "forgot_password_info": "Gib deine Email-Adresse ein und wir senden dir einen Link zum Zurücksetzen deines Passworts.",
+  "forgot_password_sent": "Link gesendet",
+  "forgot_password_sent_info": "Überprüfe deine Email und öffne den Link, den wir dir geschickt haben, um fortzufahren.",
   "got_it": "Verstanden",
   "login": "Login",
   "login_failed": "Fehler beim Anmelden",
@@ -106,6 +110,7 @@
   "not_my_book": "Nicht mein Buch",
   "password": "Passwort",
   "password_empty": "Passwortfeld darf nicht leer sein!",
+  "password_reset_failed": "Passwort konnte nicht zurückgesetzt werden.",
   "password_too_short": "Das Passwort muss mindestens 6 Zeichen lang sein!",
   "password_too_weak": "Das Passwort ist zu schwach.",
   "passwords_must_match": "Passwörter müssen übereinstimmen",
@@ -157,6 +162,7 @@
     "search": "Suchen"
   },
   "select": "Wählen",
+  "send_link_email": "Link an Email senden",
   "settings": {
     "about": {
       "contributor_invite_description": "Klick hier",
