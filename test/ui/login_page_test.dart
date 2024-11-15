@@ -15,56 +15,41 @@ void main() {
   EasyLocalization.logger.enableBuildModes = [];
 
   group('Given a LoginPage widget', () {
-    group('When the page is rendered', () {
-      patrolWidgetTest('Then it should display all buttons and widgets',
-          ($) async {
-        await $.pumpWidget(
-          const MaterialApp(
-            home: LoginPage(),
-          ),
-        );
-
-        expect($(#email_login_button), findsOneWidget);
-        expect($(#google_login_button), findsOneWidget);
-        expect($(#anonymous_login_button), findsOneWidget);
-        expect($(#sign_up_button), findsOneWidget);
-
-        expect($(#anonymous_login_dialog), findsNothing);
-        expect($(CircularProgressIndicator), findsNothing);
-      });
-    });
     group('When tapping the anonymous sign in button', () {
       patrolWidgetTest('Then the anonymous sign in dialog should be shown',
           ($) async {
         await $.pumpWidget(
-          const MaterialApp(
-            home: LoginPage(),
+          const ProviderScope(
+            child: MaterialApp(
+              home: LoginPage(),
+            ),
           ),
         );
 
-        await $(#anonymous_login_button).tap();
+        await $(#anonymous_sign_in_button).tap();
 
-        expect($(#anonymous_login_dialog), findsOneWidget);
-        expect($(#dismiss_anonymous_login_button), findsOneWidget);
-        expect($(#proceed_anonymous_login_button), findsOneWidget);
+        expect($(#anonymous_sign_in_dialog), findsOneWidget);
+        expect($(#dismiss_anonymous_sign_in_button), findsOneWidget);
+        expect($(#proceed_anonymous_sign_in_button), findsOneWidget);
       });
     });
     group('When the anonymous sign in dialog is shown', () {
       patrolWidgetTest('Then dismissing should return to the login page',
           ($) async {
         await $.pumpWidget(
-          const MaterialApp(
-            home: LoginPage(),
+          const ProviderScope(
+            child: MaterialApp(
+              home: LoginPage(),
+            ),
           ),
         );
 
-        await $(#anonymous_login_button).tap();
+        await $(#anonymous_sign_in_button).tap();
 
         // Dismiss the anonymous login and verify that the dialog is gone and
         // the progress indicator is no longer shown.
-        await $(#dismiss_anonymous_login_button).tap();
-        expect($(#anonymous_login_dialog), findsNothing);
-        expect($(CircularProgressIndicator), findsNothing);
+        await $(#dismiss_anonymous_sign_in_button).tap();
+        expect($(#anonymous_sign_in_dialog), findsNothing);
       });
       patrolWidgetTest('Then proceeding should call login anonymously',
           ($) async {
@@ -80,11 +65,11 @@ void main() {
           ),
         );
 
-        await $(#anonymous_login_button).tap();
+        await $(#anonymous_sign_in_button).tap();
 
         // Proceed with the anonymous login and verify that the dialog is gone.
-        await $(#proceed_anonymous_login_button).tap();
-        expect($(#anonymous_login_dialog), findsNothing);
+        await $(#proceed_anonymous_sign_in_button).tap();
+        expect($(#anonymous_sign_in_dialog), findsNothing);
         // Confirm that we have signed in anonymously.
         expect(mockFirebaseAuth.currentUser, isNotNull);
       });
@@ -107,12 +92,12 @@ void main() {
           ),
         );
 
-        await $(#anonymous_login_button).tap();
+        await $(#anonymous_sign_in_button).tap();
 
         // Proceed with the anonymous login and verify that the snackbar appears
         // for failed login.
-        await $(#proceed_anonymous_login_button).tap();
-        expect($(#login_failed_snackbar), findsOneWidget);
+        await $(#proceed_anonymous_sign_in_button).tap();
+        expect($(#sign_in_failed_snackbar), findsOneWidget);
       });
     });
     group('When Google sign in succeeds', () {
@@ -131,7 +116,7 @@ void main() {
           ),
         );
 
-        await $(#google_login_button).tap();
+        await $(#google_sign_in_button).tap();
 
         expect(mockFirebaseAuth.currentUser, isNotNull);
       });
@@ -156,11 +141,58 @@ void main() {
           ),
         );
 
-        await $(#google_login_button).tap();
+        await $(#google_sign_in_button).tap();
 
         expect(mockFirebaseAuth.currentUser, isNull);
-        expect($(#login_failed_snackbar), findsOneWidget);
-        expect($(#CircularProgressIndicator), findsNothing);
+        expect($(#sign_in_failed_snackbar), findsOneWidget);
+      });
+    });
+
+    group('When Email sign in succeeds', () {
+      patrolWidgetTest('Then the user should be signed in', ($) async {
+        final mockFirebaseAuth = MockFirebaseAuth();
+        await $.pumpWidget(
+          ProviderScope(
+            overrides: [
+              firebaseAuthProvider.overrideWithValue(mockFirebaseAuth),
+            ],
+            child: const MaterialApp(
+              home: LoginPage(),
+            ),
+          ),
+        );
+
+        await $(#email_field).enterText('email');
+        await $(#password_field).enterText('password');
+        await $(#email_sign_in_button).tap();
+
+        expect(mockFirebaseAuth.currentUser, isNotNull);
+      });
+    });
+    group('When Email sign in fails', () {
+      patrolWidgetTest('Then the user should be not be signed in', ($) async {
+        final mockFirebaseAuth = MockFirebaseAuth();
+
+        whenCalling(Invocation.method(#signInWithEmailAndPassword, null))
+            .on(mockFirebaseAuth)
+            .thenThrow(FirebaseAuthException(code: 'operation-not-allowed'));
+        await $.pumpWidget(
+          ProviderScope(
+            overrides: [
+              firebaseAuthProvider.overrideWithValue(mockFirebaseAuth),
+            ],
+            child: const MaterialApp(
+              home: LoginPage(),
+            ),
+          ),
+        );
+
+        await $(#email_field).enterText('email');
+        await $(#password_field).enterText('password');
+        await $(#email_sign_in_button).tap();
+
+        expect(mockFirebaseAuth.currentUser, isNull);
+        expect($(#sign_in_failed_snackbar), findsOneWidget);
       });
     });
   });

@@ -68,6 +68,7 @@
   "delete": "Löschen",
   "delete_anyway": "Trotzdem löschen",
   "dismiss": "Abbrechen",
+  "dont_have_account": "Noch kein Konto?",
   "email": "Email",
   "email_empty": "Email-Feld darf nicht leer sein!",
   "email_in_use_description": "Die Email-Adresse ist bereits mit einem Google Konto verbunden. Bitte logge dich via Google für dieses Konto an.",
@@ -203,7 +204,7 @@
   },
   "share-book": "Hi! Ich lese gerade {title} von {author} und finde es großartig!",
   "sign_in": "Anmelden",
-  "sign_up_with_mail": "Anmelden mit Email",
+  "sign_up": "Registrieren",
   "stats": {
     "books-and-pages": {
       "books": "Bücher",

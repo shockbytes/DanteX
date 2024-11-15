@@ -67,6 +67,7 @@
   "delete": "Delete",
   "delete_anyway": "Delete anyway",
   "dismiss": "Dismiss",
+  "dont_have_account": "Don't have an account?",
   "email": "Email",
   "email_empty": "Email can not be empty",
   "email_in_use_description": "Your mail address is already associated with a Google Account. Please login via Google to use this account.",
@@ -202,7 +203,7 @@
   },
   "share-book": "Hey! I am currently reading {title} from {author} and I find it awesome!",
   "sign_in": "Sign in",
-  "sign_up_with_mail": "Sign up with email",
+  "sign_up": "Sign up",
   "stats": {
     "books-and-pages": {
       "books": "Books",
