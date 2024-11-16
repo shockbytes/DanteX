@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:dantex/firebase_options.dart';
+import 'package:dantex/providers/firebase.dart';
 import 'package:dantex/providers/router.dart';
 import 'package:dantex/ui/theme/theme.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -13,6 +15,10 @@ void main() async {
   await runZonedGuarded(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
+
+      final firebaseApp = await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
       await EasyLocalization.ensureInitialized();
       await Firebase.initializeApp();
 
@@ -23,6 +29,9 @@ void main() async {
 
       runApp(
         ProviderScope(
+          overrides: [
+            firebaseAppProvider.overrideWithValue(firebaseApp),
+          ],
           child: EasyLocalization(
             supportedLocales: const [Locale('en', 'US'), Locale('de', 'DE')],
             path: 'assets/translations',

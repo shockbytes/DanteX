@@ -1,5 +1,6 @@
 import 'package:dantex/logger/event.dart';
 import 'package:dantex/providers/auth.dart';
+import 'package:dantex/providers/firebase.dart';
 import 'package:dantex/providers/logger.dart';
 import 'package:dantex/ui/auth/forgot_password.dart';
 import 'package:dantex/ui/auth/sign_up_page.dart';

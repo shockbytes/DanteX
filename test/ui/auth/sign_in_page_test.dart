@@ -1,4 +1,5 @@
 import 'package:dantex/providers/auth.dart';
+import 'package:dantex/providers/firebase.dart';
 import 'package:dantex/ui/auth/sign_in_page.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';

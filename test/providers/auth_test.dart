@@ -1,5 +1,6 @@
 import 'package:dantex/data/auth/user.dart';
 import 'package:dantex/providers/auth.dart';
+import 'package:dantex/providers/firebase.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:flutter_test/flutter_test.dart';
 

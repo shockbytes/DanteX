@@ -1,5 +1,5 @@
 import 'package:dantex/logger/event.dart';
-import 'package:dantex/providers/auth.dart';
+import 'package:dantex/providers/firebase.dart';
 import 'package:dantex/providers/logger.dart';
 import 'package:dantex/ui/core/loading_button.dart';
 import 'package:easy_localization/easy_localization.dart';
