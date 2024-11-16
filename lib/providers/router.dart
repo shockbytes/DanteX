@@ -3,7 +3,7 @@ import 'package:dantex/ui/auth/forgot_password.dart';
 import 'package:dantex/ui/auth/sign_in_page.dart';
 import 'package:dantex/ui/auth/sign_up_page.dart';
 import 'package:dantex/ui/auth/splash_page.dart';
-import 'package:dantex/ui/home_page.dart';
+import 'package:dantex/ui/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';

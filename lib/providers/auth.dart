@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:dantex/data/auth/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -14,3 +17,23 @@ Stream<User?> authStateChanges(Ref ref) =>
 
 @riverpod
 GoogleSignIn googleSignIn(Ref ref) => GoogleSignIn();
+
+@riverpod
+Stream<DanteUser?> user(Ref ref) =>
+    ref.watch(firebaseAuthProvider).userChanges().asyncMap(
+      (user) async {
+        if (user == null) {
+          return null;
+        }
+
+        return DanteUser(
+          givenName: user.displayName,
+          displayName: user.displayName,
+          email: user.email,
+          photoUrl: user.photoURL,
+          authToken: await user.getIdToken(),
+          userId: user.uid,
+          source: user.authenticationSource,
+        );
+      },
+    );
