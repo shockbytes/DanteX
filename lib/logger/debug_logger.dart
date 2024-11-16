@@ -1,5 +1,5 @@
-import 'package:dantex/data/logger/dante_logger.dart';
-import 'package:dantex/data/logger/event.dart';
+import 'package:dantex/logger/dante_logger.dart';
+import 'package:dantex/logger/event.dart';
 
 class DebugLogger extends DanteLogger {
   @override

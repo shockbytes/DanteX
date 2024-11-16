@@ -1,6 +1,6 @@
-import 'package:dantex/data/logger/dante_logger.dart';
-import 'package:dantex/data/logger/debug_logger.dart';
-import 'package:dantex/data/logger/firebase_logger.dart';
+import 'package:dantex/logger/dante_logger.dart';
+import 'package:dantex/logger/debug_logger.dart';
+import 'package:dantex/logger/firebase_logger.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

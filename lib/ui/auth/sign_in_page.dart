@@ -1,4 +1,4 @@
-import 'package:dantex/data/logger/event.dart';
+import 'package:dantex/logger/event.dart';
 import 'package:dantex/providers/auth.dart';
 import 'package:dantex/providers/logger.dart';
 import 'package:dantex/ui/auth/forgot_password.dart';

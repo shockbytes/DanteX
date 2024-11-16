@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:dantex/data/logger/dante_logger.dart';
-import 'package:dantex/data/logger/event.dart';
+import 'package:dantex/logger/dante_logger.dart';
+import 'package:dantex/logger/event.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:logger/logger.dart';

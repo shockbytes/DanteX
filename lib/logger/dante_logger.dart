@@ -1,4 +1,4 @@
-import 'package:dantex/data/logger/event.dart';
+import 'package:dantex/logger/event.dart';
 import 'package:logger/logger.dart';
 
 abstract class DanteLogger extends Logger {
