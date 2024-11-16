@@ -1,7 +1,7 @@
 import 'package:dantex/logger/event.dart';
 import 'package:dantex/providers/auth.dart';
 import 'package:dantex/providers/logger.dart';
-import 'package:dantex/ui/auth/loading_button.dart';
+import 'package:dantex/ui/core/loading_button.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
