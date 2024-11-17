@@ -9,10 +9,7 @@ part 'book.g.dart';
 
 @Riverpod(keepAlive: true)
 Stream<List<Book>> booksForState(Ref ref, BookState bookState) {
-  final bookDatabase =
-      ref.watch(bookDatabaseProvider)?.orderByChild('state').equalTo(
-            bookState.name,
-          );
+  final bookDatabase = ref.watch(bookDatabaseProvider);
 
   if (bookDatabase == null) {
     return const Stream.empty();
@@ -32,13 +29,16 @@ Stream<List<Book>> booksForState(Ref ref, BookState bookState) {
           return [];
         }
 
-        final books = data.values.map(
-          (value) {
-            final bookMap =
-                (value as Map<dynamic, dynamic>).cast<String, dynamic>();
-            return Book.fromJson(bookMap);
-          },
-        ).toList();
+        final books = data.values
+            .map(
+              (value) {
+                final bookMap =
+                    (value as Map<dynamic, dynamic>).cast<String, dynamic>();
+                return Book.fromJson(bookMap);
+              },
+            )
+            .where((book) => book.state == bookState)
+            .toList();
 
         return books;
     }
