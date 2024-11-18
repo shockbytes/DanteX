@@ -1,66 +1,60 @@
 import 'package:dantex/data/book/book_state.dart';
 import 'package:dantex/providers/book.dart';
 import 'package:dantex/providers/logger.dart';
+import 'package:dantex/ui/core/book_list_card.dart';
 import 'package:dantex/ui/home/dante_app_bar.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomePage extends ConsumerStatefulWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   static String get routeName => 'home';
   static String get routeLocation => '/';
 
   @override
-  ConsumerState<HomePage> createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends ConsumerState<HomePage> {
-  int _barIndex = 1;
+class _HomePageState extends State<HomePage> {
+  int _selectedIndex = 1;
+  final PageController _pageController = PageController(initialPage: 1);
 
   @override
   Widget build(BuildContext context) {
-    final booksForState =
-        ref.watch(booksForStateProvider(BookState.values[_barIndex]));
     return Scaffold(
       appBar: const DanteAppBar(),
-      body: booksForState.when(
-        data: (books) {
-          if (books.isEmpty) {
-            return const Center(
-              child: Text('No books found'),
-            );
-          }
-          return Center(
-            child: ListView.builder(
-              itemCount: books.length,
-              itemBuilder: (context, index) => ListTile(
-                title: Text(books[index].title),
-                subtitle: Text(books[index].state.toString()),
-              ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: PageView(
+          controller: _pageController,
+          onPageChanged: (value) => setState(() => _selectedIndex = value),
+          children: const [
+            _BookList(
+              key: ValueKey('read_later_list'),
+              bookState: BookState.readLater,
             ),
-          );
-        },
-        error: (e, s) {
-          ref
-              .read(loggerProvider)
-              .e('Error loading books', error: e, stackTrace: s);
-          return const SizedBox.shrink();
-        },
-        loading: () => const Center(
-          child: CircularProgressIndicator(),
+            _BookList(
+              key: ValueKey('reading_list'),
+              bookState: BookState.reading,
+            ),
+            _BookList(
+              key: ValueKey('read_list'),
+              bookState: BookState.read,
+            ),
+          ],
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _barIndex,
+        onTap: (index) async => _pageController.animateToPage(
+          index,
+          duration: const Duration(milliseconds: 400),
+          curve: Curves.easeInOut,
+        ),
+        currentIndex: _selectedIndex,
         selectedItemColor: Theme.of(context).colorScheme.primary,
         enableFeedback: true,
-        onTap: (index) {
-          setState(() {
-            _barIndex = index;
-          });
-        },
         items: [
           BottomNavigationBarItem(
             icon: const Icon(Icons.bookmark_outline),
@@ -87,6 +81,40 @@ class _HomePageState extends ConsumerState<HomePage> {
             label: 'tabs.read'.tr(),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _BookList extends ConsumerWidget {
+  const _BookList({required this.bookState, super.key});
+
+  final BookState bookState;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final booksForState = ref.watch(booksForStateProvider(bookState));
+
+    return Center(
+      child: booksForState.when(
+        data: (books) {
+          if (books.isEmpty) {
+            return const Text('No books found');
+          }
+          return ListView.builder(
+            itemCount: books.length,
+            itemBuilder: (context, index) => BookListCard(book: books[index]),
+          );
+        },
+        error: (e, s) {
+          ref.read(loggerProvider).e(
+                'Error loading books',
+                error: e,
+                stackTrace: s,
+              );
+          return const SizedBox.shrink();
+        },
+        loading: CircularProgressIndicator.new,
       ),
     );
   }

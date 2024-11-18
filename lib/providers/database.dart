@@ -23,3 +23,11 @@ DatabaseReference? bookDatabase(Ref ref) {
 
   return database.ref('users/$userId/books');
 }
+
+@riverpod
+FirebaseDatabase? firebaseDatabase(Ref ref) {
+  return FirebaseDatabase.instanceFor(
+    app: ref.watch(firebaseAppProvider),
+    databaseURL: 'https://dante-books.europe-west1.firebasedatabase.app/',
+  );
+}

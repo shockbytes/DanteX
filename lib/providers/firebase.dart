@@ -11,11 +11,3 @@ FirebaseApp firebaseApp(Ref ref) => throw UnimplementedError();
 
 @riverpod
 FirebaseAuth firebaseAuth(Ref ref) => FirebaseAuth.instance;
-
-@riverpod
-FirebaseDatabase? firebaseDatabase(Ref ref) {
-  return FirebaseDatabase.instanceFor(
-    app: ref.watch(firebaseAppProvider),
-    databaseURL: 'https://dante-books.europe-west1.firebasedatabase.app/',
-  );
-}
