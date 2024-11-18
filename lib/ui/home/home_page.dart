@@ -101,9 +101,13 @@ class _BookList extends ConsumerWidget {
           if (books.isEmpty) {
             return const Text('No books found');
           }
-          return ListView.builder(
+          return ReorderableListView.builder(
             itemCount: books.length,
-            itemBuilder: (context, index) => BookListCard(book: books[index]),
+            itemBuilder: (context, index) => BookListCard(
+              key: ValueKey('book_list_card_${books[index].id}'),
+              book: books[index],
+            ),
+            onReorder: (oldIndex, newIndex) {},
           );
         },
         error: (e, s) {

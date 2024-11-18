@@ -17,17 +17,20 @@ class BookImage extends StatelessWidget {
     if (imageUrl == null) {
       return Icon(
         key: const ValueKey('book_image_placeholder'),
-        Icons.image,
+        Icons.image_outlined,
         size: size,
       );
     }
 
-    return CachedNetworkImage(
-      imageUrl: imageUrl,
-      width: size,
-      progressIndicatorBuilder: (context, url, progress) => Center(
-        child: CircularProgressIndicator(
-          value: progress.progress,
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(8),
+      child: CachedNetworkImage(
+        imageUrl: imageUrl,
+        width: size,
+        progressIndicatorBuilder: (context, url, progress) => Center(
+          child: CircularProgressIndicator(
+            value: progress.progress,
+          ),
         ),
       ),
     );

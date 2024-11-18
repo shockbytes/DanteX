@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:dantex/data/book/book_state.dart';
 import 'package:dantex/providers/auth.dart';
 import 'package:dantex/providers/book.dart';
-import 'package:dantex/providers/firebase.dart';
+import 'package:dantex/providers/database.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:firebase_database_mocks/firebase_database_mocks.dart';
 import 'package:flutter_test/flutter_test.dart';
