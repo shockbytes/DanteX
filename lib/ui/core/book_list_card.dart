@@ -26,10 +26,11 @@ class BookListCard extends ConsumerWidget {
         borderRadius: BorderRadius.circular(8),
         onTap: () {},
         child: Padding(
-          padding: const EdgeInsets.all(8),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             children: [
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   BookImage(book.thumbnailAddress, size: 48),
                   const SizedBox(width: 16),
