@@ -2,9 +2,11 @@ import 'package:dantex/data/auth/user.dart';
 import 'package:dantex/providers/auth.dart';
 import 'package:dantex/providers/firebase.dart';
 import 'package:dantex/ui/core/user_avatar.dart';
+import 'package:dantex/ui/management/book_management_page.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class DanteBottomSheet extends ConsumerWidget {
   const DanteBottomSheet({super.key});
@@ -75,7 +77,9 @@ class DanteBottomSheet extends ConsumerWidget {
                 _MenuItem(
                   text: 'navigation.book-keeping',
                   icon: Icons.all_inbox_outlined,
-                  onItemClicked: () {},
+                  onItemClicked: () async => context.push(
+                    BookManagementPage.routeLocation,
+                  ),
                 ),
                 _MenuItem(
                   text: 'navigation.settings',

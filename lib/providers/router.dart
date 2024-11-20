@@ -4,6 +4,7 @@ import 'package:dantex/ui/auth/sign_in_page.dart';
 import 'package:dantex/ui/auth/sign_up_page.dart';
 import 'package:dantex/ui/auth/splash_page.dart';
 import 'package:dantex/ui/home/home_page.dart';
+import 'package:dantex/ui/management/book_management_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -58,6 +59,27 @@ GoRouter router(Ref ref) {
             },
           ),
         ],
+      ),
+      GoRoute(
+        path: BookManagementPage.routeLocation,
+        name: BookManagementPage.routeName,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const BookManagementPage(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            const curve = Curves.easeInOut;
+            final curvedAnimation =
+                CurvedAnimation(parent: animation, curve: curve);
+
+            return SlideTransition(
+              position: Tween<Offset>(
+                begin: const Offset(0, 1),
+                end: Offset.zero,
+              ).animate(curvedAnimation),
+              child: child,
+            );
+          },
+        ),
       ),
     ],
     redirect: (context, state) {
