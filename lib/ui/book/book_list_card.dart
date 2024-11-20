@@ -1,6 +1,6 @@
 import 'package:dantex/data/book/book.dart';
 import 'package:dantex/data/book/book_state.dart';
-import 'package:dantex/ui/core/book_image.dart';
+import 'package:dantex/ui/book/book_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';

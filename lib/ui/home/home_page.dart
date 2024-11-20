@@ -1,7 +1,7 @@
 import 'package:dantex/data/book/book_state.dart';
 import 'package:dantex/providers/book.dart';
 import 'package:dantex/providers/logger.dart';
-import 'package:dantex/ui/core/book_list_card.dart';
+import 'package:dantex/ui/book/book_list_card.dart';
 import 'package:dantex/ui/home/dante_app_bar.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';

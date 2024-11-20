@@ -116,6 +116,7 @@
   "profile": "Profile",
   "query_search": {
     "hint": "Title or ISBN",
+    "info": "Please enter the title or ISBN of your book.",
     "title": "Title search"
   },
   "random_book": {

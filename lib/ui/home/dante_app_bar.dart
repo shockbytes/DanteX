@@ -1,4 +1,5 @@
 import 'package:dantex/ui/core/user_avatar.dart';
+import 'package:dantex/ui/home/add_book_button.dart';
 import 'package:dantex/ui/home/dante_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,14 +13,7 @@ class DanteAppBar extends ConsumerWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AppBar(
-      leading: IconButton(
-        onPressed: () {},
-        icon: Icon(
-          Icons.add,
-          size: 40,
-          color: Theme.of(context).colorScheme.primary,
-        ),
-      ),
+      leading: const AddBookButton(),
       title: TextField(
         decoration: InputDecoration(
           hintText: 'Search',

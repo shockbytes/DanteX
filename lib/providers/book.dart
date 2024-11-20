@@ -7,7 +7,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'book.g.dart';
 
-@Riverpod(keepAlive: true)
+@riverpod
 Stream<List<Book>> booksForState(Ref ref, BookState bookState) {
   final bookDatabase = ref.watch(bookDatabaseProvider);
 
@@ -44,6 +44,17 @@ Stream<List<Book>> booksForState(Ref ref, BookState bookState) {
     }
     return [];
   });
+}
+
+@riverpod
+Future<void> addBook(Ref ref, Book book) async {
+  final bookDatabase = ref.watch(bookDatabaseProvider);
+
+  if (bookDatabase == null) {
+    return;
+  }
+
+  await bookDatabase.push().set(book.toJson());
 }
 
 extension DataSnapshotExtension on DataSnapshot {
