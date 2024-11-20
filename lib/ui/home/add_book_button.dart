@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:developer';
 
+import 'package:dantex/ui/home/search_result_bottom_sheet.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,7 +17,6 @@ class AddBookButton extends ConsumerStatefulWidget {
 
 class _AddBookButtonState extends ConsumerState<AddBookButton> {
   final _searchController = TextEditingController();
-  final bool _searching = false;
 
   @override
   void dispose() {
@@ -123,23 +124,16 @@ class _AddBookButtonState extends ConsumerState<AddBookButton> {
           ),
         );
 
-        if (!mounted) {
+        if (!mounted || searchTerm == null) {
           return;
         }
 
-        if (searchTerm != null) {
-          showBottomSheet(
-            context: context,
-            builder: (context) => _searching
-                ? const LinearProgressIndicator()
-                : const Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text('Found a book'),
-                    ],
-                  ),
-          );
-        }
+        await showModalBottomSheet<void>(
+          showDragHandle: true,
+          context: context,
+          builder: (context) => SearchResultBottomSheet(searchTerm: searchTerm),
+        );
+
       case AddBookAction.manual:
         log('Manual scan');
     }

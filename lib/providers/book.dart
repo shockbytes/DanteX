@@ -1,5 +1,7 @@
 import 'package:dantex/data/book/book.dart';
 import 'package:dantex/data/book/book_state.dart';
+import 'package:dantex/data/book/google_books_response.dart';
+import 'package:dantex/providers/client.dart';
 import 'package:dantex/providers/database.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -46,15 +48,27 @@ Stream<List<Book>> booksForState(Ref ref, BookState bookState) {
   });
 }
 
-@riverpod
-Future<void> addBook(Ref ref, Book book) async {
-  final bookDatabase = ref.watch(bookDatabaseProvider);
+@Riverpod(keepAlive: true)
+Future<List<Book>> searchRemoteBooks(
+  Ref ref,
+  String searchTerm,
+) async {
+  final googleBooksClient = ref.watch(googleBooksClientProvider);
+  final response = await googleBooksClient.get<Map<String, dynamic>>(
+    '/volumes',
+    queryParameters: <String, dynamic>{
+      'q': searchTerm,
+    },
+  );
 
-  if (bookDatabase == null) {
-    return;
+  final data = response.data;
+  if (data == null) {
+    return [];
   }
 
-  await bookDatabase.push().set(book.toJson());
+  final parsedResponse = GoogleBooksResponse.fromJson(data);
+
+  return parsedResponse.items.map((e) => e.toBook()).nonNulls.toList();
 }
 
 extension DataSnapshotExtension on DataSnapshot {
