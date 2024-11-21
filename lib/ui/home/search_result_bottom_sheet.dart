@@ -1,7 +1,8 @@
 import 'package:dantex/providers/book.dart';
-import 'package:dantex/ui/book/book_image.dart';
+import 'package:dantex/ui/book/add_book.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class SearchResultBottomSheet extends ConsumerWidget {
   const SearchResultBottomSheet({required this.searchTerm});
@@ -12,67 +13,36 @@ class SearchResultBottomSheet extends ConsumerWidget {
     final searchResult = ref.watch(searchRemoteBooksProvider(searchTerm));
     return searchResult.when(
       data: (result) {
-        final book = result.first;
-        return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          width: double.infinity,
-          child: SafeArea(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                BookImage(book.thumbnailAddress, size: 80),
-                const SizedBox(height: 16),
-                Text(
-                  book.title,
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-                const SizedBox(
-                  height: 8,
-                ),
-                Text(book.author),
-                const SizedBox(height: 24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Expanded(
-                      child: OutlinedButton(
-                        onPressed: () {},
-                        child: const Text('Read Later'),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: OutlinedButton(
-                        onPressed: () {},
-                        child: const Text('Reading'),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: OutlinedButton(
-                        onPressed: () {},
-                        child: const Text('Done'),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                OutlinedButton(onPressed: () {}, child: const Text('Wishlist')),
-                const SizedBox(height: 24),
-                OutlinedButton(
-                  onPressed: () {},
-                  child: const Text('Not my book'),
-                ),
-              ],
-            ),
-          ),
-        );
+        if (result.isEmpty) {
+          return const Center(
+            child: Text('No results found'),
+          );
+        }
+
+        return AddBook(book: result.first);
       },
       error: (error, stackTrace) => Center(
-        child: Text('Error: $error'),
+        child: Text('Error: $error \n $stackTrace'),
       ),
-      loading: () => const Center(
-        child: CircularProgressIndicator(),
+      loading: () => FractionallySizedBox(
+        heightFactor: 0.5,
+        child: Center(
+          child: SpinKitPulsingGrid(
+            itemBuilder: (context, index) {
+              final color = Color.lerp(
+                Colors.pink,
+                Colors.blue,
+                index / 24,
+              );
+              return DecoratedBox(
+                decoration: BoxDecoration(
+                  color: color,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              );
+            },
+          ),
+        ),
       ),
     );
   }

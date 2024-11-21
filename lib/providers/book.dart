@@ -1,54 +1,30 @@
 import 'package:dantex/data/book/book.dart';
 import 'package:dantex/data/book/book_state.dart';
 import 'package:dantex/data/book/google_books_response.dart';
+import 'package:dantex/data/repo/book_repository.dart';
 import 'package:dantex/providers/client.dart';
 import 'package:dantex/providers/database.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'book.g.dart';
 
 @riverpod
-Stream<List<Book>> booksForState(Ref ref, BookState bookState) {
+BookRepository bookRepository(Ref ref) {
   final bookDatabase = ref.watch(bookDatabaseProvider);
 
   if (bookDatabase == null) {
-    return const Stream.empty();
+    throw Exception('Database reference is null');
   }
-  return bookDatabase.onValue.map((event) {
-    switch (event.type) {
-      case DatabaseEventType.childAdded:
-      case DatabaseEventType.childRemoved:
-      case DatabaseEventType.childChanged:
-      case DatabaseEventType.childMoved:
-        // No need to handle these case.
-        break;
-      case DatabaseEventType.value:
-        final data = event.snapshot.toMap();
 
-        if (data == null) {
-          return [];
-        }
-
-        final books = data.values
-            .map(
-              (value) {
-                final bookMap =
-                    (value as Map<dynamic, dynamic>).cast<String, dynamic>();
-                return Book.fromJson(bookMap);
-              },
-            )
-            .where((book) => book.state == bookState)
-            .toList();
-
-        return books;
-    }
-    return [];
-  });
+  return BookRepository(bookDatabase: bookDatabase);
 }
 
-@Riverpod(keepAlive: true)
+@riverpod
+Stream<List<Book>> booksForState(Ref ref, BookState bookState) =>
+    ref.watch(bookRepositoryProvider).booksForState(bookState);
+
+@riverpod
 Future<List<Book>> searchRemoteBooks(
   Ref ref,
   String searchTerm,
@@ -68,11 +44,10 @@ Future<List<Book>> searchRemoteBooks(
 
   final parsedResponse = GoogleBooksResponse.fromJson(data);
 
-  return parsedResponse.items.map((e) => e.toBook()).nonNulls.toList();
-}
-
-extension DataSnapshotExtension on DataSnapshot {
-  Map<String, dynamic>? toMap() {
-    return (value != null) ? (value! as Map<dynamic, dynamic>).cast() : null;
+  final items = parsedResponse.items;
+  if (items == null) {
+    return [];
   }
+
+  return items.map((e) => e.toBook()).nonNulls.toList();
 }

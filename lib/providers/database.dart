@@ -1,3 +1,4 @@
+import 'package:dantex/data/repo/book_repository.dart';
 import 'package:dantex/providers/auth.dart';
 import 'package:dantex/providers/firebase.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -21,7 +22,7 @@ DatabaseReference? bookDatabase(Ref ref) {
     return null;
   }
 
-  return database.ref('users/$userId/books');
+  return database.ref(BookRepository.booksPath(userId));
 }
 
 @riverpod

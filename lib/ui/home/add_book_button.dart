@@ -124,6 +124,8 @@ class _AddBookButtonState extends ConsumerState<AddBookButton> {
           ),
         );
 
+        _searchController.clear();
+
         if (!mounted || searchTerm == null) {
           return;
         }
@@ -131,7 +133,10 @@ class _AddBookButtonState extends ConsumerState<AddBookButton> {
         await showModalBottomSheet<void>(
           showDragHandle: true,
           context: context,
-          builder: (context) => SearchResultBottomSheet(searchTerm: searchTerm),
+          builder: (context) => AnimatedSize(
+            duration: const Duration(milliseconds: 300),
+            child: SearchResultBottomSheet(searchTerm: searchTerm),
+          ),
         );
 
       case AddBookAction.manual:

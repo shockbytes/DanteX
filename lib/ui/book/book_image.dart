@@ -24,12 +24,15 @@ class BookImage extends StatelessWidget {
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
-      child: CachedNetworkImage(
-        imageUrl: imageUrl,
+      child: SizedBox(
         width: size,
-        progressIndicatorBuilder: (context, url, progress) => Center(
-          child: CircularProgressIndicator(
-            value: progress.progress,
+        child: CachedNetworkImage(
+          imageUrl: imageUrl,
+          width: size,
+          progressIndicatorBuilder: (context, url, progress) => Center(
+            child: CircularProgressIndicator(
+              value: progress.progress,
+            ),
           ),
         ),
       ),
