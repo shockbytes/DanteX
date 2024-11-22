@@ -1,5 +1,7 @@
+import 'package:dantex/logger/event.dart';
 import 'package:dantex/providers/book.dart';
 import 'package:dantex/providers/google.dart';
+import 'package:dantex/providers/logger.dart';
 import 'package:dantex/ui/core/pulsing_grid.dart';
 import 'package:dantex/ui/core/subtitle_icon.dart';
 import 'package:dantex/ui/home/home_page.dart';
@@ -100,6 +102,12 @@ class BookManagementPage extends ConsumerWidget {
       } else {
         await bookRepository.overwriteBooks(backupBooks);
       }
+      ref.read(loggerProvider).trackEvent(
+        DanteEvent.restoreBackupFromGoogleDrive,
+        data: {
+          'strategy': restoreStrategy.name,
+        },
+      );
     } finally {
       progressNotifier.done();
     }

@@ -12,12 +12,14 @@ class CachedReorderableListView<T> extends StatefulWidget {
     required this.list,
     required this.itemBuilder,
     required this.onReorder,
+    this.proxyDecorator,
     super.key,
   });
 
   final List<T> list;
   final ListItemWidgetBuilder<T> itemBuilder;
   final ReorderCallback onReorder;
+  final ReorderItemProxyDecorator? proxyDecorator;
 
   @override
   CachedReorderableListViewState<T> createState() =>
@@ -52,6 +54,7 @@ class CachedReorderableListViewState<T>
   Widget build(BuildContext context) {
     return ReorderableListView.builder(
       itemCount: list.length,
+      proxyDecorator: widget.proxyDecorator,
       itemBuilder: (context, index) => widget.itemBuilder(context, list[index]),
       onReorder: (oldIndex, newIndex) {
         setState(() {

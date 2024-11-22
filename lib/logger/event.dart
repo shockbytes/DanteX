@@ -4,4 +4,5 @@ enum DanteEvent {
   appSignUp,
   resetPasswordSuccess,
   resetPasswordFailed,
+  restoreBackupFromGoogleDrive,
 }

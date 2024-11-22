@@ -125,6 +125,10 @@ class _BookList extends ConsumerWidget {
                 book: book,
               ),
             ),
+            proxyDecorator: (child, index, animation) => ColoredBox(
+              color: Colors.transparent,
+              child: child,
+            ),
           );
         },
         error: (e, s) {
