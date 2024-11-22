@@ -42,7 +42,12 @@ BookRepository bookRepository(Ref ref) {
 
 @riverpod
 Stream<List<Book>> booksForState(Ref ref, BookState bookState) =>
-    ref.watch(bookRepositoryProvider).booksForState(bookState);
+    ref.watch(bookRepositoryProvider).booksForState(bookState).map(
+          (books) => books
+            ..sort(
+              (a, b) => a.position.compareTo(b.position),
+            ),
+        );
 
 @riverpod
 Future<List<Book>> searchRemoteBooks(

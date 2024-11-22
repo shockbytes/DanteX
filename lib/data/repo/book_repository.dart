@@ -50,9 +50,11 @@ class BookRepository {
 
   Future<void> overwriteBooks(List<Book> books) async {
     await clearBooks();
-    for (final book in books) {
-      await addBookToState(book, book.state);
-    }
+    final bookMap = {
+      for (final book in books) book.id: book.toJson(),
+    };
+
+    await _bookDatabase.update(bookMap);
   }
 
   Future<void> mergeBooks(List<Book> books) async {
@@ -67,6 +69,20 @@ class BookRepository {
         await addBookToState(book, book.state);
       }
     }
+  }
+
+  Future<void> updatePositions(List<Book> books) async {
+    for (var i = 0; i < books.length; i++) {
+      books[i] = books[i].copyWith(position: i);
+    }
+
+    // Convert our list of books into a JSON blob that has the book ID as the
+    // key for each book entry.
+    final bookMap = {
+      for (final book in books) book.id: book.toJson(),
+    };
+
+    await _bookDatabase.update(bookMap);
   }
 }
 
