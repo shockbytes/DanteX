@@ -50,6 +50,7 @@ class BookRepository {
     }
 
     final bookMap = book.toJson();
+    bookMap['id'] = bookId;
     bookMap['state'] = bookState.name;
 
     await _bookDatabase.child(bookId).set(bookMap);
@@ -57,6 +58,13 @@ class BookRepository {
 
   Future<void> clearBooks() async {
     await _bookDatabase.remove();
+  }
+
+  Future<void> overwriteBooks(List<Book> books) async {
+    await clearBooks();
+    for (final book in books) {
+      await addBookToState(book, book.state);
+    }
   }
 }
 

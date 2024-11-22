@@ -2,12 +2,32 @@ import 'package:dantex/data/book/book.dart';
 import 'package:dantex/data/book/book_state.dart';
 import 'package:dantex/data/book/google_books_response.dart';
 import 'package:dantex/data/repo/book_repository.dart';
+import 'package:dantex/providers/auth.dart';
 import 'package:dantex/providers/client.dart';
-import 'package:dantex/providers/database.dart';
+import 'package:dantex/providers/firebase.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'book.g.dart';
+
+@riverpod
+DatabaseReference? bookDatabase(Ref ref) {
+  final database = ref.watch(firebaseDatabaseProvider);
+
+  if (database == null) {
+    return null;
+  }
+
+  // Only watch authStateChanges here so that the database reference is only
+  // recreated when the user signs in or out.
+  final userId = ref.watch(authStateChangesProvider).value?.uid;
+  if (userId == null) {
+    return null;
+  }
+
+  return database.ref(BookRepository.booksPath(userId));
+}
 
 @riverpod
 BookRepository bookRepository(Ref ref) {
@@ -50,4 +70,14 @@ Future<List<Book>> searchRemoteBooks(
   }
 
   return items.map((e) => e.toBook()).nonNulls.toList();
+}
+
+@Riverpod(keepAlive: true)
+class BackupInProgressNotifier extends _$BackupInProgressNotifier {
+  @override
+  bool build() => false;
+
+  void start() => state = true;
+
+  void done() => state = false;
 }

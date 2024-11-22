@@ -1,8 +1,8 @@
 import 'package:dantex/providers/book.dart';
 import 'package:dantex/ui/book/add_book.dart';
+import 'package:dantex/ui/core/pulsing_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class SearchResultBottomSheet extends ConsumerWidget {
   const SearchResultBottomSheet({required this.searchTerm});
@@ -24,24 +24,10 @@ class SearchResultBottomSheet extends ConsumerWidget {
       error: (error, stackTrace) => Center(
         child: Text('Error: $error \n $stackTrace'),
       ),
-      loading: () => FractionallySizedBox(
+      loading: () => const FractionallySizedBox(
         heightFactor: 0.5,
         child: Center(
-          child: SpinKitPulsingGrid(
-            itemBuilder: (context, index) {
-              final color = Color.lerp(
-                Colors.pink,
-                Colors.blue,
-                index / 24,
-              );
-              return DecoratedBox(
-                decoration: BoxDecoration(
-                  color: color,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              );
-            },
-          ),
+          child: PulsingGrid(),
         ),
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:dantex/data/book/book.dart';
 import 'package:dantex/data/book/book_state.dart';
 import 'package:dantex/ui/book/book_image.dart';
+import 'package:dantex/ui/core/list_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -15,83 +16,49 @@ class BookListCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-        side: BorderSide(
-          color: Theme.of(context).colorScheme.onSurface,
-        ),
-      ),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(8),
-        onTap: () {},
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  BookImage(book.thumbnailAddress, size: 48),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          book.title,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium
-                              ?.copyWith(
-                                color: Theme.of(context).colorScheme.onSurface,
-                              ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          book.subTitle,
-                          style:
-                              Theme.of(context).textTheme.bodySmall?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurfaceVariant,
-                                  ),
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          book.author,
-                          style:
-                              Theme.of(context).textTheme.bodySmall?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurfaceVariant,
-                                  ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Column(
-                    children: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.more_horiz),
-                      ),
-                      if (book.state == BookState.reading)
-                        _buildProgressCircle(
-                          context,
-                          currentPage: book.currentPage,
-                          pageCount: book.pageCount,
-                        ),
-                    ],
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              if (book.labels.isNotEmpty) Text(book.labels.join(', ')),
-            ],
+    return ListCard(
+      onTap: () {},
+      leading: BookImage(book.thumbnailAddress, size: 48),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            book.title,
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
           ),
-        ),
+          const SizedBox(height: 8),
+          Text(
+            book.subTitle,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            book.author,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+          ),
+        ],
       ),
+      trailing: Column(
+        children: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.more_horiz),
+          ),
+          if (book.state == BookState.reading)
+            _buildProgressCircle(
+              context,
+              currentPage: book.currentPage,
+              pageCount: book.pageCount,
+            ),
+        ],
+      ),
+      subActions: book.labels.isNotEmpty ? Text(book.labels.join(', ')) : null,
     );
   }
 }

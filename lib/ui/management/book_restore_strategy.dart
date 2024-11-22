@@ -1,0 +1,1 @@
+enum RestoreStrategy { merge, overwrite }
