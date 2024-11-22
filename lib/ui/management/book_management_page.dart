@@ -96,7 +96,7 @@ class BookManagementPage extends ConsumerWidget {
       final backupBooks = await backupRepository.fetchBackup(id);
       final bookRepository = ref.read(bookRepositoryProvider);
       if (restoreStrategy == RestoreStrategy.merge) {
-        // await bookRepository.mergeBooks(backupBooks);
+        await bookRepository.mergeBooks(backupBooks);
       } else {
         await bookRepository.overwriteBooks(backupBooks);
       }

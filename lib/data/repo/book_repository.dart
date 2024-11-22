@@ -21,19 +21,7 @@ class BookRepository {
           break;
         case DatabaseEventType.value:
           final data = event.snapshot.toMap();
-
-          if (data == null) {
-            return [];
-          }
-
-          final books = data.values
-              .map(
-                (value) {
-                  final bookMap =
-                      (value as Map<dynamic, dynamic>).cast<String, dynamic>();
-                  return Book.fromJson(bookMap);
-                },
-              )
+          final books = _getBooksFromDataMap(data)
               .where((book) => book.state == bookState)
               .toList();
 
@@ -66,6 +54,35 @@ class BookRepository {
       await addBookToState(book, book.state);
     }
   }
+
+  Future<void> mergeBooks(List<Book> books) async {
+    // Get the ISBN of each book already in the repository.
+    final snapshot = await _bookDatabase.get();
+    final bookMap = snapshot.toMap();
+    final existingBooks =
+        _getBooksFromDataMap(bookMap).map((book) => book.isbn);
+
+    for (final book in books) {
+      if (!existingBooks.contains(book.isbn)) {
+        await addBookToState(book, book.state);
+      }
+    }
+  }
+}
+
+List<Book> _getBooksFromDataMap(Map<String, dynamic>? data) {
+  if (data == null) {
+    return [];
+  }
+
+  final books = data.values.map(
+    (value) {
+      final bookMap = (value as Map<dynamic, dynamic>).cast<String, dynamic>();
+      return Book.fromJson(bookMap);
+    },
+  ).toList();
+
+  return books;
 }
 
 extension on DataSnapshot {
