@@ -25,21 +25,31 @@ class ListCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         onTap: onTap,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          child: Column(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  leading,
-                  const SizedBox(width: 16),
-                  Expanded(child: body),
-                  trailing,
-                ],
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          leading,
+                          const SizedBox(width: 16),
+                          Expanded(child: body),
+                        ],
+                      ),
+                      if (subActions != null) ...[
+                        const SizedBox(height: 8),
+                        subActions,
+                      ],
+                    ],
+                  ),
+                ),
               ),
-              if (subActions != null) ...[
-                const SizedBox(height: 8),
-                subActions,
-              ],
+              trailing,
             ],
           ),
         ),
