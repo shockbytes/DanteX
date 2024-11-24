@@ -52,11 +52,10 @@ class BookRepository {
 
   Future<void> overwriteBooks(List<Book> books) async {
     await clearBooks();
-    final bookMap = {
-      for (final book in books) book.id: book.toJson(),
-    };
 
-    await _bookDatabase.update(bookMap);
+    for (final book in books) {
+      await addBookToState(book, book.state);
+    }
   }
 
   Future<void> mergeBooks(List<Book> books) async {
