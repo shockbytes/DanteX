@@ -12,7 +12,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'book.g.dart';
 
 @riverpod
-DatabaseReference? bookDatabase(Ref ref) {
+DatabaseReference? bookDatabaseRef(Ref ref) {
   final database = ref.watch(firebaseDatabaseProvider);
 
   if (database == null) {
@@ -31,7 +31,7 @@ DatabaseReference? bookDatabase(Ref ref) {
 
 @riverpod
 BookRepository bookRepository(Ref ref) {
-  final bookDatabase = ref.watch(bookDatabaseProvider);
+  final bookDatabase = ref.watch(bookDatabaseRefProvider);
 
   if (bookDatabase == null) {
     throw Exception('Database reference is null');

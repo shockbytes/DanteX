@@ -28,10 +28,12 @@ class BackupRepository {
       final data =
           fileName?.split(RegExp('_')).where((it) => it.isNotEmpty).toList();
 
-      final device = fileName?.substring(
-        fileName.indexOf(data![4]),
-        fileName.lastIndexOf('.'),
-      );
+      final device = (data != null && data.length > 4 && fileName != null)
+          ? fileName.substring(
+              fileName.indexOf(data[4]),
+              fileName.lastIndexOf('.'),
+            )
+          : null;
 
       final oldTimeStamp = int.tryParse(data?[2] ?? '0') ?? 0;
       var timeStamp = DateTime.now();

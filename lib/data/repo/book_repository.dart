@@ -5,7 +5,9 @@ import 'package:firebase_database/firebase_database.dart';
 class BookRepository {
   const BookRepository({required DatabaseReference bookDatabase})
       : _bookDatabase = bookDatabase;
+
   final DatabaseReference _bookDatabase;
+
   static String booksPath(String uid) => 'users/$uid/books';
   static String bookPath(String uid, String bookId) =>
       'users/$uid/books/$bookId';

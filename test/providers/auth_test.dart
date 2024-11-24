@@ -4,7 +4,7 @@ import 'package:dantex/providers/firebase.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'util.dart';
+import '../test_utilities.dart';
 
 void main() {
   group('Given a userProvider', () {
