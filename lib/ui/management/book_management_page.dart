@@ -92,12 +92,13 @@ class BookManagementPage extends ConsumerWidget {
     }
 
     final logger = ref.read(loggerProvider);
+    final bookRepository = ref.read(bookRepositoryProvider);
     final progressNotifier = ref.read(backupInProgressNotifierProvider.notifier)
       ..start();
+
     try {
       final backupRepository = await ref.read(backupRepositoryProvider.future);
       final backupBooks = await backupRepository.fetchBackup(id);
-      final bookRepository = ref.read(bookRepositoryProvider);
       if (restoreStrategy == RestoreStrategy.merge) {
         await bookRepository.mergeBooks(backupBooks);
       } else {

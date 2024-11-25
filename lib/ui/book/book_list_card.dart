@@ -29,7 +29,7 @@ class BookListCard extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    padding: const EdgeInsets.only(top: 16),
                     child: BookImage(book.thumbnailAddress, size: 48),
                   ),
                   const SizedBox(width: 16),
@@ -59,12 +59,15 @@ class _LabelRow extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    return Wrap(
-      spacing: 8,
-      runSpacing: 4,
-      children: [
-        for (final label in book.labels) BookLabelButton(label: label),
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(top: 16),
+      child: Wrap(
+        spacing: 8,
+        runSpacing: 4,
+        children: [
+          for (final label in book.labels) BookLabelButton(label: label),
+        ],
+      ),
     );
   }
 }
@@ -77,7 +80,7 @@ class _BookDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16),
+      padding: const EdgeInsets.only(top: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
