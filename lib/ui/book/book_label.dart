@@ -15,8 +15,9 @@ class BookLabelButton extends StatelessWidget {
       onPressed: () {},
       style: OutlinedButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 16),
+        side: BorderSide(color: label.color),
       ),
-      child: Text(label.title),
+      child: Text(label.title, style: TextStyle(color: label.color)),
     );
   }
 }
