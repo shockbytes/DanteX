@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:dantex/firebase_options.dart';
 import 'package:dantex/providers/firebase.dart';
 import 'package:dantex/providers/router.dart';
-import 'package:dantex/ui/theme/theme.dart';
+import 'package:dantex/theme/theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';

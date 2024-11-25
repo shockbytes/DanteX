@@ -1,4 +1,4 @@
-import 'package:dantex/data/book/book_state.dart';
+import 'package:dantex/models/book_state.dart';
 import 'package:dantex/providers/auth.dart';
 import 'package:dantex/providers/book.dart';
 import 'package:dantex/providers/client.dart';

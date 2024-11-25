@@ -1,6 +1,6 @@
-import 'package:dantex/data/google/backup_data.dart';
-import 'package:dantex/data/repo/backup_repository.dart';
+import 'package:dantex/models/backup_data.dart';
 import 'package:dantex/providers/auth.dart';
+import 'package:dantex/repositories/backup_repository.dart';
 import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:googleapis/drive/v3.dart';

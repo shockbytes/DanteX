@@ -1,10 +1,10 @@
 import 'package:dantex/providers/auth.dart';
-import 'package:dantex/ui/auth/forgot_password.dart';
-import 'package:dantex/ui/auth/sign_in_page.dart';
-import 'package:dantex/ui/auth/sign_up_page.dart';
-import 'package:dantex/ui/auth/splash_page.dart';
-import 'package:dantex/ui/home/home_page.dart';
-import 'package:dantex/ui/management/book_management_page.dart';
+import 'package:dantex/screens/book_management_screen.dart';
+import 'package:dantex/screens/forgot_password_screen.dart';
+import 'package:dantex/screens/home_screen.dart';
+import 'package:dantex/screens/sign_in_screen.dart';
+import 'package:dantex/screens/sign_up_screen.dart';
+import 'package:dantex/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -21,51 +21,51 @@ GoRouter router(Ref ref) {
   return GoRouter(
     navigatorKey: _key,
     debugLogDiagnostics: true,
-    initialLocation: SplashPage.routeLocation,
+    initialLocation: SplashScreen.routeLocation,
     routes: [
       GoRoute(
-        path: SplashPage.routeLocation,
-        name: SplashPage.routeName,
+        path: SplashScreen.routeLocation,
+        name: SplashScreen.routeName,
         builder: (context, state) {
-          return const SplashPage();
+          return const SplashScreen();
         },
       ),
       GoRoute(
-        path: HomePage.routeLocation,
-        name: HomePage.routeName,
+        path: HomeScreen.routeLocation,
+        name: HomeScreen.routeName,
         builder: (context, state) {
-          return const HomePage();
+          return const HomeScreen();
         },
       ),
       GoRoute(
-        path: SignInPage.routeLocation,
-        name: SignInPage.routeName,
+        path: SignInScreen.routeLocation,
+        name: SignInScreen.routeName,
         builder: (context, state) {
-          return const SignInPage();
+          return const SignInScreen();
         },
         routes: [
           GoRoute(
-            path: SignUpPage.routeLocation,
-            name: SignUpPage.routeName,
+            path: SignUpScreen.routeLocation,
+            name: SignUpScreen.routeName,
             builder: (context, state) {
-              return const SignUpPage();
+              return const SignUpScreen();
             },
           ),
           GoRoute(
-            path: ForgotPasswordPage.routeLocation,
-            name: ForgotPasswordPage.routeName,
+            path: ForgotPasswordScreen.routeLocation,
+            name: ForgotPasswordScreen.routeName,
             builder: (context, state) {
-              return const ForgotPasswordPage();
+              return const ForgotPasswordScreen();
             },
           ),
         ],
       ),
       GoRoute(
-        path: BookManagementPage.routeLocation,
-        name: BookManagementPage.routeName,
+        path: BookManagementScreen.routeLocation,
+        name: BookManagementScreen.routeName,
         pageBuilder: (context, state) => CustomTransitionPage(
           key: state.pageKey,
-          child: const BookManagementPage(),
+          child: const BookManagementScreen(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             const curve = Curves.easeInOut;
             final curvedAnimation =
@@ -93,15 +93,15 @@ GoRouter router(Ref ref) {
       // Returning `null` means "we are not authorized"
       final isAuth = authStateChanges.valueOrNull != null;
 
-      final isSplash = state.matchedLocation == SplashPage.routeLocation;
+      final isSplash = state.matchedLocation == SplashScreen.routeLocation;
       if (isSplash) {
-        return isAuth ? HomePage.routeLocation : SignInPage.routeLocation;
+        return isAuth ? HomeScreen.routeLocation : SignInScreen.routeLocation;
       }
 
-      final isLoggingIn = state.matchedLocation == SignInPage.routeLocation ||
-          state.matchedLocation == SignUpPage.routeLocation;
+      final isLoggingIn = state.matchedLocation == SignInScreen.routeLocation ||
+          state.matchedLocation == SignUpScreen.routeLocation;
       if (isLoggingIn) {
-        return isAuth ? HomePage.routeLocation : null;
+        return isAuth ? HomeScreen.routeLocation : null;
       }
 
       return null;

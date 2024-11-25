@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:dantex/data/auth/user.dart';
+import 'package:dantex/models/user.dart';
 import 'package:dantex/providers/firebase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

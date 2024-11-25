@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:dantex/data/book/book.dart';
-import 'package:dantex/data/book/book_state.dart';
-import 'package:dantex/data/book/google_books_response.dart';
+import 'package:dantex/models/book.dart';
+import 'package:dantex/models/book_state.dart';
+import 'package:dantex/models/google_books_response.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database_mocks/firebase_database_mocks.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
