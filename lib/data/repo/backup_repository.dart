@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:dantex/data/book/book.dart';
 import 'package:dantex/data/book/book_label.dart';
@@ -59,7 +58,6 @@ class BackupRepository {
     );
 
     if (response is! Media) {
-      log('Got invalid backup type: ${response.runtimeType}');
       return [];
     }
 
@@ -112,6 +110,8 @@ BookState _convertLegacyBookState(String legacyState) {
       return BookState.reading;
     case 'READ':
       return BookState.read;
+    case 'WISHLIST':
+      return BookState.wishlist;
     default:
       return BookState.readLater;
   }

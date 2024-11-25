@@ -9,14 +9,6 @@ class CustomTheme {
     return ThemeData(
       colorScheme: colorScheme,
       fontFamily: GoogleFonts.nunito().fontFamily,
-      cardTheme: CardTheme(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-          side: BorderSide(
-            color: colorScheme.onSurface,
-          ),
-        ),
-      ),
     );
   }
 
@@ -29,14 +21,6 @@ class CustomTheme {
     return ThemeData(
       colorScheme: colorScheme,
       fontFamily: GoogleFonts.nunito().fontFamily,
-      cardTheme: CardTheme(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-          side: BorderSide(
-            color: colorScheme.onSurface,
-          ),
-        ),
-      ),
     );
   }
 }

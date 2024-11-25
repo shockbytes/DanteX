@@ -121,9 +121,7 @@ class _BookList extends ConsumerWidget {
             itemBuilder: (context, book) => Padding(
               key: ValueKey('book_list_card_${book.id}'),
               padding: const EdgeInsets.symmetric(vertical: 8),
-              child: BookListCard(
-                book: book,
-              ),
+              child: BookListCard(book: book),
             ),
             proxyDecorator: (child, index, animation) => ColoredBox(
               color: Colors.transparent,

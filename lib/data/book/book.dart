@@ -33,6 +33,14 @@ class Book with _$Book {
 
   factory Book.fromJson(Map<String, dynamic> json) => _$BookFromJson(json);
 
-  int get progressPercentage =>
-      pageCount != 0 ? ((currentPage / pageCount) * 100).toInt() : 0;
+  double get progressPercentage {
+    if (pageCount == 0) {
+      return 0;
+    }
+    if (currentPage > pageCount) {
+      return 1;
+    }
+
+    return currentPage / pageCount;
+  }
 }

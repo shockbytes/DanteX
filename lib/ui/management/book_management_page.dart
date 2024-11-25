@@ -91,6 +91,7 @@ class BookManagementPage extends ConsumerWidget {
       return;
     }
 
+    final logger = ref.read(loggerProvider);
     final progressNotifier = ref.read(backupInProgressNotifierProvider.notifier)
       ..start();
     try {
@@ -102,7 +103,7 @@ class BookManagementPage extends ConsumerWidget {
       } else {
         await bookRepository.overwriteBooks(backupBooks);
       }
-      ref.read(loggerProvider).trackEvent(
+      logger.trackEvent(
         DanteEvent.restoreBackupFromGoogleDrive,
         data: {
           'strategy': restoreStrategy.name,
