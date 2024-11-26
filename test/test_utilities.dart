@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:dantex/models/backup_data.dart';
 import 'package:dantex/models/book.dart';
 import 'package:dantex/models/book_state.dart';
 import 'package:dantex/models/google_books_response.dart';
@@ -60,6 +61,15 @@ Book getMockBook({String? id, String? isbn, int? position}) => Book(
       rating: 5,
       notes: 'notes',
       summary: 'summary',
+    );
+
+BackupData getMockBackupData() => BackupData(
+      id: 'id',
+      device: 'device',
+      fileName: 'fileName',
+      bookCount: 10,
+      timeStamp: DateTime.now(),
+      isLegacyBackup: true,
     );
 
 GoogleBooksResponse getMockGoogleBookResponse({List<GoogleBooksItem>? items}) {

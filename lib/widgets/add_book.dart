@@ -36,6 +36,7 @@ class AddBook extends ConsumerWidget {
               children: [
                 Expanded(
                   child: OutlinedButton(
+                    key: const ValueKey('add_book_to_read_later'),
                     onPressed: () async {
                       Navigator.of(context).pop();
                       await ref
@@ -48,6 +49,7 @@ class AddBook extends ConsumerWidget {
                 const SizedBox(width: 8),
                 Expanded(
                   child: OutlinedButton(
+                    key: const ValueKey('add_book_to_reading'),
                     onPressed: () async {
                       Navigator.of(context).pop();
                       await ref
@@ -60,6 +62,7 @@ class AddBook extends ConsumerWidget {
                 const SizedBox(width: 8),
                 Expanded(
                   child: OutlinedButton(
+                    key: const ValueKey('add_book_to_read'),
                     onPressed: () async {
                       Navigator.of(context).pop();
                       await ref
@@ -72,7 +75,16 @@ class AddBook extends ConsumerWidget {
               ],
             ),
             const SizedBox(height: 8),
-            OutlinedButton(onPressed: () {}, child: const Text('Wishlist')),
+            OutlinedButton(
+              key: const ValueKey('add_book_to_wishlist'),
+              onPressed: () async {
+                Navigator.of(context).pop();
+                await ref
+                    .read(bookRepositoryProvider)
+                    .addBookToState(book, BookState.wishlist);
+              },
+              child: const Text('Wishlist'),
+            ),
             const SizedBox(height: 24),
             OutlinedButton(
               onPressed: () {},

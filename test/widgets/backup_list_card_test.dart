@@ -1,4 +1,3 @@
-import 'package:dantex/models/backup_data.dart';
 import 'package:dantex/providers/google.dart';
 import 'package:dantex/repositories/backup_repository.dart';
 import 'package:dantex/widgets/backup_list_card.dart';
@@ -10,25 +9,18 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
+import '../test_utilities.dart';
 import 'backup_list_card_test.mocks.dart';
 
 @GenerateMocks([BackupRepository])
 void main() {
   // Disable EasyLocalization logs for tests
   EasyLocalization.logger.enableBuildModes = [];
+  final backup = getMockBackupData();
 
   group('Given a BackupListCard widget', () {
     group('When tapping on the delete button', () {
       patrolWidgetTest('Then the backup is deleted', ($) async {
-        final backup = BackupData(
-          id: 'id',
-          device: 'device',
-          fileName: 'fileName',
-          bookCount: 10,
-          timeStamp: DateTime.now(),
-          isLegacyBackup: true,
-        );
-
         final mockBackupRepository = MockBackupRepository();
         when(mockBackupRepository.delete(backup.id)).thenAnswer((_) async {});
 
@@ -50,15 +42,6 @@ void main() {
     });
     group('When tapping on the card', () {
       patrolWidgetTest('Then onTap is called', ($) async {
-        final backup = BackupData(
-          id: 'id',
-          device: 'device',
-          fileName: 'fileName',
-          bookCount: 10,
-          timeStamp: DateTime.now(),
-          isLegacyBackup: true,
-        );
-
         var onTapCalled = false;
         await $.pumpWidget(
           MaterialApp(
