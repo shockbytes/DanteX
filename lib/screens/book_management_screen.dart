@@ -13,10 +13,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class BookManagementScreen extends ConsumerWidget {
-  const BookManagementScreen({super.key});
+  BookManagementScreen({super.key});
 
   static String get routeName => 'management';
   static String get routeLocation => '/management';
+  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -25,7 +26,6 @@ class BookManagementScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
         title: Text('book_management.title'.tr()),
         leading: BackButton(
           onPressed: () => context.pop(),
@@ -49,23 +49,51 @@ class BookManagementScreen extends ConsumerWidget {
                     return const Center(child: Text('No backups found'));
                   }
 
-                  return ListView.separated(
-                    itemCount: backups.length + 1,
-                    itemBuilder: (context, index) {
-                      if (index == 0) {
-                        // Put an empty SizedBox at the top of the list to add a
-                        // separator between the app bar and the list.
-                        return const SizedBox.shrink();
-                      }
-                      final backup = backups[index - 1];
-                      return BackupListCard(
-                        backup: backup,
-                        onTap: () async =>
-                            _onTapBackup(context, ref, backup.id),
-                      );
-                    },
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: 16),
+                  return RefreshIndicator(
+                    onRefresh: () async =>
+                        ref.refresh(googleDriveBackupsProvider),
+                    child: AnimatedList.separated(
+                      key: _listKey,
+                      initialItemCount: backups.length + 1,
+                      itemBuilder: (context, index, animation) {
+                        if (index == 0) {
+                          // Put an empty SizedBox at the top of the list to add a
+                          // separator between the app bar and the list.
+                          return const SizedBox.shrink();
+                        }
+                        final backup = backups[index - 1];
+                        return SizeTransition(
+                          sizeFactor: animation,
+                          child: BackupListCard(
+                            backup: backup,
+                            onTap: () async =>
+                                _onTapBackup(context, ref, backup.id),
+                            onRemove: () async {
+                              _listKey.currentState?.removeItem(
+                                index,
+                                (context, animation) => SizeTransition(
+                                  sizeFactor: animation,
+                                  child: const Card.outlined(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        SizedBox(height: 116),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                duration: const Duration(milliseconds: 200),
+                              );
+                            },
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, index, animation) =>
+                          const SizedBox(height: 16),
+                      removedSeparatorBuilder: (context, index, animation) =>
+                          const SizedBox(height: 16),
+                    ),
                   );
                 },
                 error: (e, s) =>

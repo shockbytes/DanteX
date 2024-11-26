@@ -6,18 +6,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 
-class BackupListCard extends ConsumerWidget {
-  const BackupListCard({required this.backup, required this.onTap, super.key});
+class BackupListCard extends ConsumerStatefulWidget {
+  const BackupListCard({
+    required this.backup,
+    required this.onTap,
+    this.onRemove,
+    super.key,
+  });
 
   final BackupData backup;
   final VoidCallback onTap;
+  final VoidCallback? onRemove;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<BackupListCard> createState() => _BackupListCardState();
+}
+
+class _BackupListCardState extends ConsumerState<BackupListCard> {
+  bool _loading = false;
+
+  @override
+  Widget build(BuildContext context) {
     return Card.outlined(
       child: InkWell(
+        key: ValueKey('backup_${widget.backup.id}_card'),
         borderRadius: BorderRadius.circular(8),
-        onTap: onTap,
+        onTap: widget.onTap,
         child: Padding(
           padding:
               const EdgeInsets.only(top: 16, bottom: 16, left: 16, right: 8),
@@ -31,7 +45,8 @@ class BackupListCard extends ConsumerWidget {
               Column(
                 children: [
                   Text(
-                    DateFormat('dd MMM y - HH:mm').format(backup.timeStamp),
+                    DateFormat('dd MMM y - HH:mm')
+                        .format(widget.backup.timeStamp),
                   ),
                   const SizedBox(height: 16),
                   Row(
@@ -39,13 +54,13 @@ class BackupListCard extends ConsumerWidget {
                       SubtitleIcon(
                         icon: Icons.book_outlined,
                         subtitle: 'books_count'
-                            .tr(args: [backup.bookCount.toString()]),
+                            .tr(args: [widget.backup.bookCount.toString()]),
                         size: 24,
                       ),
                       const SizedBox(width: 16),
                       SubtitleIcon(
                         icon: Icons.smartphone_outlined,
-                        subtitle: backup.device,
+                        subtitle: widget.backup.device,
                         size: 24,
                       ),
                     ],
@@ -53,12 +68,18 @@ class BackupListCard extends ConsumerWidget {
                 ],
               ),
               IconButton(
+                key: ValueKey('delete_backup_${widget.backup.id}_button'),
                 onPressed: () async {
-                  final backupRepository =
-                      await ref.read(backupRepositoryProvider.future);
-                  await backupRepository.delete(backup.id);
+                  setState(() => _loading = true);
+                  await ref.read(
+                    deleteGoogleDriveBackupProvider(widget.backup.id).future,
+                  );
+                  widget.onRemove?.call();
+                  setState(() => _loading = false);
                 },
-                icon: const Icon(Icons.delete),
+                icon: _loading
+                    ? const CircularProgressIndicator()
+                    : const Icon(Icons.delete),
               ),
             ],
           ),

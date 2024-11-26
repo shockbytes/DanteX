@@ -28,3 +28,12 @@ Future<List<BackupData>> googleDriveBackups(Ref ref) async {
   final repository = await ref.watch(backupRepositoryProvider.future);
   return repository.listGoogleDriveBackups();
 }
+
+@riverpod
+Future<void> deleteGoogleDriveBackup(Ref ref, String id) async {
+  final repository = await ref.watch(backupRepositoryProvider.future);
+  await repository.delete(id);
+
+  // Invalidate the list of backups so that the UI refreshes the value.
+  ref.invalidate(googleDriveBackupsProvider);
+}
