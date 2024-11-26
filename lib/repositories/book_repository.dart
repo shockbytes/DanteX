@@ -12,7 +12,7 @@ class BookRepository {
   static String bookPath(String uid, String bookId) =>
       'users/$uid/books/$bookId';
 
-  Stream<List<Book>> booksForState(BookState bookState) {
+  Stream<List<Book>> allBooks() {
     return _bookDatabase.onValue.map((event) {
       switch (event.type) {
         case DatabaseEventType.childAdded:
@@ -23,13 +23,16 @@ class BookRepository {
           break;
         case DatabaseEventType.value:
           final data = event.snapshot.toMap();
-          final books = _getBooksFromDataMap(data)
-              .where((book) => book.state == bookState)
-              .toList();
-
+          final books = _getBooksFromDataMap(data);
           return books;
       }
       return [];
+    });
+  }
+
+  Stream<List<Book>> booksForState(BookState bookState) {
+    return allBooks().map((books) {
+      return books.where((book) => book.state == bookState).toList();
     });
   }
 

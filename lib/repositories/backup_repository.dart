@@ -68,6 +68,10 @@ class BackupRepository {
 
     return legacyBooks.map(_convertLegacyBook).toList();
   }
+
+  Future<void> delete(String id) async {
+    await _driveApi.files.delete(id);
+  }
 }
 
 Book _convertLegacyBook(Map<String, dynamic> legacyBook) {

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:dantex/widgets/search_result_bottom_sheet.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -95,7 +94,7 @@ class _AddBookButtonState extends ConsumerState<AddBookButton> {
   Future<void> _addBook(AddBookAction action) async {
     switch (action) {
       case AddBookAction.scan:
-        log('Sca scan');
+        break;
       case AddBookAction.query:
         final searchTerm = await showDialog<String>(
           context: context,
@@ -140,7 +139,7 @@ class _AddBookButtonState extends ConsumerState<AddBookButton> {
         );
 
       case AddBookAction.manual:
-        log('Manual scan');
+        break;
     }
   }
 }

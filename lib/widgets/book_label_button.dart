@@ -1,0 +1,109 @@
+import 'package:dantex/models/book_label.dart';
+import 'package:dantex/providers/book.dart';
+import 'package:dantex/widgets/book_image.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+class BookLabelButton extends StatelessWidget {
+  const BookLabelButton({
+    required this.label,
+    super.key,
+  });
+
+  final BookLabel label;
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton(
+      onPressed: () async => showModalBottomSheet(
+        context: context,
+        showDragHandle: true,
+        isScrollControlled: true,
+        builder: (context) => _BookLabelBottomSheet(label: label),
+      ),
+      style: OutlinedButton.styleFrom(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        side: BorderSide(color: label.color),
+      ),
+      child: Text(
+        label.title,
+        style: Theme.of(context)
+            .textTheme
+            .labelLarge
+            ?.copyWith(color: label.color, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+}
+
+class _BookLabelBottomSheet extends ConsumerWidget {
+  const _BookLabelBottomSheet({required this.label});
+
+  final BookLabel label;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final books = ref.watch(allBooksProvider).value;
+    final booksWithLabel = books?.where((book) => book.labels.contains(label));
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final maxHeight = constraints.biggest.height * 0.8;
+
+        return ConstrainedBox(
+          constraints: BoxConstraints(maxHeight: maxHeight),
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: CustomScrollView(
+                shrinkWrap: true,
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: Center(
+                      child: Text(
+                        label.title,
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleLarge
+                            ?.copyWith(color: label.color),
+                      ),
+                    ),
+                  ),
+                  const SliverPadding(padding: EdgeInsets.only(top: 8)),
+                  SliverToBoxAdapter(
+                    child:
+                        Center(child: Text('${booksWithLabel?.length} books')),
+                  ),
+                  const SliverPadding(padding: EdgeInsets.only(top: 8)),
+                  SliverList.separated(
+                    itemCount: booksWithLabel?.length,
+                    itemBuilder: (context, index) {
+                      final book = booksWithLabel?.elementAt(index);
+                      return InkWell(
+                        child: Row(
+                          children: [
+                            BookImage(book?.thumbnailAddress, size: 32),
+                            const SizedBox(width: 32),
+                            Text(
+                              book?.title ?? '',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelLarge
+                                  ?.copyWith(fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 24),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}

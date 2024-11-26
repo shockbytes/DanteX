@@ -41,6 +41,10 @@ BookRepository bookRepository(Ref ref) {
 }
 
 @riverpod
+Stream<List<Book>> allBooks(Ref ref) =>
+    ref.watch(bookRepositoryProvider).allBooks();
+
+@riverpod
 Stream<List<Book>> booksForState(Ref ref, BookState bookState) =>
     ref.watch(bookRepositoryProvider).booksForState(bookState).map(
           (books) => books

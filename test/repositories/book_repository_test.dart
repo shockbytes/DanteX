@@ -12,6 +12,13 @@ void main() async {
     final bookRepository = BookRepository(bookDatabase: bookRef);
     group('When the repository has books', () {
       test(
+        'Then allBooks returns all the books',
+        () async {
+          final books = await bookRepository.allBooks().first;
+          expect(books, hasLength(89));
+        },
+      );
+      test(
         'Then booksForState returns the books in the current state',
         () async {
           final books =
@@ -62,10 +69,14 @@ void main() async {
       final book2 = getMockBook(position: 2, id: '2');
       final book3 = getMockBook(position: 3, id: '3');
       await bookRepository.overwriteBooks([book1, book2, book3]);
+
+      // Get the newly inserted books so we can update their positions using the
+      // generated IDs.
+      final books = await bookRepository.booksForState(BookState.reading).first;
       await bookRepository.updatePositions([
-        book2,
-        book3,
-        book1,
+        books[1],
+        books[2],
+        books[0],
       ]);
       final readingBooks =
           await bookRepository.booksForState(BookState.reading).first;

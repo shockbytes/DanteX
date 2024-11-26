@@ -1,4 +1,5 @@
 import 'package:dantex/models/backup_data.dart';
+import 'package:dantex/providers/google.dart';
 import 'package:dantex/widgets/subtitle_icon.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +53,11 @@ class BackupListCard extends ConsumerWidget {
                 ],
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () async {
+                  final backupRepository =
+                      await ref.read(backupRepositoryProvider.future);
+                  await backupRepository.delete(backup.id);
+                },
                 icon: const Icon(Icons.delete),
               ),
             ],
