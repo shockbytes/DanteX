@@ -2,6 +2,7 @@ import 'package:dantex/models/book.dart';
 import 'package:dantex/models/book_state.dart';
 import 'package:dantex/providers/book.dart';
 import 'package:dantex/widgets/book_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -41,7 +42,7 @@ class AddBook extends ConsumerWidget {
                           .read(bookRepositoryProvider)
                           .addBookToState(book, BookState.readLater);
                     },
-                    child: const Text('Read Later'),
+                    child: const Text('Read Later').tr(),
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -53,7 +54,7 @@ class AddBook extends ConsumerWidget {
                           .read(bookRepositoryProvider)
                           .addBookToState(book, BookState.reading);
                     },
-                    child: const Text('Reading'),
+                    child: const Text('Reading').tr(),
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -65,7 +66,7 @@ class AddBook extends ConsumerWidget {
                           .read(bookRepositoryProvider)
                           .addBookToState(book, BookState.read);
                     },
-                    child: const Text('Done'),
+                    child: const Text('Done').tr(),
                   ),
                 ),
               ],

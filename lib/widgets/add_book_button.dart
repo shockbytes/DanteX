@@ -43,11 +43,11 @@ class _AddBookButtonState extends ConsumerState<AddBookButton> {
               ),
               const SizedBox(width: 8),
               Text(
-                'add_book.scan'.tr(),
+                'add_book.scan',
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.secondary,
                 ),
-              ),
+              ).tr(),
             ],
           ),
         ),
@@ -61,11 +61,11 @@ class _AddBookButtonState extends ConsumerState<AddBookButton> {
               ),
               const SizedBox(width: 8),
               Text(
-                'add_book.query'.tr(),
+                'add_book.query',
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.secondary,
                 ),
-              ),
+              ).tr(),
             ],
           ),
         ),
@@ -79,11 +79,11 @@ class _AddBookButtonState extends ConsumerState<AddBookButton> {
               ),
               const SizedBox(width: 8),
               Text(
-                'add_book.manual'.tr(),
+                'add_book.manual',
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.secondary,
                 ),
-              ),
+              ).tr(),
             ],
           ),
         ),
@@ -99,11 +99,11 @@ class _AddBookButtonState extends ConsumerState<AddBookButton> {
         final searchTerm = await showDialog<String>(
           context: context,
           builder: (context) => AlertDialog(
-            title: Text('query_search.title'.tr()),
+            title: const Text('query_search.title').tr(),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('query_search.info'.tr()),
+                const Text('query_search.info').tr(),
                 const SizedBox(height: 8),
                 TextField(
                   decoration: InputDecoration(
@@ -117,7 +117,7 @@ class _AddBookButtonState extends ConsumerState<AddBookButton> {
               TextButton(
                 onPressed: () =>
                     Navigator.of(context).pop(_searchController.text),
-                child: Text('search.search'.tr()),
+                child: const Text('search.search').tr(),
               ),
             ],
           ),

@@ -61,15 +61,15 @@ class _SingInScreenState extends ConsumerState<SignInScreen> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'welcome_back'.tr(),
+                    'welcome_back',
                     style: Theme.of(context).textTheme.headlineMedium,
-                  ),
+                  ).tr(),
                   const SizedBox(height: 8),
                   Text(
-                    'login_with_account'.tr(),
+                    'login_with_account',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.titleMedium,
-                  ),
+                  ).tr(),
                   const SizedBox(height: 24),
                   Form(
                     key: _formKey,
@@ -132,12 +132,12 @@ class _SingInScreenState extends ConsumerState<SignInScreen> {
                       onTap: () async =>
                           context.pushNamed(ForgotPasswordScreen.routeName),
                       child: Text(
-                        'forgot_password'.tr(),
+                        'forgot_password',
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.primary,
                         ),
                         textAlign: TextAlign.end,
-                      ),
+                      ).tr(),
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -184,23 +184,23 @@ class _SingInScreenState extends ConsumerState<SignInScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'dont_have_account'.tr(),
+                        'dont_have_account',
                         style: Theme.of(context).textTheme.labelLarge,
-                      ),
+                      ).tr(),
                       const SizedBox(width: 4),
                       GestureDetector(
                         key: const ValueKey('create_account_button'),
                         onTap: () async =>
                             context.pushNamed(SignUpScreen.routeName),
                         child: Text(
-                          'sign_up'.tr(),
+                          'sign_up',
                           style: Theme.of(context)
                               .textTheme
                               .labelLarge
                               ?.copyWith(
                                 color: Theme.of(context).colorScheme.primary,
                               ),
-                        ),
+                        ).tr(),
                       ),
                     ],
                   ),
@@ -294,12 +294,12 @@ class _SingInScreenState extends ConsumerState<SignInScreen> {
           TextButton(
             key: const ValueKey('dismiss_anonymous_sign_in_button'),
             onPressed: () => Navigator.of(context).pop(false),
-            child: Text('dismiss'.tr()),
+            child: const Text('dismiss').tr(),
           ),
           TextButton(
             key: const ValueKey('proceed_anonymous_sign_in_button'),
             onPressed: () => Navigator.of(context).pop(true),
-            child: Text('login'.tr()),
+            child: const Text('login').tr(),
           ),
         ],
       ),
@@ -342,7 +342,7 @@ class _SingInScreenState extends ConsumerState<SignInScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         key: const ValueKey('sign_in_failed_snackbar'),
-        content: Text('login_failed'.tr()),
+        content: const Text('login_failed').tr(),
       ),
     );
   }

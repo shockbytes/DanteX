@@ -38,7 +38,7 @@ class DanteBottomSheet extends ConsumerWidget {
                       await ref.read(firebaseAuthProvider).signOut();
                     }
                   },
-                  child: Text('logout'.tr()),
+                  child: const Text('logout').tr(),
                 ),
               ],
             ),
@@ -101,16 +101,16 @@ class _AnonymousSignOutDialog extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AlertDialog(
-      title: Text('anonymous_logout.title'.tr()),
-      content: Text('anonymous_logout.description'.tr()),
+      title: const Text('anonymous_logout.title').tr(),
+      content: const Text('anonymous_logout.description').tr(),
       actions: <Widget>[
         OutlinedButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: Text('cancel'.tr()),
+          child: const Text('cancel').tr(),
         ),
         OutlinedButton(
           onPressed: () async => ref.read(firebaseAuthProvider).signOut(),
-          child: Text('logout'.tr()),
+          child: const Text('logout').tr(),
         ),
       ],
     );
@@ -132,11 +132,11 @@ class _UserTag extends ConsumerWidget {
 
         if (user.source == AuthenticationSource.anonymous) {
           return Text(
-            'anonymous-user'.tr(),
+            'anonymous-user',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: Theme.of(context).colorScheme.tertiary,
                 ),
-          );
+          ).tr();
         }
 
         final name = user.displayName;
@@ -193,12 +193,12 @@ class _MenuItem extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            text.tr(),
+            text,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Theme.of(context).colorScheme.onTertiaryContainer,
             ),
-          ),
+          ).tr(),
         ],
       ),
     );

@@ -36,7 +36,7 @@ class _BookManagementScreenState extends ConsumerState<BookManagementScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('book_management.title'.tr()),
+        title: const Text('book_management.title').tr(),
         leading: BackButton(
           onPressed: () => context.pop(),
         ),
@@ -45,12 +45,8 @@ class _BookManagementScreenState extends ConsumerState<BookManagementScreen>
           tabAlignment: TabAlignment.start,
           isScrollable: true,
           tabs: [
-            Tab(
-              text: 'backup'.tr(),
-            ),
-            Tab(
-              text: 'restore'.tr(),
-            ),
+            Tab(text: 'backup'.tr()),
+            Tab(text: 'restore'.tr()),
           ],
         ),
       ),

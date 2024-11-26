@@ -13,10 +13,10 @@ class RestoreBackupDialog extends StatelessWidget {
         children: [
           const Icon(Icons.devices_other_outlined),
           const SizedBox(width: 8),
-          Text('book_management.restore_strategy'.tr()),
+          const Text('book_management.restore_strategy').tr(),
         ],
       ),
-      content: Text('book_management.restore_detail'.tr()),
+      content: const Text('book_management.restore_detail').tr(),
       actionsAlignment: MainAxisAlignment.spaceEvenly,
       actions: [
         Row(

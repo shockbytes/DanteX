@@ -61,14 +61,14 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'sign_up'.tr(),
+                      'sign_up',
                       style: Theme.of(context).textTheme.headlineMedium,
-                    ),
+                    ).tr(),
                     const SizedBox(height: 8),
                     Text(
-                      'sign_up_rules'.tr(),
+                      'sign_up_rules',
                       style: Theme.of(context).textTheme.bodyMedium,
-                    ),
+                    ).tr(),
                     const SizedBox(height: 24),
                     TextFormField(
                       key: const ValueKey('email_field'),

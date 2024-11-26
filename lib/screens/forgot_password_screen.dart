@@ -59,22 +59,22 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'forgot_password'.tr(),
+                      'forgot_password',
                       style: Theme.of(context).textTheme.headlineMedium,
-                    ),
+                    ).tr(),
                     const SizedBox(height: 8),
                     if (_linkSent) ...[
                       const Icon(Icons.check_circle_outline, size: 48),
                       const SizedBox(height: 16),
                       Text(
-                        'forgot_password_sent'.tr(),
+                        'forgot_password_sent',
                         style: Theme.of(context).textTheme.headlineSmall,
-                      ),
+                      ).tr(),
                       const SizedBox(height: 8),
                       Text(
-                        'forgot_password_sent_info'.tr(),
+                        'forgot_password_sent_info',
                         style: Theme.of(context).textTheme.bodyMedium,
-                      ),
+                      ).tr(),
                       const SizedBox(height: 24),
                       SizedBox(
                         width: double.infinity,
@@ -82,14 +82,14 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordScreen> {
                         child: OutlinedButton(
                           key: const ValueKey('back_to_sign_in_button'),
                           onPressed: () => context.pop(),
-                          child: Text('back_to_sign_in'.tr()),
+                          child: const Text('back_to_sign_in').tr(),
                         ),
                       ),
                     ] else ...[
                       Text(
-                        'forgot_password_info'.tr(),
+                        'forgot_password_info',
                         style: Theme.of(context).textTheme.bodyMedium,
-                      ),
+                      ).tr(),
                       const SizedBox(height: 24),
                       TextFormField(
                         key: const ValueKey('email_field'),
@@ -153,7 +153,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         key: const ValueKey('password_reset_failed_snackbar'),
-        content: Text('password_reset_failed'.tr()),
+        content: const Text('password_reset_failed').tr(),
       ),
     );
   }
