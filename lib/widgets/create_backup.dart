@@ -1,3 +1,4 @@
+import 'package:dantex/logger/event.dart';
 import 'package:dantex/providers/google.dart';
 import 'package:dantex/providers/logger.dart';
 import 'package:dantex/widgets/pulsing_grid.dart';
@@ -79,12 +80,7 @@ class _CreateBackupState extends ConsumerState<CreateBackup> {
                 )
               : InkWell(
                   borderRadius: BorderRadius.circular(8),
-                  onTap: () async {
-                    setState(() => _googleBackupInProgress = true);
-                    await ref.read(createGoogleDriveBackupProvider.future);
-                    widget.onCreateBackup?.call();
-                    setState(() => _googleBackupInProgress = false);
-                  },
+                  onTap: _createGoogleDriveBackup,
                   child: Padding(
                     padding: const EdgeInsets.all(16),
                     child: Column(
@@ -109,5 +105,19 @@ class _CreateBackupState extends ConsumerState<CreateBackup> {
         ),
       ],
     );
+  }
+
+  Future<void> _createGoogleDriveBackup() async {
+    setState(() => _googleBackupInProgress = true);
+    final logger = ref.read(loggerProvider);
+    await ref.read(createGoogleDriveBackupProvider.future);
+    logger.trackEvent(
+      DanteEvent.backupCreated,
+      data: {
+        'source': 'google_drive',
+      },
+    );
+    widget.onCreateBackup?.call();
+    setState(() => _googleBackupInProgress = false);
   }
 }
