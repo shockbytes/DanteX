@@ -270,6 +270,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.7"
+  device_info_plus:
+    dependency: transitive
+    description:
+      name: device_info_plus
+      sha256: f545ffbadee826f26f2e1a0f0cbd667ae9a6011cc0f77c0f8f00a969655e6e95
+      url: "https://pub.dev"
+    source: hosted
+    version: "11.1.1"
+  device_info_plus_platform_interface:
+    dependency: transitive
+    description:
+      name: device_info_plus_platform_interface
+      sha256: "282d3cf731045a2feb66abfe61bbc40870ae50a3ed10a4d3d217556c35c8c2ba"
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.0.1"
+  device_marketing_names:
+    dependency: "direct main"
+    description:
+      name: device_marketing_names
+      sha256: a85f6cd39863ea83a084d0f563869665695b178e3eeeaf9ee55b14ab83b94bc8
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.9.3"
   dio:
     dependency: "direct main"
     description:
@@ -1319,6 +1343,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.0"
+  universal_platform:
+    dependency: transitive
+    description:
+      name: universal_platform
+      sha256: "64e16458a0ea9b99260ceb5467a214c1f298d647c659af1bff6d3bf82536b1ec"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   uuid:
     dependency: transitive
     description:
@@ -1399,6 +1431,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.1"
+  win32:
+    dependency: transitive
+    description:
+      name: win32
+      sha256: "84ba388638ed7a8cb3445a320c8273136ab2631cd5f2c57888335504ddab1bc2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.8.0"
+  win32_registry:
+    dependency: transitive
+    description:
+      name: win32_registry
+      sha256: "21ec76dfc731550fd3e2ce7a33a9ea90b828fdf19a5c3bcf556fa992cfa99852"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.5"
   xdg_directories:
     dependency: transitive
     description:

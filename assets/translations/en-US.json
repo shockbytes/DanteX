@@ -22,6 +22,8 @@
     "title": "Anonymous Logout"
   },
   "back_to_sign_in": "Back to sign in",
+  "backup": "Backup",
+  "backup_info": "",
   "book-actions": {
     "delete": "Delete",
     "edit": "Edit",
@@ -90,7 +92,10 @@
   "forgot_password_info": "Enter your email address and we'll send you a link to reset your password.",
   "forgot_password_sent": "Email sent",
   "forgot_password_sent_info": "Check your email and open the link we sent to continue.",
+  "google_drive": "Google Drive",
+  "google_drive_backup_info": "Backup your data on Google Drive. This requires you to be logged in with your Google Account. Backups can be restored on other devices when logged in with the same account.",
   "got_it": "Got it",
+  "last_backup": "Last backup: {}",
   "login": "Login",
   "login_failed": "Failed to login",
   "login_with_account": "Login with your account to synchronize your books with other devices.",
@@ -152,6 +157,7 @@
   "reset": "Reset",
   "reset_password": "Reset Password",
   "reset_password_text": "A link will be sent to your registered email address with instructions on how to reset your password.",
+  "restore": "Restore",
   "save": "Save",
   "search": {
     "empty": {

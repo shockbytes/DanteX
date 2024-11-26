@@ -23,6 +23,7 @@
     "title": "Anonymer Logout"
   },
   "back_to_sign_in": "Zurück zum Login",
+  "backup": "Backup",
   "book-actions": {
     "delete": "Löschen",
     "edit": "Editieren",
@@ -90,7 +91,10 @@
   "forgot_password_info": "Gib deine Email-Adresse ein und wir senden dir einen Link zum Zurücksetzen deines Passworts.",
   "forgot_password_sent": "Link gesendet",
   "forgot_password_sent_info": "Überprüfe deine Email und öffne den Link, den wir dir geschickt haben, um fortzufahren.",
+  "google_drive": "Google Drive",
+  "google_drive_backup_info": "Sichere deine Daten auf Google Drive. Dies erfordert, dass du mit deinem Google-Konto angemeldet bist. Backups können auf anderen Geräten wiederhergestellt werden, wenn du dich mit demselben Konto anmeldest.",
   "got_it": "Verstanden",
+  "last_backup": "Letztes backup: {}",
   "login": "Login",
   "login_failed": "Fehler beim Anmelden",
   "login_with_account": "Melde dich mit deinem Konto an und synchronisiere deine Bücher mit anderen Geräten.",
@@ -151,6 +155,7 @@
   "reset": "Zurücksetzen",
   "reset_password": "Password zurücksetzen",
   "reset_password_text": "Wir versenden ein Email an deine registrierte Adresse, wo du weitere Instruktionen zum Zurücksetzen findest.",
+  "restore": "Wiederherstellen",
   "save": "",
   "search": {
     "empty": {

@@ -65,7 +65,7 @@ GoRouter router(Ref ref) {
         name: BookManagementScreen.routeName,
         pageBuilder: (context, state) => CustomTransitionPage(
           key: state.pageKey,
-          child: BookManagementScreen(),
+          child: const BookManagementScreen(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             const curve = Curves.easeInOut;
             final curvedAnimation =

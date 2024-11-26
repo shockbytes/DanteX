@@ -26,6 +26,7 @@ void main() {
           fileName: 'fileName',
           bookCount: 10,
           timeStamp: DateTime.now(),
+          isLegacyBackup: true,
         );
 
         final mockBackupRepository = MockBackupRepository();
@@ -55,6 +56,7 @@ void main() {
           fileName: 'fileName',
           bookCount: 10,
           timeStamp: DateTime.now(),
+          isLegacyBackup: true,
         );
 
         var onTapCalled = false;

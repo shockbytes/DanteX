@@ -4,6 +4,7 @@ import 'package:dantex/models/backup_data.dart';
 import 'package:dantex/models/book.dart';
 import 'package:dantex/models/book_label.dart';
 import 'package:dantex/models/book_state.dart';
+import 'package:device_marketing_names/device_marketing_names.dart';
 import 'package:googleapis/drive/v3.dart';
 
 class BackupRepository {
@@ -24,34 +25,58 @@ class BackupRepository {
 
     return files.map((file) {
       final fileName = file.name;
-      final data =
-          fileName?.split(RegExp('_')).where((it) => it.isNotEmpty).toList();
-
-      final device = (data != null && data.length > 4 && fileName != null)
-          ? fileName.substring(
-              fileName.indexOf(data[4]),
-              fileName.lastIndexOf('.'),
-            )
-          : null;
-
-      final oldTimeStamp = int.tryParse(data?[2] ?? '0') ?? 0;
+      String? deviceName;
+      var isLegacyBackup = true;
       var timeStamp = DateTime.now();
-      if (oldTimeStamp > 0) {
-        timeStamp = DateTime.fromMillisecondsSinceEpoch(oldTimeStamp);
+      var bookCount = 0;
+
+      if (fileName != null) {
+        final data = fileName
+            .split(RegExp('_'))
+            .where(
+              (it) => it.isNotEmpty,
+            )
+            .toList();
+
+        // We have a legacy backup.
+        if (data.length == 5) {
+          deviceName = fileName.substring(
+            fileName.indexOf(data[4]),
+            fileName.lastIndexOf('.'),
+          );
+          isLegacyBackup = true;
+        } else {
+          // We have a new backup.
+          deviceName = fileName.substring(
+            fileName.indexOf(data[4]),
+            fileName.lastIndexOf('_'),
+          );
+          isLegacyBackup = false;
+        }
+
+        final oldTimeStamp = int.tryParse(data[2]) ?? 0;
+        if (oldTimeStamp > 0) {
+          timeStamp = DateTime.fromMillisecondsSinceEpoch(oldTimeStamp);
+        }
+
+        bookCount = int.tryParse(data[3]) ?? 0;
       }
-      final bookCount = int.parse(data?[3] ?? '0');
 
       return BackupData(
         id: file.id ?? 'missing-id',
-        device: device ?? 'missing-device',
+        device: deviceName ?? 'missing-device',
         fileName: fileName ?? 'missing-file-name',
         bookCount: bookCount,
         timeStamp: timeStamp,
+        isLegacyBackup: isLegacyBackup,
       );
     }).toList();
   }
 
-  Future<List<Book>> fetchBackup(String id) async {
+  Future<List<Book>> fetchBackup(
+    String id, {
+    bool isLegacyBackup = true,
+  }) async {
     final response = await _driveApi.files.get(
       id,
       downloadOptions: DownloadOptions.fullMedia,
@@ -64,13 +89,43 @@ class BackupRepository {
     final backupJson = await utf8.decodeStream(response.stream);
     final backupData = jsonDecode(backupJson) as Map<String, dynamic>;
     final booksList = backupData['books'] as List<dynamic>;
-    final legacyBooks = booksList.cast<Map<String, dynamic>>();
+    final books = booksList.cast<Map<String, dynamic>>();
 
-    return legacyBooks.map(_convertLegacyBook).toList();
+    if (isLegacyBackup) {
+      return books.map(_convertLegacyBook).toList();
+    } else {
+      return books.map(Book.fromJson).toList();
+    }
   }
 
   Future<void> delete(String id) async {
     await _driveApi.files.delete(id);
+  }
+
+  Future<void> createBackup(List<Book> books) async {
+    final backupData = {
+      'books': books.map((book) => book.toJson()).toList(),
+    };
+
+    final backupJson = jsonEncode(backupData);
+    final utf8EncodedBackupJson = utf8.encode(backupJson);
+    final timeStamp = DateTime.now().millisecondsSinceEpoch;
+    final deviceNames = DeviceMarketingNames();
+    final deviceName = await deviceNames.getSingleName();
+    final fileName =
+        'google-drive_man_${timeStamp}_${books.length}_${deviceName}_dantex.json';
+
+    await _driveApi.files.create(
+      File.fromJson({
+        'name': fileName,
+        'mimeType': 'application/json',
+        'parents': ['appDataFolder'],
+      }),
+      uploadMedia: Media(
+        Stream.value(utf8EncodedBackupJson),
+        utf8EncodedBackupJson.length,
+      ),
+    );
   }
 }
 

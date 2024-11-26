@@ -42,10 +42,15 @@ class MockBackupRepository extends _i1.Mock implements _i2.BackupRepository {
       ) as _i3.Future<List<_i4.BackupData>>);
 
   @override
-  _i3.Future<List<_i5.Book>> fetchBackup(String? id) => (super.noSuchMethod(
+  _i3.Future<List<_i5.Book>> fetchBackup(
+    String? id, {
+    bool? isLegacyBackup = true,
+  }) =>
+      (super.noSuchMethod(
         Invocation.method(
           #fetchBackup,
           [id],
+          {#isLegacyBackup: isLegacyBackup},
         ),
         returnValue: _i3.Future<List<_i5.Book>>.value(<_i5.Book>[]),
       ) as _i3.Future<List<_i5.Book>>);
@@ -55,6 +60,16 @@ class MockBackupRepository extends _i1.Mock implements _i2.BackupRepository {
         Invocation.method(
           #delete,
           [id],
+        ),
+        returnValue: _i3.Future<void>.value(),
+        returnValueForMissingStub: _i3.Future<void>.value(),
+      ) as _i3.Future<void>);
+
+  @override
+  _i3.Future<void> createBackup(List<_i5.Book>? books) => (super.noSuchMethod(
+        Invocation.method(
+          #createBackup,
+          [books],
         ),
         returnValue: _i3.Future<void>.value(),
         returnValueForMissingStub: _i3.Future<void>.value(),

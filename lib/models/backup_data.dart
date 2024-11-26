@@ -10,5 +10,6 @@ class BackupData with _$BackupData {
     required String fileName,
     required int bookCount,
     required DateTime timeStamp,
+    required bool isLegacyBackup,
   }) = _BackupData;
 }

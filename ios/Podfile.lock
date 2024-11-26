@@ -7,6 +7,8 @@ PODS:
     - AppAuth/Core
   - cupertino_http (0.0.1):
     - Flutter
+  - device_info_plus (0.0.1):
+    - Flutter
   - Firebase/Analytics (11.4.0):
     - Firebase/Core
   - Firebase/Auth (11.4.0):
@@ -201,6 +203,7 @@ PODS:
 
 DEPENDENCIES:
   - cupertino_http (from `.symlinks/plugins/cupertino_http/ios`)
+  - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
@@ -244,6 +247,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   cupertino_http:
     :path: ".symlinks/plugins/cupertino_http/ios"
+  device_info_plus:
+    :path: ".symlinks/plugins/device_info_plus/ios"
   firebase_analytics:
     :path: ".symlinks/plugins/firebase_analytics/ios"
   firebase_auth:
@@ -268,6 +273,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AppAuth: 501c04eda8a8d11f179dbe8637b7a91bb7e5d2fa
   cupertino_http: 1a3a0f163c1b26e7f1a293b33d476e0fde7a64ec
+  device_info_plus: bf2e3232933866d73fe290f2942f2156cdd10342
   Firebase: cf1b19f21410b029b6786a54e9764a0cacad3c99
   firebase_analytics: fa7e5b20c2b58042e3301f5112a473d365bd490c
   firebase_auth: 42718683069d35d73af7a986b55b194589039e5e
