@@ -1,5 +1,5 @@
-import 'package:dantex/widgets/backup_list.dart';
-import 'package:dantex/widgets/create_backup.dart';
+import 'package:dantex/widgets/backup/backup_list.dart';
+import 'package:dantex/widgets/backup/create_backup.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

@@ -36,6 +36,7 @@ class _CreateBackupState extends ConsumerState<CreateBackup> {
             return Padding(
               padding: const EdgeInsets.only(bottom: 16),
               child: Text(
+                key: const Key('last_backup'),
                 'last_backup'.tr(
                   args: [
                     DateFormat('dd MMM y - HH:mm').format(
@@ -63,6 +64,12 @@ class _CreateBackupState extends ConsumerState<CreateBackup> {
             ),
           ),
         ),
+        const SizedBox(height: 16),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: const Text('backup_info').tr(),
+        ),
+        const SizedBox(height: 16),
         Card.outlined(
           child: _googleBackupInProgress
               ? const SizedBox(
@@ -71,7 +78,9 @@ class _CreateBackupState extends ConsumerState<CreateBackup> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        PulsingGrid(),
+                        PulsingGrid(
+                          key: ValueKey('google_drive_backup_in_progress'),
+                        ),
                         SizedBox(height: 16),
                         Text('Creating backup...'),
                       ],
@@ -79,6 +88,7 @@ class _CreateBackupState extends ConsumerState<CreateBackup> {
                   ),
                 )
               : InkWell(
+                  key: const Key('create_google_drive_backup'),
                   borderRadius: BorderRadius.circular(8),
                   onTap: _createGoogleDriveBackup,
                   child: Padding(

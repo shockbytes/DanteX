@@ -5,9 +5,9 @@ import 'package:dantex/providers/book.dart';
 import 'package:dantex/providers/google.dart';
 import 'package:dantex/providers/logger.dart';
 import 'package:dantex/screens/home_screen.dart';
-import 'package:dantex/widgets/backup_list_card.dart';
+import 'package:dantex/widgets/backup/backup_list_card.dart';
+import 'package:dantex/widgets/backup/restore_backup_dialog.dart';
 import 'package:dantex/widgets/pulsing_grid.dart';
-import 'package:dantex/widgets/restore_backup_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -40,7 +40,7 @@ class _BackupListState extends ConsumerState<BackupList>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            PulsingGrid(),
+            PulsingGrid(key: ValueKey('backup_list_loading')),
             SizedBox(height: 16),
             Text('Restoring from backup...'),
           ],
@@ -69,6 +69,7 @@ class _BackupListState extends ConsumerState<BackupList>
               return SizeTransition(
                 sizeFactor: animation,
                 child: BackupListCard(
+                  key: ValueKey('backup_${backup.id}_card'),
                   backup: backup,
                   onTap: () async => _onTapBackup(backup),
                   onRemove: () async {

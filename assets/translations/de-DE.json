@@ -24,6 +24,7 @@
   },
   "back_to_sign_in": "Zurück zum Login",
   "backup": "Backup",
+  "backup_info": "Dante sichert automatisch deine Daten. Wenn du manuell ein Backup deiner Daten erstellen möchtest, kannst du das hier tun.",
   "book-actions": {
     "delete": "Löschen",
     "edit": "Editieren",

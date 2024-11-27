@@ -23,7 +23,7 @@
   },
   "back_to_sign_in": "Back to sign in",
   "backup": "Backup",
-  "backup_info": "",
+  "backup_info": "Dante automatically backs up your data as you go. If you wish to manually backup your data, you can do so here.",
   "book-actions": {
     "delete": "Delete",
     "edit": "Edit",

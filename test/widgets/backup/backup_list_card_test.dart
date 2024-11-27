@@ -1,6 +1,6 @@
 import 'package:dantex/providers/google.dart';
 import 'package:dantex/repositories/backup_repository.dart';
-import 'package:dantex/widgets/backup_list_card.dart';
+import 'package:dantex/widgets/backup/backup_list_card.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,7 +9,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:patrol_finders/patrol_finders.dart';
 
-import '../test_utilities.dart';
+import '../../test_utilities.dart';
 import 'backup_list_card_test.mocks.dart';
 
 @GenerateMocks([BackupRepository])
