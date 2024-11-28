@@ -83,5 +83,14 @@ void main() {
         });
       });
     });
+    group('When deleting a backup', () {
+      test('Then the backup is deleted', () async {
+        when(
+          mockFilesResource.delete('id'),
+        ).thenAnswer((_) async => null);
+        await backupRepository.delete('id');
+        verify(mockFilesResource.delete('id')).called(1);
+      });
+    });
   });
 }
