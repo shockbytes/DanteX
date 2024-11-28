@@ -107,4 +107,14 @@ class MockBookRepository extends _i1.Mock implements _i2.BookRepository {
         returnValue: _i3.Future<void>.value(),
         returnValueForMissingStub: _i3.Future<void>.value(),
       ) as _i3.Future<void>);
+
+  @override
+  _i3.Future<void> addBook(_i4.Book? book) => (super.noSuchMethod(
+        Invocation.method(
+          #addBook,
+          [book],
+        ),
+        returnValue: _i3.Future<void>.value(),
+        returnValueForMissingStub: _i3.Future<void>.value(),
+      ) as _i3.Future<void>);
 }

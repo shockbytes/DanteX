@@ -63,12 +63,12 @@ Book getMockBook({String? id, String? isbn, int? position}) => Book(
       summary: 'summary',
     );
 
-BackupData getMockBackupData() => BackupData(
+BackupData getMockBackupData({DateTime? timeStamp}) => BackupData(
       id: 'id',
       device: 'device',
       fileName: 'fileName',
       bookCount: 10,
-      timeStamp: DateTime.now(),
+      timeStamp: timeStamp ?? DateTime.now(),
       isLegacyBackup: true,
     );
 

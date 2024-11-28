@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:googleapis/drive/v3.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'google.g.dart';
+part 'backup.g.dart';
 
 @riverpod
 Future<BackupRepository> backupRepository(Ref ref) async {
@@ -42,6 +42,7 @@ Future<void> deleteGoogleDriveBackup(Ref ref, String id) async {
 @riverpod
 Future<BackupData?> mostRecentBackup(Ref ref) async {
   final backups = await ref.watch(googleDriveBackupsProvider.future);
+  backups.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
   return backups.firstOrNull;
 }
 

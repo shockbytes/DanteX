@@ -1,4 +1,4 @@
-import 'package:dantex/providers/google.dart';
+import 'package:dantex/providers/backup.dart';
 import 'package:dantex/repositories/backup_repository.dart';
 import 'package:dantex/widgets/backup/backup_list_card.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -22,7 +22,9 @@ void main() {
     group('When tapping on the delete button', () {
       patrolWidgetTest('Then the backup is deleted', ($) async {
         final mockBackupRepository = MockBackupRepository();
-        when(mockBackupRepository.delete(backup.id)).thenAnswer((_) async {});
+        when(mockBackupRepository.delete(backup.id)).thenAnswer((_) async {
+          return null;
+        });
 
         await $.pumpWidget(
           ProviderScope(

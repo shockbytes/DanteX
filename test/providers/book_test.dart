@@ -128,4 +128,35 @@ void main() async {
       });
     });
   });
+  group('Given an allBooksProvider', () {
+    group('When the repo has books', () {
+      test('Then the provider returns all books', () async {
+        final mockDatabase = await getMockDatabase();
+
+        final mockUser = MockUser(
+          uid: 'userId',
+          email: 'bob@somedomain.com',
+          displayName: 'Bob',
+        );
+
+        final container = createContainer(
+          overrides: [
+            authStateChangesProvider.overrideWith(
+              (ref) => Stream.value(mockUser),
+            ),
+            firebaseDatabaseProvider.overrideWithValue(mockDatabase),
+          ],
+        );
+
+        final subscription = container.listen(
+          allBooksProvider.future,
+          (_, __) {},
+        );
+        await container.pump();
+
+        final books = await subscription.read();
+        expect(books, hasLength(89));
+      });
+    });
+  });
 }
