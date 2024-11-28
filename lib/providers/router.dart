@@ -1,4 +1,5 @@
 import 'package:dantex/providers/auth.dart';
+import 'package:dantex/screens/add_custom_book.dart';
 import 'package:dantex/screens/book_management_screen.dart';
 import 'package:dantex/screens/forgot_password_screen.dart';
 import 'package:dantex/screens/home_screen.dart';
@@ -66,6 +67,27 @@ GoRouter router(Ref ref) {
         pageBuilder: (context, state) => CustomTransitionPage(
           key: state.pageKey,
           child: const BookManagementScreen(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            const curve = Curves.easeInOut;
+            final curvedAnimation =
+                CurvedAnimation(parent: animation, curve: curve);
+
+            return SlideTransition(
+              position: Tween<Offset>(
+                begin: const Offset(0, 1),
+                end: Offset.zero,
+              ).animate(curvedAnimation),
+              child: child,
+            );
+          },
+        ),
+      ),
+      GoRoute(
+        path: AddCustomBookScreen.routeLocation,
+        name: AddCustomBookScreen.routeName,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const AddCustomBookScreen(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             const curve = Curves.easeInOut;
             final curvedAnimation =

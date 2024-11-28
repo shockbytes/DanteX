@@ -88,6 +88,10 @@ class BookRepository {
 
     await _bookDatabase.update(bookMap);
   }
+
+  Future<void> addBook(Book book) async {
+    return addBookToState(book, book.state);
+  }
 }
 
 List<Book> _getBooksFromDataMap(Map<String, dynamic>? data) {

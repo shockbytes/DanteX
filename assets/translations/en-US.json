@@ -12,6 +12,14 @@
     "no_labels_available": "No labels available.\nCreate a new label first.",
     "pick_a_label": "Pick a label"
   },
+  "add_manual_book": {
+    "add_book_manually": "Add Book Manually",
+    "author_required": "Author is required",
+    "optional_information": "Optional information",
+    "pages_required": "Pages is required",
+    "published_date": "Published date (yyyy-MM-dd)",
+    "title_required": "Title is required"
+  },
   "anonymous-user": "Anonymous Bookworm",
   "anonymous_login": {
     "description": "Your data will be stored as long as you stay signed in. When you sign out, your data will be erased.\n\nYou can always upgrade to a regular account later on.",
@@ -24,6 +32,18 @@
   "back_to_sign_in": "Back to sign in",
   "backup": "Backup",
   "backup_info": "Dante automatically backs up your data as you go. If you wish to manually backup your data, you can do so here.",
+  "book": {
+    "author": {
+      "one": "Author",
+      "other": "Authors"
+    },
+    "isbn": "ISBN",
+    "language": "Language",
+    "pages": "Pages",
+    "subtitle": "Subtitle",
+    "summary": "Summary",
+    "title": "Title"
+  },
   "book-actions": {
     "delete": "Delete",
     "edit": "Edit",
@@ -62,6 +82,12 @@
     "ok": "Ok",
     "page_count": "Pages",
     "save": "Save"
+  },
+  "book_state": {
+    "for_later": "For later",
+    "read": "Done",
+    "reading": "Reading",
+    "wishlist": "Wishlist"
   },
   "books_count": "{} books",
   "cancel": "Cancel",

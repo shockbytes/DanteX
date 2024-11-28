@@ -69,5 +69,7 @@
 			<string>en</string>
 			<string>de</string>
 		</array>
+		<key>NSPhotoLibraryUsageDescription</key>
+        <string>Required to upload images of books when manually creating</string>
 	</dict>
 </plist>

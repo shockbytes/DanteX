@@ -9,6 +9,40 @@ PODS:
     - Flutter
   - device_info_plus (0.0.1):
     - Flutter
+  - DKImagePickerController/Core (4.3.9):
+    - DKImagePickerController/ImageDataManager
+    - DKImagePickerController/Resource
+  - DKImagePickerController/ImageDataManager (4.3.9)
+  - DKImagePickerController/PhotoGallery (4.3.9):
+    - DKImagePickerController/Core
+    - DKPhotoGallery
+  - DKImagePickerController/Resource (4.3.9)
+  - DKPhotoGallery (0.0.19):
+    - DKPhotoGallery/Core (= 0.0.19)
+    - DKPhotoGallery/Model (= 0.0.19)
+    - DKPhotoGallery/Preview (= 0.0.19)
+    - DKPhotoGallery/Resource (= 0.0.19)
+    - SDWebImage
+    - SwiftyGif
+  - DKPhotoGallery/Core (0.0.19):
+    - DKPhotoGallery/Model
+    - DKPhotoGallery/Preview
+    - SDWebImage
+    - SwiftyGif
+  - DKPhotoGallery/Model (0.0.19):
+    - SDWebImage
+    - SwiftyGif
+  - DKPhotoGallery/Preview (0.0.19):
+    - DKPhotoGallery/Model
+    - DKPhotoGallery/Resource
+    - SDWebImage
+    - SwiftyGif
+  - DKPhotoGallery/Resource (0.0.19):
+    - SDWebImage
+    - SwiftyGif
+  - file_picker (0.0.1):
+    - DKImagePickerController/PhotoGallery
+    - Flutter
   - Firebase/Analytics (11.4.0):
     - Firebase/Core
   - Firebase/Auth (11.4.0):
@@ -194,16 +228,21 @@ PODS:
   - PromisesSwift (2.4.0):
     - PromisesObjC (= 2.4.0)
   - RecaptchaInterop (100.0.0)
+  - SDWebImage (5.20.0):
+    - SDWebImage/Core (= 5.20.0)
+  - SDWebImage/Core (5.20.0)
   - shared_preferences_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
   - sqflite_darwin (0.0.4):
     - Flutter
     - FlutterMacOS
+  - SwiftyGif (5.4.5)
 
 DEPENDENCIES:
   - cupertino_http (from `.symlinks/plugins/cupertino_http/ios`)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
+  - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
@@ -218,6 +257,8 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - AppAuth
+    - DKImagePickerController
+    - DKPhotoGallery
     - Firebase
     - FirebaseAnalytics
     - FirebaseAppCheckInterop
@@ -243,12 +284,16 @@ SPEC REPOS:
     - PromisesObjC
     - PromisesSwift
     - RecaptchaInterop
+    - SDWebImage
+    - SwiftyGif
 
 EXTERNAL SOURCES:
   cupertino_http:
     :path: ".symlinks/plugins/cupertino_http/ios"
   device_info_plus:
     :path: ".symlinks/plugins/device_info_plus/ios"
+  file_picker:
+    :path: ".symlinks/plugins/file_picker/ios"
   firebase_analytics:
     :path: ".symlinks/plugins/firebase_analytics/ios"
   firebase_auth:
@@ -274,6 +319,9 @@ SPEC CHECKSUMS:
   AppAuth: 501c04eda8a8d11f179dbe8637b7a91bb7e5d2fa
   cupertino_http: 1a3a0f163c1b26e7f1a293b33d476e0fde7a64ec
   device_info_plus: bf2e3232933866d73fe290f2942f2156cdd10342
+  DKImagePickerController: 946cec48c7873164274ecc4624d19e3da4c1ef3c
+  DKPhotoGallery: b3834fecb755ee09a593d7c9e389d8b5d6deed60
+  file_picker: 80834d3a05a80e5c9aea2b5fa6d8bb9795678ade
   Firebase: cf1b19f21410b029b6786a54e9764a0cacad3c99
   firebase_analytics: fa7e5b20c2b58042e3301f5112a473d365bd490c
   firebase_auth: 42718683069d35d73af7a986b55b194589039e5e
@@ -307,9 +355,11 @@ SPEC CHECKSUMS:
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   PromisesSwift: 9d77319bbe72ebf6d872900551f7eeba9bce2851
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
+  SDWebImage: 73c6079366fea25fa4bb9640d5fb58f0893facd8
   shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
   sqflite_darwin: 5a7236e3b501866c1c9befc6771dfd73ffb8702d
+  SwiftyGif: 706c60cf65fa2bc5ee0313beece843c8eb8194d4
 
-PODFILE CHECKSUM: cc1f88378b4bfcf93a6ce00d2c587857c6008d3b
+PODFILE CHECKSUM: 77aa7857e5d70fe23230b41ab174296673c79d91
 
 COCOAPODS: 1.16.2

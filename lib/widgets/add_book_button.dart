@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:dantex/screens/add_custom_book.dart';
 import 'package:dantex/widgets/search_result_bottom_sheet.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 enum AddBookAction { scan, query, manual }
 
@@ -139,7 +141,9 @@ class _AddBookButtonState extends ConsumerState<AddBookButton> {
         );
 
       case AddBookAction.manual:
-        break;
+        await context.push(
+          AddCustomBookScreen.routeLocation,
+        );
     }
   }
 }
