@@ -59,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Icons.bookmark,
               color: Theme.of(context).colorScheme.primary,
             ),
-            label: 'tabs.for_later'.tr(),
+            label: 'book_state.for_later'.tr(),
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.book_outlined),
@@ -67,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Icons.book,
               color: Theme.of(context).colorScheme.primary,
             ),
-            label: 'tabs.reading'.tr(),
+            label: 'book_state.reading'.tr(),
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.check_outlined),
@@ -75,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Icons.check_outlined,
               color: Theme.of(context).colorScheme.primary,
             ),
-            label: 'tabs.read'.tr(),
+            label: 'book_state.read'.tr(),
           ),
         ],
       ),

@@ -39,7 +39,7 @@ class AddBookWidget extends ConsumerWidget {
                       .read(bookRepositoryProvider)
                       .addBookToState(book, BookState.readLater);
                 },
-                child: const Text('Read Later').tr(),
+                child: const Text('book_state.for_later').tr(),
               ),
             ),
             const SizedBox(width: 8),
@@ -52,7 +52,7 @@ class AddBookWidget extends ConsumerWidget {
                       .read(bookRepositoryProvider)
                       .addBookToState(book, BookState.reading);
                 },
-                child: const Text('Reading').tr(),
+                child: const Text('book_state.reading').tr(),
               ),
             ),
             const SizedBox(width: 8),
@@ -65,7 +65,7 @@ class AddBookWidget extends ConsumerWidget {
                       .read(bookRepositoryProvider)
                       .addBookToState(book, BookState.read);
                 },
-                child: const Text('Done').tr(),
+                child: const Text('book_state.read').tr(),
               ),
             ),
           ],
@@ -79,12 +79,12 @@ class AddBookWidget extends ConsumerWidget {
                 .read(bookRepositoryProvider)
                 .addBookToState(book, BookState.wishlist);
           },
-          child: const Text('Wishlist'),
+          child: const Text('book_state.wishlist').tr(),
         ),
         const SizedBox(height: 24),
         OutlinedButton(
           onPressed: () {},
-          child: const Text('Not my book'),
+          child: const Text('search.not_my_book').tr(),
         ),
       ],
     );

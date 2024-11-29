@@ -61,12 +61,12 @@ class _SingInScreenState extends ConsumerState<SignInScreen> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'welcome_back',
+                    'sign_in.welcome_back',
                     style: Theme.of(context).textTheme.headlineMedium,
                   ).tr(),
                   const SizedBox(height: 8),
                   Text(
-                    'login_with_account',
+                    'sign_in.login_with_account',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.titleMedium,
                   ).tr(),
@@ -79,14 +79,14 @@ class _SingInScreenState extends ConsumerState<SignInScreen> {
                         TextFormField(
                           key: const ValueKey('email_field'),
                           decoration: InputDecoration(
-                            labelText: 'email'.tr(),
+                            labelText: 'sign_in.email'.tr(),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(32),
                             ),
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'email_empty'.tr();
+                              return 'sign_in.email_empty'.tr();
                             }
                             return null;
                           },
@@ -96,7 +96,7 @@ class _SingInScreenState extends ConsumerState<SignInScreen> {
                         TextFormField(
                           key: const ValueKey('password_field'),
                           decoration: InputDecoration(
-                            labelText: 'password'.tr(),
+                            labelText: 'sign_in.password'.tr(),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(32),
                             ),
@@ -116,7 +116,7 @@ class _SingInScreenState extends ConsumerState<SignInScreen> {
                           obscureText: _maskPassword,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'password_empty'.tr();
+                              return 'sign_in.password_empty'.tr();
                             }
                             return null;
                           },
@@ -132,7 +132,7 @@ class _SingInScreenState extends ConsumerState<SignInScreen> {
                       onTap: () async =>
                           context.pushNamed(ForgotPasswordScreen.routeName),
                       child: Text(
-                        'forgot_password',
+                        'sign_in.forgot_password',
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.primary,
                         ),
@@ -147,7 +147,7 @@ class _SingInScreenState extends ConsumerState<SignInScreen> {
                     child: LoadingButton(
                       key: const ValueKey('email_sign_in_button'),
                       onPressed: _signInWithEmail,
-                      labelText: 'sign_in'.tr(),
+                      labelText: 'sign_in.sign_in'.tr(),
                       disabled: _signingIn,
                     ),
                   ),
@@ -158,7 +158,7 @@ class _SingInScreenState extends ConsumerState<SignInScreen> {
                     child: LoadingButton.icon(
                       key: const ValueKey('google_sign_in_button'),
                       onPressed: _signInWithGoogle,
-                      labelText: 'login_with_google'.tr(),
+                      labelText: 'sign_in.sign_in_with_google'.tr(),
                       icon: Image.asset(
                         'assets/images/google_logo.png',
                         width: 24,
@@ -174,7 +174,7 @@ class _SingInScreenState extends ConsumerState<SignInScreen> {
                     child: LoadingButton.icon(
                       key: const ValueKey('anonymous_sign_in_button'),
                       onPressed: _signInAnonymously,
-                      labelText: 'stay_anonymous'.tr(),
+                      labelText: 'sign_in.stay_anonymous'.tr(),
                       icon: const Icon(Icons.person_outline),
                       disabled: _signingIn,
                     ),
@@ -184,7 +184,7 @@ class _SingInScreenState extends ConsumerState<SignInScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'dont_have_account',
+                        'sign_in.dont_have_account',
                         style: Theme.of(context).textTheme.labelLarge,
                       ).tr(),
                       const SizedBox(width: 4),
@@ -193,7 +193,7 @@ class _SingInScreenState extends ConsumerState<SignInScreen> {
                         onTap: () async =>
                             context.pushNamed(SignUpScreen.routeName),
                         child: Text(
-                          'sign_up',
+                          'sign_in.sign_up',
                           style: Theme.of(context)
                               .textTheme
                               .labelLarge
@@ -288,18 +288,18 @@ class _SingInScreenState extends ConsumerState<SignInScreen> {
       barrierDismissible: false,
       builder: (context) => AlertDialog(
         key: const ValueKey('anonymous_sign_in_dialog'),
-        title: Text('anonymous_login.title'.tr()),
-        content: Text('anonymous_login.description'.tr()),
+        title: const Text('sign_in.anonymous_login.title').tr(),
+        content: const Text('sign_in.anonymous_login.description').tr(),
         actions: [
           TextButton(
             key: const ValueKey('dismiss_anonymous_sign_in_button'),
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('dismiss').tr(),
+            child: const Text('sign_in.dismiss').tr(),
           ),
           TextButton(
             key: const ValueKey('proceed_anonymous_sign_in_button'),
             onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('login').tr(),
+            child: const Text('sign_in.sign_in').tr(),
           ),
         ],
       ),

@@ -1,6 +1,7 @@
 import 'package:dantex/models/book_label.dart';
 import 'package:dantex/providers/book.dart';
 import 'package:dantex/widgets/book_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -46,6 +47,10 @@ class _BookLabelBottomSheet extends ConsumerWidget {
     final books = ref.watch(allBooksProvider).value;
     final booksWithLabel = books?.where((book) => book.labels.contains(label));
 
+    if (booksWithLabel == null) {
+      return const SizedBox.shrink();
+    }
+
     return LayoutBuilder(
       builder: (context, constraints) {
         final maxHeight = constraints.biggest.height * 0.8;
@@ -71,21 +76,25 @@ class _BookLabelBottomSheet extends ConsumerWidget {
                   ),
                   const SliverPadding(padding: EdgeInsets.only(top: 8)),
                   SliverToBoxAdapter(
-                    child:
-                        Center(child: Text('${booksWithLabel?.length} books')),
+                    child: Center(
+                      child: const Text('book_label.books_with_label').plural(
+                        booksWithLabel.length,
+                        args: [booksWithLabel.length.toString()],
+                      ),
+                    ),
                   ),
                   const SliverPadding(padding: EdgeInsets.only(top: 8)),
                   SliverList.separated(
-                    itemCount: booksWithLabel?.length,
+                    itemCount: booksWithLabel.length,
                     itemBuilder: (context, index) {
-                      final book = booksWithLabel?.elementAt(index);
+                      final book = booksWithLabel.elementAt(index);
                       return InkWell(
                         child: Row(
                           children: [
-                            BookImage(book?.thumbnailAddress, size: 32),
+                            BookImage(book.thumbnailAddress, size: 32),
                             const SizedBox(width: 32),
                             Text(
-                              book?.title ?? '',
+                              book.title,
                               style: Theme.of(context)
                                   .textTheme
                                   .labelLarge

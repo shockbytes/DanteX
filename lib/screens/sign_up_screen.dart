@@ -61,29 +61,29 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'sign_up',
+                      'sign_in.sign_up',
                       style: Theme.of(context).textTheme.headlineMedium,
                     ).tr(),
                     const SizedBox(height: 8),
                     Text(
-                      'sign_up_rules',
+                      'sign_in.sign_up_rules',
                       style: Theme.of(context).textTheme.bodyMedium,
                     ).tr(),
                     const SizedBox(height: 24),
                     TextFormField(
                       key: const ValueKey('email_field'),
                       decoration: InputDecoration(
-                        labelText: 'email'.tr(),
+                        labelText: 'sign_in.email'.tr(),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(32),
                         ),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'email_empty'.tr();
+                          return 'sign_in.email_empty'.tr();
                         }
                         if (!EmailValidator.validate(value)) {
-                          return 'email_invalid'.tr();
+                          return 'sign_in.email_invalid'.tr();
                         }
                         return null;
                       },
@@ -93,7 +93,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                     TextFormField(
                       key: const ValueKey('password_field'),
                       decoration: InputDecoration(
-                        labelText: 'password'.tr(),
+                        labelText: 'sign_in.password'.tr(),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(32),
                         ),
@@ -113,7 +113,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       obscureText: _maskPassword,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'password_empty'.tr();
+                          return 'sign_in.password_empty'.tr();
                         }
                         return null;
                       },
@@ -123,7 +123,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                     TextFormField(
                       key: const ValueKey('confirm_password_field'),
                       decoration: InputDecoration(
-                        labelText: 'confirm_password'.tr(),
+                        labelText: 'sign_in.confirm_password'.tr(),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(32),
                         ),
@@ -144,7 +144,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       obscureText: _maskConfirmPassword,
                       validator: (value) {
                         if (value != _passwordController.text) {
-                          return 'passwords_must_match'.tr();
+                          return 'sign_in.passwords_must_match'.tr();
                         }
                         return null;
                       },
@@ -156,7 +156,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       child: LoadingButton(
                         key: const ValueKey('email_sign_up_button'),
                         onPressed: _signUpWithEmail,
-                        labelText: 'sign_up'.tr(),
+                        labelText: 'sign_in.sign_up'.tr(),
                       ),
                     ),
                   ],
@@ -188,12 +188,12 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 error: e,
                 stackTrace: s,
               );
-          message = 'email_already_in_use'.tr();
+          message = 'sign_in.email_already_in_use'.tr();
         } else if (e.code == 'weak-password') {
           ref
               .read(loggerProvider)
               .e('The password provided is too weak.', error: e, stackTrace: s);
-          message = 'password_too_weak'.tr();
+          message = 'sign_in.password_too_weak'.tr();
         }
         _handleFailedSignUp(message);
       }

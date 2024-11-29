@@ -45,8 +45,8 @@ class _BookManagementScreenState extends ConsumerState<BookManagementScreen>
           tabAlignment: TabAlignment.start,
           isScrollable: true,
           tabs: [
-            Tab(text: 'backup'.tr()),
-            Tab(text: 'restore'.tr()),
+            Tab(text: 'book_management.backup'.tr()),
+            Tab(text: 'book_management.restore'.tr()),
           ],
         ),
       ),

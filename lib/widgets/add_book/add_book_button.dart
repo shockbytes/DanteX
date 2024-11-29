@@ -101,15 +101,15 @@ class _AddBookButtonState extends ConsumerState<AddBookButton> {
         final searchTerm = await showDialog<String>(
           context: context,
           builder: (context) => AlertDialog(
-            title: const Text('query_search.title').tr(),
+            title: const Text('add_book.title_search.title').tr(),
             content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text('query_search.info').tr(),
+                const Text('add_book.title_search.info').tr(),
                 const SizedBox(height: 8),
                 TextField(
                   decoration: InputDecoration(
-                    hintText: 'query_search.hint'.tr(),
+                    hintText: 'add_book.title_search.hint'.tr(),
                   ),
                   controller: _searchController,
                 ),
@@ -119,7 +119,7 @@ class _AddBookButtonState extends ConsumerState<AddBookButton> {
               TextButton(
                 onPressed: () =>
                     Navigator.of(context).pop(_searchController.text),
-                child: const Text('search.search').tr(),
+                child: const Text('add_book.search').tr(),
               ),
             ],
           ),

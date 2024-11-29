@@ -38,7 +38,7 @@ class DanteBottomSheet extends ConsumerWidget {
                       await ref.read(firebaseAuthProvider).signOut();
                     }
                   },
-                  child: const Text('logout').tr(),
+                  child: const Text('bottom_sheet_menu.sign_out').tr(),
                 ),
               ],
             ),
@@ -194,6 +194,8 @@ class _MenuItem extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             text,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Theme.of(context).colorScheme.onTertiaryContainer,

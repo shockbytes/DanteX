@@ -53,7 +53,7 @@ class _BackupListCardState extends ConsumerState<BackupListCard> {
                     children: [
                       SubtitleIcon(
                         icon: Icons.book_outlined,
-                        subtitle: 'books_count'
+                        subtitle: 'book_management.books_count'
                             .tr(args: [widget.backup.bookCount.toString()]),
                         size: 24,
                       ),

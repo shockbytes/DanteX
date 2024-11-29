@@ -37,7 +37,7 @@ class _CreateBackupWidgetState extends ConsumerState<CreateBackupWidget> {
               padding: const EdgeInsets.only(bottom: 16),
               child: Text(
                 key: const Key('last_backup'),
-                'last_backup'.tr(
+                'book_management.last_backup'.tr(
                   args: [
                     DateFormat('dd MMM y - HH:mm').format(
                       backup.timeStamp,
@@ -67,22 +67,22 @@ class _CreateBackupWidgetState extends ConsumerState<CreateBackupWidget> {
         const SizedBox(height: 16),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: const Text('backup_info').tr(),
+          child: const Text('book_management.backup_info').tr(),
         ),
         const SizedBox(height: 16),
         Card.outlined(
           child: _googleBackupInProgress
-              ? const SizedBox(
+              ? SizedBox(
                   height: 148,
                   child: Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        PulsingGrid(
+                        const PulsingGrid(
                           key: ValueKey('google_drive_backup_in_progress'),
                         ),
-                        SizedBox(height: 16),
-                        Text('Creating backup...'),
+                        const SizedBox(height: 16),
+                        const Text('book_management.creating').tr(),
                       ],
                     ),
                   ),
@@ -103,11 +103,12 @@ class _CreateBackupWidgetState extends ConsumerState<CreateBackupWidget> {
                               width: 24,
                             ),
                             const SizedBox(width: 16),
-                            const Text('google_drive').tr(),
+                            const Text('book_management.google_drive').tr(),
                           ],
                         ),
                         const SizedBox(height: 16),
-                        const Text('google_drive_backup_info').tr(),
+                        const Text('book_management.google_drive_backup_info')
+                            .tr(),
                       ],
                     ),
                   ),

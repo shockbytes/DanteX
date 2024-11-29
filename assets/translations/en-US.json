@@ -1,16 +1,14 @@
 {
-  "account_creation_failed": "Failed to create account",
   "add_book": {
     "manual": "Add manual",
     "query": "Title search",
-    "scan": "Scan book"
-  },
-  "add_label_bottom_sheet": {
-    "choose_a_color": "Choose a color",
-    "create_new_label": "Create new label",
-    "name": "Name",
-    "no_labels_available": "No labels available.\nCreate a new label first.",
-    "pick_a_label": "Pick a label"
+    "scan": "Scan book",
+    "search": "Search",
+    "title_search": {
+      "hint": "Title or ISBN",
+      "info": "Please enter the title or ISBN of your book.",
+      "title": "Title search"
+    }
   },
   "add_manual_book": {
     "add_book_manually": "Add Book Manually",
@@ -20,18 +18,6 @@
     "published_date": "Published date (yyyy-MM-dd)",
     "title_required": "Title is required"
   },
-  "anonymous-user": "Anonymous Bookworm",
-  "anonymous_login": {
-    "description": "Your data will be stored as long as you stay signed in. When you sign out, your data will be erased.\n\nYou can always upgrade to a regular account later on.",
-    "title": "Anonymous Login"
-  },
-  "anonymous_logout": {
-    "description": "You are going to delete all your data right now. Proceeding now will permanently remove all your books.\n\n Do you want to proceed?",
-    "title": "Anonymous Logout"
-  },
-  "back_to_sign_in": "Back to sign in",
-  "backup": "Backup",
-  "backup_info": "Dante automatically backs up your data as you go. If you wish to manually backup your data, you can do so here.",
   "book": {
     "author": {
       "one": "Author",
@@ -44,90 +30,38 @@
     "summary": "Summary",
     "title": "Title"
   },
-  "book-actions": {
-    "delete": "Delete",
-    "edit": "Edit",
-    "move-to-later": "Move to for later",
-    "move-to-read": "Move to read",
-    "move-to-reading": "move to reading",
-    "share": "Share",
-    "suggest": "Suggest"
-  },
-  "book_detail": {
-    "label": "Label",
-    "notes": "Notes",
-    "rate": "Rate"
+  "book_label": {
+    "books_with_label": {
+      "one": "{} book",
+      "other": "{} books"
+    }
   },
   "book_management": {
     "backup": "Backup",
+    "backup_info": "Dante automatically backs up your data as you go. If you wish to manually backup your data, you can do so here.",
+    "books_count": "{} books",
+    "creating": "Creating backup...",
+    "google_drive": "Google Drive",
+    "google_drive_backup_info": "Backup your data on Google Drive. This requires you to be logged in with your Google Account. Backups can be restored on other devices when logged in with the same account.",
+    "last_backup": "Last backup: {}",
     "merge": "Merge",
-    "merge_complete": "Merge complete",
+    "no_backups_found": "No backups found",
     "overwrite": "Overwrite",
-    "overwrite_complete": "Overwrite complete",
     "restore": "Restore",
     "restore_detail": "Choose merge if you want to preserve the books on your device and complement the collection with the missing books in the backup. Or chose overwrite to completely delete all the books on your device and replace them with the books in the backup file.",
     "restore_strategy": "Restore strategy",
+    "restoring": "Restoring from backup....",
     "title": "Book management"
-  },
-  "book_notes": {
-    "my_notes": "My notes",
-    "my_thoughts": "My thoughts belong here...",
-    "subtitle": "Write down your thoughts, feelings or some general remarks about {title}"
-  },
-  "book_progress": {
-    "current_page": "Current page",
-    "enter_pages": "Enter pages",
-    "error": "Error",
-    "error_current_page": "Current page cannot be greater than page count",
-    "ok": "Ok",
-    "page_count": "Pages",
-    "save": "Save"
   },
   "book_state": {
     "for_later": "For later",
-    "read": "Done",
+    "read": "Read",
     "reading": "Reading",
     "wishlist": "Wishlist"
   },
-  "books_count": "{} books",
-  "cancel": "Cancel",
-  "change": "Change",
-  "change_password": "Change password",
-  "confirm_password": "Confirm Password",
-  "continue": "Continue",
-  "delete": "Delete",
-  "delete_anyway": "Delete anyway",
-  "dismiss": "Dismiss",
-  "dont_have_account": "Don't have an account?",
-  "email": "Email",
-  "email_already_in_use": "Email already in use",
-  "email_empty": "Email can not be empty",
-  "email_in_use_description": "Your mail address is already associated with a Google Account. Please login via Google to use this account.",
-  "email_in_use_title": "Email already in use",
-  "email_invalid": "Invalid Email Address",
-  "email_login": "Email Login",
-  "empty-states": {
-    "read": "There are no finished books. Why not finish one?",
-    "read-later": "You have currently no books that you can read. Go add some.",
-    "reading": "Why are you not reading a book now?",
-    "wishlist": "You have not added a book to your wishlist yet."
+  "bottom_sheet_menu": {
+    "sign_out": "Sign out"
   },
-  "enter_email": "Enter your email address",
-  "enter_password": "Enter your password",
-  "forgot_password": "Forgot password?",
-  "forgot_password_info": "Enter your email address and we'll send you a link to reset your password.",
-  "forgot_password_sent": "Email sent",
-  "forgot_password_sent_info": "Check your email and open the link we sent to continue.",
-  "google_drive": "Google Drive",
-  "google_drive_backup_info": "Backup your data on Google Drive. This requires you to be logged in with your Google Account. Backups can be restored on other devices when logged in with the same account.",
-  "got_it": "Got it",
-  "last_backup": "Last backup: {}",
-  "login": "Login",
-  "login_failed": "Failed to login",
-  "login_with_account": "Login with your account to synchronize your books with other devices.",
-  "login_with_email": "Login with Email",
-  "login_with_google": "Login with Google",
-  "logout": "Logout",
   "navigation": {
     "book-keeping": "Book Keeping",
     "library": "My Library",
@@ -137,191 +71,40 @@
     "timeline": "Timeline",
     "wishlist": "Wishlist"
   },
-  "no_thanks": "No thanks",
-  "not_my_book": "Not my book",
-  "password": "Password",
-  "password_empty": "Password can not be empty",
-  "password_reset_failed": "Failed to reset password",
-  "password_too_short": "Password must have at least 6 digits!",
-  "password_too_weak": "Password is too weak",
-  "passwords_must_match": "Passwords must match",
-  "profile": "Profile",
-  "query_search": {
-    "hint": "Title or ISBN",
-    "info": "Please enter the title or ISBN of your book.",
-    "title": "Title search"
-  },
-  "random_book": {
-    "description": "Can't decide which book to read next? We've got you covered. Let us decide for you what you should read next.",
-    "move_to_reading": "Move To Reading",
-    "title": "Pick Random Book"
-  },
-  "recommendations": {
-    "add-to-wishlist": "Add to wishlist",
-    "empty": "No recommendations available.",
-    "enter_recommendation": "Enter your recommendation",
-    "error": "Oh no! An error occurred while trying to fetch your recommendations. Please try again later.\n\nReason: {}",
-    "events": {
-      "move-to-wishlist": {
-        "title": "{} added to your wishlist."
-      },
-      "report": {
-        "title": "{} is reported. You will no longer see this recommendation."
-      }
-    },
-    "new-banner": "New recommendations will be available again at the {}.",
-    "nope": "Nope",
-    "other_suggestions": "Maybe one of them?",
-    "report-dialog": {
-      "content": "Do you really want to report the book {}?\n\nYou will no longer see this book as a recommendation.",
-      "report": "Report",
-      "title": "Report recommendation"
-    },
-    "success": "Wonderful. Your recommendation will be shown to other users. Thank you!",
-    "suggest": "Suggest"
-  },
-  "reset": "Reset",
-  "reset_password": "Reset Password",
-  "reset_password_text": "A link will be sent to your registered email address with instructions on how to reset your password.",
-  "restore": "Restore",
-  "save": "Save",
   "search": {
-    "empty": {
-      "action": "Search online",
-      "description": "Nothing found. Should we search online?"
-    },
     "got_it": "Got it",
-    "hint": "Search your library...",
     "no_results": "Looks like we couldn't find any books matching your search. Try again with a different search term.",
-    "page-hint": "Start typing to search your library!",
-    "search": "Search"
+    "not_my_book": "Not my book"
   },
-  "select": "Select",
-  "send_link_email": "Send link to email",
-  "settings": {
-    "about": {
-      "contributor_invite_description": "Tap here",
-      "contributor_invite_title": "Want to help?",
-      "copyright": "© 2016 - 2023",
-      "developers_title": "Developer",
-      "title": "About"
+  "sign_in": {
+    "anonymous_login": {
+      "description": "Your data will be stored as long as you stay signed in. When you sign out, your data will be erased.\n\nYou can always upgrade to a regular account later on.",
+      "title": "Anonymous Login"
     },
-    "appearance": {
-      "theme": "Theme",
-      "theme_choose_title": "Choose Theme",
-      "theme_dark": "Dark",
-      "theme_light": "Light",
-      "theme_system": "System",
-      "title": "Appearance"
-    },
-    "books": {
-      "random_book": "Random book suggestion",
-      "sort": "Sort books",
-      "sort_author": "Author",
-      "sort_choose_title": "Choose Sort Strategy",
-      "sort_labels": "Labels",
-      "sort_pages": "Pages",
-      "sort_progress": "Progress",
-      "sort_standard": "Standard",
-      "sort_title": "Title",
-      "title": "Books"
-    },
-    "contribute": {
-      "code": "Code",
-      "community": "Community",
-      "feedback": "Feedback",
-      "title": "Contribute"
-    },
-    "danger_zone": {
-      "delete_account": "Delete Account",
-      "delete_account_description": "Deleting your account will permanently delete all your books. There is no way to restore your data.",
-      "delete_account_error": "We were unable to delete your account. Please login again and try deleting it again.",
-      "delete_account_title": "Are you sure you want to delete your account?",
-      "title": "Danger Zone"
-    },
-    "data_privacy": {
-      "data_privacy": "Data Privacy",
-      "terms_and_conditions": "Terms and Conditions",
-      "title": "Data Privacy",
-      "tracking": "Tracking"
-    },
-    "title": "Settings"
-  },
-  "share-book": "Hey! I am currently reading {title} from {author} and I find it awesome!",
-  "sign_in": "Sign in",
-  "sign_up": "Sign up",
-  "sign_up_rules": "Create an account using your email address and a password. Passwords must be 10 characters in length and have at least one uppercase character, one lowercase character, one number, and one special character.",
-  "stats": {
-    "books-and-pages": {
-      "books": "Books",
-      "books-read": "{} books read",
-      "books-reading": "{} books reading",
-      "books-waiting": "{} books waiting",
-      "empty": "No data available.",
-      "pages": "Pages",
-      "pages-read": "{} pages read",
-      "pages-waiting": "{} pages waiting",
-      "title": "Books & Pages"
-    },
-    "books-per-month": {
-      "empty": "No data available",
-      "title": "Books per month"
-    },
-    "books-per-year": {
-      "empty": "No data available",
-      "title": "Books per year"
-    },
-    "favorites": {
-      "empty": "No data for favorites available.",
-      "favorite-author": "Favorite Author",
-      "first-five-star-book": "First 5-star rating",
-      "title": "Favorites"
-    },
-    "label": {
-      "empty": "No data for label distribution.",
-      "title": "Labels"
-    },
-    "language": {
-      "empty": "No data for language distribution.",
-      "na": "NA",
-      "title": "Languages"
-    },
-    "misc": {
-      "average-books": {
-        "description": "Books per Month"
-      },
-      "empty": "No data available.",
-      "most-read-month": {
-        "description": "Books in {}"
-      },
-      "title": "Misc"
-    },
-    "reading-time": {
-      "days": "{} days",
-      "empty": "No data available.",
-      "fastest-book": "Fastest book",
-      "slowest-book": "Slowest book",
-      "title": "Reading time"
-    }
-  },
-  "stay_anonymous": "Stay Anonymous",
-  "tabs": {
-    "for_later": "For later",
-    "read": "Read",
-    "reading": "Reading",
-    "wishlist": "Wishlist"
-  },
-  "timeline": {
-    "empty": "There are no books in your library yet to build this view.",
-    "sorting": {
-      "ended-in": "Finished in",
-      "started-in": "Started in"
-    }
-  },
-  "upgrade": "Upgrade",
-  "upgrade_account": "Upgrade account",
-  "upgrade_failed": "Fail to upgrade account.",
-  "version": "App Version",
-  "version_number": "5.0",
-  "welcome_back": "Welcome back!"
+    "back_to_sign_in": "Back to sign in",
+    "confirm_password": "Confirm Password",
+    "dismiss": "Dismiss",
+    "dont_have_account": "Don't have an account?",
+    "email": "Email",
+    "email_already_in_use": "Email already in use",
+    "email_empty": "Email can not be empty",
+    "email_invalid": "Invalid Email Address",
+    "forgot_password": "Forgot password?",
+    "forgot_password_info": "Enter your email address and we'll send you a link to reset your password.",
+    "forgot_password_sent": "Email sent",
+    "forgot_password_sent_info": "Check your email and open the link we sent to continue.",
+    "login_with_account": "Sign in with your account to synchronize your books with other devices.",
+    "password": "Password",
+    "password_empty": "Password can not be empty",
+    "password_reset_failed": "Failed to reset password",
+    "password_too_weak": "Password is too weak",
+    "passwords_must_match": "Passwords must match",
+    "send_link_email": "Send link to email",
+    "sign_in": "Sign in",
+    "sign_in_with_google": "Sgn in with Google",
+    "sign_up": "Sign up",
+    "sign_up_rules": "Create an account using your email address and a password. Passwords must be 10 characters in length and have at least one uppercase character, one lowercase character, one number, and one special character.",
+    "stay_anonymous": "Stay Anonymous",
+    "welcome_back": "Welcome back"
+  }
 }
