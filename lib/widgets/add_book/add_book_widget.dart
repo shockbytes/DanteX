@@ -99,9 +99,11 @@ class _AddBookWidgetState extends ConsumerState<AddBookWidget> {
         ),
         const SizedBox(height: 24),
         OutlinedButton(
+          key: const ValueKey('search_other_books'),
           onPressed: () async => showDialog(
             context: context,
             builder: (context) => OtherBooksDialog(
+              key: const ValueKey('other_books_dialog'),
               books: otherBooks,
               onTap: (book) {
                 setState(() {

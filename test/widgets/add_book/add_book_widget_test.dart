@@ -140,5 +140,22 @@ void main() async {
         },
       );
     });
+    group('When the not my book button is pressed', () {
+      patrolWidgetTest('Then the OtherBooksDialog is shown', ($) async {
+        await $.pumpWidget(
+          ProviderScope(
+            overrides: [
+              bookRepositoryProvider.overrideWith((ref) => bookRepository),
+            ],
+            child: MaterialApp(
+              home: AddBookWidget(books: [book]),
+            ),
+          ),
+        );
+        await $(#search_other_books).tap();
+
+        expect($(#other_books_dialog), findsOneWidget);
+      });
+    });
   });
 }
