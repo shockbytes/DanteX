@@ -88,10 +88,11 @@ void main() async {
         expect(readingBooks[2].position, 1);
       });
       test('Then add book adds a book to the database', () async {
+        final oldBooks = await bookRepository.allBooks().first;
         final book = getMockBook();
         await bookRepository.addBook(book);
         final books = await bookRepository.allBooks().first;
-        expect(books, hasLength(90));
+        expect(books, hasLength(oldBooks.length + 1));
       });
     });
   });

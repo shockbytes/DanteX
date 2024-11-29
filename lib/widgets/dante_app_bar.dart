@@ -1,4 +1,4 @@
-import 'package:dantex/widgets/add_book_button.dart';
+import 'package:dantex/widgets/add_book/add_book_button.dart';
 import 'package:dantex/widgets/dante_bottom_sheet.dart';
 import 'package:dantex/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';

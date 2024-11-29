@@ -190,7 +190,9 @@
       "action": "Search online",
       "description": "Nothing found. Should we search online?"
     },
+    "got_it": "Got it",
     "hint": "Search your library...",
+    "no_results": "Looks like we couldn't find any books matching your search. Try again with a different search term.",
     "page-hint": "Start typing to search your library!",
     "search": "Search"
   },

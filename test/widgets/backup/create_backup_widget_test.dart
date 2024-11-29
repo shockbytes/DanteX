@@ -1,5 +1,5 @@
 import 'package:dantex/providers/backup.dart';
-import 'package:dantex/widgets/backup/create_backup.dart';
+import 'package:dantex/widgets/backup/create_backup_widget.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,7 +13,7 @@ void main() {
   EasyLocalization.logger.enableBuildModes = [];
   final backup = getMockBackupData();
 
-  group('Given a CreateBackup widget', () {
+  group('Given a CreateBackupWidget', () {
     group('When there is no most recent backup', () {
       patrolWidgetTest('Then no backup information is shown', ($) async {
         await $.pumpWidget(
@@ -22,7 +22,7 @@ void main() {
               mostRecentBackupProvider.overrideWith((ref) => null),
             ],
             child: const MaterialApp(
-              home: CreateBackup(),
+              home: CreateBackupWidget(),
             ),
           ),
         );
@@ -38,7 +38,7 @@ void main() {
               mostRecentBackupProvider.overrideWith((ref) => backup),
             ],
             child: const MaterialApp(
-              home: CreateBackup(),
+              home: CreateBackupWidget(),
             ),
           ),
         );
@@ -54,7 +54,7 @@ void main() {
               mostRecentBackupProvider.overrideWith((ref) => backup),
             ],
             child: const MaterialApp(
-              home: CreateBackup(),
+              home: CreateBackupWidget(),
             ),
           ),
         );
@@ -71,7 +71,7 @@ void main() {
               createGoogleDriveBackupProvider.overrideWith((ref) {}),
             ],
             child: MaterialApp(
-              home: CreateBackup(
+              home: CreateBackupWidget(
                 onCreateBackup: () {
                   backupCreated = true;
                 },

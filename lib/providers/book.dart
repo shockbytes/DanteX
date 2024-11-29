@@ -15,10 +15,6 @@ part 'book.g.dart';
 DatabaseReference? bookDatabaseRef(Ref ref) {
   final database = ref.watch(firebaseDatabaseProvider);
 
-  if (database == null) {
-    return null;
-  }
-
   // Only watch authStateChanges here so that the database reference is only
   // recreated when the user signs in or out.
   final userId = ref.watch(authStateChangesProvider).value?.uid;

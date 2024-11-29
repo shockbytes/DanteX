@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:dantex/screens/add_custom_book.dart';
-import 'package:dantex/widgets/search_result_bottom_sheet.dart';
+import 'package:dantex/widgets/add_book/search_result_widget.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -136,7 +136,13 @@ class _AddBookButtonState extends ConsumerState<AddBookButton> {
           context: context,
           builder: (context) => AnimatedSize(
             duration: const Duration(milliseconds: 300),
-            child: SearchResultBottomSheet(searchTerm: searchTerm),
+            child: SafeArea(
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                width: double.infinity,
+                child: SearchResultWidget(searchTerm: searchTerm),
+              ),
+            ),
           ),
         );
 

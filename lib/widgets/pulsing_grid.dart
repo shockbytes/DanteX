@@ -10,8 +10,8 @@ class PulsingGrid extends StatelessWidget {
       itemBuilder: (context, index) {
         final color = Color.lerp(
           Colors.pink,
-          Colors.blue,
-          index / 24,
+          Colors.deepPurpleAccent,
+          index / 9,
         );
         return DecoratedBox(
           decoration: BoxDecoration(

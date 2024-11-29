@@ -7,16 +7,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 
-class CreateBackup extends ConsumerStatefulWidget {
-  const CreateBackup({this.onCreateBackup, super.key});
+class CreateBackupWidget extends ConsumerStatefulWidget {
+  const CreateBackupWidget({this.onCreateBackup, super.key});
 
   final VoidCallback? onCreateBackup;
 
   @override
-  ConsumerState<CreateBackup> createState() => _CreateBackupState();
+  ConsumerState<CreateBackupWidget> createState() => _CreateBackupWidgetState();
 }
 
-class _CreateBackupState extends ConsumerState<CreateBackup> {
+class _CreateBackupWidgetState extends ConsumerState<CreateBackupWidget> {
   bool _googleBackupInProgress = false;
 
   @override
