@@ -1,6 +1,7 @@
 {
   "add_book": {
     "manual": "Add manual",
+    "other_books": "Maybe one of these?",
     "query": "Title search",
     "scan": "Scan book",
     "search": "Search",

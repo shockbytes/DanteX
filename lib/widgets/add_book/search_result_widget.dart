@@ -14,13 +14,13 @@ class SearchResultWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final searchResult = ref.watch(searchRemoteBooksProvider(searchTerm));
     return searchResult.when(
-      data: (result) {
-        if (result.isEmpty) {
+      data: (results) {
+        if (results.isEmpty) {
           return const _NoSearchResults(key: ValueKey('no_search_results'));
         }
 
         return AddBookWidget(
-          book: result.first,
+          books: results,
           key: const ValueKey('add_book_widget'),
         );
       },

@@ -30,7 +30,7 @@ void main() async {
                 bookRepositoryProvider.overrideWith((ref) => bookRepository),
               ],
               child: MaterialApp(
-                home: AddBookWidget(book: book),
+                home: AddBookWidget(books: [book]),
               ),
             ),
           );
@@ -60,7 +60,7 @@ void main() async {
                 bookRepositoryProvider.overrideWith((ref) => bookRepository),
               ],
               child: MaterialApp(
-                home: AddBookWidget(book: book),
+                home: AddBookWidget(books: [book]),
               ),
             ),
           );
@@ -90,7 +90,7 @@ void main() async {
                 bookRepositoryProvider.overrideWith((ref) => bookRepository),
               ],
               child: MaterialApp(
-                home: AddBookWidget(book: book),
+                home: AddBookWidget(books: [book]),
               ),
             ),
           );
@@ -120,7 +120,7 @@ void main() async {
                 bookRepositoryProvider.overrideWith((ref) => bookRepository),
               ],
               child: MaterialApp(
-                home: AddBookWidget(book: book),
+                home: AddBookWidget(books: [book]),
               ),
             ),
           );
