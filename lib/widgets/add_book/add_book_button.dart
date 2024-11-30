@@ -1,6 +1,7 @@
 import 'dart:async';
 
-import 'package:dantex/screens/add_custom_book.dart';
+import 'package:dantex/providers/book.dart';
+import 'package:dantex/screens/add_custom_book_screen.dart';
 import 'package:dantex/widgets/add_book/search_result_widget.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 enum AddBookAction { scan, query, manual }
+
+const _invalidIsbn = '-1';
 
 class AddBookButton extends ConsumerStatefulWidget {
   const AddBookButton({super.key});
@@ -96,7 +99,14 @@ class _AddBookButtonState extends ConsumerState<AddBookButton> {
   Future<void> _addBook(AddBookAction action) async {
     switch (action) {
       case AddBookAction.scan:
-        break;
+        final searchIsbn = await ref.watch(scanIsbnProvider.future);
+        if (searchIsbn == _invalidIsbn || !mounted) {
+          return;
+        }
+
+        await showSearchResultBottomSheet(context, searchIsbn);
+
+      // showSearchResultBottomSheet
       case AddBookAction.query:
         final searchTerm = await showDialog<String>(
           context: context,
@@ -117,8 +127,9 @@ class _AddBookButtonState extends ConsumerState<AddBookButton> {
             ),
             actions: [
               TextButton(
-                onPressed: () =>
-                    Navigator.of(context).pop(_searchController.text),
+                onPressed: () => Navigator.of(context).pop(
+                  _searchController.text,
+                ),
                 child: const Text('add_book.search').tr(),
               ),
             ],
@@ -131,25 +142,10 @@ class _AddBookButtonState extends ConsumerState<AddBookButton> {
           return;
         }
 
-        await showModalBottomSheet<void>(
-          showDragHandle: true,
-          context: context,
-          builder: (context) => AnimatedSize(
-            duration: const Duration(milliseconds: 300),
-            child: SafeArea(
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                width: double.infinity,
-                child: SearchResultWidget(searchTerm: searchTerm),
-              ),
-            ),
-          ),
-        );
+        await showSearchResultBottomSheet(context, searchTerm);
 
       case AddBookAction.manual:
-        await context.push(
-          AddCustomBookScreen.routeLocation,
-        );
+        await context.push(AddCustomBookScreen.routeLocation);
     }
   }
 }

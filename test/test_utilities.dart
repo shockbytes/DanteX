@@ -72,29 +72,29 @@ BackupData getMockBackupData({DateTime? timeStamp}) => BackupData(
       isLegacyBackup: true,
     );
 
-GoogleBooksResponse getMockGoogleBookResponse({List<GoogleBooksItem>? items}) {
+GoogleBooksResponse getMockGoogleBookResponse({List<Items>? items}) {
   return GoogleBooksResponse(
     kind: 'kind',
     totalItems: 3,
     items: items ??
         [
-          const GoogleBooksItem(
+          const Items(
             kind: 'kind',
             id: 'id',
             etag: 'etag',
             selfLink: 'selfLink',
-            volumeInfo: GoogleBooksVolumeInfo(
+            volumeInfo: VolumeInfo(
               title: 'title',
               subtitle: 'subtitle',
               authors: ['author'],
               publishedDate: 'publishedDate',
               industryIdentifiers: [
-                GoogleBooksIndustryIdentifier(
+                IndustryIdentifiers(
                   type: 'type',
                   identifier: 'identifier',
                 ),
               ],
-              readingModes: GoogleBooksReadingModes(
+              readingModes: ReadingModes(
                 text: true,
                 image: false,
               ),
@@ -105,7 +105,7 @@ GoogleBooksResponse getMockGoogleBookResponse({List<GoogleBooksItem>? items}) {
               maturityRating: 'maturityRating',
               allowAnonLogging: true,
               contentVersion: 'contentVersion',
-              imageLinks: GoogleBooksImageLinks(
+              imageLinks: ImageLinks(
                 smallThumbnail: 'smallThumbnail',
                 thumbnail: 'thumbnail',
               ),
@@ -114,28 +114,28 @@ GoogleBooksResponse getMockGoogleBookResponse({List<GoogleBooksItem>? items}) {
               infoLink: 'infoLink',
               canonicalVolumeLink: 'canonicalVolumeLink',
             ),
-            saleInfo: GoogleBooksSaleInfo(
+            saleInfo: SaleInfo(
               country: 'country',
               saleability: 'saleability',
               isEbook: true,
             ),
-            accessInfo: GoogleBooksAccessInfo(
+            accessInfo: AccessInfo(
               country: 'country',
               viewability: 'viewability',
               embeddable: true,
               publicDomain: true,
               textToSpeechPermission: 'textToSpeechPermission',
-              epub: GoogleBooksEpub(
+              epub: Epub(
                 isAvailable: true,
               ),
-              pdf: GoogleBooksPdf(
+              pdf: Pdf(
                 isAvailable: true,
               ),
               webReaderLink: 'webReaderLink',
               accessViewStatus: 'accessViewStatus',
               quoteSharingAllowed: true,
             ),
-            searchInfo: GoogleBooksSearchInfo(
+            searchInfo: SearchInfo(
               textSnippet: 'textSnippet',
             ),
           ),

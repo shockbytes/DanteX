@@ -1,5 +1,6 @@
 {
   "add_book": {
+    "cancel_scan": "Cancel",
     "manual": "Add manual",
     "other_books": "Maybe one of these?",
     "query": "Title search",
@@ -102,6 +103,7 @@
     "passwords_must_match": "Passwords must match",
     "send_link_email": "Send link to email",
     "sign_in": "Sign in",
+    "sign_in_failed": "Failed to sign in",
     "sign_in_with_google": "Sgn in with Google",
     "sign_up": "Sign up",
     "sign_up_rules": "Create an account using your email address and a password. Passwords must be 10 characters in length and have at least one uppercase character, one lowercase character, one number, and one special character.",

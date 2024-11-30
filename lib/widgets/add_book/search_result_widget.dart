@@ -66,3 +66,23 @@ class _NoSearchResults extends StatelessWidget {
     );
   }
 }
+
+Future<void> showSearchResultBottomSheet(
+  BuildContext context,
+  String searchTerm,
+) async {
+  await showModalBottomSheet<void>(
+    showDragHandle: true,
+    context: context,
+    builder: (context) => AnimatedSize(
+      duration: const Duration(milliseconds: 300),
+      child: SafeArea(
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          width: double.infinity,
+          child: SearchResultWidget(searchTerm: searchTerm),
+        ),
+      ),
+    ),
+  );
+}

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dantex/logger/event.dart';
 import 'package:dantex/providers/auth.dart';
 import 'package:dantex/providers/firebase.dart';
@@ -238,6 +240,7 @@ class _SingInScreenState extends ConsumerState<SignInScreen> {
         data: {'source': 'google'},
       );
     } on Exception catch (e, stackTrace) {
+      log('Got exception: $e', error: e, stackTrace: stackTrace);
       ref.read(loggerProvider).e(
             'Failed to sign in with Google',
             error: e,
@@ -342,7 +345,7 @@ class _SingInScreenState extends ConsumerState<SignInScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         key: const ValueKey('sign_in_failed_snackbar'),
-        content: const Text('login_failed').tr(),
+        content: const Text('sign_in.sign_in_failed').tr(),
       ),
     );
   }

@@ -5,7 +5,9 @@ import 'package:dantex/providers/auth.dart';
 import 'package:dantex/providers/client.dart';
 import 'package:dantex/providers/firebase.dart';
 import 'package:dantex/repositories/book_repository.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -70,12 +72,17 @@ Future<List<Book>> searchRemoteBooks(
   final parsedResponse = GoogleBooksResponse.fromJson(data);
 
   final items = parsedResponse.items;
-  if (items == null) {
-    return [];
-  }
 
   return items.map((e) => e.toBook()).nonNulls.toList();
 }
+
+@riverpod
+Future<String> scanIsbn(Ref ref) async => FlutterBarcodeScanner.scanBarcode(
+      '#00000000', // Transparent line
+      'add_book.cancel_scan'.tr(),
+      false,
+      ScanMode.BARCODE,
+    );
 
 @Riverpod(keepAlive: true)
 class BackupInProgressNotifier extends _$BackupInProgressNotifier {

@@ -10,7 +10,7 @@ class GoogleBooksResponse with _$GoogleBooksResponse {
   const factory GoogleBooksResponse({
     required String? kind,
     required int totalItems,
-    required List<GoogleBooksItem>? items,
+    required List<Items> items,
   }) = _GoogleBooksResponse;
 
   factory GoogleBooksResponse.fromJson(Map<String, dynamic> json) =>
@@ -18,46 +18,45 @@ class GoogleBooksResponse with _$GoogleBooksResponse {
 }
 
 @freezed
-class GoogleBooksItem with _$GoogleBooksItem {
-  const factory GoogleBooksItem({
-    required String kind,
-    required String id,
-    required String etag,
-    required String selfLink,
-    required GoogleBooksVolumeInfo volumeInfo,
-    required GoogleBooksSaleInfo saleInfo,
-    required GoogleBooksAccessInfo accessInfo,
-    required GoogleBooksSearchInfo searchInfo,
-  }) = _GoogleBooksItem;
+class Items with _$Items {
+  const factory Items({
+    required String? kind,
+    required String? id,
+    required String? etag,
+    required String? selfLink,
+    required VolumeInfo? volumeInfo,
+    required SaleInfo? saleInfo,
+    required AccessInfo? accessInfo,
+    required SearchInfo? searchInfo,
+  }) = _Items;
 
-  factory GoogleBooksItem.fromJson(Map<String, dynamic> json) =>
-      _$GoogleBooksItemFromJson(json);
+  factory Items.fromJson(Map<String, dynamic> json) => _$ItemsFromJson(json);
 
-  const GoogleBooksItem._();
+  const Items._();
 
   Book? toBook() {
     final volumeInfo = this.volumeInfo;
 
     return Book(
       id: '-1',
-      title: volumeInfo.title ?? '',
-      subTitle: volumeInfo.subtitle ?? '',
-      author: volumeInfo.authors?.join(', ') ?? '',
+      title: volumeInfo?.title ?? '',
+      subTitle: volumeInfo?.subtitle ?? '',
+      author: volumeInfo?.authors?.join(', ') ?? '',
       state: BookState.readLater,
-      pageCount: volumeInfo.pageCount ?? 0,
+      pageCount: volumeInfo?.pageCount ?? 0,
       currentPage: 0,
-      publishedDate: volumeInfo.publishedDate ?? '',
+      publishedDate: volumeInfo?.publishedDate ?? '',
       position: 0,
-      isbn: volumeInfo.industryIdentifiers
+      isbn: volumeInfo?.industryIdentifiers
               ?.where((ii) => ii.type == 'ISBN_13')
               .map((e) => e.identifier)
               .join(', ') ??
           '',
-      thumbnailAddress: volumeInfo.imageLinks?.thumbnail,
+      thumbnailAddress: volumeInfo?.imageLinks?.thumbnail,
       startDate: null,
       endDate: null,
       forLaterDate: null,
-      language: volumeInfo.language ?? 'NA',
+      language: volumeInfo?.language ?? 'NA',
       rating: 0,
       notes: '',
       summary: 'TODO Load Description',
@@ -67,122 +66,120 @@ class GoogleBooksItem with _$GoogleBooksItem {
 }
 
 @freezed
-class GoogleBooksSearchInfo with _$GoogleBooksSearchInfo {
-  const factory GoogleBooksSearchInfo({
-    required String textSnippet,
-  }) = _GoogleBooksSearchInfo;
+class SearchInfo with _$SearchInfo {
+  const factory SearchInfo({
+    required String? textSnippet,
+  }) = _SearchInfo;
 
-  factory GoogleBooksSearchInfo.fromJson(Map<String, dynamic> json) =>
-      _$GoogleBooksSearchInfoFromJson(json);
+  factory SearchInfo.fromJson(Map<String, dynamic> json) =>
+      _$SearchInfoFromJson(json);
 }
 
 @freezed
-class GoogleBooksAccessInfo with _$GoogleBooksAccessInfo {
-  const factory GoogleBooksAccessInfo({
-    required String country,
-    required String viewability,
-    required bool embeddable,
-    required bool publicDomain,
-    required String textToSpeechPermission,
-    required GoogleBooksEpub epub,
-    required GoogleBooksPdf pdf,
-    required String webReaderLink,
-    required String accessViewStatus,
-    required bool quoteSharingAllowed,
-  }) = _GoogleBooksAccessInfo;
+class AccessInfo with _$AccessInfo {
+  const factory AccessInfo({
+    required String? country,
+    required String? viewability,
+    required bool? embeddable,
+    required bool? publicDomain,
+    required String? textToSpeechPermission,
+    required Epub? epub,
+    required Pdf? pdf,
+    required String? webReaderLink,
+    required String? accessViewStatus,
+    required bool? quoteSharingAllowed,
+  }) = _AccessInfo;
 
-  factory GoogleBooksAccessInfo.fromJson(Map<String, dynamic> json) =>
-      _$GoogleBooksAccessInfoFromJson(json);
+  factory AccessInfo.fromJson(Map<String, dynamic> json) =>
+      _$AccessInfoFromJson(json);
 }
 
 @freezed
-class GoogleBooksEpub with _$GoogleBooksEpub {
-  const factory GoogleBooksEpub({
-    required bool isAvailable,
-  }) = _GoogleBooksEpub;
+class Pdf with _$Pdf {
+  const factory Pdf({
+    required bool? isAvailable,
+  }) = _Pdf;
 
-  factory GoogleBooksEpub.fromJson(Map<String, dynamic> json) =>
-      _$GoogleBooksEpubFromJson(json);
+  factory Pdf.fromJson(Map<String, dynamic> json) => _$PdfFromJson(json);
 }
 
 @freezed
-class GoogleBooksPdf with _$GoogleBooksPdf {
-  const factory GoogleBooksPdf({
-    required bool isAvailable,
-  }) = _GoogleBooksPdf;
+class Epub with _$Epub {
+  const factory Epub({
+    required bool? isAvailable,
+  }) = _Epub;
 
-  factory GoogleBooksPdf.fromJson(Map<String, dynamic> json) =>
-      _$GoogleBooksPdfFromJson(json);
+  factory Epub.fromJson(Map<String, dynamic> json) => _$EpubFromJson(json);
 }
 
 @freezed
-class GoogleBooksSaleInfo with _$GoogleBooksSaleInfo {
-  const factory GoogleBooksSaleInfo({
-    required String country,
-    required String saleability,
-    required bool isEbook,
-  }) = _GoogleBooksSaleInfo;
+class SaleInfo with _$SaleInfo {
+  const factory SaleInfo({
+    required String? country,
+    required String? saleability,
+    required bool? isEbook,
+  }) = _SaleInfo;
 
-  factory GoogleBooksSaleInfo.fromJson(Map<String, dynamic> json) =>
-      _$GoogleBooksSaleInfoFromJson(json);
+  factory SaleInfo.fromJson(Map<String, dynamic> json) =>
+      _$SaleInfoFromJson(json);
 }
 
 @freezed
-class GoogleBooksVolumeInfo with _$GoogleBooksVolumeInfo {
-  const factory GoogleBooksVolumeInfo({
+class VolumeInfo with _$VolumeInfo {
+  const factory VolumeInfo({
     required String? title,
     required String? subtitle,
     required List<String>? authors,
     required String? publishedDate,
-    required List<GoogleBooksIndustryIdentifier>? industryIdentifiers,
-    required GoogleBooksReadingModes? readingModes,
+    required List<IndustryIdentifiers>? industryIdentifiers,
+    required ReadingModes? readingModes,
     required int? pageCount,
     required String? printType,
-    required int? averageRating,
+    required double? averageRating,
     required int? ratingsCount,
     required String? maturityRating,
     required bool? allowAnonLogging,
     required String? contentVersion,
-    required GoogleBooksImageLinks? imageLinks,
+    required ImageLinks? imageLinks,
     required String? language,
     required String? previewLink,
     required String? infoLink,
     required String? canonicalVolumeLink,
-  }) = _GoogleBooksVolumeInfo;
+  }) = _VolumeInfo;
 
-  factory GoogleBooksVolumeInfo.fromJson(Map<String, dynamic> json) =>
-      _$GoogleBooksVolumeInfoFromJson(json);
+  factory VolumeInfo.fromJson(Map<String, dynamic> json) =>
+      _$VolumeInfoFromJson(json);
 }
 
 @freezed
-class GoogleBooksImageLinks with _$GoogleBooksImageLinks {
-  const factory GoogleBooksImageLinks({
-    required String smallThumbnail,
-    required String thumbnail,
-  }) = _GoogleBooksImageLinks;
+class IndustryIdentifiers with _$IndustryIdentifiers {
+  const factory IndustryIdentifiers({
+    required String? type,
+    required String? identifier,
+  }) = _IndustryIdentifiers;
 
-  factory GoogleBooksImageLinks.fromJson(Map<String, dynamic> json) =>
-      _$GoogleBooksImageLinksFromJson(json);
+  factory IndustryIdentifiers.fromJson(Map<String, dynamic> json) =>
+      _$IndustryIdentifiersFromJson(json);
 }
 
 @freezed
-class GoogleBooksReadingModes with _$GoogleBooksReadingModes {
-  const factory GoogleBooksReadingModes({
-    required bool text,
-    required bool image,
-  }) = _GoogleBooksReadingModes;
+class ReadingModes with _$ReadingModes {
+  const factory ReadingModes({
+    required bool? text,
+    required bool? image,
+  }) = _ReadingModes;
 
-  factory GoogleBooksReadingModes.fromJson(Map<String, dynamic> json) =>
-      _$GoogleBooksReadingModesFromJson(json);
+  factory ReadingModes.fromJson(Map<String, dynamic> json) =>
+      _$ReadingModesFromJson(json);
 }
 
 @freezed
-class GoogleBooksIndustryIdentifier with _$GoogleBooksIndustryIdentifier {
-  const factory GoogleBooksIndustryIdentifier({
-    required String type,
-    required String identifier,
-  }) = _GoogleBooksIndustryIdentifier;
+class ImageLinks with _$ImageLinks {
+  const factory ImageLinks({
+    required String? smallThumbnail,
+    required String? thumbnail,
+  }) = _ImageLinks;
 
-  factory GoogleBooksIndustryIdentifier.fromJson(Map<String, dynamic> json) =>
-      _$GoogleBooksIndustryIdentifierFromJson(json);
+  factory ImageLinks.fromJson(Map<String, dynamic> json) =>
+      _$ImageLinksFromJson(json);
 }
