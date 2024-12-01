@@ -1,6 +1,7 @@
 import 'package:dantex/models/book.dart';
 import 'package:dantex/models/book_state.dart';
 import 'package:dantex/providers/book.dart';
+import 'package:dantex/theme/dante_colors.dart';
 import 'package:dantex/widgets/language_picker.dart';
 import 'package:dantex/widgets/pulsing_grid.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -47,6 +48,8 @@ class _AddCustomBookScreenState extends ConsumerState<AddCustomBookScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final danteColors = Theme.of(context).extension<DanteColors>();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('add_manual_book.add_book_manually').tr(),
@@ -213,19 +216,28 @@ class _AddCustomBookScreenState extends ConsumerState<AddCustomBookScreen> {
                     Expanded(
                       child: TextButton(
                         onPressed: () async => _createBook(BookState.readLater),
-                        child: Text('book_state.for_later'.tr().toUpperCase()),
+                        child: Text(
+                          'book_state.for_later'.tr().toUpperCase(),
+                          style: TextStyle(color: danteColors?.forLaterColor),
+                        ),
                       ),
                     ),
                     Expanded(
                       child: TextButton(
                         onPressed: () async => _createBook(BookState.reading),
-                        child: Text('book_state.reading'.tr().toUpperCase()),
+                        child: Text(
+                          'book_state.reading'.tr().toUpperCase(),
+                          style: TextStyle(color: danteColors?.readingColor),
+                        ),
                       ),
                     ),
                     Expanded(
                       child: TextButton(
                         onPressed: () async => _createBook(BookState.read),
-                        child: Text('book_state.read'.tr().toUpperCase()),
+                        child: Text(
+                          'book_state.read'.tr().toUpperCase(),
+                          style: TextStyle(color: danteColors?.readColor),
+                        ),
                       ),
                     ),
                   ],

@@ -43,7 +43,13 @@ ProviderContainer createContainer({
   return container;
 }
 
-Book getMockBook({String? id, String? isbn, int? position}) => Book(
+Book getMockBook({
+  String? id,
+  String? isbn,
+  int? position,
+  List<BookLabel>? labels,
+}) =>
+    Book(
       id: id ?? 'id',
       title: 'title',
       subTitle: 'subTitle',
@@ -62,6 +68,7 @@ Book getMockBook({String? id, String? isbn, int? position}) => Book(
       rating: 5,
       notes: 'notes',
       summary: 'summary',
+      labels: labels ?? [],
     );
 
 BackupData getMockBackupData({DateTime? timeStamp}) => BackupData(

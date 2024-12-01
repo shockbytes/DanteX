@@ -1,6 +1,7 @@
 import 'package:dantex/models/book.dart';
 import 'package:dantex/models/book_state.dart';
 import 'package:dantex/providers/book.dart';
+import 'package:dantex/theme/dante_colors.dart';
 import 'package:dantex/widgets/add_book/other_books_dialog.dart';
 import 'package:dantex/widgets/shared/book_image.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -29,6 +30,8 @@ class _AddBookWidgetState extends ConsumerState<AddBookWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final danteColors = Theme.of(context).extension<DanteColors>();
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -55,7 +58,10 @@ class _AddBookWidgetState extends ConsumerState<AddBookWidget> {
                       .read(bookRepositoryProvider)
                       .addBookToState(selectedBook, BookState.readLater);
                 },
-                child: const Text('book_state.for_later').tr(),
+                child: Text(
+                  'book_state.for_later',
+                  style: TextStyle(color: danteColors?.forLaterColor),
+                ).tr(),
               ),
             ),
             const SizedBox(width: 8),
@@ -68,7 +74,10 @@ class _AddBookWidgetState extends ConsumerState<AddBookWidget> {
                       .read(bookRepositoryProvider)
                       .addBookToState(selectedBook, BookState.reading);
                 },
-                child: const Text('book_state.reading').tr(),
+                child: Text(
+                  'book_state.reading',
+                  style: TextStyle(color: danteColors?.readingColor),
+                ).tr(),
               ),
             ),
             const SizedBox(width: 8),
@@ -81,7 +90,10 @@ class _AddBookWidgetState extends ConsumerState<AddBookWidget> {
                       .read(bookRepositoryProvider)
                       .addBookToState(selectedBook, BookState.read);
                 },
-                child: const Text('book_state.read').tr(),
+                child: Text(
+                  'book_state.read',
+                  style: TextStyle(color: danteColors?.readColor),
+                ).tr(),
               ),
             ),
           ],
@@ -95,7 +107,10 @@ class _AddBookWidgetState extends ConsumerState<AddBookWidget> {
                 .read(bookRepositoryProvider)
                 .addBookToState(selectedBook, BookState.wishlist);
           },
-          child: const Text('book_state.wishlist').tr(),
+          child: Text(
+            'book_state.wishlist',
+            style: TextStyle(color: danteColors?.wishlistColor),
+          ).tr(),
         ),
         const SizedBox(height: 24),
         OutlinedButton(

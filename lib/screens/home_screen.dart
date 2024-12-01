@@ -1,4 +1,5 @@
 import 'package:dantex/models/book_state.dart';
+import 'package:dantex/theme/dante_colors.dart';
 import 'package:dantex/widgets/book_list/book_list.dart';
 import 'package:dantex/widgets/dante_app_bar.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -50,35 +51,41 @@ class _HomeScreenState extends State<HomeScreen> {
           curve: Curves.easeInOut,
         ),
         currentIndex: _selectedIndex,
-        selectedItemColor: Theme.of(context).colorScheme.primary,
+        selectedItemColor: selectedItemColor,
+        // selectedIconTheme: IconThemeData(color: selectedItemColor),
         enableFeedback: true,
         items: [
           BottomNavigationBarItem(
             icon: const Icon(Icons.bookmark_outline),
-            activeIcon: Icon(
-              Icons.bookmark,
-              color: Theme.of(context).colorScheme.primary,
-            ),
+            activeIcon: const Icon(Icons.bookmark),
             label: 'book_state.for_later'.tr(),
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.book_outlined),
-            activeIcon: Icon(
-              Icons.book,
-              color: Theme.of(context).colorScheme.primary,
-            ),
+            activeIcon: const Icon(Icons.book),
             label: 'book_state.reading'.tr(),
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.check_outlined),
-            activeIcon: Icon(
-              Icons.check_outlined,
-              color: Theme.of(context).colorScheme.primary,
-            ),
+            icon: const Icon(Icons.done_outline),
+            activeIcon: const Icon(Icons.done_outline),
             label: 'book_state.read'.tr(),
           ),
         ],
       ),
     );
+  }
+
+  Color get selectedItemColor {
+    final danteColors = Theme.of(context).extension<DanteColors>();
+    if (danteColors == null) {
+      return Theme.of(context).colorScheme.primary;
+    }
+    if (_selectedIndex == 0) {
+      return danteColors.forLaterColor!;
+    } else if (_selectedIndex == 1) {
+      return danteColors.readingColor!;
+    } else {
+      return danteColors.readColor!;
+    }
   }
 }

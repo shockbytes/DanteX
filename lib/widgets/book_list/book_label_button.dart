@@ -6,10 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class BookLabelButton extends StatelessWidget {
-  const BookLabelButton({
-    required this.label,
-    super.key,
-  });
+  const BookLabelButton({required this.label, super.key});
 
   final BookLabel label;
 
