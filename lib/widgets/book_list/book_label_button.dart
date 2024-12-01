@@ -1,6 +1,6 @@
 import 'package:dantex/models/book_label.dart';
 import 'package:dantex/providers/book.dart';
-import 'package:dantex/widgets/book_image.dart';
+import 'package:dantex/widgets/shared/book_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,11 +16,15 @@ class BookLabelButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
+      key: ValueKey('book_label_${label.id}_button'),
       onPressed: () async => showModalBottomSheet(
         context: context,
         showDragHandle: true,
         isScrollControlled: true,
-        builder: (context) => _BookLabelBottomSheet(label: label),
+        builder: (context) => _BookLabelBottomSheet(
+          key: ValueKey('book_label_${label.id}_bottom_sheet'),
+          label: label,
+        ),
       ),
       style: OutlinedButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -38,7 +42,7 @@ class BookLabelButton extends StatelessWidget {
 }
 
 class _BookLabelBottomSheet extends ConsumerWidget {
-  const _BookLabelBottomSheet({required this.label});
+  const _BookLabelBottomSheet({required this.label, super.key});
 
   final BookLabel label;
 

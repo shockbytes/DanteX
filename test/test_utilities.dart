@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:dantex/models/backup_data.dart';
 import 'package:dantex/models/book.dart';
+import 'package:dantex/models/book_label.dart';
 import 'package:dantex/models/book_state.dart';
 import 'package:dantex/models/google_books_response.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -187,3 +188,11 @@ const legacyBookJson = '''
   ]
 }
 ''';
+
+BookLabel getMockBookLabel() {
+  return const BookLabel(
+    id: 'id',
+    title: 'Cool Label',
+    hexColor: '#ff4caf50',
+  );
+}

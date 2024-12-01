@@ -1,7 +1,7 @@
 import 'package:dantex/models/book.dart';
 import 'package:dantex/models/book_state.dart';
-import 'package:dantex/widgets/book_image.dart';
-import 'package:dantex/widgets/book_label_button.dart';
+import 'package:dantex/widgets/book_list/book_label_button.dart';
+import 'package:dantex/widgets/shared/book_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';

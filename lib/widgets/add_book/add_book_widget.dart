@@ -2,7 +2,7 @@ import 'package:dantex/models/book.dart';
 import 'package:dantex/models/book_state.dart';
 import 'package:dantex/providers/book.dart';
 import 'package:dantex/widgets/add_book/other_books_dialog.dart';
-import 'package:dantex/widgets/book_image.dart';
+import 'package:dantex/widgets/shared/book_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

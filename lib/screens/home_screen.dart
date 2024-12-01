@@ -1,5 +1,5 @@
 import 'package:dantex/models/book_state.dart';
-import 'package:dantex/widgets/book_list.dart';
+import 'package:dantex/widgets/book_list/book_list.dart';
 import 'package:dantex/widgets/dante_app_bar.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
