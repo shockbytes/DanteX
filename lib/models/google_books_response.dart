@@ -61,6 +61,7 @@ class Items with _$Items {
       notes: '',
       summary: 'TODO Load Description',
       labels: [],
+      googleBooksLink: volumeInfo?.infoLink,
     );
   }
 }

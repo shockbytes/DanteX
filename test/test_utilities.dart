@@ -70,6 +70,7 @@ Book getMockBook({
       notes: 'notes',
       summary: 'summary',
       labels: labels ?? [],
+      googleBooksLink: null,
     );
 
 BackupData getMockBackupData({DateTime? timeStamp}) => BackupData(

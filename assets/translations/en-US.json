@@ -39,6 +39,7 @@
     "move_to_read_later": "Move to read later",
     "move_to_reading": "Move to reading",
     "share": "Share",
+    "share_message": "Hey, I'm currently reading {} and it's awesome! Check it out: {}",
     "suggest": "Suggest"
   },
   "book_label": {
@@ -75,10 +76,10 @@
   },
   "edit_book": {
     "discard": "Discard",
-    "edit_book": "Edit Book",
-    "save": "Save",
     "discard_changes": "Discard changes?",
-    "discard_changes_description": "Are you sure you want to discard the changes you made to this book?"
+    "discard_changes_description": "Are you sure you want to discard the changes you made to this book?",
+    "edit_book": "Edit Book",
+    "save": "Save"
   },
   "navigation": {
     "book-keeping": "Book Keeping",

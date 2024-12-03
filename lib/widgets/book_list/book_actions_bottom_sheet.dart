@@ -7,6 +7,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:share_plus/share_plus.dart';
 
 class BookActionsBottomSheet extends ConsumerWidget {
   const BookActionsBottomSheet({required this.book, super.key});
@@ -76,7 +77,10 @@ class BookActionsBottomSheet extends ConsumerWidget {
                 color: danteColors?.shareColor,
               ),
               label: 'book_action.share'.tr(),
-              onTap: () {},
+              onTap: () async => Share.share(
+                'book_action.share_message'
+                    .tr(args: [book.title, book.googleBooksLink ?? '']),
+              ),
             ),
             const SizedBox(height: 16),
             _BookActionRow(

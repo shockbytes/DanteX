@@ -26,6 +26,7 @@ class Book with _$Book {
     required int rating,
     required String? notes,
     required String? summary,
+    required String? googleBooksLink,
     @Default(<BookLabel>[]) List<BookLabel> labels,
   }) = _Book;
 

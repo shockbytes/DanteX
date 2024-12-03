@@ -158,6 +158,7 @@ Book _convertLegacyBook(Map<String, dynamic> legacyBook) {
     notes: legacyBook['notes'] as String?,
     summary: legacyBook['summary'] as String?,
     labels: labels,
+    googleBooksLink: legacyBook['googleBooksLink'] as String?,
   );
 }
 

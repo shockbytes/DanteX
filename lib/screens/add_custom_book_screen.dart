@@ -157,6 +157,8 @@ class _AddCustomBookScreenState extends ConsumerState<AddCustomBookScreen> {
         rating: 0,
         notes: null,
         summary: _summaryController.text,
+        googleBooksLink: null,
+        labels: [],
       );
 
       await ref.read(bookRepositoryProvider).addBook(book);
