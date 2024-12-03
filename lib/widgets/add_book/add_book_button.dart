@@ -106,7 +106,6 @@ class _AddBookButtonState extends ConsumerState<AddBookButton> {
 
         await showSearchResultBottomSheet(context, searchIsbn);
 
-      // showSearchResultBottomSheet
       case AddBookAction.query:
         final searchTerm = await showDialog<String>(
           context: context,

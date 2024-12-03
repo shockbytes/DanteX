@@ -118,15 +118,20 @@ class _Actions extends StatelessWidget {
     return Column(
       children: [
         IconButton(
+          key: const ValueKey('more_actions_button'),
           onPressed: () async => showModalBottomSheet(
             context: context,
             showDragHandle: true,
-            builder: (context) => BookActionsBottomSheet(book: book),
+            builder: (context) => BookActionsBottomSheet(
+              key: const ValueKey('book_actions_bottom_sheet'),
+              book: book,
+            ),
           ),
           icon: const Icon(Icons.more_vert),
         ),
         if (book.state == BookState.reading) ...[
           CircularPercentIndicator(
+            key: ValueKey('book_${book.id}_progress'),
             radius: 20,
             lineWidth: 2,
             percent: book.progressPercentage,
