@@ -159,4 +159,64 @@ void main() async {
       });
     });
   });
+  group('Given a bookProvider', () {
+    group("When the book doesn't exist in the repo", () {
+      test('Then the provider returns null', () async {
+        final mockDatabase = await getMockDatabase();
+
+        final mockUser = MockUser(
+          uid: 'userId',
+          email: 'bob@somedomain.com',
+          displayName: 'Bob',
+        );
+
+        final container = createContainer(
+          overrides: [
+            authStateChangesProvider.overrideWith(
+              (ref) => Stream.value(mockUser),
+            ),
+            firebaseDatabaseProvider.overrideWithValue(mockDatabase),
+          ],
+        );
+
+        final subscription = container.listen(
+          bookProvider('non-existent-id').future,
+          (_, __) {},
+        );
+        await container.pump();
+
+        final book = await subscription.read();
+        expect(book, isNull);
+      });
+    });
+    group('When the book does exist in the repo', () {
+      test('Then the provider returns the book', () async {
+        final mockDatabase = await getMockDatabase();
+
+        final mockUser = MockUser(
+          uid: 'userId',
+          email: 'bob@somedomain.com',
+          displayName: 'Bob',
+        );
+
+        final container = createContainer(
+          overrides: [
+            authStateChangesProvider.overrideWith(
+              (ref) => Stream.value(mockUser),
+            ),
+            firebaseDatabaseProvider.overrideWithValue(mockDatabase),
+          ],
+        );
+
+        final subscription = container.listen(
+          bookProvider('-NrxXubOxfZs_7WXU5dr').future,
+          (_, __) {},
+        );
+        await container.pump();
+
+        final book = await subscription.read();
+        expect(book, isNotNull);
+      });
+    });
+  });
 }

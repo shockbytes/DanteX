@@ -115,6 +115,29 @@ void main() async {
         expect(newBooks, hasLength(books.length - 1));
         expect(newBooks.map((b) => b.id), isNot(contains(bookToDelete.id)));
       });
+      test('Then getBook returns the book', () async {
+        final book = getMockBook();
+        await bookRepository.overwriteBooks([book]);
+        final books = await bookRepository.allBooks().first;
+        final bookToGet = books.first;
+        final bookStream = bookRepository.getBook(bookToGet.id);
+        final bookStreamValue = await bookStream.first;
+        expect(bookStreamValue, bookToGet);
+      });
+      test('Then update book updates the book', () async {
+        final book = getMockBook();
+        await bookRepository.overwriteBooks([book]);
+        final books = await bookRepository.allBooks().first;
+        final bookToUpdate = books.first;
+        final updatedBook = bookToUpdate.copyWith(
+          title: 'Updated Title',
+        );
+        await bookRepository.updateBook(updatedBook);
+        final updatedBooks = await bookRepository.allBooks().first;
+        final updatedBookFromRepo =
+            updatedBooks.firstWhere((b) => b.id == bookToUpdate.id);
+        expect(updatedBookFromRepo.title, 'Updated Title');
+      });
     });
   });
 }
