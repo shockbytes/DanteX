@@ -6,7 +6,7 @@ import 'package:dantex/providers/firebase.dart';
 import 'package:dantex/providers/logger.dart';
 import 'package:dantex/screens/forgot_password_screen.dart';
 import 'package:dantex/screens/sign_up_screen.dart';
-import 'package:dantex/widgets/loading_button.dart';
+import 'package:dantex/widgets/shared/loading_button.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

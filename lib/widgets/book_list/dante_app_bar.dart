@@ -1,6 +1,6 @@
 import 'package:dantex/widgets/add_book/add_book_button.dart';
-import 'package:dantex/widgets/dante_bottom_sheet.dart';
-import 'package:dantex/widgets/user_avatar.dart';
+import 'package:dantex/widgets/book_list/dante_bottom_sheet.dart';
+import 'package:dantex/widgets/shared/user_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

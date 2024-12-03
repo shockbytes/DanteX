@@ -25,6 +25,7 @@ class BookActionsBottomSheet extends ConsumerWidget {
           children: [
             if (book.state != BookState.readLater) ...[
               _BookActionRow(
+                key: const Key('move_to_read_later'),
                 icon: Icon(
                   Icons.bookmark_outline,
                   color: danteColors?.forLaterColor,
@@ -41,6 +42,7 @@ class BookActionsBottomSheet extends ConsumerWidget {
             ],
             if (book.state != BookState.reading) ...[
               _BookActionRow(
+                key: const Key('move_to_reading'),
                 icon: Icon(
                   Icons.book_outlined,
                   color: danteColors?.readingColor,
@@ -57,6 +59,7 @@ class BookActionsBottomSheet extends ConsumerWidget {
             ],
             if (book.state != BookState.read) ...[
               _BookActionRow(
+                key: const Key('move_to_read'),
                 icon: Icon(
                   Icons.done_outline,
                   color: danteColors?.readColor,
@@ -77,10 +80,13 @@ class BookActionsBottomSheet extends ConsumerWidget {
                 color: danteColors?.shareColor,
               ),
               label: 'book_action.share'.tr(),
-              onTap: () async => Share.share(
-                'book_action.share_message'
-                    .tr(args: [book.title, book.googleBooksLink ?? '']),
-              ),
+              onTap: () async {
+                Navigator.of(context).pop();
+                await Share.share(
+                  'book_action.share_message'
+                      .tr(args: [book.title, book.googleBooksLink ?? '']),
+                );
+              },
             ),
             const SizedBox(height: 16),
             _BookActionRow(
@@ -110,6 +116,7 @@ class BookActionsBottomSheet extends ConsumerWidget {
             ),
             const Divider(),
             _BookActionRow(
+              key: const Key('book_action_delete'),
               icon: Icon(
                 Icons.delete_outline,
                 color: danteColors?.deleteColor,
@@ -132,6 +139,7 @@ class _BookActionRow extends StatelessWidget {
     required this.icon,
     required this.label,
     required this.onTap,
+    super.key,
   });
 
   final Icon icon;

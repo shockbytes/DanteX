@@ -2,7 +2,7 @@ import 'package:dantex/models/book.dart';
 import 'package:dantex/providers/book.dart';
 import 'package:dantex/widgets/edit_book/optional_book_fields.dart';
 import 'package:dantex/widgets/edit_book/required_book_fields.dart';
-import 'package:dantex/widgets/shared/pulsing_grid.dart';
+import 'package:dantex/widgets/shared/dante_loading_indicator.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -96,7 +96,7 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
           return null;
         },
         loading: () => const Center(
-          child: PulsingGrid(),
+          child: DanteLoadingIndicator(),
         ),
       ),
       bottomNavigationBar: SafeArea(

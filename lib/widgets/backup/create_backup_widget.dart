@@ -1,7 +1,7 @@
 import 'package:dantex/logger/event.dart';
 import 'package:dantex/providers/backup.dart';
 import 'package:dantex/providers/logger.dart';
-import 'package:dantex/widgets/shared/pulsing_grid.dart';
+import 'package:dantex/widgets/shared/dante_loading_indicator.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -78,7 +78,7 @@ class _CreateBackupWidgetState extends ConsumerState<CreateBackupWidget> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const PulsingGrid(
+                        const DanteLoadingIndicator(
                           key: ValueKey('google_drive_backup_in_progress'),
                         ),
                         const SizedBox(height: 16),

@@ -1,5 +1,5 @@
 import 'package:dantex/models/book_restore_strategy.dart';
-import 'package:dantex/widgets/subtitle_icon.dart';
+import 'package:dantex/widgets/shared/subtitle_icon.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 

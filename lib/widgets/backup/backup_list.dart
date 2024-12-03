@@ -7,7 +7,7 @@ import 'package:dantex/providers/logger.dart';
 import 'package:dantex/screens/home_screen.dart';
 import 'package:dantex/widgets/backup/backup_list_card.dart';
 import 'package:dantex/widgets/backup/restore_backup_dialog.dart';
-import 'package:dantex/widgets/shared/pulsing_grid.dart';
+import 'package:dantex/widgets/shared/dante_loading_indicator.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -41,7 +41,7 @@ class _BackupListState extends ConsumerState<BackupList>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const PulsingGrid(key: ValueKey('backup_list_loading')),
+            const DanteLoadingIndicator(key: ValueKey('backup_list_loading')),
             const SizedBox(height: 16),
             const Text('book_management.restoring').tr(),
           ],

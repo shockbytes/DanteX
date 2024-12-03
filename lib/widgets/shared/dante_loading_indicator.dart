@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-class PulsingGrid extends StatelessWidget {
-  const PulsingGrid({super.key});
+class DanteLoadingIndicator extends StatelessWidget {
+  const DanteLoadingIndicator({super.key});
 
   @override
   Widget build(Object context) {

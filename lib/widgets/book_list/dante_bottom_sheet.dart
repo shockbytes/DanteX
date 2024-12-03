@@ -2,7 +2,7 @@ import 'package:dantex/models/user.dart';
 import 'package:dantex/providers/auth.dart';
 import 'package:dantex/providers/firebase.dart';
 import 'package:dantex/screens/book_management_screen.dart';
-import 'package:dantex/widgets/user_avatar.dart';
+import 'package:dantex/widgets/shared/user_avatar.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
