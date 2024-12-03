@@ -1,5 +1,6 @@
 import 'package:dantex/models/book.dart';
 import 'package:dantex/models/book_state.dart';
+import 'package:dantex/widgets/book_list/book_actions_bottom_sheet.dart';
 import 'package:dantex/widgets/book_list/book_label_button.dart';
 import 'package:dantex/widgets/shared/book_image.dart';
 import 'package:flutter/material.dart';
@@ -7,10 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class BookListCard extends ConsumerWidget {
-  const BookListCard({
-    required this.book,
-    super.key,
-  });
+  const BookListCard({required this.book, super.key});
 
   final Book book;
 
@@ -120,7 +118,11 @@ class _Actions extends StatelessWidget {
     return Column(
       children: [
         IconButton(
-          onPressed: () {},
+          onPressed: () async => showModalBottomSheet(
+            context: context,
+            showDragHandle: true,
+            builder: (context) => BookActionsBottomSheet(book: book),
+          ),
           icon: const Icon(Icons.more_vert),
         ),
         if (book.state == BookState.reading) ...[

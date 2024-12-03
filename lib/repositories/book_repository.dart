@@ -92,6 +92,45 @@ class BookRepository {
   Future<void> addBook(Book book) async {
     return addBookToState(book, book.state);
   }
+
+  Future<void> moveBookToState(String bookId, BookState bookState) async {
+    await _bookDatabase.child(bookId).update({'state': bookState.name});
+  }
+
+  Future<void> delete(String bookId) async {
+    await _bookDatabase.child(bookId).remove();
+  }
+
+  Stream<Book?> getBook(String bookId) {
+    return _bookDatabase.child(bookId).onValue.map((event) {
+      switch (event.type) {
+        case DatabaseEventType.childAdded:
+        case DatabaseEventType.childRemoved:
+        case DatabaseEventType.childChanged:
+        case DatabaseEventType.childMoved:
+          // No need to handle these case.
+          break;
+        case DatabaseEventType.value:
+          final data = event.snapshot.toMap();
+          final book = _getBookFromDataMap(data);
+          return book;
+      }
+      return null;
+    });
+  }
+
+  Future<void> updateBook(Book book) async {
+    await _bookDatabase.child(book.id).update(book.toJson());
+  }
+}
+
+Book? _getBookFromDataMap(Map<String, dynamic>? data) {
+  if (data == null) {
+    return null;
+  }
+
+  final bookMap = data.cast<String, dynamic>();
+  return Book.fromJson(bookMap);
 }
 
 List<Book> _getBooksFromDataMap(Map<String, dynamic>? data) {

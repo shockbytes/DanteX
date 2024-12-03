@@ -1,6 +1,7 @@
 import 'package:dantex/providers/auth.dart';
 import 'package:dantex/screens/add_custom_book_screen.dart';
 import 'package:dantex/screens/book_management_screen.dart';
+import 'package:dantex/screens/edit_book_screen.dart';
 import 'package:dantex/screens/forgot_password_screen.dart';
 import 'package:dantex/screens/home_screen.dart';
 import 'package:dantex/screens/sign_in_screen.dart';
@@ -102,6 +103,32 @@ GoRouter router(Ref ref) {
             );
           },
         ),
+      ),
+      GoRoute(
+        path: EditBookScreen.routeLocation,
+        name: EditBookScreen.routeName,
+        pageBuilder: (context, state) {
+          final bookId = state.pathParameters['bookId'] ?? '';
+
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: EditBookScreen(bookId: bookId),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              const curve = Curves.easeInOut;
+              final curvedAnimation =
+                  CurvedAnimation(parent: animation, curve: curve);
+
+              return SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(0, 1),
+                  end: Offset.zero,
+                ).animate(curvedAnimation),
+                child: child,
+              );
+            },
+          );
+        },
       ),
     ],
     redirect: (context, state) {

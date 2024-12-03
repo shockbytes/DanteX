@@ -32,6 +32,15 @@
     "summary": "Summary",
     "title": "Title"
   },
+  "book_action": {
+    "delete": "Delete",
+    "edit": "Edit",
+    "move_to_read": "Move to done",
+    "move_to_read_later": "Move to read later",
+    "move_to_reading": "Move to reading",
+    "share": "Share",
+    "suggest": "Suggest"
+  },
   "book_label": {
     "books_with_label": {
       "one": "{} book",
@@ -63,6 +72,13 @@
   },
   "bottom_sheet_menu": {
     "sign_out": "Sign out"
+  },
+  "edit_book": {
+    "discard": "Discard",
+    "edit_book": "Edit Book",
+    "save": "Save",
+    "discard_changes": "Discard changes?",
+    "discard_changes_description": "Are you sure you want to discard the changes you made to this book?"
   },
   "navigation": {
     "book-keeping": "Book Keeping",

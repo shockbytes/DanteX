@@ -93,3 +93,7 @@ class BackupInProgressNotifier extends _$BackupInProgressNotifier {
 
   void done() => state = false;
 }
+
+@riverpod
+Stream<Book?> book(Ref ref, String bookId) =>
+    ref.watch(bookRepositoryProvider).getBook(bookId);

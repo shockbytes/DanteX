@@ -94,6 +94,27 @@ void main() async {
         final books = await bookRepository.allBooks().first;
         expect(books, hasLength(oldBooks.length + 1));
       });
+      test('Then move book to state updates the state of a book', () async {
+        final book = getMockBook(state: BookState.reading);
+        await bookRepository.overwriteBooks([book]);
+        final books =
+            await bookRepository.booksForState(BookState.reading).first;
+        final readingBook = books.first;
+        await bookRepository.moveBookToState(readingBook.id, BookState.read);
+        final readBooks =
+            await bookRepository.booksForState(BookState.read).first;
+        expect(readBooks.map((b) => b.id), contains(readingBook.id));
+      });
+      test('Then delete book deletes a book from the database', () async {
+        final book = getMockBook();
+        await bookRepository.overwriteBooks([book]);
+        final books = await bookRepository.allBooks().first;
+        final bookToDelete = books.first;
+        await bookRepository.delete(bookToDelete.id);
+        final newBooks = await bookRepository.allBooks().first;
+        expect(newBooks, hasLength(books.length - 1));
+        expect(newBooks.map((b) => b.id), isNot(contains(bookToDelete.id)));
+      });
     });
   });
 }

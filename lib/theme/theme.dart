@@ -30,12 +30,7 @@ class CustomTheme {
         ),
       ),
       extensions: const <ThemeExtension<dynamic>>[
-        DanteColors(
-          forLaterColor: Colors.green,
-          readingColor: Colors.blue,
-          readColor: Colors.orange,
-          wishlistColor: Colors.purple,
-        ),
+        DanteColors.lightTheme(),
       ],
     );
   }
@@ -68,12 +63,7 @@ class CustomTheme {
         ),
       ),
       extensions: const <ThemeExtension<dynamic>>[
-        DanteColors(
-          forLaterColor: Colors.green,
-          readingColor: Colors.blue,
-          readColor: Colors.orange,
-          wishlistColor: Colors.purple,
-        ),
+        DanteColors.darkTheme(),
       ],
     );
   }

@@ -2,11 +2,11 @@ import 'package:dantex/models/book.dart';
 import 'package:dantex/models/book_state.dart';
 import 'package:dantex/providers/book.dart';
 import 'package:dantex/theme/dante_colors.dart';
-import 'package:dantex/widgets/language_picker.dart';
-import 'package:dantex/widgets/pulsing_grid.dart';
+import 'package:dantex/widgets/edit_book/optional_book_fields.dart';
+import 'package:dantex/widgets/edit_book/required_book_fields.dart';
+import 'package:dantex/widgets/shared/pulsing_grid.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -31,7 +31,7 @@ class _AddCustomBookScreenState extends ConsumerState<AddCustomBookScreen> {
   final _isbnController = TextEditingController();
   final _summaryController = TextEditingController();
 
-  String language = 'Other';
+  String languageIsoCode = 'Other';
   bool loading = false;
 
   @override
@@ -72,134 +72,21 @@ class _AddCustomBookScreenState extends ConsumerState<AddCustomBookScreen> {
               )
             : Form(
                 key: _formKey,
-                child: Column(
+                child: ListView(
                   children: [
-                    Card.outlined(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                IconButton(
-                                  style: ButtonStyle(
-                                    shape: WidgetStatePropertyAll(
-                                      RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                    ),
-                                    side: WidgetStateBorderSide.resolveWith(
-                                      (states) {
-                                        return BorderSide(
-                                          color: Theme.of(context).dividerColor,
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                  onPressed: () {},
-                                  iconSize: 48,
-                                  icon: const Icon(Icons.photo_album),
-                                ),
-                                const SizedBox(width: 16),
-                                Expanded(
-                                  child: TextFormField(
-                                    controller: _titleController,
-                                    decoration: InputDecoration(
-                                      labelText: 'book.title'.tr(),
-                                    ),
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'add_manual_book.title_required'
-                                            .tr();
-                                      }
-                                      return null;
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 8),
-                            TextFormField(
-                              controller: _authorsController,
-                              decoration: InputDecoration(
-                                labelText: 'book.author'.plural(2),
-                              ),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'add_manual_book.author_required'.tr();
-                                }
-                                return null;
-                              },
-                            ),
-                            const SizedBox(height: 8),
-                            TextFormField(
-                              controller: _pagesController,
-                              decoration: InputDecoration(
-                                labelText: 'book.pages'.tr(),
-                              ),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'add_manual_book.pages_required'.tr();
-                                }
-                                return null;
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
+                    RequiredBookFields(
+                      titleController: _titleController,
+                      authorsController: _authorsController,
+                      pagesController: _pagesController,
                     ),
                     const SizedBox(height: 16),
-                    Card.outlined(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'add_manual_book.optional_information'.tr(),
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                            const SizedBox(height: 8),
-                            TextFormField(
-                              controller: _subtitleController,
-                              decoration: InputDecoration(
-                                labelText: 'book.subtitle'.tr(),
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            TextFormField(
-                              controller: _publishedDateController,
-                              decoration: InputDecoration(
-                                labelText:
-                                    'add_manual_book.published_date'.tr(),
-                              ),
-                              keyboardType: TextInputType.datetime,
-                              inputFormatters: [
-                                _DateInputFormatter(),
-                              ],
-                            ),
-                            const SizedBox(height: 8),
-                            LanguagePicker(
-                              onLanguageChanged: (language) {
-                                setState(() => this.language = language);
-                              },
-                            ),
-                            const SizedBox(height: 8),
-                            TextFormField(
-                              controller: _isbnController,
-                              decoration: InputDecoration(
-                                labelText: 'book.isbn'.tr(),
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            TextFormField(
-                              controller: _summaryController,
-                              decoration: InputDecoration(
-                                labelText: 'book.summary'.tr(),
-                              ),
-                            ),
-                          ],
-                        ),
+                    OptionalBookFields(
+                      subtitleController: _subtitleController,
+                      publishedDateController: _publishedDateController,
+                      isbnController: _isbnController,
+                      summaryController: _summaryController,
+                      onLanguageChanged: (languageIsoCode) => setState(
+                        () => this.languageIsoCode = languageIsoCode,
                       ),
                     ),
                   ],
@@ -266,7 +153,7 @@ class _AddCustomBookScreenState extends ConsumerState<AddCustomBookScreen> {
         startDate: null,
         endDate: null,
         forLaterDate: state == BookState.readLater ? DateTime.now() : null,
-        language: language,
+        language: languageIsoCode,
         rating: 0,
         notes: null,
         summary: _summaryController.text,
@@ -279,38 +166,5 @@ class _AddCustomBookScreenState extends ConsumerState<AddCustomBookScreen> {
         Navigator.of(context).pop();
       }
     }
-  }
-}
-
-class _DateInputFormatter extends TextInputFormatter {
-  @override
-  TextEditingValue formatEditUpdate(
-    TextEditingValue oldValue,
-    TextEditingValue newValue,
-  ) {
-    final text = newValue.text;
-
-    // Remove non-numeric characters
-    final digitsOnly = text.replaceAll(RegExp('[^0-9]'), '');
-
-    // Format to yyyy-MM-dd
-    final buffer = StringBuffer();
-    for (var i = 0; i < digitsOnly.length; i++) {
-      if (i == 4 || i == 6) {
-        buffer.write('-');
-      }
-      buffer.write(digitsOnly[i]);
-    }
-    var formatted = buffer.toString();
-
-    // Trim to ensure it's not longer than yyyy-MM-dd
-    if (formatted.length > 10) {
-      formatted = formatted.substring(0, 10);
-    }
-
-    return TextEditingValue(
-      text: formatted,
-      selection: TextSelection.collapsed(offset: formatted.length),
-    );
   }
 }

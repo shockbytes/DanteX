@@ -22,7 +22,7 @@ class BookList extends ConsumerWidget {
           if (books.isEmpty) {
             return const Text('No books found');
           }
-          return CachedReorderableListView(
+          return CachedReorderableListView<Book>(
             onReorder: (oldIndex, newIndex) async {
               final updatedBooks = List<Book>.from(books);
               final movedBook = updatedBooks.removeAt(oldIndex);
