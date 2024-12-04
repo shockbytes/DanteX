@@ -48,6 +48,14 @@
       "other": "{} books"
     }
   },
+  "book_list": {
+    "empty-states": {
+      "read": "There are no finished books. Why not finish one?",
+      "read-later": "You currently have no books that you have saved for later. Go add some.",
+      "reading": "Why are you not reading a book now?",
+      "wishlist": "You have not added a book to your wishlist yet."
+    }
+  },
   "book_management": {
     "backup": "Backup",
     "backup_info": "Dante automatically backs up your data as you go. If you wish to manually backup your data, you can do so here.",
