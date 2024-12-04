@@ -24,6 +24,7 @@ class DanteAppBar extends ConsumerWidget implements PreferredSizeWidget {
       ),
       actions: [
         IconButton(
+          key: const ValueKey('user_avatar_button'),
           onPressed: () async => showModalBottomSheet(
             context: context,
             builder: (_) => const DanteBottomSheet(
