@@ -5,6 +5,7 @@ import 'package:dantex/providers/auth.dart';
 import 'package:dantex/providers/client.dart';
 import 'package:dantex/providers/firebase.dart';
 import 'package:dantex/repositories/book_repository.dart';
+import 'package:dantex/repositories/recommendations_repository.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -97,3 +98,11 @@ class BackupInProgressNotifier extends _$BackupInProgressNotifier {
 @riverpod
 Stream<Book?> book(Ref ref, String bookId) =>
     ref.watch(bookRepositoryProvider).getBook(bookId);
+
+@riverpod
+RecommendationsRepository recommendationsRepository(Ref ref) {
+  final user = ref.watch(userProvider).value;
+  final client = ref.watch(recommendationsClientProvider);
+
+  return RecommendationsRepository(authToken: user?.authToken, client: client);
+}

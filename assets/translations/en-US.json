@@ -134,5 +134,9 @@
     "sign_up_rules": "Create an account using your email address and a password. Passwords must be 10 characters in length and have at least one uppercase character, one lowercase character, one number, and one special character.",
     "stay_anonymous": "Stay Anonymous",
     "welcome_back": "Welcome back"
+  },
+  "suggestions": {
+    "suggest": "Suggest",
+    "suggest_book_hint": "Enter your recommendation"
   }
 }

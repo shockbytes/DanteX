@@ -13,3 +13,14 @@ Dio googleBooksClient(Ref ref) {
 
   return dioClient;
 }
+
+@riverpod
+Dio recommendationsClient(Ref ref) {
+  final dioClient = Dio(
+    BaseOptions(
+      baseUrl: 'https://us-central1-dante-166506.cloudfunctions.net/app',
+    ),
+  )..httpClientAdapter = NativeAdapter();
+
+  return dioClient;
+}
