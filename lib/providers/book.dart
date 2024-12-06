@@ -7,6 +7,7 @@ import 'package:dantex/providers/firebase.dart';
 import 'package:dantex/repositories/book_image_repository.dart';
 import 'package:dantex/repositories/book_repository.dart';
 import 'package:dantex/repositories/recommendations_repository.dart';
+import 'package:dantex/repositories/user_image_repository.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -42,6 +43,20 @@ Reference? bookImageStorageRef(Ref ref) {
   }
 
   return storage.ref(BookImageRepository.imagesPath(userId));
+}
+
+@riverpod
+Reference? userImageStorageRef(Ref ref) {
+  final storage = ref.watch(firebaseStorageProvider);
+
+  // Only watch authStateChanges here so that the database reference is only
+  // recreated when the user signs in or out.
+  final userId = ref.watch(authStateChangesProvider).value?.uid;
+  if (userId == null) {
+    return null;
+  }
+
+  return storage.ref(UserImageRepository.imagesPath(userId));
 }
 
 @riverpod
@@ -124,12 +139,23 @@ RecommendationsRepository recommendationsRepository(Ref ref) {
 }
 
 @riverpod
-BookImageRepository imageRepository(Ref ref) {
+BookImageRepository bookImageRepository(Ref ref) {
   final bookImageStorageRef = ref.watch(bookImageStorageRefProvider);
 
   if (bookImageStorageRef == null) {
-    throw Exception('Database reference is null');
+    throw Exception('Book image storage reference is null');
   }
 
   return BookImageRepository(bookImageStorageRef: bookImageStorageRef);
+}
+
+@riverpod
+UserImageRepository userImageRepository(Ref ref) {
+  final userImageStorageRef = ref.watch(userImageStorageRefProvider);
+
+  if (userImageStorageRef == null) {
+    throw Exception('User image storage reference is null');
+  }
+
+  return UserImageRepository(userImageStorageRef: userImageStorageRef);
 }

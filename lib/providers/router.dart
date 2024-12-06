@@ -4,6 +4,7 @@ import 'package:dantex/screens/book_management_screen.dart';
 import 'package:dantex/screens/edit_book_screen.dart';
 import 'package:dantex/screens/forgot_password_screen.dart';
 import 'package:dantex/screens/home_screen.dart';
+import 'package:dantex/screens/profile_screen.dart';
 import 'package:dantex/screens/sign_in_screen.dart';
 import 'package:dantex/screens/sign_up_screen.dart';
 import 'package:dantex/screens/splash_screen.dart';
@@ -113,6 +114,30 @@ GoRouter router(Ref ref) {
           return CustomTransitionPage(
             key: state.pageKey,
             child: EditBookScreen(bookId: bookId),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              const curve = Curves.easeInOut;
+              final curvedAnimation =
+                  CurvedAnimation(parent: animation, curve: curve);
+
+              return SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(0, 1),
+                  end: Offset.zero,
+                ).animate(curvedAnimation),
+                child: child,
+              );
+            },
+          );
+        },
+      ),
+      GoRoute(
+        path: ProfileScreen.routeLocation,
+        name: ProfileScreen.routeName,
+        pageBuilder: (context, state) {
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: const ProfileScreen(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
               const curve = Curves.easeInOut;

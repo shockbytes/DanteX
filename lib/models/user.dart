@@ -12,7 +12,8 @@ class DanteUser with _$DanteUser {
     required String? photoUrl,
     required String? authToken,
     required String userId,
-    required AuthenticationSource source,
+    required List<AuthenticationSource> linkedSources,
+    required bool emailVerified,
   }) = _DanteUser;
 }
 
@@ -24,22 +25,24 @@ enum AuthenticationSource {
 }
 
 extension UserX on User {
-  AuthenticationSource get authenticationSource {
+  List<AuthenticationSource> get authenticationSources {
     if (isAnonymous) {
-      return AuthenticationSource.anonymous;
+      return [AuthenticationSource.anonymous];
     }
 
     if (providerData.isEmpty) {
-      return AuthenticationSource.unknown;
+      return [AuthenticationSource.unknown];
     }
 
-    switch (providerData.first.providerId) {
-      case 'google.com':
-        return AuthenticationSource.google;
-      case 'password':
-        return AuthenticationSource.mail;
-      default:
-        return AuthenticationSource.unknown;
-    }
+    return providerData.map((provider) {
+      switch (provider.providerId) {
+        case 'google.com':
+          return AuthenticationSource.google;
+        case 'password':
+          return AuthenticationSource.mail;
+        default:
+          return AuthenticationSource.unknown;
+      }
+    }).toList();
   }
 }

@@ -2,6 +2,7 @@ import 'package:dantex/models/user.dart';
 import 'package:dantex/providers/auth.dart';
 import 'package:dantex/providers/firebase.dart';
 import 'package:dantex/screens/book_management_screen.dart';
+import 'package:dantex/screens/profile_screen.dart';
 import 'package:dantex/widgets/shared/user_avatar.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -15,34 +16,41 @@ class DanteBottomSheet extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+        padding: const EdgeInsets.only(left: 16, right: 16, top: 8),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Row(
-              children: [
-                const UserAvatar(),
-                const SizedBox(width: 8),
-                const Expanded(child: _UserTag(key: ValueKey('user_tag'))),
-                OutlinedButton(
-                  onPressed: () async {
-                    final user = ref.read(userProvider).value;
-                    if (user?.source == AuthenticationSource.anonymous) {
-                      await showDialog<bool>(
-                        context: context,
-                        builder: (_) => const _AnonymousSignOutDialog(
-                          key: ValueKey('anonymous_sign_out_dialog'),
-                        ),
-                      );
-                    } else {
-                      await ref.read(firebaseAuthProvider).signOut();
-                    }
-                  },
-                  child: const Text('bottom_sheet_menu.sign_out').tr(),
+            InkWell(
+              borderRadius: BorderRadius.circular(32),
+              onTap: () async => context.push(ProfileScreen.routeLocation),
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Row(
+                  children: [
+                    const UserAvatar(),
+                    const SizedBox(width: 8),
+                    const Expanded(child: _UserTag(key: ValueKey('user_tag'))),
+                    OutlinedButton(
+                      onPressed: () async {
+                        final user = ref.read(userProvider).value;
+                        if (user?.linkedSources ==
+                            [AuthenticationSource.anonymous]) {
+                          await showDialog<bool>(
+                            context: context,
+                            builder: (_) => const _AnonymousSignOutDialog(
+                              key: ValueKey('anonymous_sign_out_dialog'),
+                            ),
+                          );
+                        } else {
+                          await ref.read(firebaseAuthProvider).signOut();
+                        }
+                      },
+                      child: const Text('bottom_sheet_menu.sign_out').tr(),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-            const SizedBox(height: 8),
             const Divider(),
             const SizedBox(height: 8),
             GridView(
@@ -130,7 +138,7 @@ class _UserTag extends ConsumerWidget {
           return const SizedBox.shrink();
         }
 
-        if (user.source == AuthenticationSource.anonymous) {
+        if (user.linkedSources == [AuthenticationSource.anonymous]) {
           return Text(
             'authentication.anonymous_user',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(

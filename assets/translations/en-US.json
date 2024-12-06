@@ -138,6 +138,19 @@
     "timeline": "Timeline",
     "wishlist": "Wishlist"
   },
+  "profile": {
+    "anonymous": "Anonymous",
+    "email": "Email",
+    "email_not_verified": "Email is not verified",
+    "enable_sign_in_methods": "Enable more sign in methods",
+    "error_updating_image": "Failed to update profile image",
+    "error_updating_name": "Failed to update user name",
+    "google": "Google",
+    "name": "Name",
+    "profile": "Profile",
+    "sign_in_methods": "Sign in methods",
+    "verify_email": "Send verification email"
+  },
   "search": {
     "got_it": "Got it",
     "no_results": "Looks like we couldn't find any books matching your search. Try again with a different search term.",

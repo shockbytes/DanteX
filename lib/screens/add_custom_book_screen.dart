@@ -137,8 +137,9 @@ class _AddCustomBookScreenState extends ConsumerState<AddCustomBookScreen> {
 
   Future<void> _uploadImage(File image) async {
     try {
-      final thumbnailAddress =
-          await ref.read(imageRepositoryProvider).uploadCustomBookImage(image);
+      final thumbnailAddress = await ref
+          .read(bookImageRepositoryProvider)
+          .uploadCustomBookImage(image);
       setState(() => this.thumbnailAddress = thumbnailAddress);
     } on Exception catch (e, s) {
       if (mounted) {

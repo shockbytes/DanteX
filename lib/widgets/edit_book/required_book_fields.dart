@@ -4,7 +4,6 @@ import 'package:dantex/widgets/shared/book_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
 
 class RequiredBookFields extends StatefulWidget {
   const RequiredBookFields({
@@ -67,16 +66,9 @@ class _RequiredBookFieldsState extends State<RequiredBookFields> {
                         await picker.pickImage(source: ImageSource.gallery);
 
                     if (pickedFile != null) {
-                      final directory = await getTemporaryDirectory();
-                      final cachedImagePath =
-                          '${directory.path}/${pickedFile.name}';
-                      final cachedImage = File(cachedImagePath);
-
-                      // Copy the image to the cache directory
-                      await File(pickedFile.path).copy(cachedImagePath);
-
-                      await widget.onImageSelected?.call(cachedImage);
-                      setState(() => imageUrl = cachedImage.uri.toString());
+                      final image = File(pickedFile.path);
+                      await widget.onImageSelected?.call(image);
+                      setState(() => imageUrl = image.uri.toString());
                     }
                     setState(() => imageLoading = false);
                   },
