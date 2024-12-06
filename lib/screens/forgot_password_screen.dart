@@ -36,9 +36,6 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
-        leading: BackButton(
-          onPressed: () => context.pop(),
-        ),
       ),
       body: DecoratedBox(
         decoration: BoxDecoration(
@@ -59,7 +56,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'sign_in.forgot_password',
+                      'authentication.forgot_password',
                       style: Theme.of(context).textTheme.headlineMedium,
                     ).tr(),
                     const SizedBox(height: 8),
@@ -67,12 +64,12 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordScreen> {
                       const Icon(Icons.check_circle_outline, size: 48),
                       const SizedBox(height: 16),
                       Text(
-                        'sign_in.forgot_password_sent',
+                        'authentication.forgot_password_sent',
                         style: Theme.of(context).textTheme.headlineSmall,
                       ).tr(),
                       const SizedBox(height: 8),
                       Text(
-                        'sign_in.forgot_password_sent_info',
+                        'authentication.forgot_password_sent_info',
                         style: Theme.of(context).textTheme.bodyMedium,
                       ).tr(),
                       const SizedBox(height: 24),
@@ -82,29 +79,30 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordScreen> {
                         child: OutlinedButton(
                           key: const ValueKey('back_to_sign_in_button'),
                           onPressed: () => context.pop(),
-                          child: const Text('sign_in.back_to_sign_in').tr(),
+                          child:
+                              const Text('authentication.back_to_sign_in').tr(),
                         ),
                       ),
                     ] else ...[
                       Text(
-                        'sign_in.forgot_password_info',
+                        'authentication.forgot_password_info',
                         style: Theme.of(context).textTheme.bodyMedium,
                       ).tr(),
                       const SizedBox(height: 24),
                       TextFormField(
                         key: const ValueKey('email_field'),
                         decoration: InputDecoration(
-                          labelText: 'sign_in.email'.tr(),
+                          labelText: 'authentication.email'.tr(),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(32),
                           ),
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'sign_in.email_empty'.tr();
+                            return 'authentication.email_empty'.tr();
                           }
                           if (!EmailValidator.validate(value)) {
-                            return 'sign_in.email_invalid'.tr();
+                            return 'authentication.email_invalid'.tr();
                           }
                           return null;
                         },
@@ -117,7 +115,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordScreen> {
                         child: LoadingButton(
                           key: const ValueKey('password_reset_button'),
                           onPressed: _resetPassword,
-                          labelText: 'sign_in.send_link_email'.tr(),
+                          labelText: 'authentication.send_link_email'.tr(),
                         ),
                       ),
                     ],
@@ -153,7 +151,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         key: const ValueKey('password_reset_failed_snackbar'),
-        content: const Text('sign_in.password_reset_failed').tr(),
+        content: const Text('authentication.password_reset_failed').tr(),
       ),
     );
   }

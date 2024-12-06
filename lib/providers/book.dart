@@ -4,10 +4,12 @@ import 'package:dantex/models/google_books_response.dart';
 import 'package:dantex/providers/auth.dart';
 import 'package:dantex/providers/client.dart';
 import 'package:dantex/providers/firebase.dart';
+import 'package:dantex/repositories/book_image_repository.dart';
 import 'package:dantex/repositories/book_repository.dart';
 import 'package:dantex/repositories/recommendations_repository.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -26,6 +28,20 @@ DatabaseReference? bookDatabaseRef(Ref ref) {
   }
 
   return database.ref(BookRepository.booksPath(userId));
+}
+
+@riverpod
+Reference? bookImageStorageRef(Ref ref) {
+  final storage = ref.watch(firebaseStorageProvider);
+
+  // Only watch authStateChanges here so that the database reference is only
+  // recreated when the user signs in or out.
+  final userId = ref.watch(authStateChangesProvider).value?.uid;
+  if (userId == null) {
+    return null;
+  }
+
+  return storage.ref(BookImageRepository.imagesPath(userId));
 }
 
 @riverpod
@@ -105,4 +121,15 @@ RecommendationsRepository recommendationsRepository(Ref ref) {
   final client = ref.watch(recommendationsClientProvider);
 
   return RecommendationsRepository(authToken: user?.authToken, client: client);
+}
+
+@riverpod
+BookImageRepository imageRepository(Ref ref) {
+  final bookImageStorageRef = ref.watch(bookImageStorageRefProvider);
+
+  if (bookImageStorageRef == null) {
+    throw Exception('Database reference is null');
+  }
+
+  return BookImageRepository(bookImageStorageRef: bookImageStorageRef);
 }

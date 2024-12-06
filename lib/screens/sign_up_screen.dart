@@ -7,7 +7,6 @@ import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key});
@@ -38,9 +37,6 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
-        leading: BackButton(
-          onPressed: () => context.pop(),
-        ),
       ),
       body: DecoratedBox(
         decoration: BoxDecoration(
@@ -61,29 +57,29 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'sign_in.sign_up',
+                      'authentication.sign_up',
                       style: Theme.of(context).textTheme.headlineMedium,
                     ).tr(),
                     const SizedBox(height: 8),
                     Text(
-                      'sign_in.sign_up_rules',
+                      'authentication.sign_up_rules',
                       style: Theme.of(context).textTheme.bodyMedium,
                     ).tr(),
                     const SizedBox(height: 24),
                     TextFormField(
                       key: const ValueKey('email_field'),
                       decoration: InputDecoration(
-                        labelText: 'sign_in.email'.tr(),
+                        labelText: 'authentication.email'.tr(),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(32),
                         ),
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'sign_in.email_empty'.tr();
+                          return 'authentication.email_empty'.tr();
                         }
                         if (!EmailValidator.validate(value)) {
-                          return 'sign_in.email_invalid'.tr();
+                          return 'authentication.email_invalid'.tr();
                         }
                         return null;
                       },
@@ -93,7 +89,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                     TextFormField(
                       key: const ValueKey('password_field'),
                       decoration: InputDecoration(
-                        labelText: 'sign_in.password'.tr(),
+                        labelText: 'authentication.password'.tr(),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(32),
                         ),
@@ -113,7 +109,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       obscureText: _maskPassword,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'sign_in.password_empty'.tr();
+                          return 'authentication.password_empty'.tr();
                         }
                         return null;
                       },
@@ -123,7 +119,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                     TextFormField(
                       key: const ValueKey('confirm_password_field'),
                       decoration: InputDecoration(
-                        labelText: 'sign_in.confirm_password'.tr(),
+                        labelText: 'authentication.confirm_password'.tr(),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(32),
                         ),
@@ -144,7 +140,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       obscureText: _maskConfirmPassword,
                       validator: (value) {
                         if (value != _passwordController.text) {
-                          return 'sign_in.passwords_must_match'.tr();
+                          return 'authentication.passwords_must_match'.tr();
                         }
                         return null;
                       },
@@ -156,7 +152,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       child: LoadingButton(
                         key: const ValueKey('email_sign_up_button'),
                         onPressed: _signUpWithEmail,
-                        labelText: 'sign_in.sign_up'.tr(),
+                        labelText: 'authentication.sign_up'.tr(),
                       ),
                     ),
                   ],
@@ -188,12 +184,12 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 error: e,
                 stackTrace: s,
               );
-          message = 'sign_in.email_already_in_use'.tr();
+          message = 'authentication.email_already_in_use'.tr();
         } else if (e.code == 'weak-password') {
           ref
               .read(loggerProvider)
               .e('The password provided is too weak.', error: e, stackTrace: s);
-          message = 'sign_in.password_too_weak'.tr();
+          message = 'authentication.password_too_weak'.tr();
         }
         _handleFailedSignUp(message);
       }

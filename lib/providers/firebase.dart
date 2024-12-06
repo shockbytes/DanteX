@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -19,3 +20,6 @@ FirebaseDatabase firebaseDatabase(Ref ref) {
     databaseURL: 'https://dante-books.europe-west1.firebasedatabase.app/',
   );
 }
+
+@riverpod
+FirebaseStorage firebaseStorage(Ref ref) => FirebaseStorage.instance;

@@ -3,7 +3,6 @@ import 'package:dantex/widgets/backup/create_backup_widget.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 class BookManagementScreen extends ConsumerStatefulWidget {
   const BookManagementScreen({super.key});
@@ -37,9 +36,6 @@ class _BookManagementScreenState extends ConsumerState<BookManagementScreen>
     return Scaffold(
       appBar: AppBar(
         title: const Text('book_management.title').tr(),
-        leading: BackButton(
-          onPressed: () => context.pop(),
-        ),
         bottom: TabBar(
           controller: _tabController,
           tabAlignment: TabAlignment.start,

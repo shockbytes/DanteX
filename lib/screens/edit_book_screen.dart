@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:dantex/models/book.dart';
 import 'package:dantex/providers/book.dart';
+import 'package:dantex/providers/logger.dart';
 import 'package:dantex/widgets/edit_book/optional_book_fields.dart';
 import 'package:dantex/widgets/edit_book/required_book_fields.dart';
 import 'package:dantex/widgets/shared/dante_loading_indicator.dart';
@@ -31,6 +34,7 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
 
   String languageIsoCode = '';
   bool loading = false;
+  String? thumbnailAddress;
 
   @override
   void dispose() {
@@ -76,6 +80,7 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
                   authorsController: _authorsController,
                   pagesController: _pagesController,
                   imageUrl: book.thumbnailAddress,
+                  onImageSelected: _uploadImage,
                 ),
                 const SizedBox(height: 16),
                 OptionalBookFields(
@@ -134,6 +139,25 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
     );
   }
 
+  Future<void> _uploadImage(File image) async {
+    try {
+      final thumbnailAddress =
+          await ref.read(imageRepositoryProvider).uploadCustomBookImage(image);
+      setState(() => this.thumbnailAddress = thumbnailAddress);
+    } on Exception catch (e, s) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('edit_book.image_upload_error').tr(),
+          ),
+        );
+        ref
+            .read(loggerProvider)
+            .e('Error uploading image', error: e, stackTrace: s);
+      }
+    }
+  }
+
   Future<void> _saveChanges(Book? book) async {
     if (!(_formKey.currentState?.validate() ?? false)) {
       return;
@@ -141,6 +165,11 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
 
     if (book == null) {
       return;
+    }
+
+    var thumbnailAddress = book.thumbnailAddress;
+    if (this.thumbnailAddress != null) {
+      thumbnailAddress = this.thumbnailAddress;
     }
 
     final updatedBook = book.copyWith(
@@ -152,6 +181,7 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
       isbn: _isbnController.text,
       summary: _summaryController.text,
       language: languageIsoCode,
+      thumbnailAddress: thumbnailAddress,
     );
 
     setState(() => loading = true);

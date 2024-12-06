@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +16,7 @@ class BookImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final imageUrl = this.imageUrl;
-    if (imageUrl == null) {
+    if (imageUrl == null || imageUrl.isEmpty) {
       return Icon(
         key: const ValueKey('book_image_placeholder'),
         Icons.image_outlined,
@@ -22,19 +24,28 @@ class BookImage extends StatelessWidget {
       );
     }
 
+    final isLocalUrl = imageUrl.startsWith('file://');
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
       child: SizedBox(
         width: size,
-        child: CachedNetworkImage(
-          imageUrl: imageUrl,
-          width: size,
-          progressIndicatorBuilder: (context, url, progress) => Center(
-            child: CircularProgressIndicator(
-              value: progress.progress,
-            ),
-          ),
-        ),
+        child: isLocalUrl
+            ? Image.file(
+                File(Uri.parse(imageUrl).path),
+                width: size,
+                height: size,
+              )
+            : CachedNetworkImage(
+                imageUrl: imageUrl,
+                width: size,
+                height: size,
+                progressIndicatorBuilder: (context, url, progress) => Center(
+                  child: CircularProgressIndicator(
+                    value: progress.progress,
+                  ),
+                ),
+              ),
       ),
     );
   }

@@ -101,16 +101,16 @@ class _AnonymousSignOutDialog extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AlertDialog(
-      title: const Text('anonymous_logout.title').tr(),
-      content: const Text('anonymous_logout.description').tr(),
+      title: const Text('authentication.anonymous_sign_out.title').tr(),
+      content: const Text('authentication.anonymous_sign_out.description').tr(),
       actions: <Widget>[
         OutlinedButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('cancel').tr(),
+          child: const Text('authentication.dismiss').tr(),
         ),
         OutlinedButton(
           onPressed: () async => ref.read(firebaseAuthProvider).signOut(),
-          child: const Text('logout').tr(),
+          child: const Text('authentication.sign_out').tr(),
         ),
       ],
     );
@@ -132,7 +132,7 @@ class _UserTag extends ConsumerWidget {
 
         if (user.source == AuthenticationSource.anonymous) {
           return Text(
-            'anonymous-user',
+            'authentication.anonymous_user',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: Theme.of(context).colorScheme.tertiary,
                 ),

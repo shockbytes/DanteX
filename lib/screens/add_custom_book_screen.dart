@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:dantex/models/book.dart';
 import 'package:dantex/models/book_state.dart';
 import 'package:dantex/providers/book.dart';
+import 'package:dantex/providers/logger.dart';
 import 'package:dantex/theme/dante_colors.dart';
 import 'package:dantex/widgets/edit_book/optional_book_fields.dart';
 import 'package:dantex/widgets/edit_book/required_book_fields.dart';
@@ -8,7 +11,6 @@ import 'package:dantex/widgets/shared/dante_loading_indicator.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 class AddCustomBookScreen extends ConsumerStatefulWidget {
   const AddCustomBookScreen({super.key});
@@ -33,6 +35,7 @@ class _AddCustomBookScreenState extends ConsumerState<AddCustomBookScreen> {
 
   String languageIsoCode = 'Other';
   bool loading = false;
+  String? thumbnailAddress;
 
   @override
   void dispose() {
@@ -53,9 +56,6 @@ class _AddCustomBookScreenState extends ConsumerState<AddCustomBookScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('add_manual_book.add_book_manually').tr(),
-        leading: BackButton(
-          onPressed: () => context.pop(),
-        ),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -78,6 +78,7 @@ class _AddCustomBookScreenState extends ConsumerState<AddCustomBookScreen> {
                       titleController: _titleController,
                       authorsController: _authorsController,
                       pagesController: _pagesController,
+                      onImageSelected: _uploadImage,
                     ),
                     const SizedBox(height: 16),
                     OptionalBookFields(
@@ -134,6 +135,25 @@ class _AddCustomBookScreenState extends ConsumerState<AddCustomBookScreen> {
     );
   }
 
+  Future<void> _uploadImage(File image) async {
+    try {
+      final thumbnailAddress =
+          await ref.read(imageRepositoryProvider).uploadCustomBookImage(image);
+      setState(() => this.thumbnailAddress = thumbnailAddress);
+    } on Exception catch (e, s) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('add_manual_book.image_upload_error').tr(),
+          ),
+        );
+        ref
+            .read(loggerProvider)
+            .e('Error uploading image', error: e, stackTrace: s);
+      }
+    }
+  }
+
   Future<void> _createBook(BookState state) async {
     if (_formKey.currentState?.validate() ?? false) {
       setState(() => loading = true);
@@ -149,7 +169,7 @@ class _AddCustomBookScreenState extends ConsumerState<AddCustomBookScreen> {
         publishedDate: _publishedDateController.text,
         position: 0,
         isbn: _isbnController.text,
-        thumbnailAddress: null,
+        thumbnailAddress: thumbnailAddress,
         startDate: null,
         endDate: null,
         forLaterDate: state == BookState.readLater ? DateTime.now() : null,
