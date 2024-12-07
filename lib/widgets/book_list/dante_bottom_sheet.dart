@@ -1,8 +1,7 @@
-import 'package:dantex/models/user.dart';
 import 'package:dantex/providers/auth.dart';
-import 'package:dantex/providers/firebase.dart';
 import 'package:dantex/screens/book_management_screen.dart';
 import 'package:dantex/screens/profile_screen.dart';
+import 'package:dantex/widgets/shared/sign_out_button.dart';
 import 'package:dantex/widgets/shared/user_avatar.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -23,30 +22,14 @@ class DanteBottomSheet extends ConsumerWidget {
             InkWell(
               borderRadius: BorderRadius.circular(32),
               onTap: () async => context.push(ProfileScreen.routeLocation),
-              child: Padding(
-                padding: const EdgeInsets.all(8),
+              child: const Padding(
+                padding: EdgeInsets.all(8),
                 child: Row(
                   children: [
-                    const UserAvatar(),
-                    const SizedBox(width: 8),
-                    const Expanded(child: _UserTag(key: ValueKey('user_tag'))),
-                    OutlinedButton(
-                      onPressed: () async {
-                        final user = ref.read(userProvider).value;
-                        if (user?.linkedSources ==
-                            [AuthenticationSource.anonymous]) {
-                          await showDialog<bool>(
-                            context: context,
-                            builder: (_) => const _AnonymousSignOutDialog(
-                              key: ValueKey('anonymous_sign_out_dialog'),
-                            ),
-                          );
-                        } else {
-                          await ref.read(firebaseAuthProvider).signOut();
-                        }
-                      },
-                      child: const Text('bottom_sheet_menu.sign_out').tr(),
-                    ),
+                    UserAvatar(),
+                    SizedBox(width: 8),
+                    Expanded(child: _UserTag(key: ValueKey('user_tag'))),
+                    SignOutButton(key: ValueKey('sign_out_button')),
                   ],
                 ),
               ),
@@ -103,28 +86,6 @@ class DanteBottomSheet extends ConsumerWidget {
   }
 }
 
-class _AnonymousSignOutDialog extends ConsumerWidget {
-  const _AnonymousSignOutDialog({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return AlertDialog(
-      title: const Text('authentication.anonymous_sign_out.title').tr(),
-      content: const Text('authentication.anonymous_sign_out.description').tr(),
-      actions: <Widget>[
-        OutlinedButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: const Text('authentication.dismiss').tr(),
-        ),
-        OutlinedButton(
-          onPressed: () async => ref.read(firebaseAuthProvider).signOut(),
-          child: const Text('authentication.sign_out').tr(),
-        ),
-      ],
-    );
-  }
-}
-
 class _UserTag extends ConsumerWidget {
   const _UserTag({super.key});
 
@@ -138,7 +99,7 @@ class _UserTag extends ConsumerWidget {
           return const SizedBox.shrink();
         }
 
-        if (user.linkedSources == [AuthenticationSource.anonymous]) {
+        if (user.isAnonymous) {
           return Text(
             'authentication.anonymous_user',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(

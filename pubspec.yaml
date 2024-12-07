@@ -10,6 +10,7 @@ environment:
 
 dependencies:
   cached_network_image: ^3.4.1
+  collection: ^1.18.0
   country_icons: ^3.0.0
   device_marketing_names: ^0.9.3
   dio: ^5.7.0

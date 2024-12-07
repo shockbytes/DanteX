@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -15,6 +16,9 @@ class DanteUser with _$DanteUser {
     required List<AuthenticationSource> linkedSources,
     required bool emailVerified,
   }) = _DanteUser;
+
+  bool get isAnonymous => const ListEquality<AuthenticationSource>()
+      .equals(linkedSources, [AuthenticationSource.anonymous]);
 }
 
 enum AuthenticationSource {
