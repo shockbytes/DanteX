@@ -9,7 +9,8 @@ class SignOutButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return OutlinedButton(
+    return OutlinedButton.icon(
+      icon: const Icon(Icons.logout_outlined),
       onPressed: () async {
         final user = ref.read(userProvider).value;
         if (user?.isAnonymous ?? false) {
@@ -23,7 +24,7 @@ class SignOutButton extends ConsumerWidget {
           await ref.read(firebaseAuthProvider).signOut();
         }
       },
-      child: const Text('bottom_sheet_menu.sign_out').tr(),
+      label: const Text('authentication.sign_out').tr(),
     );
   }
 }

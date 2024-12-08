@@ -22,6 +22,7 @@
     "title_required": "Title is required"
   },
   "authentication": {
+    "account_type": "Account Type",
     "anonymous_sign_in": {
       "description": "Your data will be stored as long as you stay signed in. When you sign out, your data will be erased.\n\nYou can always upgrade to a regular account later on.",
       "title": "Anonymous Login"
@@ -32,21 +33,42 @@
     },
     "anonymous_user": "Anonymous Bookworm",
     "back_to_sign_in": "Back to sign in",
+    "change_password": "Change Password",
+    "change_password_failed": "Failed to change password",
+    "confirm_new_password": "Confirm New Password",
     "confirm_password": "Confirm Password",
+    "delete_account": {
+      "description": "You are going to delete your account and all your data right now. Proceeding now will permanently remove all your books.\n\n Do you want to proceed?",
+      "title": "Delete Account"
+    },
+    "delete_mail_account": {
+      "description": "You are going to delete your account and all your data right now. Proceeding now will permanently remove all your books.\n\n Enter your password to proceed."
+    },
     "dismiss": "Dismiss",
     "dont_have_account": "Don't have an account?",
     "email": "Email",
     "email_already_in_use": "Email already in use",
     "email_empty": "Email can not be empty",
     "email_invalid": "Invalid Email Address",
+    "email_user": "Email and Password",
     "forgot_password": "Forgot password?",
     "forgot_password_info": "Enter your email address and we'll send you a link to reset your password.",
     "forgot_password_sent": "Email sent",
     "forgot_password_sent_info": "Check your email and open the link we sent to continue.",
+    "google_user": "Google",
+    "link_account": {
+      "invalid_credentials": "Invalid credentials",
+      "link_with_email": "Link with email",
+      "link_with_google": "Link with Google",
+      "provider_already_linked": "This provider is already linked to another account"
+    },
     "login_with_account": "Sign in with your account to synchronize your books with other devices.",
+    "new_password": "New Password",
+    "old_password": "Old Password",
     "password": "Password",
     "password_empty": "Password can not be empty",
     "password_reset_failed": "Failed to reset password",
+    "password_rules": "Passwords must be 10 characters in length and have at least one uppercase character, one lowercase character, one number, and one special character.",
     "password_too_weak": "Password is too weak",
     "passwords_must_match": "Passwords must match",
     "send_link_email": "Send link to email",
@@ -55,8 +77,14 @@
     "sign_in_with_google": "Sgn in with Google",
     "sign_out": "Sign out",
     "sign_up": "Sign up",
+    "sign_up_failed": "Failed to sign up",
     "sign_up_rules": "Create an account using your email address and a password. Passwords must be 10 characters in length and have at least one uppercase character, one lowercase character, one number, and one special character.",
     "stay_anonymous": "Stay Anonymous",
+    "unlink": "Unlink",
+    "unlink_email": "Unlink Email",
+    "unlink_email_description": "Click the Unlink button below to unlink your Email account from this Dante account.",
+    "unlink_google": "Unlink Google",
+    "unlink_google_description": "Click the Unlink button below to unlink your Google account from this Dante account.",
     "welcome_back": "Welcome back"
   },
   "book": {
@@ -117,9 +145,6 @@
     "read": "Done",
     "reading": "Reading",
     "wishlist": "Wishlist"
-  },
-  "bottom_sheet_menu": {
-    "sign_out": "Sign out"
   },
   "edit_book": {
     "discard": "Discard",

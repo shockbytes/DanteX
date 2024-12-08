@@ -1,10 +1,18 @@
 import 'dart:io';
 
+import 'package:dantex/logger/event.dart';
 import 'package:dantex/providers/auth.dart';
 import 'package:dantex/providers/book.dart';
 import 'package:dantex/providers/firebase.dart';
 import 'package:dantex/providers/logger.dart';
+import 'package:dantex/widgets/profile/change_password_button.dart';
+import 'package:dantex/widgets/profile/delete_account_button.dart';
+import 'package:dantex/widgets/profile/link_with_email_button.dart';
+import 'package:dantex/widgets/profile/link_with_google_button.dart';
+import 'package:dantex/widgets/profile/unlink_from_email_button.dart';
+import 'package:dantex/widgets/profile/unlink_from_google_button.dart';
 import 'package:dantex/widgets/shared/dante_loading_indicator.dart';
+import 'package:dantex/widgets/shared/sign_out_button.dart';
 import 'package:dantex/widgets/shared/user_avatar.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +46,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               ref.read(firebaseAuthProvider).currentUser?.reload(),
           child: ref.watch(userProvider).when(
                 data: (user) {
+                  final userEmail = user?.email;
+
                   if (user == null) {
                     return const SizedBox.shrink();
                   }
@@ -76,37 +86,65 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           );
                         },
                       ),
-                      const SizedBox(height: 16),
-                      if (!user.emailVerified) ...[
-                        Card.filled(
-                          color: Theme.of(context).colorScheme.tertiary,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(16)),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: Text(
-                              'profile.email_not_verified',
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.onTertiary,
-                              ),
-                            ).tr(),
-                          ),
-                        ),
+                      const SizedBox(height: 8),
+                      const Text('authentication.account_type').tr(),
+                      if (user.isAnonymous || user.isUnknownUser) ...[
                         Row(
                           children: [
-                            const Spacer(),
-                            OutlinedButton(
-                              onPressed: () async => ref
-                                  .read(firebaseAuthProvider)
-                                  .currentUser
-                                  ?.sendEmailVerification(),
-                              child: const Text('profile.verify_email').tr(),
-                            ),
+                            const Icon(Icons.person_outline),
+                            const SizedBox(width: 8),
+                            const Text('authentication.anonymous_user').tr(),
                           ],
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 8),
                       ],
+                      if (user.isMailUser) ...[
+                        Row(
+                          children: [
+                            const Icon(Icons.mail_outline),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child:
+                                  const Text('authentication.email_user').tr(),
+                            ),
+                            const UnlinkFromEmailButton(),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        if (userEmail != null) ...[
+                          ChangePasswordButton(userEmail: userEmail),
+                          const SizedBox(height: 8),
+                        ],
+                      ],
+                      if (user.isGoogleUser) ...[
+                        Row(
+                          children: [
+                            Image.asset(
+                              'assets/images/google_logo.png',
+                              width: 24,
+                              height: 24,
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child:
+                                  const Text('authentication.google_user').tr(),
+                            ),
+                            const UnlinkFromGoogleButton(),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                      ],
+                      if (!user.isGoogleUser) ...[
+                        const LinkWithGoogleButton(),
+                        const SizedBox(height: 8),
+                      ],
+                      if (!user.isMailUser && !user.isGoogleUser) ...[
+                        const LinkWithEmailButton(),
+                        const SizedBox(height: 8),
+                      ],
+                      const SignOutButton(),
+                      const SizedBox(height: 8),
+                      DeleteAccountButton(user: user),
                     ],
                   );
                 },
@@ -137,7 +175,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             .read(userImageRepositoryProvider)
             .uploadCustomUserImage(image);
         await ref.read(firebaseAuthProvider).currentUser?.updatePhotoURL(url);
-        // await ref.read(firebaseAuthProvider).currentUser?.reload();
+        ref.read(loggerProvider).trackEvent(DanteEvent.userImageChanged);
       } on Exception catch (e, s) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -170,6 +208,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       await ref.read(firebaseAuthProvider).currentUser?.updateDisplayName(
             newDisplayName,
           );
+      ref.read(loggerProvider).trackEvent(DanteEvent.userNameChanged);
     } on Exception catch (e, s) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

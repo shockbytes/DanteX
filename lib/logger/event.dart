@@ -6,5 +6,11 @@ enum DanteEvent {
   resetPasswordFailed,
   restoreBackupFromGoogleDrive,
   backupCreated,
-  suggestBook
+  suggestBook,
+  anonymousUpgrade,
+  emailUpgrade,
+  updateMailPasswordSuccess,
+  updateMailPasswordFailure,
+  userNameChanged,
+  userImageChanged,
 }

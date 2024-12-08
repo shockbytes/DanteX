@@ -121,6 +121,8 @@ class _UserTag extends ConsumerWidget {
                       color: Theme.of(context).colorScheme.tertiary,
                     ),
                 textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             if (email != null)
               Text(
@@ -129,6 +131,8 @@ class _UserTag extends ConsumerWidget {
                       color: Theme.of(context).colorScheme.tertiary,
                     ),
                 textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
           ],
         );

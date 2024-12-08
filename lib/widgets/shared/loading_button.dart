@@ -5,6 +5,8 @@ class LoadingButton extends StatefulWidget {
     required this.onPressed,
     required this.labelText,
     this.disabled = false,
+    this.color,
+    this.textColor,
     super.key,
   }) : icon = null;
 
@@ -13,6 +15,8 @@ class LoadingButton extends StatefulWidget {
     required this.icon,
     required this.labelText,
     this.disabled = false,
+    this.color,
+    this.textColor,
     super.key,
   });
 
@@ -20,6 +24,8 @@ class LoadingButton extends StatefulWidget {
   final Widget? icon;
   final String labelText;
   final bool disabled;
+  final Color? color;
+  final Color? textColor;
 
   @override
   State<LoadingButton> createState() => _LoadingButtonState();
@@ -39,17 +45,26 @@ class _LoadingButtonState extends State<LoadingButton> {
 
     if (icon != null) {
       return OutlinedButton.icon(
+        style: ButtonStyle(
+          backgroundColor: WidgetStateProperty.all(widget.color),
+        ),
         key: ValueKey('loading_button_loading_${widget.labelText}'),
         onPressed: widget.disabled ? null : _runFuture,
-        label: Text(widget.labelText),
+        label: Text(
+          widget.labelText,
+          style: TextStyle(color: widget.textColor),
+        ),
         icon: icon,
       );
     }
 
     return FilledButton(
+      style: ButtonStyle(
+        backgroundColor: WidgetStateProperty.all(widget.color),
+      ),
       key: ValueKey('loading_button_${widget.labelText}'),
       onPressed: widget.disabled ? null : _runFuture,
-      child: Text(widget.labelText),
+      child: Text(widget.labelText, style: TextStyle(color: widget.textColor)),
     );
   }
 

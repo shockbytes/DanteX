@@ -31,7 +31,7 @@ Stream<DanteUser?> user(Ref ref) =>
           photoUrl: user.photoURL,
           authToken: await user.getIdToken(),
           userId: user.uid,
-          linkedSources: user.authenticationSources,
+          primaryAuthenticationSource: user.primaryAuthenticationSource,
           emailVerified: user.emailVerified,
         );
       },

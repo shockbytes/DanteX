@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -13,12 +12,23 @@ class DanteUser with _$DanteUser {
     required String? photoUrl,
     required String? authToken,
     required String userId,
-    required List<AuthenticationSource> linkedSources,
+    required AuthenticationSource primaryAuthenticationSource,
     required bool emailVerified,
   }) = _DanteUser;
 
-  bool get isAnonymous => const ListEquality<AuthenticationSource>()
-      .equals(linkedSources, [AuthenticationSource.anonymous]);
+  const DanteUser._();
+
+  bool get isAnonymous =>
+      primaryAuthenticationSource == AuthenticationSource.anonymous;
+
+  bool get isGoogleUser =>
+      primaryAuthenticationSource == AuthenticationSource.google;
+
+  bool get isMailUser =>
+      primaryAuthenticationSource == AuthenticationSource.mail;
+
+  bool get isUnknownUser =>
+      primaryAuthenticationSource == AuthenticationSource.unknown;
 }
 
 enum AuthenticationSource {
@@ -29,24 +39,23 @@ enum AuthenticationSource {
 }
 
 extension UserX on User {
-  List<AuthenticationSource> get authenticationSources {
+  AuthenticationSource get primaryAuthenticationSource {
     if (isAnonymous) {
-      return [AuthenticationSource.anonymous];
+      return AuthenticationSource.anonymous;
     }
 
     if (providerData.isEmpty) {
-      return [AuthenticationSource.unknown];
+      return AuthenticationSource.unknown;
     }
 
-    return providerData.map((provider) {
-      switch (provider.providerId) {
-        case 'google.com':
-          return AuthenticationSource.google;
-        case 'password':
-          return AuthenticationSource.mail;
-        default:
-          return AuthenticationSource.unknown;
-      }
-    }).toList();
+    if (providerData.any((element) => element.providerId == 'google.com')) {
+      return AuthenticationSource.google;
+    }
+
+    if (providerData.any((element) => element.providerId == 'password')) {
+      return AuthenticationSource.mail;
+    }
+
+    return AuthenticationSource.unknown;
   }
 }
