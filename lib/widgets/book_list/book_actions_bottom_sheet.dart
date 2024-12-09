@@ -1,6 +1,6 @@
 import 'package:dantex/models/book.dart';
 import 'package:dantex/models/book_state.dart';
-import 'package:dantex/providers/book.dart';
+import 'package:dantex/providers/repository.dart';
 import 'package:dantex/screens/edit_book_screen.dart';
 import 'package:dantex/theme/dante_colors.dart';
 import 'package:dantex/widgets/suggestions/suggest_book_bottom_sheet.dart';

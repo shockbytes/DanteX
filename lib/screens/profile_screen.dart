@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:dantex/logger/event.dart';
 import 'package:dantex/providers/auth.dart';
-import 'package:dantex/providers/book.dart';
 import 'package:dantex/providers/firebase.dart';
 import 'package:dantex/providers/logger.dart';
+import 'package:dantex/providers/repository.dart';
 import 'package:dantex/widgets/profile/change_password_button.dart';
 import 'package:dantex/widgets/profile/delete_account_button.dart';
 import 'package:dantex/widgets/profile/link_with_email_button.dart';

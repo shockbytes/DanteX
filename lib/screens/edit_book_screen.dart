@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dantex/models/book.dart';
 import 'package:dantex/providers/book.dart';
 import 'package:dantex/providers/logger.dart';
+import 'package:dantex/providers/repository.dart';
 import 'package:dantex/widgets/edit_book/optional_book_fields.dart';
 import 'package:dantex/widgets/edit_book/required_book_fields.dart';
 import 'package:dantex/widgets/shared/dante_loading_indicator.dart';

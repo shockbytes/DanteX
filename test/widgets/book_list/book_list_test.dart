@@ -1,5 +1,5 @@
 import 'package:dantex/models/book_state.dart';
-import 'package:dantex/providers/book.dart';
+import 'package:dantex/providers/repository.dart';
 import 'package:dantex/repositories/book_repository.dart';
 import 'package:dantex/widgets/book_list/book_list.dart';
 import 'package:easy_localization/easy_localization.dart';
