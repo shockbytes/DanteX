@@ -4,6 +4,7 @@ import 'package:dantex/providers/book.dart';
 import 'package:dantex/providers/logger.dart';
 import 'package:dantex/providers/repository.dart';
 import 'package:dantex/widgets/book_list/book_list_card.dart';
+import 'package:dantex/widgets/book_list/empty_local_search_result.dart';
 import 'package:dantex/widgets/book_list/no_books_found.dart';
 import 'package:dantex/widgets/shared/cached_reorderable_list_view.dart';
 import 'package:dantex/widgets/shared/dante_loading_indicator.dart';
@@ -18,6 +19,7 @@ class BookList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final booksForState = ref.watch(booksForStateProvider(bookState));
+    final searchTerm = ref.watch(searchTermProvider);
 
     return booksForState.when(
       data: (books) {
@@ -27,6 +29,22 @@ class BookList extends ConsumerWidget {
             bookState: bookState,
           );
         }
+
+        if (searchTerm.isNotEmpty) {
+          books = books
+              .where(
+                (book) =>
+                    book.title.toLowerCase().contains(searchTerm.toLowerCase()),
+              )
+              .toList();
+        }
+
+        if (books.isEmpty) {
+          return const EmptyLocalSearchResult(
+            key: ValueKey('empty_local_search_result'),
+          );
+        }
+
         return CachedReorderableListView<Book>(
           key: ValueKey('book_${bookState.name}_list'),
           onReorder: (oldIndex, newIndex) async {

@@ -116,10 +116,12 @@
     }
   },
   "book_list": {
-    "empty-states": {
+    "empty_states": {
       "read": "There are no finished books. Why not finish one?",
       "read-later": "You currently have no books that you have saved for later. Go add some.",
       "reading": "Why are you not reading a book now?",
+      "search": "No books found, check one of the other tabs or try searching online.",
+      "search_online": "Search online",
       "wishlist": "You have not added a book to your wishlist yet."
     }
   },

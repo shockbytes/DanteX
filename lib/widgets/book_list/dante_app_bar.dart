@@ -1,3 +1,4 @@
+import 'package:dantex/providers/book.dart';
 import 'package:dantex/widgets/add_book/add_book_button.dart';
 import 'package:dantex/widgets/book_list/dante_bottom_sheet.dart';
 import 'package:dantex/widgets/shared/user_avatar.dart';
@@ -21,6 +22,7 @@ class DanteAppBar extends ConsumerWidget implements PreferredSizeWidget {
             borderRadius: BorderRadius.circular(16),
           ),
         ),
+        onChanged: (value) => ref.read(searchTermProvider.notifier).set(value),
       ),
       actions: [
         IconButton(

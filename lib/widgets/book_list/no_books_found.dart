@@ -31,10 +31,10 @@ class NoBooksFound extends StatelessWidget {
 
   String get _textForState {
     return switch (bookState) {
-      BookState.readLater => 'book_list.empty-states.read-later'.tr(),
-      BookState.reading => 'book_list.empty-states.reading'.tr(),
-      BookState.read => 'book_list.empty-states.read'.tr(),
-      BookState.wishlist => 'book_list.empty-states.wishlist'.tr(),
+      BookState.readLater => 'book_list.empty_states.read-later'.tr(),
+      BookState.reading => 'book_list.empty_states.reading'.tr(),
+      BookState.read => 'book_list.empty_states.read'.tr(),
+      BookState.wishlist => 'book_list.empty_states.wishlist'.tr(),
     };
   }
 }

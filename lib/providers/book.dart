@@ -80,3 +80,13 @@ class BackupInProgressNotifier extends _$BackupInProgressNotifier {
 @riverpod
 Stream<Book?> book(Ref ref, String bookId) =>
     ref.watch(bookRepositoryProvider).getBook(bookId);
+
+@riverpod
+class SearchTerm extends _$SearchTerm {
+  @override
+  String build() => '';
+
+  // ignore: use_setters_to_change_properties
+  void set(String term) => state = term;
+  void clear() => state = '';
+}
