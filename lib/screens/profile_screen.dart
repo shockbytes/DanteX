@@ -23,7 +23,7 @@ class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
 
   static String get routeName => 'profile';
-  static String get routeLocation => '/profile';
+  static String get routeLocation => '/$routeName';
 
   @override
   ConsumerState<ProfileScreen> createState() => _ProfileScreenState();

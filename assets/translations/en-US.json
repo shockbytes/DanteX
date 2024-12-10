@@ -186,5 +186,8 @@
   "suggestions": {
     "suggest": "Suggest",
     "suggest_book_hint": "Enter your recommendation"
+  },
+  "wishlist": {
+    "title": "My Wishlist"
   }
 }

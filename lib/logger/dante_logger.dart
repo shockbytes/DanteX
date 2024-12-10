@@ -8,7 +8,7 @@ abstract class DanteLogger extends Logger {
   }) : super(
           printer: PrettyPrinter(
             methodCount: 0,
-            errorMethodCount: 5,
+            errorMethodCount: 10,
           ),
         );
 

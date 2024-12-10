@@ -8,7 +8,7 @@ class BookManagementScreen extends ConsumerStatefulWidget {
   const BookManagementScreen({super.key});
 
   static String get routeName => 'management';
-  static String get routeLocation => '/management';
+  static String get routeLocation => '/$routeName';
 
   @override
   ConsumerState<BookManagementScreen> createState() =>

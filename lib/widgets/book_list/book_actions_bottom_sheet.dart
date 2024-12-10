@@ -90,39 +90,41 @@ class BookActionsBottomSheet extends ConsumerWidget {
               },
             ),
             const SizedBox(height: 16),
-            _BookActionRow(
-              icon: Icon(
-                Icons.local_fire_department_outlined,
-                color: danteColors?.suggestColor,
+            if (book.state != BookState.wishlist) ...[
+              _BookActionRow(
+                icon: Icon(
+                  Icons.local_fire_department_outlined,
+                  color: danteColors?.suggestColor,
+                ),
+                label: 'book_action.suggest'.tr(),
+                onTap: () async {
+                  Navigator.of(context).pop();
+                  await showModalBottomSheet<void>(
+                    showDragHandle: true,
+                    isScrollControlled: true,
+                    context: context,
+                    builder: (context) => SuggestBookBottomSheet(book: book),
+                  );
+                },
               ),
-              label: 'book_action.suggest'.tr(),
-              onTap: () async {
-                Navigator.of(context).pop();
-                await showModalBottomSheet<void>(
-                  showDragHandle: true,
-                  isScrollControlled: true,
-                  context: context,
-                  builder: (context) => SuggestBookBottomSheet(book: book),
-                );
-              },
-            ),
-            const SizedBox(height: 16),
-            _BookActionRow(
-              icon: Icon(
-                Icons.edit_outlined,
-                color: danteColors?.editColor,
+              const SizedBox(height: 16),
+              _BookActionRow(
+                icon: Icon(
+                  Icons.edit_outlined,
+                  color: danteColors?.editColor,
+                ),
+                label: 'book_action.edit'.tr(),
+                onTap: () async {
+                  Navigator.of(context).pop();
+                  await context.push(
+                    EditBookScreen.routeLocation.replaceAll(
+                      ':bookId',
+                      book.id,
+                    ),
+                  );
+                },
               ),
-              label: 'book_action.edit'.tr(),
-              onTap: () async {
-                Navigator.of(context).pop();
-                await context.push(
-                  EditBookScreen.routeLocation.replaceAll(
-                    ':bookId',
-                    book.id,
-                  ),
-                );
-              },
-            ),
+            ],
             const Divider(),
             _BookActionRow(
               key: const Key('book_action_delete'),
