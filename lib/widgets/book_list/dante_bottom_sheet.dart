@@ -1,6 +1,7 @@
 import 'package:dantex/providers/auth.dart';
 import 'package:dantex/screens/book_management_screen.dart';
 import 'package:dantex/screens/profile_screen.dart';
+import 'package:dantex/screens/settings_screen.dart';
 import 'package:dantex/screens/wishlist_screen.dart';
 import 'package:dantex/widgets/shared/sign_out_button.dart';
 import 'package:dantex/widgets/shared/user_avatar.dart';
@@ -78,7 +79,9 @@ class DanteBottomSheet extends ConsumerWidget {
                 _MenuItem(
                   text: 'navigation.settings',
                   icon: Icons.settings_outlined,
-                  onItemClicked: () {},
+                  onItemClicked: () async => context.push(
+                    SettingsScreen.routeLocation,
+                  ),
                 ),
               ],
             ),

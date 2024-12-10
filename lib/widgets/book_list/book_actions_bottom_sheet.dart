@@ -86,6 +86,7 @@ class BookActionsBottomSheet extends ConsumerWidget {
                 await Share.share(
                   'book_action.share_message'
                       .tr(args: [book.title, book.googleBooksLink ?? '']),
+                  sharePositionOrigin: _resolvePositionOrigin(context),
                 );
               },
             ),
@@ -142,6 +143,15 @@ class BookActionsBottomSheet extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  // See https://pub.dev/packages/share_plus#known-issues
+  Rect? _resolvePositionOrigin(BuildContext context) {
+    final box = context.findRenderObject() as RenderBox?;
+    if (box == null) {
+      return null;
+    }
+    return box.localToGlobal(Offset.zero) & box.size;
   }
 }
 

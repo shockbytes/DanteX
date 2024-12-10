@@ -1,10 +1,12 @@
 import 'package:dantex/providers/auth.dart';
 import 'package:dantex/providers/client.dart';
 import 'package:dantex/providers/firebase.dart';
+import 'package:dantex/providers/service.dart';
 import 'package:dantex/repositories/book_image_repository.dart';
 import 'package:dantex/repositories/book_repository.dart';
 import 'package:dantex/repositories/recommendations_repository.dart';
 import 'package:dantex/repositories/user_image_repository.dart';
+import 'package:dantex/repositories/user_settings_repository.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -93,4 +95,11 @@ RecommendationsRepository recommendationsRepository(Ref ref) {
   final client = ref.watch(recommendationsClientProvider);
 
   return RecommendationsRepository(authToken: user?.authToken, client: client);
+}
+
+@riverpod
+UserSettingsRepository userSettingsRepository(Ref ref) {
+  final sharedPreferences = ref.watch(sharedPreferencesProvider);
+
+  return UserSettingsRepository(sharedPreferences: sharedPreferences);
 }

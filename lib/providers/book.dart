@@ -2,8 +2,9 @@ import 'package:dantex/models/book.dart';
 import 'package:dantex/models/book_state.dart';
 import 'package:dantex/models/google_books_response.dart';
 import 'package:dantex/providers/client.dart';
-import 'package:dantex/providers/logger.dart';
 import 'package:dantex/providers/repository.dart';
+import 'package:dantex/providers/service.dart';
+import 'package:dantex/providers/settings.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,13 +17,16 @@ Stream<List<Book>> allBooks(Ref ref) =>
     ref.watch(bookRepositoryProvider).allBooks();
 
 @riverpod
-Stream<List<Book>> booksForState(Ref ref, BookState bookState) =>
-    ref.watch(bookRepositoryProvider).booksForState(bookState).map(
-          (books) => books
-            ..sort(
-              (a, b) => a.position.compareTo(b.position),
-            ),
-        );
+Stream<List<Book>> booksForState(Ref ref, BookState bookState) {
+  final booksForState =
+      ref.watch(bookRepositoryProvider).booksForState(bookState);
+
+  final sortStrategy = ref.watch(bookSortStrategySettingProvider);
+
+  return booksForState.map(
+    (books) => books..sort(sortStrategy.comparator()),
+  );
+}
 
 @riverpod
 Future<List<Book>> searchRemoteBooks(

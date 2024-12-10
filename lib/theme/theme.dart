@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 class CustomTheme {
   static ThemeData lightThemeData() {
     final colorScheme = ColorScheme.fromSeed(
-      seedColor: Colors.white,
+      seedColor: const Color(0xFF2196F3),
     );
 
     return ThemeData(
@@ -32,6 +32,11 @@ class CustomTheme {
       extensions: const <ThemeExtension<dynamic>>[
         DanteColors.lightTheme(),
       ],
+      listTileTheme: const ListTileThemeData(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+        ),
+      ),
     );
   }
 
@@ -65,6 +70,11 @@ class CustomTheme {
       extensions: const <ThemeExtension<dynamic>>[
         DanteColors.darkTheme(),
       ],
+      listTileTheme: const ListTileThemeData(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+        ),
+      ),
     );
   }
 }

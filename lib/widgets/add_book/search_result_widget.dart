@@ -1,5 +1,5 @@
 import 'package:dantex/providers/book.dart';
-import 'package:dantex/providers/logger.dart';
+import 'package:dantex/providers/service.dart';
 import 'package:dantex/widgets/add_book/add_book_widget.dart';
 import 'package:dantex/widgets/shared/dante_loading_indicator.dart';
 import 'package:easy_localization/easy_localization.dart';

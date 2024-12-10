@@ -1,6 +1,6 @@
 import 'package:dantex/logger/event.dart';
 import 'package:dantex/providers/backup.dart';
-import 'package:dantex/providers/logger.dart';
+import 'package:dantex/providers/service.dart';
 import 'package:dantex/widgets/shared/dante_loading_indicator.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';

@@ -1,7 +1,7 @@
 import 'package:dantex/logger/event.dart';
 import 'package:dantex/models/book.dart';
-import 'package:dantex/providers/logger.dart';
 import 'package:dantex/providers/repository.dart';
+import 'package:dantex/providers/service.dart';
 import 'package:dantex/widgets/shared/book_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';

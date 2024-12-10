@@ -183,6 +183,20 @@
     "no_results": "Looks like we couldn't find any books matching your search. Try again with a different search term.",
     "not_my_book": "Not my book"
   },
+  "settings": {
+    "appearance": {
+      "theme": "Theme",
+      "title": "Appearance"
+    },
+    "books": {
+      "show_book_summary": "Show book summary",
+      "show_book_summary_description": "Show a summary of the book in the details screen",
+      "sort": "Sort books",
+      "sort_description": "Sorted by {}",
+      "title": "Books"
+    },
+    "title": "Settings"
+  },
   "suggestions": {
     "suggest": "Suggest",
     "suggest_book_hint": "Enter your recommendation"

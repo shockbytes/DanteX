@@ -4,8 +4,9 @@ import 'package:dantex/logger/firebase_logger.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-part 'logger.g.dart';
+part 'service.g.dart';
 
 @riverpod
 DanteLogger logger(Ref ref) {
@@ -14,4 +15,9 @@ DanteLogger logger(Ref ref) {
     return DebugLogger();
   }
   return FirebaseLogger();
+}
+
+@riverpod
+SharedPreferences sharedPreferences(Ref ref) {
+  throw UnimplementedError();
 }

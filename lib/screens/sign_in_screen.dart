@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:dantex/logger/event.dart';
 import 'package:dantex/providers/auth.dart';
 import 'package:dantex/providers/firebase.dart';
-import 'package:dantex/providers/logger.dart';
+import 'package:dantex/providers/service.dart';
 import 'package:dantex/screens/forgot_password_screen.dart';
 import 'package:dantex/screens/sign_up_screen.dart';
 import 'package:dantex/widgets/shared/loading_button.dart';
