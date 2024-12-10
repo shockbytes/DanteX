@@ -6,6 +6,7 @@ import 'package:dantex/providers/repository.dart';
 import 'package:dantex/widgets/book_list/book_list_card.dart';
 import 'package:dantex/widgets/book_list/no_books_found.dart';
 import 'package:dantex/widgets/shared/cached_reorderable_list_view.dart';
+import 'package:dantex/widgets/shared/dante_loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -61,7 +62,9 @@ class BookList extends ConsumerWidget {
             );
         return const SizedBox.shrink();
       },
-      loading: () => const SizedBox.shrink(),
+      loading: () => const Center(
+        child: DanteLoadingIndicator(),
+      ),
     );
   }
 }
