@@ -32,6 +32,7 @@ class _SingInScreenState extends ConsumerState<SignInScreen> {
 
   @override
   void dispose() {
+    _signingIn = false;
     _passwordController.dispose();
     _emailController.dispose();
     super.dispose();
@@ -185,10 +186,14 @@ class _SingInScreenState extends ConsumerState<SignInScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        'authentication.dont_have_account',
-                        style: Theme.of(context).textTheme.labelLarge,
-                      ).tr(),
+                      Expanded(
+                        child: Text(
+                          'authentication.dont_have_account',
+                          style: Theme.of(context).textTheme.labelLarge,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ).tr(),
+                      ),
                       const SizedBox(width: 4),
                       GestureDetector(
                         key: const ValueKey('create_account_button'),

@@ -13,6 +13,7 @@ dependencies:
   collection: ^1.18.0
   country_icons: ^3.0.0
   device_marketing_names: ^0.9.3
+  device_preview: ^1.2.0
   dio: ^5.7.0
   easy_localization: ^3.0.7
   email_validator: ^3.0.0

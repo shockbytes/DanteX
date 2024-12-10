@@ -6,6 +6,7 @@ import 'package:dantex/providers/router.dart';
 import 'package:dantex/providers/service.dart';
 import 'package:dantex/providers/settings.dart';
 import 'package:dantex/theme/theme.dart';
+import 'package:device_preview/device_preview.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -32,16 +33,18 @@ void main() async {
       }
 
       runApp(
-        ProviderScope(
-          overrides: [
-            firebaseAppProvider.overrideWithValue(firebaseApp),
-            sharedPreferencesProvider.overrideWithValue(sharedPreferences),
-          ],
-          child: EasyLocalization(
-            supportedLocales: const [Locale('en', 'US'), Locale('de', 'DE')],
-            path: 'assets/translations',
-            fallbackLocale: const Locale('en', 'US'),
-            child: const DanteXApp(),
+        DevicePreview(
+          builder: (context) => ProviderScope(
+            overrides: [
+              firebaseAppProvider.overrideWithValue(firebaseApp),
+              sharedPreferencesProvider.overrideWithValue(sharedPreferences),
+            ],
+            child: EasyLocalization(
+              supportedLocales: const [Locale('en', 'US'), Locale('de', 'DE')],
+              path: 'assets/translations',
+              fallbackLocale: const Locale('en', 'US'),
+              child: const DanteXApp(),
+            ),
           ),
         ),
       );
