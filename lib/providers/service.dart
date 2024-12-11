@@ -19,5 +19,5 @@ DanteLogger logger(Ref ref) {
 
 @riverpod
 SharedPreferences sharedPreferences(Ref ref) {
-  throw UnimplementedError();
+  throw UnimplementedError('sharedPreferences has not been initialized');
 }

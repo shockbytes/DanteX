@@ -3,14 +3,18 @@ import 'package:dantex/providers/auth.dart';
 import 'package:dantex/providers/book.dart';
 import 'package:dantex/providers/client.dart';
 import 'package:dantex/providers/firebase.dart';
+import 'package:dantex/providers/service.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth_mocks/firebase_auth_mocks.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http_mock_adapter/http_mock_adapter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../test_utilities.dart';
 
 void main() async {
+  SharedPreferences.setMockInitialValues({});
+  final pref = await SharedPreferences.getInstance();
   group('Given a booksForStateProvider', () {
     group('When the bookState is reading', () {
       test('Then the provider returns the books with state reading', () async {
@@ -24,6 +28,7 @@ void main() async {
 
         final container = createContainer(
           overrides: [
+            sharedPreferencesProvider.overrideWithValue(pref),
             authStateChangesProvider.overrideWith(
               (ref) => Stream.value(mockUser),
             ),

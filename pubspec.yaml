@@ -51,7 +51,8 @@ dependencies:
 dev_dependencies:
   build_runner: ^2.4.13
   firebase_auth_mocks: ^0.14.1
-  firebase_database_mocks: ^0.7.0
+  firebase_database_mocks: ^0.7.1
+  firebase_storage_mocks: ^0.7.0
   flutter_test:
     sdk: flutter
   freezed: ^2.5.7

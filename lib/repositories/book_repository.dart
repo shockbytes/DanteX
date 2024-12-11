@@ -9,8 +9,6 @@ class BookRepository {
   final DatabaseReference _bookDatabase;
 
   static String booksPath(String uid) => 'users/$uid/books';
-  static String bookPath(String uid, String bookId) =>
-      'users/$uid/books/$bookId';
 
   Stream<List<Book>> allBooks() {
     return _bookDatabase.onValue.map((event) {

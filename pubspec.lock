@@ -578,10 +578,10 @@ packages:
     dependency: "direct dev"
     description:
       name: firebase_database_mocks
-      sha256: "517ca63648e74b4fe795d37a55973fb8827881598663acea7453d9bdf8c91206"
+      sha256: "14932c60446cb0edfec1dcb06e6a62a5ebb8823a7141364827ee186dae26b43e"
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.0"
+    version: "0.7.1"
   firebase_database_platform_interface:
     dependency: transitive
     description:
@@ -606,6 +606,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "12.3.7"
+  firebase_storage_mocks:
+    dependency: "direct dev"
+    description:
+      name: firebase_storage_mocks
+      sha256: "6e98486b76a6045f41304ee876f0b08cd4d66c696897843ca850745cafb735a8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.7.0"
   firebase_storage_platform_interface:
     dependency: transitive
     description:
@@ -774,10 +782,10 @@ packages:
     dependency: transitive
     description:
       name: google_sign_in_android
-      sha256: "0928059d2f0840f63c7b07a30cf73b593ae872cdd0dbd46d1b9ba878d2599c01"
+      sha256: "3b96f9b6cf61915f73cbe1218a192623e296a9b8b31965702503649477761e36"
       url: "https://pub.dev"
     source: hosted
-    version: "6.1.33"
+    version: "6.1.34"
   google_sign_in_ios:
     dependency: transitive
     description:
@@ -950,10 +958,10 @@ packages:
     dependency: transitive
     description:
       name: io
-      sha256: "2ec25704aba361659e10e3e5f5d672068d332fc8ac516421d483a11e5cbd061e"
+      sha256: dfd5a80599cf0165756e3181807ed3e77daf6dd4137caaad72d0b7931597650b
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.4"
+    version: "1.0.5"
   jni:
     dependency: transitive
     description:
@@ -1158,10 +1166,10 @@ packages:
     dependency: transitive
     description:
       name: path_provider_android
-      sha256: "8c4967f8b7cb46dc914e178daa29813d83ae502e0529d7b0478330616a691ef7"
+      sha256: "4adf4fd5423ec60a29506c76581bc05854c55e3a0b72d35bb28d661c9686edf2"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.14"
+    version: "2.2.15"
   path_provider_foundation:
     dependency: transitive
     description:

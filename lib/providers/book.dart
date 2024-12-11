@@ -77,7 +77,6 @@ class BackupInProgressNotifier extends _$BackupInProgressNotifier {
   bool build() => false;
 
   void start() => state = true;
-
   void done() => state = false;
 }
 

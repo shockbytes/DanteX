@@ -1,5 +1,6 @@
 import 'package:dantex/models/book_state.dart';
 import 'package:dantex/providers/repository.dart';
+import 'package:dantex/providers/service.dart';
 import 'package:dantex/repositories/book_repository.dart';
 import 'package:dantex/widgets/book_list/book_list.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:patrol_finders/patrol_finders.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../test_utilities.dart';
 
@@ -17,6 +19,8 @@ void main() async {
   final bookRepository = BookRepository(bookDatabase: bookRef);
   final book = getMockBook(state: BookState.readLater);
   await bookRepository.clearBooks();
+  SharedPreferences.setMockInitialValues({});
+  final pref = await SharedPreferences.getInstance();
 
   group('Given a BookList widget', () {
     group('When there are no books for the current state', () {
@@ -26,6 +30,7 @@ void main() async {
           await $.pumpWidget(
             ProviderScope(
               overrides: [
+                sharedPreferencesProvider.overrideWithValue(pref),
                 bookRepositoryProvider.overrideWith((ref) => bookRepository),
               ],
               child: const MaterialApp(
@@ -48,6 +53,7 @@ void main() async {
           await $.pumpWidget(
             ProviderScope(
               overrides: [
+                sharedPreferencesProvider.overrideWithValue(pref),
                 bookRepositoryProvider.overrideWith((ref) => bookRepository),
               ],
               child: const MaterialApp(
