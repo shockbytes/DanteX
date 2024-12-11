@@ -1,5 +1,6 @@
 import 'package:dantex/providers/settings.dart' hide ThemeModeSetting;
 import 'package:dantex/util/string_utilities.dart';
+import 'package:dantex/util/url.dart';
 import 'package:dantex/widgets/settings/book_sort_dialog.dart';
 import 'package:dantex/widgets/settings/section_tile.dart';
 import 'package:dantex/widgets/settings/settings_tile.dart';
@@ -19,6 +20,7 @@ class SettingsScreen extends ConsumerWidget {
     final themeMode = ref.watch(themeModeSettingProvider);
     final showBookSummary = ref.watch(showBookSummarySettingProvider);
     final randomBooksEnabled = ref.watch(randomBooksEnabledSettingProvider);
+    final usageTrackingEnabled = ref.watch(usageTrackingSettingProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('settings.title').tr(),
@@ -96,6 +98,33 @@ class SettingsScreen extends ConsumerWidget {
                   onChanged: (_) {},
                 ),
               ),
+            ),
+            SectionTitle(title: 'settings.privacy.title'.tr()),
+            SettingsTile(
+              leading: const Icon(Icons.person_pin_circle_outlined),
+              title: const Text('settings.privacy.tracking').tr(),
+              subtitle:
+                  const Text('settings.privacy.tracking_description').tr(),
+              onTap: () async => ref
+                  .read(usageTrackingSettingProvider.notifier)
+                  .set(trackingEnabled: !usageTrackingEnabled),
+              trailing: AbsorbPointer(
+                child: Switch(
+                  value: usageTrackingEnabled,
+                  onChanged: (_) {},
+                ),
+              ),
+            ),
+            SettingsTile(
+              leading: const Icon(Icons.privacy_tip_outlined),
+              title: const Text('settings.privacy.privacy_policy').tr(),
+              onTap: () async =>
+                  tryLaunchUrl('https://dantebooks.com/#/privacy'),
+            ),
+            SettingsTile(
+              leading: const Icon(Icons.policy_outlined),
+              title: const Text('settings.privacy.terms_and_conditions').tr(),
+              onTap: () async => tryLaunchUrl('https://dantebooks.com/#/terms'),
             ),
           ],
         ),

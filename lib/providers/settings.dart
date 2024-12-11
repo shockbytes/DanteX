@@ -57,3 +57,17 @@ class RandomBooksEnabledSetting extends _$RandomBooksEnabledSetting {
     state = randomBooksEnabled;
   }
 }
+
+@riverpod
+class UsageTrackingSetting extends _$UsageTrackingSetting {
+  @override
+  bool build() =>
+      ref.watch(userSettingsRepositoryProvider).getTrackingEnabled();
+
+  Future<void> set({required bool trackingEnabled}) async {
+    await ref.read(userSettingsRepositoryProvider).setTrackingEnabled(
+          trackingEnabled: trackingEnabled,
+        );
+    state = trackingEnabled;
+  }
+}

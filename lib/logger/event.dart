@@ -13,4 +13,5 @@ enum DanteEvent {
   updateMailPasswordFailure,
   userNameChanged,
   userImageChanged,
+  trackingStateChanged
 }

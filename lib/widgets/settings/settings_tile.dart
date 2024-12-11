@@ -4,15 +4,15 @@ class SettingsTile extends StatelessWidget {
   const SettingsTile({
     required this.leading,
     required this.title,
-    required this.subtitle,
     required this.onTap,
+    this.subtitle,
     this.trailing,
     super.key,
   });
 
   final Widget leading;
   final Widget title;
-  final Widget subtitle;
+  final Widget? subtitle;
   final VoidCallback onTap;
   final Widget? trailing;
 

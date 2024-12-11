@@ -199,6 +199,13 @@
       "sort_description": "Sorted by {}",
       "title": "Books"
     },
+    "privacy": {
+      "privacy_policy": "Privacy Policy",
+      "terms_and_conditions": "Terms & Conditions",
+      "title": "Privacy",
+      "tracking": "Tracking",
+      "tracking_description": "Help improve the app by sending anonymous usage data to our servers."
+    },
     "title": "Settings"
   },
   "suggestions": {
