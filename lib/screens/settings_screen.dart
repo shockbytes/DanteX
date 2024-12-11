@@ -1,4 +1,5 @@
 import 'package:dantex/providers/settings.dart' hide ThemeModeSetting;
+import 'package:dantex/screens/contributors_screen.dart';
 import 'package:dantex/util/string_utilities.dart';
 import 'package:dantex/util/url.dart';
 import 'package:dantex/widgets/settings/book_sort_dialog.dart';
@@ -9,7 +10,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:package_info_plus/package_info_plus.dart';
+import 'package:go_router/go_router.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -23,6 +24,11 @@ class SettingsScreen extends ConsumerWidget {
     final showBookSummary = ref.watch(showBookSummarySettingProvider);
     final randomBooksEnabled = ref.watch(randomBooksEnabledSettingProvider);
     final usageTrackingEnabled = ref.watch(usageTrackingSettingProvider);
+    final appVersion = ref.watch(appVersionProvider).when(
+          data: (version) => version,
+          loading: () => '...',
+          error: (error, _) => '...',
+        );
     return Scaffold(
       appBar: AppBar(
         title: const Text('settings.title').tr(),
@@ -132,9 +138,9 @@ class SettingsScreen extends ConsumerWidget {
               subtitle:
                   const Text('settings.contribute.feedback_description').tr(),
               onTap: () async {
-                final packageInfo = await PackageInfo.fromPlatform();
+                final version = await ref.read(appVersionProvider.future);
                 final body = '\n\n\nVersion: '
-                    '${packageInfo.version}';
+                    '$version';
                 await tryLaunchUrl(
                   Uri(
                     scheme: 'mailto',
@@ -173,6 +179,18 @@ class SettingsScreen extends ConsumerWidget {
               leading: const Icon(Icons.policy_outlined),
               title: const Text('settings.privacy.terms_and_conditions').tr(),
               onTap: () async => tryLaunchUrl('https://dantebooks.com/#/terms'),
+            ),
+            SectionTitle(title: 'settings.about.title'.tr()),
+            SettingsTile(
+              leading: const Icon(Icons.flash_on_outlined),
+              title: const Text('settings.about.developers').tr(),
+              onTap: () async => context.push(ContributorsScreen.navigationUrl),
+            ),
+            SettingsTile(
+              leading: const Icon(Icons.info_outline),
+              title: const Text('settings.about.version').tr(),
+              subtitle: Text(appVersion),
+              onTap: null,
             ),
           ],
         ),

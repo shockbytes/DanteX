@@ -12,7 +12,8 @@ class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key});
 
   static String get routeName => 'sign-up';
-  static String get routeLocation => '/$routeName';
+  static String get routeLocation => routeName;
+  static String get navigationUrl => '/sign-in/$routeLocation';
 
   @override
   ConsumerState<SignUpScreen> createState() => _SignUpScreenState();

@@ -1,6 +1,8 @@
 import 'package:dantex/models/book_sort_strategy.dart';
 import 'package:dantex/providers/repository.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'settings.g.dart';
@@ -70,4 +72,10 @@ class UsageTrackingSetting extends _$UsageTrackingSetting {
         );
     state = trackingEnabled;
   }
+}
+
+@riverpod
+Future<String> appVersion(Ref ref) async {
+  final packageInfo = await PackageInfo.fromPlatform();
+  return packageInfo.version;
 }

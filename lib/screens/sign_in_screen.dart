@@ -133,7 +133,7 @@ class _SingInScreenState extends ConsumerState<SignInScreen> {
                     child: GestureDetector(
                       key: const ValueKey('forgot_password_button'),
                       onTap: () async =>
-                          context.pushNamed(ForgotPasswordScreen.routeName),
+                          context.push(ForgotPasswordScreen.navigationUrl),
                       child: Text(
                         'authentication.forgot_password',
                         style: TextStyle(
@@ -198,7 +198,7 @@ class _SingInScreenState extends ConsumerState<SignInScreen> {
                       GestureDetector(
                         key: const ValueKey('create_account_button'),
                         onTap: () async =>
-                            context.pushNamed(SignUpScreen.routeName),
+                            context.push(SignUpScreen.navigationUrl),
                         child: Text(
                           'authentication.sign_up',
                           style: Theme.of(context)

@@ -13,7 +13,8 @@ class ForgotPasswordScreen extends ConsumerStatefulWidget {
   const ForgotPasswordScreen({super.key});
 
   static String get routeName => 'forgot-password';
-  static String get routeLocation => '/$routeName';
+  static String get routeLocation => routeName;
+  static String get navigationUrl => '/sign-in/$routeLocation';
 
   @override
   ConsumerState<ForgotPasswordScreen> createState() =>

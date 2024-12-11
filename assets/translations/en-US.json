@@ -150,6 +150,14 @@
     "reading": "Reading",
     "wishlist": "Wishlist"
   },
+  "contributors": {
+    "about": {
+      "contributor_invite_description": "Tap here",
+      "contributor_invite_title": "Want to help?",
+      "copyright": "© 2016 - 2023"
+    },
+    "title": "Contributors"
+  },
   "edit_book": {
     "discard": "Discard",
     "discard_changes": "Discard changes?",
@@ -186,6 +194,11 @@
     "not_my_book": "Not my book"
   },
   "settings": {
+    "about": {
+      "developers": "Developers",
+      "title": "About",
+      "version": "App version"
+    },
     "appearance": {
       "theme": "Theme",
       "title": "Appearance"

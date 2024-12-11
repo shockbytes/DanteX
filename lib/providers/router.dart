@@ -1,6 +1,7 @@
 import 'package:dantex/providers/auth.dart';
 import 'package:dantex/screens/add_custom_book_screen.dart';
 import 'package:dantex/screens/book_management_screen.dart';
+import 'package:dantex/screens/contributors_screen.dart';
 import 'package:dantex/screens/edit_book_screen.dart';
 import 'package:dantex/screens/forgot_password_screen.dart';
 import 'package:dantex/screens/home_screen.dart';
@@ -204,6 +205,15 @@ GoRouter router(Ref ref) {
             },
           );
         },
+        routes: [
+          GoRoute(
+            path: ContributorsScreen.routeLocation,
+            name: ContributorsScreen.routeName,
+            builder: (context, state) {
+              return const ContributorsScreen();
+            },
+          ),
+        ],
       ),
     ],
     redirect: (context, state) {

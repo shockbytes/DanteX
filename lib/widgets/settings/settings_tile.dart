@@ -13,7 +13,7 @@ class SettingsTile extends StatelessWidget {
   final Widget leading;
   final Widget title;
   final Widget? subtitle;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final Widget? trailing;
 
   @override
