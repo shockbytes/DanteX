@@ -9,6 +9,7 @@ class UnlinkFromEmailButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return OutlinedButton(
+      key: const ValueKey('unlink_email_button'),
       onPressed: () async => showDialog(
         context: context,
         builder: (context) => const _UnlinkFromEmailDialog(
@@ -32,10 +33,12 @@ class _UnlinkFromEmailDialog extends ConsumerWidget {
       ).tr(),
       actions: [
         OutlinedButton(
+          key: const ValueKey('dismiss_unlink_email_dialog'),
           onPressed: () => Navigator.of(context).pop(),
           child: const Text('authentication.dismiss').tr(),
         ),
         OutlinedButton(
+          key: const ValueKey('proceed_unlink_email_dialog'),
           onPressed: () async {
             await ref
                 .read(firebaseAuthProvider)

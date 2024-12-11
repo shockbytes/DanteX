@@ -9,6 +9,7 @@ class UnlinkFromGoogleButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return OutlinedButton(
+      key: const ValueKey('unlink_google_button'),
       onPressed: () async => showDialog(
         context: context,
         builder: (context) => const _UnlinkFromGoogleDialog(
@@ -32,10 +33,12 @@ class _UnlinkFromGoogleDialog extends ConsumerWidget {
       ).tr(),
       actions: [
         OutlinedButton(
+          key: const ValueKey('dismiss_unlink_google_dialog'),
           onPressed: () => Navigator.of(context).pop(),
           child: const Text('authentication.dismiss').tr(),
         ),
         OutlinedButton(
+          key: const ValueKey('proceed_unlink_google_dialog'),
           onPressed: () async {
             await ref
                 .read(firebaseAuthProvider)
