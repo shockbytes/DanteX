@@ -6,5 +6,14 @@ Future<bool> tryLaunchUrl(String url) async {
   if (await canLaunchUrl(uri)) {
     return launchUrl(uri);
   }
+  print('Could not launch $url');
   return false;
+}
+
+String? encodeQueryParameters(Map<String, String> params) {
+  return params.entries
+      .map(
+        (e) => '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}',
+      )
+      .join('&');
 }

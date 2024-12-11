@@ -8,6 +8,8 @@ import 'package:dantex/widgets/settings/theme_dialog.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -98,6 +100,52 @@ class SettingsScreen extends ConsumerWidget {
                   onChanged: (_) {},
                 ),
               ),
+            ),
+            SectionTitle(title: 'settings.contribute.title'.tr()),
+            SettingsTile(
+              leading: SvgPicture.asset(
+                'assets/images/github.svg',
+                colorFilter: ColorFilter.mode(
+                  Theme.of(context).brightness == Brightness.light
+                      ? Colors.black
+                      : Colors.white,
+                  BlendMode.srcIn,
+                ),
+                width: 24,
+                height: 24,
+              ),
+              title: const Text('settings.contribute.code').tr(),
+              subtitle:
+                  const Text('settings.contribute.contribute_to_dante').tr(),
+              onTap: () async =>
+                  tryLaunchUrl('https://github.com/shockbytes/DanteX'),
+            ),
+            SettingsTile(
+              leading: const Icon(Icons.groups_outlined),
+              title: const Text('settings.contribute.community').tr(),
+              subtitle: const Text('settings.contribute.join_community').tr(),
+              onTap: () async => tryLaunchUrl('https://discord.gg/EujYrCHjkm'),
+            ),
+            SettingsTile(
+              leading: const Icon(Icons.mail_outline),
+              title: const Text('settings.contribute.feedback').tr(),
+              subtitle:
+                  const Text('settings.contribute.feedback_description').tr(),
+              onTap: () async {
+                final packageInfo = await PackageInfo.fromPlatform();
+                final body = '\n\n\nVersion: '
+                    '${packageInfo.version}';
+                await tryLaunchUrl(
+                  Uri(
+                    scheme: 'mailto',
+                    path: 'shockbytesstudio@gmail.com',
+                    query: encodeQueryParameters({
+                      'subject': 'Feedback Dante App',
+                      'body': body,
+                    }),
+                  ).toString(),
+                );
+              },
             ),
             SectionTitle(title: 'settings.privacy.title'.tr()),
             SettingsTile(

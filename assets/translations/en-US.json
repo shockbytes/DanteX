@@ -199,6 +199,15 @@
       "sort_description": "Sorted by {}",
       "title": "Books"
     },
+    "contribute": {
+      "code": "Code",
+      "community": "Community",
+      "contribute_to_dante": "Contribute to Dante",
+      "feedback": "Feedback",
+      "feedback_description": "Help us improve the app by providing feedback or reporting bugs.",
+      "join_community": "Join the Dante community",
+      "title": "Contribute"
+    },
     "privacy": {
       "privacy_policy": "Privacy Policy",
       "terms_and_conditions": "Terms & Conditions",
