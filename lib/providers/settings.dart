@@ -43,3 +43,17 @@ class BookSortStrategySetting extends _$BookSortStrategySetting {
     state = bookSortStrategy;
   }
 }
+
+@riverpod
+class RandomBooksEnabledSetting extends _$RandomBooksEnabledSetting {
+  @override
+  bool build() =>
+      ref.watch(userSettingsRepositoryProvider).getRandomBooksEnabled();
+
+  Future<void> set({required bool randomBooksEnabled}) async {
+    await ref.read(userSettingsRepositoryProvider).setRandomBooksEnabled(
+          randomBooksEnabled: randomBooksEnabled,
+        );
+    state = randomBooksEnabled;
+  }
+}

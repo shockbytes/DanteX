@@ -123,7 +123,9 @@
       "search": "No books found, check one of the other tabs or try searching online.",
       "search_online": "Search online",
       "wishlist": "You have not added a book to your wishlist yet."
-    }
+    },
+    "pick_random_book": "Pick random book",
+    "pick_random_book_description": "Can't decide which book to read next? We've got you covered. Just tap the button below to pick a random book for your next read."
   },
   "book_management": {
     "backup": "Backup",
@@ -189,6 +191,8 @@
       "title": "Appearance"
     },
     "books": {
+      "random_book_selection": "Random book picking",
+      "random_book_selection_description": "Show the interaction allowing you to pick a random book from your read later list",
       "show_book_summary": "Show book summary",
       "show_book_summary_description": "Show a summary of the book in the details screen",
       "sort": "Sort books",

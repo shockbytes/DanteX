@@ -17,6 +17,8 @@ class SettingsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeModeSettingProvider);
+    final showBookSummary = ref.watch(showBookSummarySettingProvider);
+    final randomBooksEnabled = ref.watch(randomBooksEnabledSettingProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('settings.title').tr(),
@@ -52,12 +54,15 @@ class SettingsScreen extends ConsumerWidget {
               subtitle:
                   const Text('settings.books.show_book_summary_description')
                       .tr(),
-              onTap: () {},
-              trailing: Switch(
-                value: ref.watch(showBookSummarySettingProvider),
-                onChanged: (value) async => ref
-                    .read(showBookSummarySettingProvider.notifier)
-                    .set(showBookSummary: value),
+              onTap: () async => ref
+                  .read(showBookSummarySettingProvider.notifier)
+                  .set(showBookSummary: !showBookSummary),
+              trailing: AbsorbPointer(
+                child: Switch(
+                  value: showBookSummary,
+                  // Handled by the SettingsTile onTap
+                  onChanged: (_) {},
+                ),
               ),
             ),
             SettingsTile(
@@ -72,6 +77,23 @@ class SettingsScreen extends ConsumerWidget {
                 context: context,
                 builder: (context) => const BookSortDialog(
                   key: ValueKey('book_sort_dialog'),
+                ),
+              ),
+            ),
+            SettingsTile(
+              leading: const Icon(Icons.casino_outlined),
+              title: const Text('settings.books.random_book_selection').tr(),
+              subtitle:
+                  const Text('settings.books.random_book_selection_description')
+                      .tr(),
+              onTap: () async => ref
+                  .read(randomBooksEnabledSettingProvider.notifier)
+                  .set(randomBooksEnabled: !randomBooksEnabled),
+              trailing: AbsorbPointer(
+                child: Switch(
+                  value: randomBooksEnabled,
+                  // Handled by the SettingsTile onTap
+                  onChanged: (_) {},
                 ),
               ),
             ),
