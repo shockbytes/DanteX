@@ -18,13 +18,13 @@ Stream<List<Book>> allBooks(Ref ref) =>
 
 @riverpod
 Stream<List<Book>> booksForState(Ref ref, BookState bookState) {
+  final sortStrategy = ref.watch(bookSortStrategySettingProvider);
+
   final booksForState =
       ref.watch(bookRepositoryProvider).booksForState(bookState);
 
-  final sortStrategy = ref.watch(bookSortStrategySettingProvider);
-
   return booksForState.map(
-    (books) => books..sort(sortStrategy.comparator()),
+    (books) => books..sort(sortStrategy.comparator),
   );
 }
 

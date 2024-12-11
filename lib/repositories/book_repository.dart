@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dantex/models/book.dart';
 import 'package:dantex/models/book_state.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -78,6 +80,12 @@ class BookRepository {
       books[i] = books[i].copyWith(position: i);
     }
 
+    log('Updated positions to: ${books.map(
+      (b) => {
+        b.title,
+        b.position,
+      }.toString(),
+    )}');
     // Convert our list of books into a JSON blob that has the book ID as the
     // key for each book entry.
     final bookMap = {

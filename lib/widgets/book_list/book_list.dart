@@ -1,8 +1,10 @@
 import 'package:dantex/models/book.dart';
+import 'package:dantex/models/book_sort_strategy.dart';
 import 'package:dantex/models/book_state.dart';
 import 'package:dantex/providers/book.dart';
 import 'package:dantex/providers/repository.dart';
 import 'package:dantex/providers/service.dart';
+import 'package:dantex/providers/settings.dart';
 import 'package:dantex/widgets/book_list/book_list_card.dart';
 import 'package:dantex/widgets/book_list/empty_local_search_result.dart';
 import 'package:dantex/widgets/book_list/no_books_found.dart';
@@ -22,6 +24,8 @@ class BookList extends ConsumerWidget {
     final searchTerm = ref.watch(searchTermProvider);
 
     return booksForState.when(
+      skipLoadingOnReload: true,
+      skipLoadingOnRefresh: true,
       data: (books) {
         if (books.isEmpty) {
           return NoBooksFound(
@@ -48,17 +52,12 @@ class BookList extends ConsumerWidget {
         return CachedReorderableListView<Book>(
           key: ValueKey('book_${bookState.name}_list'),
           onReorder: (oldIndex, newIndex) async {
-            final updatedBooks = List<Book>.from(books);
-            final movedBook = updatedBooks.removeAt(oldIndex);
-            // If we're moving the book down the list, we need to adjust the
-            // index to account for the book being removed.
-            if (oldIndex < newIndex) {
-              newIndex -= 1;
-            }
-            updatedBooks.insert(newIndex, movedBook);
             await ref
-                .read(bookRepositoryProvider)
-                .updatePositions(updatedBooks);
+                .read(bookSortStrategySettingProvider.notifier)
+                .set(BookSortStrategy.position);
+            final movedBook = books.removeAt(oldIndex);
+            books.insert(newIndex, movedBook);
+            await ref.read(bookRepositoryProvider).updatePositions(books);
           },
           list: books,
           itemBuilder: (context, book) => Padding(

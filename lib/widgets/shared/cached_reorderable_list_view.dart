@@ -32,8 +32,8 @@ class CachedReorderableListViewState<T>
 
   @override
   void initState() {
-    list = [...widget.list];
     super.initState();
+    list = [...widget.list];
   }
 
   @override
@@ -42,12 +42,6 @@ class CachedReorderableListViewState<T>
       list = [...widget.list];
     }
     super.didUpdateWidget(oldWidget);
-  }
-
-  void updateList(List<T> value) {
-    setState(() {
-      list = value;
-    });
   }
 
   @override

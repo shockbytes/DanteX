@@ -24,7 +24,7 @@ enum BookSortStrategy {
   const BookSortStrategy({required this.strategyName});
   final String strategyName;
 
-  Comparator<Book> comparator() {
+  Comparator<Book> get comparator {
     return switch (this) {
       BookSortStrategy.position => (Book a, Book b) =>
           a.position.compareTo(b.position),
