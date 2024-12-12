@@ -234,6 +234,16 @@
     "suggest": "Suggest",
     "suggest_book_hint": "Enter your recommendation"
   },
+  "timeline": {
+    "empty": "You haven't finished any books yet for us to show you a timeline. Get reading and come back!",
+    "sort_by": {
+      "description": "The timeline shows you exactly when you read each and every book in your library. You can chose how it should be sorted.",
+      "end": "Sort by end date",
+      "start": "Sort by start date",
+      "title": "Sort by"
+    },
+    "title": "My Timeline"
+  },
   "wishlist": {
     "title": "My Wishlist"
   }

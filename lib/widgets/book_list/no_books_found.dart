@@ -6,10 +6,15 @@ import 'package:lottie/lottie.dart';
 class NoBooksFound extends StatelessWidget {
   const NoBooksFound({
     required this.bookState,
+    this.timeLineView = false,
     super.key,
   });
 
+  const NoBooksFound.timeline()
+      : this(bookState: BookState.read, timeLineView: true);
+
   final BookState bookState;
+  final bool timeLineView;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +35,9 @@ class NoBooksFound extends StatelessWidget {
   }
 
   String get _textForState {
+    if (timeLineView) {
+      return 'timeline.empty'.tr();
+    }
     return switch (bookState) {
       BookState.readLater => 'book_list.empty_states.read-later'.tr(),
       BookState.reading => 'book_list.empty_states.reading'.tr(),

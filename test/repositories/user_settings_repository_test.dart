@@ -1,4 +1,5 @@
 import 'package:dantex/models/book_sort_strategy.dart';
+import 'package:dantex/models/timeline.dart';
 import 'package:dantex/repositories/user_settings_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -67,14 +68,23 @@ void main() async {
         expect(sortStrategy, BookSortStrategy.title);
       });
     });
+    group('When getting the TimeLineSortStrategy', () {
+      group('And the timeline sort strategy is not set', () {
+        test('Then the byStartDate timeline sort strategy is returned', () {
+          final timelineSortStrategy =
+              userSettingsRepository.getTimelineSortStrategy();
+          expect(timelineSortStrategy, TimelineSortStrategy.byStartDate.name);
+        });
+      });
+    });
     group('When setting the TimeLineSortStrategy', () {
       test('Then the TimeLineSortStrategy is set', () async {
         await userSettingsRepository.setTimelineSortStrategy(
-          timelineSortStrategy: 'timelineSortStrategy',
+          timelineSortStrategy: TimelineSortStrategy.byStartDate,
         );
         final timelineSortStrategy =
             userSettingsRepository.getTimelineSortStrategy();
-        expect(timelineSortStrategy, 'timelineSortStrategy');
+        expect(timelineSortStrategy, TimelineSortStrategy.byStartDate.name);
       });
     });
   });

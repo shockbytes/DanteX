@@ -1,4 +1,5 @@
 import 'package:dantex/models/book_sort_strategy.dart';
+import 'package:dantex/models/timeline.dart';
 import 'package:dantex/providers/repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -78,4 +79,18 @@ class UsageTrackingSetting extends _$UsageTrackingSetting {
 Future<String> appVersion(Ref ref) async {
   final packageInfo = await PackageInfo.fromPlatform();
   return packageInfo.version;
+}
+
+@riverpod
+class TimelineSortStrategySetting extends _$TimelineSortStrategySetting {
+  @override
+  TimelineSortStrategy build() =>
+      ref.watch(userSettingsRepositoryProvider).getTimelineSortStrategy();
+
+  Future<void> set(TimelineSortStrategy timelineSortStrategy) async {
+    await ref.read(userSettingsRepositoryProvider).setTimelineSortStrategy(
+          timelineSortStrategy: timelineSortStrategy,
+        );
+    state = timelineSortStrategy;
+  }
 }

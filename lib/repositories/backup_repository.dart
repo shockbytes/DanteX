@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dantex/models/backup_data.dart';
 import 'package:dantex/models/book.dart';
@@ -134,6 +135,8 @@ Book _convertLegacyBook(Map<String, dynamic> legacyBook) {
   final labelsData = labelsList.cast<Map<String, dynamic>>();
   final labels = labelsData.map(_convertLegacyBookLabel).toList();
 
+  log('start date: ${legacyBook['startDate']}');
+
   return Book(
     // This ID comes from Firebase, so for now can just use -1 as placeholder.
     id: '-1',
@@ -148,9 +151,9 @@ Book _convertLegacyBook(Map<String, dynamic> legacyBook) {
     isbn: legacyBook['isbn'] as String,
     thumbnailAddress: legacyBook['thumbnailAddress'] as String?,
     startDate:
-        DateTime.fromMicrosecondsSinceEpoch(legacyBook['startDate'] as int),
-    endDate: DateTime.fromMicrosecondsSinceEpoch(legacyBook['endDate'] as int),
-    forLaterDate: DateTime.fromMicrosecondsSinceEpoch(
+        DateTime.fromMillisecondsSinceEpoch(legacyBook['startDate'] as int),
+    endDate: DateTime.fromMillisecondsSinceEpoch(legacyBook['endDate'] as int),
+    forLaterDate: DateTime.fromMillisecondsSinceEpoch(
       legacyBook['wishlistDate'] as int,
     ),
     language: legacyBook['language'] as String,

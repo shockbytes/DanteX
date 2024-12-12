@@ -1,4 +1,5 @@
 import 'package:dantex/models/book_sort_strategy.dart';
+import 'package:dantex/models/timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -66,15 +67,21 @@ class UserSettingsRepository {
   }
 
   Future<void> setTimelineSortStrategy({
-    required String timelineSortStrategy,
+    required TimelineSortStrategy timelineSortStrategy,
   }) async {
     await _sharedPreferences.setString(
       _keyTimelineSortStrategy,
-      timelineSortStrategy,
+      timelineSortStrategy.name,
     );
   }
 
-  String getTimelineSortStrategy() {
-    return _sharedPreferences.getString(_keyTimelineSortStrategy) ?? 'title';
+  TimelineSortStrategy getTimelineSortStrategy() {
+    final timelineSortStrategyName =
+        _sharedPreferences.getString(_keyTimelineSortStrategy);
+    return TimelineSortStrategy.values.firstWhere(
+      (timelineSortStrategy) =>
+          timelineSortStrategy.name == timelineSortStrategyName,
+      orElse: () => TimelineSortStrategy.byStartDate,
+    );
   }
 }

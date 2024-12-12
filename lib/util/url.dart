@@ -6,7 +6,6 @@ Future<bool> tryLaunchUrl(String url) async {
   if (await canLaunchUrl(uri)) {
     return launchUrl(uri);
   }
-  print('Could not launch $url');
   return false;
 }
 

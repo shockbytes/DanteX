@@ -1,0 +1,4 @@
+enum TimelineSortStrategy {
+  byEndDate,
+  byStartDate,
+}
