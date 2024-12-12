@@ -230,6 +230,28 @@
     },
     "title": "Settings"
   },
+  "statistics": {
+    "average_rating": "Average rating",
+    "books_in_month": "{} books in {}",
+    "books_per_month": "Books per month",
+    "books_per_year": "Books per year",
+    "books_read": "{} books read",
+    "books_reading": "{} books reading",
+    "books_waiting": "{} books waiting",
+    "favorites": {
+      "author": "Favorite author",
+      "first_5_star_book": "First 5 star book",
+      "title": "Favorites"
+    },
+    "labels": "Labels",
+    "languages": "Languages",
+    "others": "Others",
+    "pages_and_books": "Pages and Books",
+    "pages_per_month": "Pages per month",
+    "reading_time": "Reading time",
+    "stars": "{} stars",
+    "title": "My Statistics"
+  },
   "suggestions": {
     "suggest": "Suggest",
     "suggest_book_hint": "Enter your recommendation"

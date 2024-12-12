@@ -10,6 +10,7 @@ import 'package:dantex/screens/settings_screen.dart';
 import 'package:dantex/screens/sign_in_screen.dart';
 import 'package:dantex/screens/sign_up_screen.dart';
 import 'package:dantex/screens/splash_screen.dart';
+import 'package:dantex/screens/statistics_screen.dart';
 import 'package:dantex/screens/timeline_screen.dart';
 import 'package:dantex/screens/wishlist_screen.dart';
 import 'package:flutter/material.dart';
@@ -223,6 +224,30 @@ GoRouter router(Ref ref) {
           return CustomTransitionPage(
             key: state.pageKey,
             child: const TimelineScreen(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              const curve = Curves.easeInOut;
+              final curvedAnimation =
+                  CurvedAnimation(parent: animation, curve: curve);
+
+              return SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(0, 1),
+                  end: Offset.zero,
+                ).animate(curvedAnimation),
+                child: child,
+              );
+            },
+          );
+        },
+      ),
+      GoRoute(
+        path: StatisticsScreen.routeLocation,
+        name: StatisticsScreen.routeName,
+        pageBuilder: (context, state) {
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: const StatisticsScreen(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
               const curve = Curves.easeInOut;

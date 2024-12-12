@@ -2,6 +2,7 @@ import 'package:dantex/providers/auth.dart';
 import 'package:dantex/screens/book_management_screen.dart';
 import 'package:dantex/screens/profile_screen.dart';
 import 'package:dantex/screens/settings_screen.dart';
+import 'package:dantex/screens/statistics_screen.dart';
 import 'package:dantex/screens/timeline_screen.dart';
 import 'package:dantex/screens/wishlist_screen.dart';
 import 'package:dantex/widgets/shared/sign_out_button.dart';
@@ -51,7 +52,9 @@ class DanteBottomSheet extends ConsumerWidget {
                 _MenuItem(
                   text: 'navigation.stats',
                   icon: Icons.pie_chart_outline_outlined,
-                  onItemClicked: () {},
+                  onItemClicked: () async => context.push(
+                    StatisticsScreen.routeLocation,
+                  ),
                 ),
                 _MenuItem(
                   text: 'navigation.timeline',
