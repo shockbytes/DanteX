@@ -39,7 +39,7 @@ class NoBooksFound extends StatelessWidget {
       return 'timeline.empty'.tr();
     }
     return switch (bookState) {
-      BookState.readLater => 'book_list.empty_states.read-later'.tr(),
+      BookState.readLater => 'book_list.empty_states.read_later'.tr(),
       BookState.reading => 'book_list.empty_states.reading'.tr(),
       BookState.read => 'book_list.empty_states.read'.tr(),
       BookState.wishlist => 'book_list.empty_states.wishlist'.tr(),

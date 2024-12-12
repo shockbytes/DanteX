@@ -18,7 +18,7 @@
     "image_upload_error": "Failed to upload image",
     "optional_information": "Optional information",
     "pages_required": "Pages is required",
-    "published_date": "Published date (yyyy-MM-dd)",
+    "published_date": "Published date (yyyy{}MM-dd)",
     "title_required": "Title is required"
   },
   "authentication": {
@@ -118,7 +118,7 @@
   "book_list": {
     "empty_states": {
       "read": "There are no finished books. Why not finish one?",
-      "read-later": "You currently have no books that you have saved for later. Go add some.",
+      "read_later": "You currently have no books that you have saved for later. Go add some.",
       "reading": "Why are you not reading a book now?",
       "search": "No books found, check one of the other tabs or try searching online.",
       "search_online": "Search online",
@@ -167,7 +167,7 @@
     "save": "Save"
   },
   "navigation": {
-    "book-keeping": "Book Keeping",
+    "book_keeping": "Book Keeping",
     "library": "My Library",
     "recommendations": "Recommendations",
     "settings": "Settings",
@@ -231,25 +231,69 @@
     "title": "Settings"
   },
   "statistics": {
-    "average_rating": "Average rating",
-    "books_in_month": "{} books in {}",
-    "books_per_month": "Books per month",
-    "books_per_year": "Books per year",
-    "books_read": "{} books read",
-    "books_reading": "{} books reading",
-    "books_waiting": "{} books waiting",
+    "books_and_pages": {
+      "books": "Books",
+      "books_read": {
+        "one": "1 book read",
+        "other": "{} books read",
+        "zero": "No books read"
+      },
+      "books_reading": {
+        "one": "1 book reading",
+        "other": "{} books reading",
+        "zero": "No books reading"
+      },
+      "books_waiting": {
+        "one": "1 book waiting",
+        "other": "{} books waiting",
+        "zero": "No books waiting"
+      },
+      "empty": "No data available.",
+      "pages": "Pages",
+      "pages_read": "{} pages read",
+      "pages_waiting": "{} pages waiting",
+      "title": "Books & Pages"
+    },
+    "books_per_month": {
+      "empty": "No data available",
+      "title": "Books per month"
+    },
+    "books_per_year": {
+      "empty": "No data available",
+      "title": "Books per year"
+    },
     "favorites": {
-      "author": "Favorite author",
-      "first_5_star_book": "First 5 star book",
+      "empty": "No data for favorites available.",
+      "favorite_author": "Favorite Author",
+      "first_five_star_book": "First 5-star rating",
       "title": "Favorites"
     },
-    "labels": "Labels",
-    "languages": "Languages",
-    "others": "Others",
-    "pages_and_books": "Pages and Books",
-    "pages_per_month": "Pages per month",
-    "reading_time": "Reading time",
-    "stars": "{} stars",
+    "label": {
+      "empty": "No data for label distribution.",
+      "title": "Labels"
+    },
+    "language": {
+      "empty": "No data for language distribution.",
+      "na": "NA",
+      "title": "Languages"
+    },
+    "misc": {
+      "average_books": {
+        "description": "Books per Month"
+      },
+      "empty": "No data available.",
+      "most_read_month": {
+        "description": "Books in {}"
+      },
+      "title": "Misc"
+    },
+    "reading_time": {
+      "days": "{} days",
+      "empty": "No data available.",
+      "fastest_book": "Fastest book",
+      "slowest_book": "Slowest book",
+      "title": "Reading time"
+    },
     "title": "My Statistics"
   },
   "suggestions": {

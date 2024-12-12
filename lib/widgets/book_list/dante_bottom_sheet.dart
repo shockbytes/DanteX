@@ -76,7 +76,7 @@ class DanteBottomSheet extends ConsumerWidget {
                   onItemClicked: () {},
                 ),
                 _MenuItem(
-                  text: 'navigation.book-keeping',
+                  text: 'navigation.book_keeping',
                   icon: Icons.all_inbox_outlined,
                   onItemClicked: () async => context.push(
                     BookManagementScreen.routeLocation,
