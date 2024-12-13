@@ -1,5 +1,7 @@
 import 'dart:collection';
 
+import 'package:collection/collection.dart';
+import 'package:dantex/models/book.dart';
 import 'package:dantex/models/book_state.dart';
 import 'package:dantex/providers/book.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -135,5 +137,42 @@ BooksPerYearStats booksPerYearStats(Ref ref) {
     },
     error: (e, s) => {},
     loading: () => {},
+  );
+}
+
+@riverpod
+({Book? fastestBook, Book? slowestBook}) readingTimeStats(Ref ref) {
+  final books = ref.watch(allBooksProvider);
+
+  return books.when(
+    data: (books) {
+      books = books
+          .where(
+            (book) =>
+                book.state == BookState.read &&
+                book.startDate != null &&
+                book.endDate != null,
+          )
+          .sorted(
+            (a, b) => (a.endDate!)
+                .difference(a.startDate ?? DateTime.now())
+                .compareTo(
+                  (b.endDate ?? DateTime.now())
+                      .difference(b.startDate ?? DateTime.now()),
+                ),
+          );
+
+      if (books.isEmpty) {
+        return (fastestBook: null, slowestBook: null);
+      }
+      final fastestBook = books.first;
+      if (books.length == 1) {
+        return (fastestBook: fastestBook, slowestBook: null);
+      }
+      final slowestBook = books.last;
+      return (fastestBook: fastestBook, slowestBook: slowestBook);
+    },
+    error: (e, s) => (fastestBook: null, slowestBook: null),
+    loading: () => (fastestBook: null, slowestBook: null),
   );
 }

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dantex/logger/event.dart';
 import 'package:dantex/providers/auth.dart';
 import 'package:dantex/providers/firebase.dart';
@@ -245,7 +243,6 @@ class _SingInScreenState extends ConsumerState<SignInScreen> {
         data: {'source': 'google'},
       );
     } on Exception catch (e, stackTrace) {
-      log('Got exception: $e', error: e, stackTrace: stackTrace);
       ref.read(loggerProvider).e(
             'Failed to sign in with Google',
             error: e,
