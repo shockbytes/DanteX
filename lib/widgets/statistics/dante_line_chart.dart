@@ -34,7 +34,7 @@ class DanteLineChart extends StatelessWidget {
                 maxIncluded: false,
                 showTitles: true,
                 reservedSize: 32,
-                interval: 5,
+                interval: points.length < 5 ? 1 : 5,
                 getTitlesWidget: (value, meta) => _bottomTitleWidgets(
                   context,
                   value,

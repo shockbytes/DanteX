@@ -111,3 +111,29 @@ PagesPerMonthStats pagesPerMonthStats(Ref ref) {
     loading: () => {},
   );
 }
+
+typedef BooksPerYearStats = Map<DateTime, int>;
+
+@riverpod
+BooksPerYearStats booksPerYearStats(Ref ref) {
+  final books = ref.watch(booksForStateProvider(BookState.read));
+
+  return books.when(
+    data: (books) {
+      final stats = BooksPerYearStats();
+      for (final book in books) {
+        final endDate = book.endDate;
+        if (endDate == null) {
+          continue;
+        }
+
+        final month = DateTime(endDate.year);
+        stats.update(month, (count) => count + 1, ifAbsent: () => 1);
+      }
+
+      return SplayTreeMap.from(stats);
+    },
+    error: (e, s) => {},
+    loading: () => {},
+  );
+}

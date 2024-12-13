@@ -1,6 +1,8 @@
 import 'package:dantex/widgets/statistics/books_and_pages_counts.dart';
 import 'package:dantex/widgets/statistics/books_per_month.dart';
+import 'package:dantex/widgets/statistics/books_per_year.dart';
 import 'package:dantex/widgets/statistics/pages_per_month.dart';
+import 'package:dantex/widgets/statistics/reading_time.dart';
 import 'package:dantex/widgets/statistics/title_widget.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +40,18 @@ class StatisticsScreen extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             const BooksPerMonth(),
+            const SizedBox(height: 16),
+            TitleWidget(
+              title: const Text('statistics.books_per_year.title').tr(),
+            ),
+            const SizedBox(height: 16),
+            const BooksPerYear(),
+            const SizedBox(height: 16),
+            TitleWidget(
+              title: const Text('statistics.reading_time.title').tr(),
+            ),
+            const SizedBox(height: 16),
+            const ReadingTime(),
           ],
         ),
       ),

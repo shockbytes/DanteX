@@ -1,5 +1,5 @@
 import 'package:dantex/providers/settings.dart' hide ThemeModeSetting;
-import 'package:dantex/util/string_utilities.dart';
+import 'package:dantex/util/string.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

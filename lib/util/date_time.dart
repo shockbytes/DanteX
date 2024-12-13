@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 
 final DateFormat _dfMonth = DateFormat('MMMM yyyy');
 final DateFormat _dfMonthShort = DateFormat('MMM yy');
+final DateFormat _dfYear = DateFormat('yyyy');
 
 extension DateTimeX on DateTime {
   String formatWithMonthAndYear() {
@@ -10,5 +11,9 @@ extension DateTimeX on DateTime {
 
   String formatWithMonthAndYearShort() {
     return _dfMonthShort.format(this);
+  }
+
+  String formatWithYear() {
+    return _dfYear.format(this);
   }
 }

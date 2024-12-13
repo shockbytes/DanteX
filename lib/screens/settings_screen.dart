@@ -1,6 +1,6 @@
 import 'package:dantex/providers/settings.dart' hide ThemeModeSetting;
 import 'package:dantex/screens/contributors_screen.dart';
-import 'package:dantex/util/string_utilities.dart';
+import 'package:dantex/util/string.dart';
 import 'package:dantex/util/url.dart';
 import 'package:dantex/widgets/settings/book_sort_dialog.dart';
 import 'package:dantex/widgets/settings/section_tile.dart';

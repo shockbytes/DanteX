@@ -1,5 +1,5 @@
 import 'package:dantex/models/book.dart';
-import 'package:dantex/util/string_utilities.dart';
+import 'package:dantex/util/string.dart';
 
 enum BookSortStrategy {
   position(
