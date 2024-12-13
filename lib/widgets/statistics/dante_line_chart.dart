@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +19,8 @@ class DanteLineChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final maxY = points.map((p) => p.y).max;
+
     return AspectRatio(
       aspectRatio: 3,
       child: LineChart(
@@ -31,7 +34,7 @@ class DanteLineChart extends StatelessWidget {
                 maxIncluded: false,
                 showTitles: true,
                 reservedSize: 32,
-                interval: 3,
+                interval: 5,
                 getTitlesWidget: (value, meta) => _bottomTitleWidgets(
                   context,
                   value,
@@ -42,11 +45,12 @@ class DanteLineChart extends StatelessWidget {
             leftTitles: AxisTitles(
               sideTitles: SideTitles(
                 showTitles: true,
-                interval: 1,
                 getTitlesWidget: (value, meta) => _buildLegendText(
                   context,
                   value.toInt().toString(),
                 ),
+                reservedSize: (maxY.toString().length * 6).toDouble(),
+                maxIncluded: false,
               ),
             ),
             rightTitles: const AxisTitles(),

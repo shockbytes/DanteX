@@ -81,3 +81,33 @@ BooksPerMonthStats booksPerMonthStats(Ref ref) {
     loading: () => {},
   );
 }
+
+typedef PagesPerMonthStats = Map<DateTime, int>;
+
+@riverpod
+PagesPerMonthStats pagesPerMonthStats(Ref ref) {
+  final books = ref.watch(booksForStateProvider(BookState.read));
+
+  return books.when(
+    data: (books) {
+      final stats = PagesPerMonthStats();
+      for (final book in books) {
+        final endDate = book.endDate;
+        if (endDate == null) {
+          continue;
+        }
+
+        final month = DateTime(endDate.year, endDate.month);
+        stats.update(
+          month,
+          (count) => count + book.pageCount,
+          ifAbsent: () => book.pageCount,
+        );
+      }
+
+      return SplayTreeMap.from(stats);
+    },
+    error: (e, s) => {},
+    loading: () => {},
+  );
+}
