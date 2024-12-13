@@ -4,6 +4,7 @@ import 'package:collection/collection.dart';
 import 'package:dantex/models/book.dart';
 import 'package:dantex/models/book_state.dart';
 import 'package:dantex/providers/book.dart';
+import 'package:dantex/util/book_list.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -174,5 +175,40 @@ BooksPerYearStats booksPerYearStats(Ref ref) {
     },
     error: (e, s) => (fastestBook: null, slowestBook: null),
     loading: () => (fastestBook: null, slowestBook: null),
+  );
+}
+
+@riverpod
+List<Book> favoriteAuthorBooks(Ref ref) {
+  final books = ref.watch(allBooksProvider);
+
+  return books.when(
+    data: (books) {
+      return books
+              .groupListsBy((e) => e.author)
+              .entries
+              .sorted((a, b) => b.value.length - a.value.length)
+              .firstOrNull
+              ?.value ??
+          [];
+    },
+    error: (e, s) => [],
+    loading: () => [],
+  );
+}
+
+@riverpod
+Book? firstFiveStarBook(Ref ref) {
+  final books = ref.watch(allBooksProvider);
+
+  return books.when(
+    data: (books) {
+      return books
+          .where((book) => book.rating == 5 && book.startDate != null)
+          .sortedByStartDate()
+          .firstOrNull;
+    },
+    error: (e, s) => null,
+    loading: () => null,
   );
 }

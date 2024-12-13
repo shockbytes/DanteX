@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dantex/models/book.dart';
 import 'package:dantex/providers/statistics.dart';
 import 'package:dantex/widgets/shared/book_image.dart';
@@ -13,13 +11,13 @@ class ReadingTime extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final (:fastestBook, :slowestBook) = ref.watch(readingTimeStatsProvider);
-    log('Fastest book: ${fastestBook?.startDate} - ${fastestBook?.endDate}');
-    log('Slowest book: ${slowestBook?.startDate} - ${slowestBook?.endDate}');
+
     if (fastestBook == null && slowestBook == null) {
       return Center(
         child: const Text('statistics.reading_time.empty').tr(),
       );
     }
+
     return Row(
       children: [
         if (fastestBook != null)
@@ -57,9 +55,7 @@ class _ReadingTimeWidget extends StatelessWidget {
         children: [
           Text(
             label,
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
+            style: Theme.of(context).textTheme.bodyLarge,
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 16),
@@ -67,17 +63,13 @@ class _ReadingTimeWidget extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             book.title,
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
+            style: Theme.of(context).textTheme.bodyLarge,
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 8),
           Text(
             _durationInDays(book),
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
+            style: Theme.of(context).textTheme.bodyMedium,
             textAlign: TextAlign.center,
           ),
         ],
