@@ -1,6 +1,6 @@
 import 'package:dantex/providers/statistics.dart';
 import 'package:dantex/theme/dante_colors.dart';
-import 'package:dantex/widgets/shared/dante_pie_chart.dart';
+import 'package:dantex/widgets/statistics/dante_pie_chart.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

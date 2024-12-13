@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:dantex/models/book_state.dart';
 import 'package:dantex/providers/book.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -51,5 +53,31 @@ const zeroPageCount = (pagesWaiting: 0, pagesRead: 0);
     },
     error: (e, s) => zeroPageCount,
     loading: () => zeroPageCount,
+  );
+}
+
+typedef BooksPerMonthStats = Map<DateTime, int>;
+
+@riverpod
+BooksPerMonthStats booksPerMonthStats(Ref ref) {
+  final books = ref.watch(booksForStateProvider(BookState.read));
+
+  return books.when(
+    data: (books) {
+      final stats = BooksPerMonthStats();
+      for (final book in books) {
+        final endDate = book.endDate;
+        if (endDate == null) {
+          continue;
+        }
+
+        final month = DateTime(endDate.year, endDate.month);
+        stats.update(month, (count) => count + 1, ifAbsent: () => 1);
+      }
+
+      return SplayTreeMap.from(stats);
+    },
+    error: (e, s) => {},
+    loading: () => {},
   );
 }

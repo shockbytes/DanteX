@@ -287,6 +287,10 @@
       },
       "title": "Misc"
     },
+    "pages_per_month": {
+      "empty": "No data available",
+      "title": "Pages per month"
+    },
     "reading_time": {
       "days": "{} days",
       "empty": "No data available.",
