@@ -46,7 +46,7 @@ class RecommendedBook with _$RecommendedBook {
       publishedDate: book.publishedDate,
       isbn: book.isbn,
       thumbnailAddress: book.thumbnailAddress,
-      language: book.language,
+      language: book.language.isoCode,
       summary: book.summary,
     );
   }

@@ -6,6 +6,7 @@ import 'package:dantex/models/backup_data.dart';
 import 'package:dantex/models/book.dart';
 import 'package:dantex/models/book_label.dart';
 import 'package:dantex/models/book_state.dart';
+import 'package:dantex/models/dante_language.dart';
 import 'package:dantex/models/google_books_response.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database_mocks/firebase_database_mocks.dart';
@@ -65,7 +66,7 @@ Book getMockBook({
       startDate: DateTime.now(),
       endDate: null,
       forLaterDate: null,
-      language: 'language',
+      language: DanteLanguage.english,
       rating: 5,
       notes: 'notes',
       summary: 'summary',

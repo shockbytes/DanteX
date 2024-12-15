@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:collection/collection.dart';
 import 'package:dantex/models/book.dart';
 import 'package:dantex/models/book_state.dart';
+import 'package:dantex/models/dante_language.dart';
 import 'package:dantex/providers/book.dart';
 import 'package:dantex/util/book_list.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -210,5 +211,20 @@ Book? firstFiveStarBook(Ref ref) {
     },
     error: (e, s) => null,
     loading: () => null,
+  );
+}
+
+@riverpod
+Map<DanteLanguage, int> languageStats(Ref ref) {
+  final books = ref.watch(allBooksProvider);
+
+  return books.when(
+    data: (books) {
+      return books.groupListsBy((e) => e.language).map(
+            (key, value) => MapEntry(key, value.length),
+          );
+    },
+    error: (e, s) => {},
+    loading: () => {},
   );
 }

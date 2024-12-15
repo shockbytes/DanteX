@@ -51,12 +51,12 @@ class LanguagePicker extends StatelessWidget {
           ],
         );
       },
-      languages: _languageOptions,
+      languages: _danteLanguage,
     );
   }
 }
 
-final _languageOptions = [
+final _danteLanguage = [
   _otherLanguage,
   Languages.english,
   Languages.german,
@@ -79,7 +79,7 @@ final _languageOptions = [
 
 extension on String {
   Language toLanguage() {
-    return _languageOptions.firstWhere(
+    return _danteLanguage.firstWhere(
       (language) => language.isoCode == this,
       orElse: () => _otherLanguage,
     );

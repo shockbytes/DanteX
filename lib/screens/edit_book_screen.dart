@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dantex/models/book.dart';
+import 'package:dantex/models/dante_language.dart';
 import 'package:dantex/providers/book.dart';
 import 'package:dantex/providers/repository.dart';
 import 'package:dantex/providers/service.dart';
@@ -70,7 +71,7 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
           _publishedDateController.text = book.publishedDate;
           _isbnController.text = book.isbn;
           _summaryController.text = book.summary ?? '';
-          languageIsoCode = book.language;
+          languageIsoCode = book.language.isoCode;
 
           return Form(
             key: _formKey,
@@ -182,7 +183,7 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
       publishedDate: _publishedDateController.text,
       isbn: _isbnController.text,
       summary: _summaryController.text,
-      language: languageIsoCode,
+      language: languageFromIsoCode(languageIsoCode),
       thumbnailAddress: thumbnailAddress,
     );
 

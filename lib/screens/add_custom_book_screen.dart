@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dantex/models/book.dart';
 import 'package:dantex/models/book_state.dart';
+import 'package:dantex/models/dante_language.dart';
 import 'package:dantex/providers/repository.dart';
 import 'package:dantex/providers/service.dart';
 import 'package:dantex/theme/dante_colors.dart';
@@ -174,7 +175,7 @@ class _AddCustomBookScreenState extends ConsumerState<AddCustomBookScreen> {
         startDate: null,
         endDate: null,
         forLaterDate: state == BookState.readLater ? DateTime.now() : null,
-        language: languageIsoCode,
+        language: languageFromIsoCode(languageIsoCode),
         rating: 0,
         notes: null,
         summary: _summaryController.text,

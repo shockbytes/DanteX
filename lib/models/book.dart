@@ -1,5 +1,6 @@
 import 'package:dantex/models/book_label.dart';
 import 'package:dantex/models/book_state.dart';
+import 'package:dantex/models/dante_language.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'book.freezed.dart';
@@ -22,7 +23,7 @@ class Book with _$Book {
     required DateTime? startDate,
     required DateTime? endDate,
     required DateTime? forLaterDate,
-    required String language,
+    required DanteLanguage language,
     required int rating,
     required String? notes,
     required String? summary,

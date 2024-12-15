@@ -25,7 +25,7 @@ class Favorites extends ConsumerWidget {
       children: [
         if (favoriteAuthorBooks.isNotEmpty) ...[
           Text(
-            'statistics.favorites.favorite_author'.tr(),
+            'statistics.favorites.favorite_author',
             style: Theme.of(context).textTheme.bodyLarge,
             textAlign: TextAlign.center,
           ).tr(),

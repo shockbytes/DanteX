@@ -4,6 +4,7 @@ import 'package:dantex/models/backup_data.dart';
 import 'package:dantex/models/book.dart';
 import 'package:dantex/models/book_label.dart';
 import 'package:dantex/models/book_state.dart';
+import 'package:dantex/models/dante_language.dart';
 import 'package:device_marketing_names/device_marketing_names.dart';
 import 'package:googleapis/drive/v3.dart';
 
@@ -158,7 +159,7 @@ Book _convertLegacyBook(Map<String, dynamic> legacyBook) {
         : DateTime.fromMillisecondsSinceEpoch(
             legacyBook['wishlistDate'] as int,
           ),
-    language: legacyBook['language'] as String,
+    language: languageFromIsoCode(legacyBook['language'] as String),
     rating: legacyBook['rating'] as int,
     notes: legacyBook['notes'] as String?,
     summary: legacyBook['summary'] as String?,

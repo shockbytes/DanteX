@@ -1,5 +1,6 @@
 import 'package:dantex/models/book.dart';
 import 'package:dantex/models/book_state.dart';
+import 'package:dantex/models/dante_language.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'google_books_response.freezed.dart';
@@ -56,7 +57,7 @@ class Items with _$Items {
       startDate: null,
       endDate: null,
       forLaterDate: null,
-      language: volumeInfo?.language ?? 'NA',
+      language: languageFromIsoCode(volumeInfo?.language),
       rating: 0,
       notes: '',
       summary: 'TODO Load Description',

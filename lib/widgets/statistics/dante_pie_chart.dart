@@ -8,17 +8,20 @@ class DantePieChartSectionData {
     required this.value,
     required this.title,
     required this.badgeColor,
+    this.titleIcon,
   });
 
   final Color color;
   final double value;
   final String title;
   final Color badgeColor;
+  final Widget? titleIcon;
 
   PieChartSectionData toPieChartSectionData({bool isTouched = false}) {
     final fontSize = isTouched ? 18.0 : 14.0;
     final radius = isTouched ? 80.0 : 72.0;
     const shadows = [Shadow(blurRadius: 1)];
+    final titleIcon = this.titleIcon;
     return PieChartSectionData(
       color: color,
       value: value,
@@ -28,13 +31,20 @@ class DantePieChartSectionData {
         color: badgeColor,
         child: Container(
           padding: const EdgeInsets.all(4),
-          child: Text(
-            title,
-            style: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              shadows: shadows,
-            ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (titleIcon != null) titleIcon,
+              const SizedBox(width: 8),
+              Text(
+                title,
+                style: TextStyle(
+                  fontSize: fontSize,
+                  fontWeight: FontWeight.bold,
+                  shadows: shadows,
+                ),
+              ),
+            ],
           ),
         ),
       ),
