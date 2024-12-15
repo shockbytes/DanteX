@@ -228,3 +228,58 @@ Map<DanteLanguage, int> languageStats(Ref ref) {
     loading: () => {},
   );
 }
+
+@riverpod
+({DateTime month, int count})? mostActiveMonthStat(Ref ref) {
+  final books = ref.watch(allBooksProvider);
+
+  return books.when(
+    data: (books) {
+      final stats = <DateTime, int>{};
+      for (final book in books) {
+        final endDate = book.endDate;
+        if (endDate == null) {
+          continue;
+        }
+
+        final month = DateTime(endDate.year, endDate.month);
+        stats.update(month, (count) => count + 1, ifAbsent: () => 1);
+      }
+
+      final mostActiveMonth =
+          stats.entries.sorted((a, b) => b.value - a.value).firstOrNull;
+      if (mostActiveMonth == null) {
+        return null;
+      }
+
+      return (month: mostActiveMonth.key, count: mostActiveMonth.value);
+    },
+    error: (e, s) => null,
+    loading: () => null,
+  );
+}
+
+@riverpod
+double? averageRatingStat(Ref ref) {
+  final books = ref.watch(allBooksProvider);
+
+  return books.when(
+    data: (books) {
+      final ratings =
+          books.map((book) => book.rating).where((rating) => rating != 0);
+      if (ratings.isEmpty) {
+        return null;
+      }
+      return ratings.average;
+    },
+    error: (e, s) => null,
+    loading: () => null,
+  );
+}
+
+@riverpod
+double averageBooksPerMonth(Ref ref) {
+  final booksPerMonth = ref.watch(booksPerMonthStatsProvider);
+
+  return booksPerMonth.values.average;
+}

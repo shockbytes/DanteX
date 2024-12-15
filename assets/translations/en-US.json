@@ -281,6 +281,10 @@
       "average_books": {
         "description": "Books per Month"
       },
+      "average_rating": {
+        "rating": "{} stars",
+        "title": "Average rating"
+      },
       "empty": "No data available.",
       "most_read_month": {
         "description": "Books in {}"
