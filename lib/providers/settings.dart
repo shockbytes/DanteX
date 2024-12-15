@@ -1,5 +1,7 @@
+import 'package:dantex/models/book_label.dart';
 import 'package:dantex/models/book_sort_strategy.dart';
 import 'package:dantex/models/timeline.dart';
+import 'package:dantex/providers/book.dart';
 import 'package:dantex/providers/repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -93,4 +95,24 @@ class TimelineSortStrategySetting extends _$TimelineSortStrategySetting {
         );
     state = timelineSortStrategy;
   }
+}
+
+@riverpod
+Map<BookLabel, int> bookLabelStats(Ref ref) {
+  final allBooks = ref.watch(allBooksProvider);
+
+  return allBooks.when(
+    data: (books) {
+      final stats = <BookLabel, int>{};
+      for (final book in books) {
+        final labels = book.labels;
+        for (final label in labels) {
+          stats[label] = (stats[label] ?? 0) + 1;
+        }
+      }
+      return stats;
+    },
+    error: (e, s) => {},
+    loading: () => {},
+  );
 }
