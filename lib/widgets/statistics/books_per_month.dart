@@ -78,22 +78,13 @@ class _BooksPerMonthGoalDialog extends ConsumerStatefulWidget {
 }
 
 class _BooksPerMonthGoalDialogState
-    extends ConsumerState<_BooksPerMonthGoalDialog>
-    with SingleTickerProviderStateMixin {
-  late double _sliderValue;
-  late AnimationController _animationController;
+    extends ConsumerState<_BooksPerMonthGoalDialog> {
+  late int goal;
 
   @override
   void initState() {
     super.initState();
-    _sliderValue = widget.initialValue?.toDouble() ?? 5.0;
-    _animationController = AnimationController(vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
+    goal = widget.initialValue ?? 1;
   }
 
   @override
@@ -106,6 +97,7 @@ class _BooksPerMonthGoalDialogState
         minValue: 1,
         divisions: 30,
         labelKey: 'statistics.books_per_month.books_month_count',
+        onSetGoal: (value) => setState(() => goal = value),
       ),
       actions: [
         TextButton(
@@ -122,9 +114,7 @@ class _BooksPerMonthGoalDialogState
         ),
         TextButton(
           onPressed: () async {
-            await ref
-                .read(booksPerMonthGoalProvider.notifier)
-                .set(_sliderValue.toInt());
+            await ref.read(booksPerMonthGoalProvider.notifier).set(goal);
 
             if (context.mounted) {
               Navigator.of(context).pop();

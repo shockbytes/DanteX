@@ -307,6 +307,11 @@
     },
     "pages_per_month": {
       "empty": "No data available",
+      "goal": "Goal: {} pages / month",
+      "goal_not_set": "Goal not set",
+      "page_month_count": "{} pages / month",
+      "pages_goal": "Pages goal",
+      "set_goal": "Set goal",
       "title": "Pages per month"
     },
     "reading_time": {

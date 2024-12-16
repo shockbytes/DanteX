@@ -8,6 +8,7 @@ class GoalWidget extends StatefulWidget {
     required this.minValue,
     required this.labelKey,
     required this.divisions,
+    required this.onSetGoal,
     super.key,
     this.initialValue,
   });
@@ -17,6 +18,7 @@ class GoalWidget extends StatefulWidget {
   final int minValue;
   final int divisions;
   final String labelKey;
+  final void Function(int value) onSetGoal;
 
   @override
   State<GoalWidget> createState() => _GoalWidgetState();
@@ -57,6 +59,7 @@ class _GoalWidgetState extends State<GoalWidget>
               _sliderValue = value;
               _animationController.value = _mapSliderToLottieProgress(value);
             });
+            widget.onSetGoal(value.toInt());
           },
         ),
         Text(widget.labelKey).tr(args: [_sliderValue.toInt().toString()]),

@@ -95,6 +95,10 @@ class UserSettingsRepository {
     return _sharedPreferences.getInt(_pagesPerMonthGoal);
   }
 
+  Future<void> resetPagesPerMonthTotal() async {
+    await _sharedPreferences.remove(_pagesPerMonthGoal);
+  }
+
   Future<void> setBooksPerMonthGoal({required int booksPerMonthGoal}) async {
     await _sharedPreferences.setInt(_booksPerMonthGoal, booksPerMonthGoal);
   }

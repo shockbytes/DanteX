@@ -129,6 +129,11 @@ class PagesPerMonthGoal extends _$PagesPerMonthGoal {
         );
     state = pagesPerMonthGoal;
   }
+
+  Future<void> reset() async {
+    await ref.read(userSettingsRepositoryProvider).resetPagesPerMonthTotal();
+    state = null;
+  }
 }
 
 @riverpod
