@@ -188,6 +188,15 @@
     "sign_in_methods": "Sign in methods",
     "verify_email": "Send verification email"
   },
+  "reading_goal": {
+    "apply": "Apply",
+    "book_wizard": "Book Wizard",
+    "delete": "Delete",
+    "reading_brain": "Reading Brain",
+    "rookie": "Rookie",
+    "serious_reader": "Serious Reader",
+    "title": "Reading Goal"
+  },
   "search": {
     "got_it": "Got it",
     "no_results": "Looks like we couldn't find any books matching your search. Try again with a different search term.",
@@ -255,7 +264,12 @@
       "title": "Books & Pages"
     },
     "books_per_month": {
+      "books_goal": "Books goal",
+      "books_month_count": "{} books / month",
       "empty": "No data available",
+      "goal": "Goal: {} books / month",
+      "goal_not_set": "Goal not set",
+      "set_goal": "Set goal",
       "title": "Books per month"
     },
     "books_per_year": {

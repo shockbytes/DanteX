@@ -116,3 +116,36 @@ Map<BookLabel, int> bookLabelStats(Ref ref) {
     loading: () => {},
   );
 }
+
+@riverpod
+class PagesPerMonthGoal extends _$PagesPerMonthGoal {
+  @override
+  int? build() =>
+      ref.watch(userSettingsRepositoryProvider).getPagesPerMonthGoal();
+
+  Future<void> set(int pagesPerMonthGoal) async {
+    await ref.read(userSettingsRepositoryProvider).setPagesPerMonthGoal(
+          pagesPerMonthGoal: pagesPerMonthGoal,
+        );
+    state = pagesPerMonthGoal;
+  }
+}
+
+@riverpod
+class BooksPerMonthGoal extends _$BooksPerMonthGoal {
+  @override
+  int? build() =>
+      ref.watch(userSettingsRepositoryProvider).getBooksPerMonthGoal();
+
+  Future<void> set(int booksPerMonthGoal) async {
+    await ref.read(userSettingsRepositoryProvider).setBooksPerMonthGoal(
+          booksPerMonthGoal: booksPerMonthGoal,
+        );
+    state = booksPerMonthGoal;
+  }
+
+  Future<void> reset() async {
+    await ref.read(userSettingsRepositoryProvider).resetBooksPerMonthGoal();
+    state = null;
+  }
+}

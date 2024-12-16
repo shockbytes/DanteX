@@ -281,5 +281,9 @@ double? averageRatingStat(Ref ref) {
 double averageBooksPerMonth(Ref ref) {
   final booksPerMonth = ref.watch(booksPerMonthStatsProvider);
 
+  if (booksPerMonth.isEmpty) {
+    return 0;
+  }
+
   return booksPerMonth.values.average;
 }

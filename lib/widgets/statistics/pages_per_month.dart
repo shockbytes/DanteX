@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:dantex/providers/settings.dart';
 import 'package:dantex/providers/statistics.dart';
 import 'package:dantex/util/date_time.dart';
 import 'package:dantex/widgets/statistics/dante_line_chart.dart';
@@ -12,6 +13,7 @@ class PagesPerMonth extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final pagesPerMonthStats = ref.watch(pagesPerMonthStatsProvider);
+    final pagesPerMonthGoal = ref.watch(pagesPerMonthGoalProvider);
 
     if (pagesPerMonthStats.isEmpty) {
       return Center(
@@ -31,6 +33,7 @@ class PagesPerMonth extends ConsumerWidget {
             .toList()[x.toInt()]
             .key
             .formatWithMonthAndYearShort(),
+        goal: pagesPerMonthGoal?.toDouble(),
       ),
     );
   }

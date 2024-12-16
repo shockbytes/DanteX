@@ -15,6 +15,8 @@ class UserSettingsRepository {
   static const _keyRandomBooksEnabled = 'key_random_books_enabled';
   static const _keySortStrategy = 'key_sort_strategy';
   static const _keyTimelineSortStrategy = 'key_timeline_sort_strategy';
+  static const _pagesPerMonthGoal = 'key_pages_per_month_goal';
+  static const _booksPerMonthGoal = 'key_books_per_month_goal';
 
   Future<void> setThemeMode(ThemeMode themeMode) async {
     await _sharedPreferences.setInt(_keyThemeMode, themeMode.index);
@@ -83,5 +85,25 @@ class UserSettingsRepository {
           timelineSortStrategy.name == timelineSortStrategyName,
       orElse: () => TimelineSortStrategy.byStartDate,
     );
+  }
+
+  Future<void> setPagesPerMonthGoal({required int pagesPerMonthGoal}) async {
+    await _sharedPreferences.setInt(_pagesPerMonthGoal, pagesPerMonthGoal);
+  }
+
+  int? getPagesPerMonthGoal() {
+    return _sharedPreferences.getInt(_pagesPerMonthGoal);
+  }
+
+  Future<void> setBooksPerMonthGoal({required int booksPerMonthGoal}) async {
+    await _sharedPreferences.setInt(_booksPerMonthGoal, booksPerMonthGoal);
+  }
+
+  Future<void> resetBooksPerMonthGoal() async {
+    await _sharedPreferences.remove(_booksPerMonthGoal);
+  }
+
+  int? getBooksPerMonthGoal() {
+    return _sharedPreferences.getInt(_booksPerMonthGoal);
   }
 }

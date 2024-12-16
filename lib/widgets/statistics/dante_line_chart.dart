@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:collection/collection.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -11,15 +13,20 @@ class DanteLineChart extends StatelessWidget {
   const DanteLineChart({
     required this.points,
     required this.xConverter,
+    this.goal,
+    this.goalLabel,
     super.key,
   });
 
   final List<({double x, double y})> points;
   final String Function(double x) xConverter;
+  final double? goal;
+  final String? goalLabel;
 
   @override
   Widget build(BuildContext context) {
-    final maxY = points.map((p) => p.y).max;
+    final goal = this.goal;
+    final maxY = max<double>(points.map((p) => p.y).max, goal ?? 0);
 
     return AspectRatio(
       aspectRatio: 3,
@@ -28,6 +35,31 @@ class DanteLineChart extends StatelessWidget {
           gridData: const FlGridData(
             show: false,
           ),
+          lineTouchData: const LineTouchData(
+            touchTooltipData: LineTouchTooltipData(
+              fitInsideHorizontally: true,
+              fitInsideVertically: true,
+            ),
+          ),
+          extraLinesData: goal != null
+              ? ExtraLinesData(
+                  horizontalLines: [
+                    HorizontalLine(
+                      y: goal,
+                      color: Colors.white,
+                      strokeWidth: 1,
+                      dashArray: [5, 5],
+                      label: HorizontalLineLabel(
+                        labelResolver: (p0) => goalLabel ?? '',
+                        alignment: Alignment.topRight,
+                        padding: const EdgeInsets.only(right: 24, bottom: 8),
+                        show: true,
+                        style: Theme.of(context).textTheme.labelLarge,
+                      ),
+                    ),
+                  ],
+                )
+              : null,
           titlesData: FlTitlesData(
             bottomTitles: AxisTitles(
               sideTitles: SideTitles(
@@ -61,6 +93,7 @@ class DanteLineChart extends StatelessWidget {
           ),
           minX: 0,
           minY: 0,
+          maxY: maxY,
           lineBarsData: [
             LineChartBarData(
               spots: points.map((e) => FlSpot(e.x, e.y)).toList(),
