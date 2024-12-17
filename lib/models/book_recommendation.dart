@@ -1,4 +1,6 @@
 import 'package:dantex/models/book.dart';
+import 'package:dantex/models/book_state.dart';
+import 'package:dantex/models/dante_language.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'book_recommendation.freezed.dart';
@@ -32,6 +34,8 @@ class RecommendedBook with _$RecommendedBook {
     String? summary,
   }) = _RecommendedBook;
 
+  const RecommendedBook._();
+
   factory RecommendedBook.fromJson(Map<String, dynamic> json) =>
       _$RecommendedBookFromJson(json);
 
@@ -49,6 +53,28 @@ class RecommendedBook with _$RecommendedBook {
       summary: book.summary,
     );
   }
+
+  Book get toBook => Book(
+        id: '',
+        title: title,
+        subTitle: subTitle,
+        author: author,
+        state: state.toBookState(),
+        pageCount: pageCount,
+        currentPage: 0,
+        publishedDate: publishedDate,
+        position: 0,
+        isbn: isbn,
+        thumbnailAddress: thumbnailAddress,
+        startDate: null,
+        endDate: null,
+        forLaterDate: null,
+        language: languageFromIsoCode(language),
+        rating: 0,
+        notes: null,
+        summary: summary,
+        googleBooksLink: '',
+      );
 }
 
 @freezed

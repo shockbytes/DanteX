@@ -1,25 +1,31 @@
+import 'package:dantex/logger/event.dart';
 import 'package:dantex/models/book_recommendation.dart';
+import 'package:dantex/models/book_state.dart';
+import 'package:dantex/providers/repository.dart';
+import 'package:dantex/providers/service.dart';
 import 'package:dantex/ui/recommendations/report_recommendation_dialog.dart';
 import 'package:dantex/ui/shared/book_image.dart';
+import 'package:dantex/ui/shared/user_avatar.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RecommendationListCard extends StatelessWidget {
+class RecommendationListCard extends ConsumerWidget {
   const RecommendationListCard({required this.recommendation, super.key});
 
   final BookRecommendation recommendation;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Card.outlined(
       child: Padding(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(16),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
                 BookImage(recommendation.suggestion.thumbnailAddress, size: 48),
-                const SizedBox(width: 8),
+                const SizedBox(width: 16),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,13 +50,64 @@ class RecommendationListCard extends StatelessWidget {
                     ),
                   ),
                   icon: Icon(
-                    Icons.error_outline,
+                    Icons.report_outlined,
                     color: Theme.of(context).colorScheme.error,
                   ),
                 ),
               ],
             ),
-            Text(recommendation.recommendation),
+            const SizedBox(height: 16),
+            RichText(
+              text: TextSpan(
+                children: [
+                  const WidgetSpan(
+                    alignment: PlaceholderAlignment.middle,
+                    child: Icon(Icons.format_quote_outlined, size: 16),
+                  ),
+                  TextSpan(text: ' ${recommendation.recommendation} '),
+                  const WidgetSpan(
+                    alignment: PlaceholderAlignment.middle,
+                    child: Icon(Icons.format_quote_outlined, size: 16),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text('- ${recommendation.suggester.name}'),
+                const SizedBox(width: 8),
+                ExternalUserAvatar(
+                  imageUrl: recommendation.suggester.picture,
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            OutlinedButton(
+              onPressed: () async {
+                await ref.read(bookRepositoryProvider).addBookToState(
+                      recommendation.suggestion.toBook,
+                      BookState.wishlist,
+                    );
+                ref
+                    .read(loggerProvider)
+                    .trackEvent(DanteEvent.addSuggestionToWishlist);
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content:
+                          const Text('recommendations.added_to_wishlist').tr(
+                        args: [
+                          recommendation.suggestion.title,
+                        ],
+                      ),
+                    ),
+                  );
+                }
+              },
+              child: const Text('recommendations.add_to_wishlist').tr(),
+            ),
           ],
         ),
       ),

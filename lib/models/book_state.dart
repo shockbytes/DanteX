@@ -19,12 +19,16 @@ extension BookStateExtension on String {
       case 'wishlist':
         return BookState.wishlist;
       default:
-        return defaultValue;
+        // If we haven't matched one of the above, we have a legacy book state.
+        return convertLegacyBookState(this, defaultValue: defaultValue);
     }
   }
 }
 
-BookState convertLegacyBookState(String legacyState) {
+BookState convertLegacyBookState(
+  String legacyState, {
+  BookState defaultValue = BookState.readLater,
+}) {
   switch (legacyState) {
     case 'READ_LATER':
       return BookState.readLater;
@@ -35,6 +39,6 @@ BookState convertLegacyBookState(String legacyState) {
     case 'WISHLIST':
       return BookState.wishlist;
     default:
-      return BookState.readLater;
+      return defaultValue;
   }
 }

@@ -13,5 +13,9 @@ enum DanteEvent {
   updateMailPasswordFailure,
   userNameChanged,
   userImageChanged,
-  trackingStateChanged
+  trackingStateChanged,
+  openTermsOfService,
+  pickRandomBook,
+  addSuggestionToWishlist,
+  disableRandomBookInteraction
 }

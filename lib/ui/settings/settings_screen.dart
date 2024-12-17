@@ -1,3 +1,5 @@
+import 'package:dantex/logger/event.dart';
+import 'package:dantex/providers/service.dart';
 import 'package:dantex/providers/settings.dart' hide ThemeModeSetting;
 import 'package:dantex/ui/settings/book_sort_dialog.dart';
 import 'package:dantex/ui/settings/contributors_screen.dart';
@@ -96,9 +98,16 @@ class SettingsScreen extends ConsumerWidget {
               subtitle:
                   const Text('settings.books.random_book_selection_description')
                       .tr(),
-              onTap: () async => ref
-                  .read(randomBooksEnabledSettingProvider.notifier)
-                  .set(randomBooksEnabled: !randomBooksEnabled),
+              onTap: () async {
+                await ref
+                    .read(randomBooksEnabledSettingProvider.notifier)
+                    .set(randomBooksEnabled: !randomBooksEnabled);
+                if (!randomBooksEnabled) {
+                  ref
+                      .read(loggerProvider)
+                      .trackEvent(DanteEvent.disableRandomBookInteraction);
+                }
+              },
               trailing: AbsorbPointer(
                 child: Switch(
                   value: randomBooksEnabled,
@@ -159,9 +168,14 @@ class SettingsScreen extends ConsumerWidget {
               title: const Text('settings.privacy.tracking').tr(),
               subtitle:
                   const Text('settings.privacy.tracking_description').tr(),
-              onTap: () async => ref
-                  .read(usageTrackingSettingProvider.notifier)
-                  .set(trackingEnabled: !usageTrackingEnabled),
+              onTap: () async {
+                await ref
+                    .read(usageTrackingSettingProvider.notifier)
+                    .set(trackingEnabled: !usageTrackingEnabled);
+                ref
+                    .read(loggerProvider)
+                    .trackEvent(DanteEvent.trackingStateChanged);
+              },
               trailing: AbsorbPointer(
                 child: Switch(
                   value: usageTrackingEnabled,
@@ -178,7 +192,15 @@ class SettingsScreen extends ConsumerWidget {
             SettingsTile(
               leading: const Icon(Icons.policy_outlined),
               title: const Text('settings.privacy.terms_and_conditions').tr(),
-              onTap: () async => tryLaunchUrl('https://dantebooks.com/#/terms'),
+              onTap: () async {
+                final launched =
+                    await tryLaunchUrl('https://dantebooks.com/#/terms');
+                if (launched) {
+                  ref
+                      .read(loggerProvider)
+                      .trackEvent(DanteEvent.openTermsOfService);
+                }
+              },
             ),
             SectionTitle(title: 'settings.about.title'.tr()),
             SettingsTile(

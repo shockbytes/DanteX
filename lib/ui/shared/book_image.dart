@@ -28,25 +28,21 @@ class BookImage extends StatelessWidget {
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
-      child: SizedBox(
-        width: size,
-        child: isLocalUrl
-            ? Image.file(
-                File(Uri.parse(imageUrl).path),
-                width: size,
-                height: size,
-              )
-            : CachedNetworkImage(
-                imageUrl: imageUrl,
-                width: size,
-                height: size,
-                progressIndicatorBuilder: (context, url, progress) => Center(
-                  child: CircularProgressIndicator(
-                    value: progress.progress,
-                  ),
+      child: isLocalUrl
+          ? Image.file(
+              File(Uri.parse(imageUrl).path),
+              width: size,
+              height: size,
+            )
+          : CachedNetworkImage(
+              imageUrl: imageUrl,
+              height: size,
+              progressIndicatorBuilder: (context, url, progress) => Center(
+                child: CircularProgressIndicator(
+                  value: progress.progress,
                 ),
               ),
-      ),
+            ),
     );
   }
 }

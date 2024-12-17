@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:dantex/logger/event.dart';
 import 'package:dantex/models/book.dart';
 import 'package:dantex/models/book_sort_strategy.dart';
 import 'package:dantex/models/book_state.dart';
@@ -140,6 +141,7 @@ class _RandomBookDialog extends ConsumerWidget {
                     randomBook.id,
                     BookState.readLater,
                   );
+              ref.read(loggerProvider).trackEvent(DanteEvent.pickRandomBook);
               if (context.mounted) {
                 Navigator.of(context).pop();
               }
