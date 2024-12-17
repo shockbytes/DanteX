@@ -105,9 +105,9 @@
     "move_to_read": "Move to done",
     "move_to_read_later": "Move to read later",
     "move_to_reading": "Move to reading",
+    "recommend": "Recommend",
     "share": "Share",
-    "share_message": "Hey, I'm currently reading {} and it's awesome! Check it out: {}",
-    "suggest": "Suggest"
+    "share_message": "Hey, I'm currently reading {} and it's awesome! Check it out: {}"
   },
   "book_label": {
     "books_with_label": {
@@ -196,6 +196,12 @@
     "rookie": "Rookie",
     "serious_reader": "Serious Reader",
     "title": "Reading Goal"
+  },
+  "recommendations": {
+    "not_found": "No recommendations found, try pulling to refresh!",
+    "recommend": "Recommend",
+    "recommend_book_hint": "Enter your recommendation",
+    "title": "Recommendations"
   },
   "search": {
     "got_it": "Got it",
@@ -322,10 +328,6 @@
       "title": "Reading time"
     },
     "title": "My Statistics"
-  },
-  "suggestions": {
-    "suggest": "Suggest",
-    "suggest_book_hint": "Enter your recommendation"
   },
   "timeline": {
     "empty": "You haven't finished any books yet for us to show you a timeline. Get reading and come back!",

@@ -7,18 +7,18 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SuggestBookBottomSheet extends ConsumerStatefulWidget {
-  const SuggestBookBottomSheet({required this.book, super.key});
+class RecommendBookBottomSheet extends ConsumerStatefulWidget {
+  const RecommendBookBottomSheet({required this.book, super.key});
 
   final Book book;
 
   @override
-  ConsumerState<SuggestBookBottomSheet> createState() =>
-      _SuggestBookBottomSheetState();
+  ConsumerState<RecommendBookBottomSheet> createState() =>
+      _RecommendBookBottomSheetState();
 }
 
-class _SuggestBookBottomSheetState
-    extends ConsumerState<SuggestBookBottomSheet> {
+class _RecommendBookBottomSheetState
+    extends ConsumerState<RecommendBookBottomSheet> {
   final textController = TextEditingController();
 
   @override
@@ -57,7 +57,7 @@ class _SuggestBookBottomSheetState
                   maxLength: 180,
                   maxLines: 5,
                   decoration: InputDecoration(
-                    hintText: 'suggestions.suggest_book_hint'.tr(),
+                    hintText: 'recommendations.recommend_book_hint'.tr(),
                     border: const OutlineInputBorder(),
                   ),
                   buildCounter: (
@@ -84,7 +84,7 @@ class _SuggestBookBottomSheetState
                         );
                     logger.trackEvent(DanteEvent.suggestBook);
                   },
-                  child: const Text('suggestions.suggest').tr(),
+                  child: const Text('recommendations.recommend').tr(),
                 ),
               ],
             ),

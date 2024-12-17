@@ -141,7 +141,7 @@ Book _convertLegacyBook(Map<String, dynamic> legacyBook) {
     title: legacyBook['title'] as String,
     subTitle: legacyBook['subTitle'] as String,
     author: legacyBook['author'] as String,
-    state: _convertLegacyBookState(legacyBook['state'] as String),
+    state: convertLegacyBookState(legacyBook['state'] as String),
     pageCount: legacyBook['pageCount'] as int,
     currentPage: legacyBook['currentPage'] as int,
     publishedDate: legacyBook['publishedDate'] as String,
@@ -166,21 +166,6 @@ Book _convertLegacyBook(Map<String, dynamic> legacyBook) {
     labels: labels,
     googleBooksLink: legacyBook['googleBooksLink'] as String?,
   );
-}
-
-BookState _convertLegacyBookState(String legacyState) {
-  switch (legacyState) {
-    case 'READ_LATER':
-      return BookState.readLater;
-    case 'READING':
-      return BookState.reading;
-    case 'READ':
-      return BookState.read;
-    case 'WISHLIST':
-      return BookState.wishlist;
-    default:
-      return BookState.readLater;
-  }
 }
 
 BookLabel _convertLegacyBookLabel(Map<String, dynamic> legacyLabel) {

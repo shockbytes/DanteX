@@ -23,3 +23,18 @@ extension BookStateExtension on String {
     }
   }
 }
+
+BookState convertLegacyBookState(String legacyState) {
+  switch (legacyState) {
+    case 'READ_LATER':
+      return BookState.readLater;
+    case 'READING':
+      return BookState.reading;
+    case 'READ':
+      return BookState.read;
+    case 'WISHLIST':
+      return BookState.wishlist;
+    default:
+      return BookState.readLater;
+  }
+}

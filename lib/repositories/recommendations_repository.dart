@@ -1,5 +1,6 @@
 import 'package:dantex/models/book.dart';
 import 'package:dantex/models/book_recommendation.dart';
+import 'package:dantex/models/recommendations_response.dart';
 import 'package:dio/dio.dart';
 
 class RecommendationsRepository {
@@ -25,6 +26,28 @@ class RecommendationsRepository {
         headers: _headers,
       ),
     );
+  }
+
+  Future<List<BookRecommendation>> loadRecommendations() async {
+    final response = await _client.get<Map<String, dynamic>>(
+      '/suggestions',
+      options: Options(
+        headers: _headers,
+      ),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception(
+        'Unable to load suggestions from server: ${response.statusMessage}',
+      );
+    }
+
+    final data = response.data;
+    if (data == null) {
+      return [];
+    }
+
+    return RecommendationsResponse.fromJson(data).suggestions;
   }
 
   Map<String, dynamic> get _headers => {

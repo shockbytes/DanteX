@@ -5,6 +5,7 @@ import 'package:dantex/ui/book_list/wishlist_screen.dart';
 import 'package:dantex/ui/edit_book/edit_book_screen.dart';
 import 'package:dantex/ui/home/home_screen.dart';
 import 'package:dantex/ui/profile/profile_screen.dart';
+import 'package:dantex/ui/recommendations/recommendations_screen.dart';
 import 'package:dantex/ui/settings/contributors_screen.dart';
 import 'package:dantex/ui/settings/settings_screen.dart';
 import 'package:dantex/ui/sign_in/forgot_password_screen.dart';
@@ -211,9 +212,7 @@ GoRouter router(Ref ref) {
           GoRoute(
             path: ContributorsScreen.routeLocation,
             name: ContributorsScreen.routeName,
-            builder: (context, state) {
-              return const ContributorsScreen();
-            },
+            builder: (context, state) => const ContributorsScreen(),
           ),
         ],
       ),
@@ -248,6 +247,30 @@ GoRouter router(Ref ref) {
           return CustomTransitionPage(
             key: state.pageKey,
             child: const StatisticsScreen(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              const curve = Curves.easeInOut;
+              final curvedAnimation =
+                  CurvedAnimation(parent: animation, curve: curve);
+
+              return SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(0, 1),
+                  end: Offset.zero,
+                ).animate(curvedAnimation),
+                child: child,
+              );
+            },
+          );
+        },
+      ),
+      GoRoute(
+        path: RecommendationsScreen.routeLocation,
+        name: RecommendationsScreen.routeName,
+        pageBuilder: (context, state) {
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: const RecommendationsScreen(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
               const curve = Curves.easeInOut;

@@ -1,7 +1,8 @@
 import 'package:dantex/providers/auth.dart';
-import 'package:dantex/screens/wishlist_screen.dart';
 import 'package:dantex/ui/backup/book_management_screen.dart';
+import 'package:dantex/ui/book_list/wishlist_screen.dart';
 import 'package:dantex/ui/profile/profile_screen.dart';
+import 'package:dantex/ui/recommendations/recommendations_screen.dart';
 import 'package:dantex/ui/settings/settings_screen.dart';
 import 'package:dantex/ui/shared/sign_out_button.dart';
 import 'package:dantex/ui/shared/user_avatar.dart';
@@ -73,7 +74,9 @@ class DanteBottomSheet extends ConsumerWidget {
                 _MenuItem(
                   text: 'navigation.recommendations',
                   icon: Icons.whatshot_outlined,
-                  onItemClicked: () {},
+                  onItemClicked: () async => context.push(
+                    RecommendationsScreen.routeLocation,
+                  ),
                 ),
                 _MenuItem(
                   text: 'navigation.book_keeping',

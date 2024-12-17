@@ -1,5 +1,4 @@
 import 'package:dantex/models/book.dart';
-import 'package:dantex/models/book_state.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'book_recommendation.freezed.dart';
@@ -8,9 +7,9 @@ part 'book_recommendation.g.dart';
 @freezed
 class BookRecommendation with _$BookRecommendation {
   const factory BookRecommendation({
-    required String recommendationId,
-    required BookRecommender recommender,
-    required RecommendedBook book,
+    required String suggestionId,
+    required BookRecommender suggester,
+    required RecommendedBook suggestion,
     required String recommendation,
   }) = _BookRecommendation;
 
@@ -24,7 +23,7 @@ class RecommendedBook with _$RecommendedBook {
     required String title,
     required String subTitle,
     required String author,
-    required BookState state,
+    required String state,
     required int pageCount,
     required String publishedDate,
     required String isbn,
@@ -41,7 +40,7 @@ class RecommendedBook with _$RecommendedBook {
       title: book.title,
       subTitle: book.subTitle,
       author: book.author,
-      state: book.state,
+      state: book.state.name,
       pageCount: book.pageCount,
       publishedDate: book.publishedDate,
       isbn: book.isbn,

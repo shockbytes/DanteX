@@ -3,7 +3,7 @@ import 'package:dantex/models/book_state.dart';
 import 'package:dantex/providers/repository.dart';
 import 'package:dantex/theme/dante_colors.dart';
 import 'package:dantex/ui/edit_book/edit_book_screen.dart';
-import 'package:dantex/ui/suggestions/suggest_book_bottom_sheet.dart';
+import 'package:dantex/ui/recommendations/recommend_book_bottom_sheet.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -97,14 +97,14 @@ class BookActionsBottomSheet extends ConsumerWidget {
                   Icons.local_fire_department_outlined,
                   color: danteColors?.suggestColor,
                 ),
-                label: 'book_action.suggest'.tr(),
+                label: 'book_action.recommend'.tr(),
                 onTap: () async {
                   Navigator.of(context).pop();
                   await showModalBottomSheet<void>(
                     showDragHandle: true,
                     isScrollControlled: true,
                     context: context,
-                    builder: (context) => SuggestBookBottomSheet(book: book),
+                    builder: (context) => RecommendBookBottomSheet(book: book),
                   );
                 },
               ),
