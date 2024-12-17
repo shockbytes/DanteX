@@ -6,7 +6,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 import '../test_utilities.dart';
-import '../widgets/backup/backup_list_card_test.mocks.dart';
+import '../ui/backup/backup_list_card_test.mocks.dart';
 
 @GenerateMocks([BackupRepository])
 void main() {
