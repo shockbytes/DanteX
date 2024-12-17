@@ -50,6 +50,15 @@ class RecommendationsRepository {
     return RecommendationsResponse.fromJson(data).suggestions;
   }
 
+  Future<void> reportRecommendation(String recommendationId) async {
+    await _client.post<void>(
+      '/suggestions/$recommendationId/report',
+      options: Options(
+        headers: _headers,
+      ),
+    );
+  }
+
   Map<String, dynamic> get _headers => {
         'Authorization': 'Bearer $_authToken',
         'Access-Control-Allow-Origin': '*',

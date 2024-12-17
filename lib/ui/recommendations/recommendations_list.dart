@@ -12,32 +12,35 @@ class RecommendationsList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final recommendationsList = ref.watch(recommendationsProvider);
-    return RefreshIndicator(
-      onRefresh: () async => ref.refresh(recommendationsProvider.future),
-      child: recommendationsList.when(
-        data: (recommendations) {
-          return ListView.builder(
-            itemCount: recommendations.length,
-            itemBuilder: (context, index) {
-              final recommendation = recommendations[index];
-              return RecommendationListCard(recommendation: recommendation);
-            },
-          );
-        },
-        error: (e, s) {
-          ref
-              .read(loggerProvider)
-              .e('Error loading recommendations', error: e, stackTrace: s);
-          return Center(
-            child: ListView(
-              shrinkWrap: true,
-              children: [
-                Center(child: const Text('recommendations.not_found').tr()),
-              ],
-            ),
-          );
-        },
-        loading: DanteLoadingIndicator.new,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: RefreshIndicator(
+        onRefresh: () async => ref.refresh(recommendationsProvider.future),
+        child: recommendationsList.when(
+          data: (recommendations) {
+            return ListView.builder(
+              itemCount: recommendations.length,
+              itemBuilder: (context, index) {
+                final recommendation = recommendations[index];
+                return RecommendationListCard(recommendation: recommendation);
+              },
+            );
+          },
+          error: (e, s) {
+            ref
+                .read(loggerProvider)
+                .e('Error loading recommendations', error: e, stackTrace: s);
+            return Center(
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  Center(child: const Text('recommendations.not_found').tr()),
+                ],
+              ),
+            );
+          },
+          loading: DanteLoadingIndicator.new,
+        ),
       ),
     );
   }
