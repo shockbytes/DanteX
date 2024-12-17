@@ -22,12 +22,9 @@ class ContributorsScreen extends StatelessWidget {
               ),
         ),
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 16,
-            horizontal: 16,
-          ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+        child: SafeArea(
           child: Column(
             children: [
               Expanded(

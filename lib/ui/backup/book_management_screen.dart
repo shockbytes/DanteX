@@ -46,9 +46,9 @@ class _BookManagementScreenState extends ConsumerState<BookManagementScreen>
           ],
         ),
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: SafeArea(
           child: TabBarView(
             controller: _tabController,
             children: [

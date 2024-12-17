@@ -59,7 +59,7 @@ class _AddCustomBookScreenState extends ConsumerState<AddCustomBookScreen> {
         title: const Text('add_manual_book.add_book_manually').tr(),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 8),
         child: loading
             ? const Center(
                 child: Column(

@@ -29,29 +29,32 @@ class TimelineScreen extends ConsumerWidget {
           ),
         ],
       ),
-      body: ref.watch(timeLineBooksProvider).when(
-            data: (timeLine) {
-              if (timeLine.isEmpty) {
-                return const NoBooksFound.timeline();
-              }
-              return ListView.builder(
-                itemCount: timeLine.length,
-                itemBuilder: (context, index) {
-                  final (:month, :books) = timeLine[index];
-                  return MonthEntry(month: month, books: books);
-                },
-              );
-            },
-            error: (e, s) {
-              ref
-                  .read(loggerProvider)
-                  .e('Error loading timeline', error: s, stackTrace: s);
-              return const SizedBox.shrink();
-            },
-            loading: () => const Center(
-              child: DanteLoadingIndicator(),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: ref.watch(timeLineBooksProvider).when(
+              data: (timeLine) {
+                if (timeLine.isEmpty) {
+                  return const NoBooksFound.timeline();
+                }
+                return ListView.builder(
+                  itemCount: timeLine.length,
+                  itemBuilder: (context, index) {
+                    final (:month, :books) = timeLine[index];
+                    return MonthEntry(month: month, books: books);
+                  },
+                );
+              },
+              error: (e, s) {
+                ref
+                    .read(loggerProvider)
+                    .e('Error loading timeline', error: s, stackTrace: s);
+                return const SizedBox.shrink();
+              },
+              loading: () => const Center(
+                child: DanteLoadingIndicator(),
+              ),
             ),
-          ),
+      ),
     );
   }
 }

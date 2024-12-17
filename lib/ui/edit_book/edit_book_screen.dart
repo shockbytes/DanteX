@@ -58,52 +58,55 @@ class _EditBookScreenState extends ConsumerState<EditBookScreen> {
       appBar: AppBar(
         title: const Text('edit_book.edit_book').tr(),
       ),
-      body: book.when(
-        data: (book) {
-          if (book == null) {
-            return Center(child: const Text('edit_book.book_not_found').tr());
-          }
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: book.when(
+          data: (book) {
+            if (book == null) {
+              return Center(child: const Text('edit_book.book_not_found').tr());
+            }
 
-          _titleController.text = book.title;
-          _authorsController.text = book.author;
-          _pagesController.text = book.pageCount.toString();
-          _subtitleController.text = book.subTitle;
-          _publishedDateController.text = book.publishedDate;
-          _isbnController.text = book.isbn;
-          _summaryController.text = book.summary ?? '';
-          languageIsoCode = book.language.isoCode;
+            _titleController.text = book.title;
+            _authorsController.text = book.author;
+            _pagesController.text = book.pageCount.toString();
+            _subtitleController.text = book.subTitle;
+            _publishedDateController.text = book.publishedDate;
+            _isbnController.text = book.isbn;
+            _summaryController.text = book.summary ?? '';
+            languageIsoCode = book.language.isoCode;
 
-          return Form(
-            key: _formKey,
-            child: ListView(
-              children: [
-                RequiredBookFields(
-                  titleController: _titleController,
-                  authorsController: _authorsController,
-                  pagesController: _pagesController,
-                  imageUrl: book.thumbnailAddress,
-                  onImageSelected: _uploadImage,
-                ),
-                const SizedBox(height: 16),
-                OptionalBookFields(
-                  subtitleController: _subtitleController,
-                  publishedDateController: _publishedDateController,
-                  isbnController: _isbnController,
-                  summaryController: _summaryController,
-                  onLanguageChanged: (languageIsoCode) => setState(
-                    () => this.languageIsoCode = languageIsoCode,
+            return Form(
+              key: _formKey,
+              child: ListView(
+                children: [
+                  RequiredBookFields(
+                    titleController: _titleController,
+                    authorsController: _authorsController,
+                    pagesController: _pagesController,
+                    imageUrl: book.thumbnailAddress,
+                    onImageSelected: _uploadImage,
                   ),
-                  initialLanguageIsoCode: languageIsoCode,
-                ),
-              ],
-            ),
-          );
-        },
-        error: (e, s) {
-          return null;
-        },
-        loading: () => const Center(
-          child: DanteLoadingIndicator(),
+                  const SizedBox(height: 16),
+                  OptionalBookFields(
+                    subtitleController: _subtitleController,
+                    publishedDateController: _publishedDateController,
+                    isbnController: _isbnController,
+                    summaryController: _summaryController,
+                    onLanguageChanged: (languageIsoCode) => setState(
+                      () => this.languageIsoCode = languageIsoCode,
+                    ),
+                    initialLanguageIsoCode: languageIsoCode,
+                  ),
+                ],
+              ),
+            );
+          },
+          error: (e, s) {
+            return null;
+          },
+          loading: () => const Center(
+            child: DanteLoadingIndicator(),
+          ),
         ),
       ),
       bottomNavigationBar: SafeArea(

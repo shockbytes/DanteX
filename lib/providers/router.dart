@@ -1,6 +1,7 @@
 import 'package:dantex/providers/auth.dart';
 import 'package:dantex/ui/add_book/add_custom_book_screen.dart';
 import 'package:dantex/ui/backup/book_management_screen.dart';
+import 'package:dantex/ui/book_detail/book_detail_screen.dart';
 import 'package:dantex/ui/book_list/wishlist_screen.dart';
 import 'package:dantex/ui/edit_book/edit_book_screen.dart';
 import 'package:dantex/ui/home/home_screen.dart';
@@ -271,6 +272,32 @@ GoRouter router(Ref ref) {
           return CustomTransitionPage(
             key: state.pageKey,
             child: const RecommendationsScreen(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+              const curve = Curves.easeInOut;
+              final curvedAnimation =
+                  CurvedAnimation(parent: animation, curve: curve);
+
+              return SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(0, 1),
+                  end: Offset.zero,
+                ).animate(curvedAnimation),
+                child: child,
+              );
+            },
+          );
+        },
+      ),
+      GoRoute(
+        path: BookDetailScreen.routeLocation,
+        name: BookDetailScreen.routeName,
+        pageBuilder: (context, state) {
+          final bookId = state.pathParameters['bookId'] ?? '';
+
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: BookDetailScreen(bookId: bookId),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
               const curve = Curves.easeInOut;

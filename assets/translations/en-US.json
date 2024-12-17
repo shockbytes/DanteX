@@ -109,6 +109,10 @@
     "share": "Share",
     "share_message": "Hey, I'm currently reading {} and it's awesome! Check it out: {}"
   },
+  "book_detail": {
+    "not_found": "Book not found",
+    "title": "Book Detail"
+  },
   "book_label": {
     "books_with_label": {
       "one": "{} book",

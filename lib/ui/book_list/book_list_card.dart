@@ -1,11 +1,13 @@
 import 'package:dantex/models/book.dart';
 import 'package:dantex/models/book_state.dart';
+import 'package:dantex/ui/book_detail/book_detail_screen.dart';
 import 'package:dantex/ui/book_list/book_actions_bottom_sheet.dart';
 import 'package:dantex/ui/book_list/book_label_button.dart';
 import 'package:dantex/ui/shared/book_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:go_router/go_router.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class BookListCard extends ConsumerWidget {
   const BookListCard({required this.book, super.key});
@@ -17,7 +19,12 @@ class BookListCard extends ConsumerWidget {
     return Card.outlined(
       child: InkWell(
         borderRadius: BorderRadius.circular(8),
-        onTap: () {},
+        onTap: () async => context.push(
+          BookDetailScreen.routeLocation.replaceAll(
+            ':bookId',
+            book.id,
+          ),
+        ),
         child: Padding(
           padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
           child: Column(
@@ -130,19 +137,44 @@ class _Actions extends StatelessWidget {
           icon: const Icon(Icons.more_vert),
         ),
         if (book.state == BookState.reading) ...[
-          CircularPercentIndicator(
-            key: ValueKey('book_${book.id}_progress'),
-            radius: 20,
-            lineWidth: 2,
-            percent: book.progressPercentage,
-            center: Text(
-              '${(book.progressPercentage * 100).toInt()}%',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+          SizedBox(
+            width: 40,
+            height: 40,
+            child: SfRadialGauge(
+              axes: <RadialAxis>[
+                RadialAxis(
+                  startAngle: 270,
+                  endAngle: 270,
+                  showTicks: false,
+                  showLabels: false,
+                  axisLineStyle: AxisLineStyle(
+                    thickness: 2,
+                    color: Theme.of(context).colorScheme.secondaryContainer,
                   ),
+                  annotations: <GaugeAnnotation>[
+                    GaugeAnnotation(
+                      widget: Text(
+                        '${(book.progressPercentage * 100).toInt()}%',
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurfaceVariant,
+                            ),
+                      ),
+                    ),
+                  ],
+                  pointers: <GaugePointer>[
+                    RangePointer(
+                      value: book.progressPercentage * 100,
+                      width: 2,
+                      color: Theme.of(context).colorScheme.onSecondaryContainer,
+                      enableAnimation: true,
+                      cornerStyle: CornerStyle.bothCurve,
+                    ),
+                  ],
+                ),
+              ],
             ),
-            backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
-            progressColor: Theme.of(context).colorScheme.onSecondaryContainer,
           ),
         ],
       ],

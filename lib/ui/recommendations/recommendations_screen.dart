@@ -14,7 +14,10 @@ class RecommendationsScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('recommendations.title').tr(),
       ),
-      body: const RecommendationsList(),
+      body: const Padding(
+        padding: EdgeInsets.symmetric(horizontal: 8),
+        child: RecommendationsList(),
+      ),
     );
   }
 }
