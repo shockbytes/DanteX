@@ -2,6 +2,7 @@ import 'package:dantex/providers/auth.dart';
 import 'package:dantex/ui/add_book/add_custom_book_screen.dart';
 import 'package:dantex/ui/backup/book_management_screen.dart';
 import 'package:dantex/ui/book_detail/book_detail_screen.dart';
+import 'package:dantex/ui/book_detail/notes_screen.dart';
 import 'package:dantex/ui/book_list/wishlist_screen.dart';
 import 'package:dantex/ui/edit_book/edit_book_screen.dart';
 import 'package:dantex/ui/home/home_screen.dart';
@@ -314,6 +315,16 @@ GoRouter router(Ref ref) {
             },
           );
         },
+        routes: [
+          GoRoute(
+            path: NotesScreen.routeLocation,
+            name: NotesScreen.routeName,
+            builder: (context, state) {
+              final bookId = state.pathParameters['bookId'] ?? '';
+              return NotesScreen(bookId: bookId);
+            },
+          ),
+        ],
       ),
     ],
     redirect: (context, state) {

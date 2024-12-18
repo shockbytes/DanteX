@@ -110,7 +110,21 @@
     "share_message": "Hey, I'm currently reading {} and it's awesome! Check it out: {}"
   },
   "book_detail": {
+    "delete": "Delete",
+    "my_notes": "My notes",
     "not_found": "Book not found",
+    "notes": "Notes",
+    "notes_description": "Write down your thoughts, feelings or some general remarks about {}.",
+    "notes_hint": "My thoughts belong in here...",
+    "rate": "Rate",
+    "rate_title": "How do you like {}?",
+    "rating": "{} stars",
+    "rating_bad": "I've read better books",
+    "rating_good": "Really, really good",
+    "rating_great": "Excellent",
+    "rating_ok": "It's okay",
+    "rating_terrible": "I've wasted my time",
+    "save": "Save",
     "title": "Book Detail"
   },
   "book_label": {

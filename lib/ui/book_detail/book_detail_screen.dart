@@ -2,10 +2,14 @@ import 'package:dantex/providers/book.dart';
 import 'package:dantex/providers/service.dart';
 import 'package:dantex/providers/settings.dart';
 import 'package:dantex/ui/book_detail/book_progress_widget.dart';
+import 'package:dantex/ui/book_detail/notes_screen.dart';
+import 'package:dantex/ui/book_detail/rate_book_dialog.dart';
 import 'package:dantex/ui/edit_book/edit_book_screen.dart';
 import 'package:dantex/ui/shared/book_image.dart';
 import 'package:dantex/ui/shared/dante_loading_indicator.dart';
 import 'package:dantex/ui/shared/expandable_text.dart';
+import 'package:dantex/ui/shared/subtitle_icon.dart';
+import 'package:dantex/util/date_time.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -77,6 +81,55 @@ class BookDetailScreen extends ConsumerWidget {
                   ],
                   const SizedBox(height: 8),
                   BookProgressWidget(book: book),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: IconButton(
+                          onPressed: () async => showDialog(
+                            context: context,
+                            builder: (context) => RateBookDialog(book: book),
+                          ),
+                          icon: SubtitleIcon(
+                            icon: Icons.star_outline,
+                            subtitle: book.rating != 0
+                                ? 'book_detail.rating'
+                                    .tr(args: [book.rating.toString()])
+                                : 'book_detail.rate'.tr(),
+                            size: 24,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: IconButton(
+                          onPressed: () async => context.push(
+                            NotesScreen.navigationUrl.replaceAll(
+                              ':bookId',
+                              book.id,
+                            ),
+                          ),
+                          icon: SubtitleIcon(
+                            icon: Icons.assignment_outlined,
+                            subtitle: 'book_detail.notes'.tr(),
+                            size: 24,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: IconButton(
+                          onPressed: () {},
+                          icon: SubtitleIcon(
+                            icon: Icons.event_outlined,
+                            subtitle: book.startDate
+                                    ?.formatWithYearMonthDay() ??
+                                book.forLaterDate?.formatWithYearMonthDay() ??
+                                '',
+                            size: 24,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
