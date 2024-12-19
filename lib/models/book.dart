@@ -1,6 +1,7 @@
 import 'package:dantex/models/book_label.dart';
 import 'package:dantex/models/book_state.dart';
 import 'package:dantex/models/dante_language.dart';
+import 'package:dantex/models/page_record.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'book.freezed.dart';
@@ -29,6 +30,7 @@ class Book with _$Book {
     required String? summary,
     required String? googleBooksLink,
     @Default(<BookLabel>[]) List<BookLabel> labels,
+    @Default(<PageRecord>[]) List<PageRecord> pageRecords,
   }) = _Book;
 
   const Book._();

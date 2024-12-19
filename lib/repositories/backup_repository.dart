@@ -5,6 +5,7 @@ import 'package:dantex/models/book.dart';
 import 'package:dantex/models/book_label.dart';
 import 'package:dantex/models/book_state.dart';
 import 'package:dantex/models/dante_language.dart';
+import 'package:dantex/models/page_record.dart';
 import 'package:device_marketing_names/device_marketing_names.dart';
 import 'package:googleapis/drive/v3.dart';
 
@@ -89,11 +90,21 @@ class BackupRepository {
 
     final backupJson = await utf8.decodeStream(response.stream);
     final backupData = jsonDecode(backupJson) as Map<String, dynamic>;
-    final booksList = backupData['books'] as List<dynamic>;
+
+    final booksList = backupData['books'] as List<dynamic>? ?? [];
     final books = booksList.cast<Map<String, dynamic>>();
 
+    final recordList = backupData['records'] as List<dynamic>? ?? [];
+    final pageRecordMap = recordList.cast<Map<String, dynamic>>();
+
     if (isLegacyBackup) {
-      return books.map(_convertLegacyBook).toList();
+      final pageRecords = pageRecordMap.map(_convertLegacyPageRecord).toList();
+      return books.map((legacyBook) {
+        final bookPageRecords = pageRecords
+            .where((record) => record.bookId == legacyBook['id'].toString())
+            .toList();
+        return _convertLegacyBook(legacyBook, bookPageRecords);
+      }).toList();
     } else {
       return books.map(Book.fromJson).toList();
     }
@@ -114,7 +125,7 @@ class BackupRepository {
     final deviceNames = DeviceMarketingNames();
     final deviceName = await deviceNames.getSingleName();
     final fileName =
-        'google-drive_man_${timeStamp}_${books.length}_${deviceName}_dantex.json';
+        'google-drive_man_${timeStamp}_${books.length}_${deviceName}_v2.json';
 
     await _driveApi.files.create(
       File.fromJson({
@@ -130,14 +141,16 @@ class BackupRepository {
   }
 }
 
-Book _convertLegacyBook(Map<String, dynamic> legacyBook) {
+Book _convertLegacyBook(
+  Map<String, dynamic> legacyBook,
+  List<PageRecord> records,
+) {
   final labelsList = legacyBook['labels'] as List<dynamic>;
   final labelsData = labelsList.cast<Map<String, dynamic>>();
   final labels = labelsData.map(_convertLegacyBookLabel).toList();
 
   return Book(
-    // This ID comes from Firebase, so for now can just use -1 as placeholder.
-    id: '-1',
+    id: (legacyBook['id'] as int).toString(),
     title: legacyBook['title'] as String,
     subTitle: legacyBook['subTitle'] as String,
     author: legacyBook['author'] as String,
@@ -165,6 +178,18 @@ Book _convertLegacyBook(Map<String, dynamic> legacyBook) {
     summary: legacyBook['summary'] as String?,
     labels: labels,
     googleBooksLink: legacyBook['googleBooksLink'] as String?,
+    pageRecords: records,
+  );
+}
+
+PageRecord _convertLegacyPageRecord(Map<String, dynamic> legacyRecord) {
+  return PageRecord(
+    bookId: (legacyRecord['bookId'] as int).toString(),
+    fromPage: legacyRecord['fromPage'] as int,
+    toPage: legacyRecord['toPage'] as int,
+    timestamp: DateTime.fromMillisecondsSinceEpoch(
+      legacyRecord['timestamp'] as int,
+    ),
   );
 }
 
