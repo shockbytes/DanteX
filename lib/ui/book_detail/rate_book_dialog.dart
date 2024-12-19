@@ -57,8 +57,9 @@ class _RateBookDialogState extends ConsumerState<RateBookDialog> {
       actions: [
         OutlinedButton(
           onPressed: () async {
-            await ref.read(bookRepositoryProvider).updateBook(
-                  widget.book.copyWith(rating: rating.round()),
+            await ref.read(bookRepositoryProvider).setRating(
+                  widget.book.id,
+                  rating.toInt(),
                 );
             if (context.mounted) {
               Navigator.of(context).pop();

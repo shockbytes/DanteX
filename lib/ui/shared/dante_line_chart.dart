@@ -15,6 +15,7 @@ class DanteLineChart extends StatelessWidget {
     required this.xConverter,
     this.goal,
     this.goalLabel,
+    this.includeMaxY = false,
     super.key,
   });
 
@@ -22,11 +23,13 @@ class DanteLineChart extends StatelessWidget {
   final String Function(double x) xConverter;
   final double? goal;
   final String? goalLabel;
+  final bool includeMaxY;
 
   @override
   Widget build(BuildContext context) {
     final goal = this.goal;
-    final maxY = max<double>(points.map((p) => p.y).max, goal ?? 0);
+    final maxY =
+        _conditionalRound(max<double>(points.map((p) => p.y).max, goal ?? 0));
 
     return AspectRatio(
       aspectRatio: 3,
@@ -82,7 +85,8 @@ class DanteLineChart extends StatelessWidget {
                   value.toInt().toString(),
                 ),
                 reservedSize: (maxY.toString().length * 6).toDouble(),
-                maxIncluded: false,
+                interval: maxY / 3,
+                maxIncluded: includeMaxY,
               ),
             ),
             rightTitles: const AxisTitles(),
@@ -153,5 +157,17 @@ class DanteLineChart extends StatelessWidget {
       textAlign: TextAlign.left,
       style: Theme.of(context).textTheme.bodySmall,
     );
+  }
+}
+
+double _conditionalRound(double value) {
+  if (value < 100) {
+    return (value / 10).round() * 10; // Round to the nearest 10
+  } else if (value < 1000) {
+    return (value / 100).round() * 100; // Round to the nearest 100
+  } else if (value < 10000) {
+    return (value / 1000).round() * 1000; // Round to the nearest 1000
+  } else {
+    return (value / 10000).round() * 10000; // Round to the nearest 10000
   }
 }

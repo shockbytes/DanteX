@@ -4,6 +4,7 @@ import 'package:dantex/providers/settings.dart';
 import 'package:dantex/ui/book_detail/book_progress_widget.dart';
 import 'package:dantex/ui/book_detail/notes_screen.dart';
 import 'package:dantex/ui/book_detail/rate_book_dialog.dart';
+import 'package:dantex/ui/book_detail/reading_behavior.dart';
 import 'package:dantex/ui/edit_book/edit_book_screen.dart';
 import 'package:dantex/ui/shared/book_image.dart';
 import 'package:dantex/ui/shared/dante_loading_indicator.dart';
@@ -121,8 +122,8 @@ class BookDetailScreen extends ConsumerWidget {
                           icon: SubtitleIcon(
                             icon: Icons.event_outlined,
                             subtitle: book.startDate
-                                    ?.formatWithYearMonthDay() ??
-                                book.forLaterDate?.formatWithYearMonthDay() ??
+                                    ?.formatWithDayMonthYear() ??
+                                book.forLaterDate?.formatWithDayMonthYear() ??
                                 '',
                             size: 24,
                           ),
@@ -131,6 +132,8 @@ class BookDetailScreen extends ConsumerWidget {
                     ],
                   ),
                   const SizedBox(height: 16),
+                  if (book.pageRecords.isNotEmpty)
+                    ReadingBehavior(pageRecords: book.pageRecords),
                 ],
               ),
             ),

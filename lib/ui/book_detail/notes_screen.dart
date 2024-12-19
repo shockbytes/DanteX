@@ -72,6 +72,8 @@ class _NotesScreenState extends ConsumerState<NotesScreen> {
                         decoration: InputDecoration(
                           border: const OutlineInputBorder(),
                           labelText: 'book_detail.notes_hint'.tr(),
+                          alignLabelWithHint: true,
+                          floatingLabelAlignment: FloatingLabelAlignment.start,
                         ),
                       ),
                     ),
@@ -86,8 +88,9 @@ class _NotesScreenState extends ConsumerState<NotesScreen> {
                         ),
                         OutlinedButton.icon(
                           onPressed: () async {
-                            await ref.read(bookRepositoryProvider).updateBook(
-                                  book.copyWith(notes: _notesController.text),
+                            await ref.read(bookRepositoryProvider).setNotes(
+                                  book.id,
+                                  _notesController.text,
                                 );
                             if (context.mounted) {
                               Navigator.of(context).pop();

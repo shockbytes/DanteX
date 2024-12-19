@@ -120,6 +120,18 @@ class BookRepository {
   Future<void> updateBook(Book book) async {
     await _bookDatabase.child(book.id).update(book.toJson());
   }
+
+  Future<void> setCurrentPage(String bookId, int currentPage) async {
+    await _bookDatabase.child(bookId).update({'currentPage': currentPage});
+  }
+
+  Future<void> setNotes(String bookId, String notes) async {
+    await _bookDatabase.child(bookId).update({'notes': notes});
+  }
+
+  Future<void> setRating(String bookId, int rating) async {
+    await _bookDatabase.child(bookId).update({'rating': rating});
+  }
 }
 
 Book? _getBookFromDataMap(Map<String, dynamic>? data) {

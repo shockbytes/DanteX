@@ -85,8 +85,9 @@ class _BookProgressWidgetState extends ConsumerState<BookProgressWidget> {
                     final currentPage =
                         (widget.book.pageCount * (currentPercentage / 100))
                             .round();
-                    await ref.read(bookRepositoryProvider).updateBook(
-                          widget.book.copyWith(currentPage: currentPage),
+                    await ref.read(bookRepositoryProvider).setCurrentPage(
+                          widget.book.id,
+                          currentPage,
                         );
                   },
                 ),
