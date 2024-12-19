@@ -1,5 +1,6 @@
 import 'package:dantex/models/book.dart';
 import 'package:dantex/models/book_state.dart';
+import 'package:dantex/models/page_record.dart';
 import 'package:dantex/providers/repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -88,6 +89,18 @@ class _BookProgressWidgetState extends ConsumerState<BookProgressWidget> {
                     await ref.read(bookRepositoryProvider).setCurrentPage(
                           widget.book.id,
                           currentPage,
+                        );
+                    await ref.read(bookRepositoryProvider).setPageRecords(
+                          widget.book.id,
+                          List.from(widget.book.pageRecords)
+                            ..add(
+                              PageRecord(
+                                bookId: widget.book.id,
+                                fromPage: widget.book.currentPage,
+                                toPage: currentPage,
+                                timestamp: DateTime.now(),
+                              ),
+                            ),
                         );
                   },
                 ),

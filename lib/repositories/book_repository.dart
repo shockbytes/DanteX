@@ -1,5 +1,7 @@
+import 'package:collection/collection.dart';
 import 'package:dantex/models/book.dart';
 import 'package:dantex/models/book_state.dart';
+import 'package:dantex/models/page_record.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class BookRepository {
@@ -123,6 +125,19 @@ class BookRepository {
 
   Future<void> setCurrentPage(String bookId, int currentPage) async {
     await _bookDatabase.child(bookId).update({'currentPage': currentPage});
+  }
+
+  Future<void> setPageRecords(
+    String bookId,
+    List<PageRecord> pageRecords,
+  ) async {
+    final pageRecordMap = pageRecords.mapIndexed((index, pageRecord) {
+      return MapEntry(index.toString(), pageRecord.toJson());
+    });
+
+    await _bookDatabase
+        .child(bookId)
+        .update({'pageRecords': Map.fromEntries(pageRecordMap)});
   }
 
   Future<void> setNotes(String bookId, String notes) async {
