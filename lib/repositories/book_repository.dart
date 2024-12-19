@@ -46,6 +46,15 @@ class BookRepository {
     bookMap['id'] = bookId;
     bookMap['state'] = bookState.name;
 
+    // Update the bookId in the page records as they may be using legacy IDs.
+    final pageRecords = book.pageRecords.map((pageRecord) {
+      return pageRecord.copyWith(bookId: bookId);
+    });
+    final pageRecordMap = pageRecords.mapIndexed((index, pageRecord) {
+      return MapEntry(index.toString(), pageRecord.toJson());
+    });
+    bookMap['pageRecords'] = Map.fromEntries(pageRecordMap);
+
     await _bookDatabase.child(bookId).set(bookMap);
   }
 
