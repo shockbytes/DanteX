@@ -4,11 +4,6 @@ import 'package:collection/collection.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-const List<Color> _gradientColors = [
-  Colors.lightBlue,
-  Colors.blue,
-];
-
 class DanteLineChart extends StatelessWidget {
   const DanteLineChart({
     required this.points,
@@ -31,6 +26,11 @@ class DanteLineChart extends StatelessWidget {
     final maxY =
         _conditionalRound(max<double>(points.map((p) => p.y).max, goal ?? 0));
 
+    final gradientColors = [
+      Theme.of(context).colorScheme.secondary,
+      Theme.of(context).colorScheme.primary,
+    ];
+
     return AspectRatio(
       aspectRatio: 3,
       child: LineChart(
@@ -49,7 +49,7 @@ class DanteLineChart extends StatelessWidget {
                   horizontalLines: [
                     HorizontalLine(
                       y: goal,
-                      color: Colors.white,
+                      color: Theme.of(context).colorScheme.secondary,
                       strokeWidth: 1,
                       dashArray: [5, 5],
                       label: HorizontalLineLabel(
@@ -102,23 +102,23 @@ class DanteLineChart extends StatelessWidget {
             LineChartBarData(
               spots: points.map((e) => FlSpot(e.x, e.y)).toList(),
               isCurved: true,
-              gradient: const LinearGradient(
-                colors: _gradientColors,
+              gradient: LinearGradient(
+                colors: gradientColors,
               ),
               dotData: FlDotData(
                 getDotPainter: (p0, p1, p2, p3) {
                   return FlDotCirclePainter(
                     radius: 3,
-                    color: _gradientColors[1],
+                    color: gradientColors[1],
                     strokeWidth: 1,
-                    strokeColor: _gradientColors[1],
+                    strokeColor: gradientColors[1],
                   );
                 },
               ),
               belowBarData: BarAreaData(
                 show: true,
                 gradient: LinearGradient(
-                  colors: _gradientColors
+                  colors: gradientColors
                       .map(
                         (color) => color.withValues(
                           alpha: 0.3,

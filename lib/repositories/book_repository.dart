@@ -3,6 +3,7 @@ import 'package:dantex/models/book_state.dart';
 import 'package:dantex/models/page_record.dart';
 import 'package:dantex/util/data.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:ulid/ulid.dart';
 
 class BookRepository {
   const BookRepository({required DatabaseReference bookDatabase})
@@ -132,8 +133,22 @@ class BookRepository {
     await _bookDatabase.child(book.id).update(book.toJson());
   }
 
-  Future<void> setCurrentPage(String bookId, int currentPage) async {
-    await _bookDatabase.child(bookId).update({'currentPage': currentPage});
+  /// Sets the current page of the book and adds a page record.
+  Future<void> setCurrentPage(Book book, int currentPage) async {
+    final pageRecord = PageRecord(
+      id: Ulid().toString(),
+      bookId: book.id,
+      fromPage: book.currentPage,
+      toPage: currentPage,
+      timestamp: DateTime.now(),
+    );
+
+    final updatedBook = book.copyWith(
+      currentPage: currentPage,
+      pageRecords: [...book.pageRecords, pageRecord],
+    );
+
+    await updateBook(updatedBook);
   }
 
   Future<void> setNotes(String bookId, String notes) async {
@@ -160,6 +175,28 @@ class BookRepository {
 
   Future<void> addPageRecord(Book book, PageRecord pageRecord) async {
     final updatedBook = book.copyWith(
+      pageRecords: [...book.pageRecords, pageRecord],
+    );
+
+    await updateBook(updatedBook);
+  }
+
+  Future<void> setPageDetails(
+    Book book,
+    int currentPage,
+    int pageCount,
+  ) async {
+    final pageRecord = PageRecord(
+      id: Ulid().toString(),
+      bookId: book.id,
+      fromPage: book.currentPage,
+      toPage: currentPage,
+      timestamp: DateTime.now(),
+    );
+
+    final updatedBook = book.copyWith(
+      currentPage: currentPage,
+      pageCount: pageCount,
       pageRecords: [...book.pageRecords, pageRecord],
     );
 
