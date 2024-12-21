@@ -8,6 +8,7 @@ import 'package:dantex/models/dante_language.dart';
 import 'package:dantex/models/page_record.dart';
 import 'package:device_marketing_names/device_marketing_names.dart';
 import 'package:googleapis/drive/v3.dart';
+import 'package:ulid/ulid.dart';
 
 class BackupRepository {
   const BackupRepository({required DriveApi driveApi}) : _driveApi = driveApi;
@@ -184,6 +185,7 @@ Book _convertLegacyBook(
 
 PageRecord _convertLegacyPageRecord(Map<String, dynamic> legacyRecord) {
   return PageRecord(
+    id: Ulid().toString(),
     bookId: (legacyRecord['bookId'] as int).toString(),
     fromPage: legacyRecord['fromPage'] as int,
     toPage: legacyRecord['toPage'] as int,

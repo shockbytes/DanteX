@@ -1,0 +1,1 @@
+enum PageRecordAction { edit, reset }

@@ -54,9 +54,9 @@ class _AddBookWidgetState extends ConsumerState<AddBookWidget> {
                 key: const ValueKey('add_book_to_read_later'),
                 onPressed: () async {
                   Navigator.of(context).pop();
-                  await ref
-                      .read(bookRepositoryProvider)
-                      .addBookToState(selectedBook, BookState.readLater);
+                  await ref.read(bookRepositoryProvider).addBook(
+                        selectedBook.copyWith(state: BookState.readLater),
+                      );
                 },
                 child: Text(
                   'book_state.for_later',
@@ -72,7 +72,7 @@ class _AddBookWidgetState extends ConsumerState<AddBookWidget> {
                   Navigator.of(context).pop();
                   await ref
                       .read(bookRepositoryProvider)
-                      .addBookToState(selectedBook, BookState.reading);
+                      .addBook(selectedBook.copyWith(state: BookState.reading));
                 },
                 child: Text(
                   'book_state.reading',
@@ -88,7 +88,7 @@ class _AddBookWidgetState extends ConsumerState<AddBookWidget> {
                   Navigator.of(context).pop();
                   await ref
                       .read(bookRepositoryProvider)
-                      .addBookToState(selectedBook, BookState.read);
+                      .addBook(selectedBook.copyWith(state: BookState.read));
                 },
                 child: Text(
                   'book_state.read',
@@ -105,7 +105,7 @@ class _AddBookWidgetState extends ConsumerState<AddBookWidget> {
             Navigator.of(context).pop();
             await ref
                 .read(bookRepositoryProvider)
-                .addBookToState(selectedBook, BookState.wishlist);
+                .addBook(selectedBook.copyWith(state: BookState.wishlist));
           },
           child: Text(
             'book_state.wishlist',

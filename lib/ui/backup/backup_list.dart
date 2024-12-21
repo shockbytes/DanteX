@@ -131,9 +131,9 @@ class _BackupListState extends ConsumerState<BackupList>
         isLegacyBackup: backup.isLegacyBackup,
       );
       if (restoreStrategy == RestoreStrategy.merge) {
-        await bookRepository.mergeBooks(backupBooks);
+        await bookRepository.mergeBooksFromBackup(backupBooks);
       } else {
-        await bookRepository.overwriteBooks(backupBooks);
+        await bookRepository.overwriteBooksFromBackup(backupBooks);
       }
       logger.trackEvent(
         DanteEvent.restoreBackupFromGoogleDrive,

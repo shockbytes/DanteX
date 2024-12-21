@@ -1,10 +1,14 @@
+import 'package:dantex/models/book.dart';
 import 'package:dantex/providers/book.dart';
 import 'package:dantex/providers/service.dart';
 import 'package:dantex/providers/settings.dart';
 import 'package:dantex/ui/book_detail/book_progress_widget.dart';
+import 'package:dantex/ui/book_detail/edit_page_record_dialog.dart';
 import 'package:dantex/ui/book_detail/notes_screen.dart';
+import 'package:dantex/ui/book_detail/page_record_action.dart';
 import 'package:dantex/ui/book_detail/rate_book_dialog.dart';
 import 'package:dantex/ui/book_detail/reading_behavior.dart';
+import 'package:dantex/ui/book_detail/reset_page_record_dialog.dart';
 import 'package:dantex/ui/edit_book/edit_book_screen.dart';
 import 'package:dantex/ui/shared/book_image.dart';
 import 'package:dantex/ui/shared/dante_loading_indicator.dart';
@@ -131,9 +135,50 @@ class BookDetailScreen extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 16),
-                  if (book.pageRecords.isNotEmpty)
+                  if (book.pageRecords.isNotEmpty) ...[
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        const Text('book_detail.reading_behavior').tr(),
+                        const Spacer(),
+                        PopupMenuButton<PageRecordAction>(
+                          icon: const Icon(Icons.more_horiz),
+                          onSelected: (action) async => _handlePageRecordAction(
+                            context,
+                            action,
+                            book,
+                          ),
+                          itemBuilder: (context) => [
+                            PopupMenuItem(
+                              value: PageRecordAction.edit,
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.edit_outlined),
+                                  const SizedBox(width: 8),
+                                  const Text('book_detail.edit').tr(),
+                                ],
+                              ),
+                            ),
+                            PopupMenuItem(
+                              value: PageRecordAction.reset,
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.delete_outline,
+                                    color: Theme.of(context).colorScheme.error,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  const Text('book_detail.reset').tr(),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
                     ReadingBehavior(pageRecords: book.pageRecords),
+                  ],
                 ],
               ),
             ),
@@ -159,5 +204,24 @@ class BookDetailScreen extends ConsumerWidget {
         ),
       ),
     );
+  }
+}
+
+Future<void> _handlePageRecordAction(
+  BuildContext context,
+  PageRecordAction action,
+  Book book,
+) async {
+  switch (action) {
+    case PageRecordAction.edit:
+      await showDialog<void>(
+        context: context,
+        builder: (context) => EditPageRecordDialog(bookId: book.id),
+      );
+    case PageRecordAction.reset:
+      await showDialog<void>(
+        context: context,
+        builder: (context) => ResetPageRecordDialog(bookId: book.id),
+      );
   }
 }

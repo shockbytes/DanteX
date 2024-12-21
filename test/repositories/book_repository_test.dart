@@ -35,7 +35,7 @@ void main() async {
         'Then addBookToState adds a book to the database with the correct state',
         () async {
           final book = getMockBook();
-          await bookRepository.addBookToState(book, BookState.reading);
+          await bookRepository.addBook(book.copyWith(state: BookState.reading));
           final books =
               await bookRepository.booksForState(BookState.reading).first;
           expect(books, hasLength(2));
@@ -43,7 +43,7 @@ void main() async {
       );
       test('Then overwrite books replaces the books in the database', () async {
         final book = getMockBook();
-        await bookRepository.overwriteBooks([book]);
+        await bookRepository.overwriteBooksFromBackup([book]);
         final readingBooks =
             await bookRepository.booksForState(BookState.reading).first;
         expect(readingBooks, hasLength(1));
@@ -58,8 +58,8 @@ void main() async {
         final book1 = getMockBook();
         final book2 = getMockBook(isbn: 'isbn2');
         final book3 = getMockBook();
-        await bookRepository.overwriteBooks([book1]);
-        await bookRepository.mergeBooks([book2, book3]);
+        await bookRepository.overwriteBooksFromBackup([book1]);
+        await bookRepository.mergeBooksFromBackup([book2, book3]);
         final readingBooks =
             await bookRepository.booksForState(BookState.reading).first;
         expect(readingBooks, hasLength(2));
@@ -69,7 +69,7 @@ void main() async {
         final book1 = getMockBook(position: 1, id: '1');
         final book2 = getMockBook(position: 2, id: '2');
         final book3 = getMockBook(position: 3, id: '3');
-        await bookRepository.overwriteBooks([book1, book2, book3]);
+        await bookRepository.overwriteBooksFromBackup([book1, book2, book3]);
 
         // Get the newly inserted books so we can update their positions using the
         // generated IDs.
@@ -96,7 +96,7 @@ void main() async {
       });
       test('Then move book to state updates the state of a book', () async {
         final book = getMockBook(state: BookState.reading);
-        await bookRepository.overwriteBooks([book]);
+        await bookRepository.overwriteBooksFromBackup([book]);
         final books =
             await bookRepository.booksForState(BookState.reading).first;
         final readingBook = books.first;
@@ -107,7 +107,7 @@ void main() async {
       });
       test('Then delete book deletes a book from the database', () async {
         final book = getMockBook();
-        await bookRepository.overwriteBooks([book]);
+        await bookRepository.overwriteBooksFromBackup([book]);
         final books = await bookRepository.allBooks().first;
         final bookToDelete = books.first;
         await bookRepository.delete(bookToDelete.id);
@@ -117,7 +117,7 @@ void main() async {
       });
       test('Then getBook returns the book', () async {
         final book = getMockBook();
-        await bookRepository.overwriteBooks([book]);
+        await bookRepository.overwriteBooksFromBackup([book]);
         final books = await bookRepository.allBooks().first;
         final bookToGet = books.first;
         final bookStream = bookRepository.getBook(bookToGet.id);
@@ -126,7 +126,7 @@ void main() async {
       });
       test('Then update book updates the book', () async {
         final book = getMockBook();
-        await bookRepository.overwriteBooks([book]);
+        await bookRepository.overwriteBooksFromBackup([book]);
         final books = await bookRepository.allBooks().first;
         final bookToUpdate = books.first;
         final updatedBook = bookToUpdate.copyWith(

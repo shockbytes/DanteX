@@ -110,12 +110,19 @@
     "share_message": "Hey, I'm currently reading {} and it's awesome! Check it out: {}"
   },
   "book_detail": {
+    "cancel": "Cancel",
     "delete": "Delete",
+    "delete_page_record": "Delete page record",
+    "delete_page_record_description": "Do you really want to delete this particular page record? It can't be recovered later.",
+    "delete_page_records": "Delete all page records",
+    "delete_page_records_description": "Deleting all page records means effectively deleting the whole reading history for this book. This will also reset the current page to zero.\n\nAre you sure you want to proceed?",
+    "edit": "Edit",
     "my_notes": "My notes",
     "not_found": "Book not found",
     "notes": "Notes",
     "notes_description": "Write down your thoughts, feelings or some general remarks about {}.",
     "notes_hint": "My thoughts belong in here...",
+    "page_record_details": "Page record details",
     "rate": "Rate",
     "rate_title": "How do you like {}?",
     "rating": "{} stars",
@@ -124,6 +131,8 @@
     "rating_great": "Excellent",
     "rating_ok": "It's okay",
     "rating_terrible": "I've wasted my time",
+    "reading_behavior": "Reading behavior",
+    "reset": "Reset",
     "save": "Save",
     "title": "Book Detail"
   },

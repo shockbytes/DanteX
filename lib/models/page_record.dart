@@ -6,6 +6,7 @@ part 'page_record.g.dart';
 @freezed
 class PageRecord with _$PageRecord {
   const factory PageRecord({
+    required String id,
     required String bookId,
     required int fromPage,
     required int toPage,

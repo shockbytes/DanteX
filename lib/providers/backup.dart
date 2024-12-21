@@ -50,6 +50,7 @@ Future<BackupData?> mostRecentBackup(Ref ref) async {
 Future<void> createGoogleDriveBackup(Ref ref) async {
   final backupRepository = await ref.read(backupRepositoryProvider.future);
   final books = await ref.read(allBooksProvider.future);
+
   await backupRepository.createBackup(books);
 
   // Invalidate the list of backups so that the UI refreshes the value.

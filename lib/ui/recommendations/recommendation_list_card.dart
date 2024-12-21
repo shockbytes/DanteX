@@ -86,9 +86,10 @@ class RecommendationListCard extends ConsumerWidget {
             const SizedBox(height: 16),
             OutlinedButton(
               onPressed: () async {
-                await ref.read(bookRepositoryProvider).addBookToState(
-                      recommendation.suggestion.toBook,
-                      BookState.wishlist,
+                await ref.read(bookRepositoryProvider).addBook(
+                      recommendation.suggestion.toBook.copyWith(
+                        state: BookState.wishlist,
+                      ),
                     );
                 ref
                     .read(loggerProvider)

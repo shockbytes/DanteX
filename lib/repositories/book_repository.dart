@@ -1,7 +1,7 @@
-import 'package:collection/collection.dart';
 import 'package:dantex/models/book.dart';
 import 'package:dantex/models/book_state.dart';
 import 'package:dantex/models/page_record.dart';
+import 'package:dantex/util/data.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class BookRepository {
@@ -36,41 +36,19 @@ class BookRepository {
     });
   }
 
-  Future<void> addBookToState(Book book, BookState bookState) async {
-    final bookId = _bookDatabase.push().key;
-    if (bookId == null) {
-      throw Exception('Failed to generate book id');
-    }
-
-    final bookMap = book.toJson();
-    bookMap['id'] = bookId;
-    bookMap['state'] = bookState.name;
-
-    // Update the bookId in the page records as they may be using legacy IDs.
-    final pageRecords = book.pageRecords.map((pageRecord) {
-      return pageRecord.copyWith(bookId: bookId);
-    });
-    final pageRecordMap = pageRecords.mapIndexed((index, pageRecord) {
-      return MapEntry(index.toString(), pageRecord.toJson());
-    });
-    bookMap['pageRecords'] = Map.fromEntries(pageRecordMap);
-
-    await _bookDatabase.child(bookId).set(bookMap);
-  }
-
   Future<void> clearBooks() async {
     await _bookDatabase.remove();
   }
 
-  Future<void> overwriteBooks(List<Book> books) async {
+  Future<void> overwriteBooksFromBackup(List<Book> books) async {
     await clearBooks();
 
     for (final book in books) {
-      await addBookToState(book, book.state);
+      await addBook(book);
     }
   }
 
-  Future<void> mergeBooks(List<Book> books) async {
+  Future<void> mergeBooksFromBackup(List<Book> books) async {
     // Get the ISBN of each book already in the repository.
     final snapshot = await _bookDatabase.get();
     final bookMap = snapshot.toMap();
@@ -79,7 +57,7 @@ class BookRepository {
 
     for (final book in books) {
       if (!existingBooks.contains(book.isbn)) {
-        await addBookToState(book, book.state);
+        await addBook(book);
       }
     }
   }
@@ -98,8 +76,30 @@ class BookRepository {
     await _bookDatabase.update(bookMap);
   }
 
-  Future<void> addBook(Book book) async {
-    return addBookToState(book, book.state);
+  /// Adds a new book to the database and returns the newly created book's ID.
+  Future<String> addBook(Book book) async {
+    final bookId = _bookDatabase.push().key;
+    if (bookId == null) {
+      throw Exception('Failed to generate book id');
+    }
+
+    var updatedBook = book.copyWith(id: bookId);
+
+    // If the book has page records, update the book ID of each page record with
+    // the new book ID.
+    if (book.pageRecords.isNotEmpty) {
+      final pageRecords = book.pageRecords.map((pageRecord) {
+        return pageRecord.copyWith(bookId: bookId);
+      }).toList();
+
+      updatedBook = updatedBook.copyWith(pageRecords: pageRecords);
+    }
+
+    final bookMap = updatedBook.toJson();
+
+    await _bookDatabase.child(bookId).set(bookMap);
+
+    return bookId;
   }
 
   Future<void> moveBookToState(String bookId, BookState bookState) async {
@@ -136,25 +136,34 @@ class BookRepository {
     await _bookDatabase.child(bookId).update({'currentPage': currentPage});
   }
 
-  Future<void> setPageRecords(
-    String bookId,
-    List<PageRecord> pageRecords,
-  ) async {
-    final pageRecordMap = pageRecords.mapIndexed((index, pageRecord) {
-      return MapEntry(index.toString(), pageRecord.toJson());
-    });
-
-    await _bookDatabase
-        .child(bookId)
-        .update({'pageRecords': Map.fromEntries(pageRecordMap)});
-  }
-
   Future<void> setNotes(String bookId, String notes) async {
     await _bookDatabase.child(bookId).update({'notes': notes});
   }
 
   Future<void> setRating(String bookId, int rating) async {
     await _bookDatabase.child(bookId).update({'rating': rating});
+  }
+
+  Future<void> resetPageRecords(String bookId) async {
+    await _bookDatabase.child(bookId).child('pageRecords').remove();
+  }
+
+  Future<void> deletePageRecord(Book book, String pageRecordId) async {
+    final updatedBook = book.copyWith(
+      pageRecords: book.pageRecords
+          .where((pageRecord) => pageRecord.id != pageRecordId)
+          .toList(),
+    );
+
+    await updateBook(updatedBook);
+  }
+
+  Future<void> addPageRecord(Book book, PageRecord pageRecord) async {
+    final updatedBook = book.copyWith(
+      pageRecords: [...book.pageRecords, pageRecord],
+    );
+
+    await updateBook(updatedBook);
   }
 }
 
@@ -180,10 +189,4 @@ List<Book> _getBooksFromDataMap(Map<String, dynamic>? data) {
   ).toList();
 
   return books;
-}
-
-extension on DataSnapshot {
-  Map<String, dynamic>? toMap() {
-    return (value != null) ? (value! as Map<dynamic, dynamic>).cast() : null;
-  }
 }

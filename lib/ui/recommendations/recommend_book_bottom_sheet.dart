@@ -29,17 +29,16 @@ class _RecommendBookBottomSheetState
 
   @override
   Widget build(BuildContext context) {
-    final mq = MediaQuery.of(context);
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxHeight: mq.size.height * 0.95,
+        maxHeight: MediaQuery.sizeOf(context).height * 0.95,
       ),
       child: SafeArea(
         child: Padding(
           padding: EdgeInsets.only(
             left: 16,
             right: 16,
-            bottom: mq.viewInsets.bottom,
+            bottom: MediaQuery.viewInsetsOf(context).bottom,
           ),
           child: SingleChildScrollView(
             child: Column(

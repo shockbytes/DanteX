@@ -5,6 +5,7 @@ import 'package:dantex/providers/repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:ulid/ulid.dart';
 
 class BookProgressWidget extends ConsumerStatefulWidget {
   const BookProgressWidget({required this.book, super.key});
@@ -70,14 +71,28 @@ class _BookProgressWidgetState extends ConsumerState<BookProgressWidget> {
                   value: currentPercentage,
                   enableAnimation: true,
                   enableDragging: true,
+                  // Outer container that is transparent to make the touch area
+                  // bigger.
                   child: Container(
-                    width: 12,
-                    height: 12,
-                    decoration: BoxDecoration(
-                      color: isReading
-                          ? Theme.of(context).colorScheme.onSecondaryContainer
-                          : Colors.transparent,
+                    width: 36,
+                    height: 36,
+                    decoration: const BoxDecoration(
+                      color: Colors.transparent,
                       shape: BoxShape.circle,
+                    ),
+                    child: Align(
+                      child: Container(
+                        width: 12,
+                        height: 12,
+                        decoration: BoxDecoration(
+                          color: isReading
+                              ? Theme.of(context)
+                                  .colorScheme
+                                  .onSecondaryContainer
+                              : Colors.transparent,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
                     ),
                   ),
                   onValueChanged: (value) =>
@@ -90,17 +105,15 @@ class _BookProgressWidgetState extends ConsumerState<BookProgressWidget> {
                           widget.book.id,
                           currentPage,
                         );
-                    await ref.read(bookRepositoryProvider).setPageRecords(
-                          widget.book.id,
-                          List.from(widget.book.pageRecords)
-                            ..add(
-                              PageRecord(
-                                bookId: widget.book.id,
-                                fromPage: widget.book.currentPage,
-                                toPage: currentPage,
-                                timestamp: DateTime.now(),
-                              ),
-                            ),
+                    await ref.read(bookRepositoryProvider).addPageRecord(
+                          widget.book,
+                          PageRecord(
+                            id: Ulid().toString(),
+                            bookId: widget.book.id,
+                            fromPage: widget.book.currentPage,
+                            toPage: currentPage,
+                            timestamp: DateTime.now(),
+                          ),
                         );
                   },
                 ),

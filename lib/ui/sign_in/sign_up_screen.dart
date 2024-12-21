@@ -45,7 +45,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
         ),
         child: Center(
           child: Container(
-            width: MediaQuery.of(context).size.width * 0.8,
+            width: MediaQuery.sizeOf(context).width * 0.8,
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
