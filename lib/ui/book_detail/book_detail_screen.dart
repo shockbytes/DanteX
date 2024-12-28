@@ -210,17 +210,15 @@ class BookDetailScreen extends ConsumerWidget {
                 child: Row(
                   children: [
                     Expanded(
-                      child: Visibility(
-                        visible: book.forLaterDate != null,
-                        child: SubtitleIcon(
-                          icon: Icons.bookmark_outline,
-                          subtitle:
-                              book.forLaterDate?.formatWithDayMonthYear() ?? '',
-                          size: 24,
-                          iconColor: Theme.of(context)
-                              .extension<DanteColors>()
-                              ?.forLaterColor,
-                        ),
+                      child: SubtitleIcon(
+                        icon: Icons.bookmark_outline,
+                        subtitle:
+                            book.forLaterDate?.formatWithDayMonthYearAlt() ??
+                                'N/A',
+                        size: 24,
+                        iconColor: Theme.of(context)
+                            .extension<DanteColors>()
+                            ?.forLaterColor,
                       ),
                     ),
                     Expanded(
@@ -229,7 +227,7 @@ class BookDetailScreen extends ConsumerWidget {
                         child: SubtitleIcon(
                           icon: Icons.book_outlined,
                           subtitle:
-                              book.startDate?.formatWithDayMonthYear() ?? '',
+                              book.startDate?.formatWithDayMonthYearAlt() ?? '',
                           size: 24,
                           iconColor: Theme.of(context)
                               .extension<DanteColors>()
@@ -243,7 +241,7 @@ class BookDetailScreen extends ConsumerWidget {
                         child: SubtitleIcon(
                           icon: Icons.done_outline_outlined,
                           subtitle:
-                              book.endDate?.formatWithDayMonthYear() ?? '',
+                              book.endDate?.formatWithDayMonthYearAlt() ?? '',
                           size: 24,
                           iconColor: Theme.of(context)
                               .extension<DanteColors>()

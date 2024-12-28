@@ -264,7 +264,8 @@ Book _convertLegacyBook(
     endDate: legacyBook['endDate'] == 0
         ? null
         : DateTime.fromMillisecondsSinceEpoch(legacyBook['endDate'] as int),
-    forLaterDate: legacyBook['forLaterDate'] == 0
+    // Legacy books do not have a 'forLaterDate', rather a 'wishlistDate'.
+    forLaterDate: legacyBook['wishlistDate'] == 0
         ? null
         : DateTime.fromMillisecondsSinceEpoch(
             legacyBook['wishlistDate'] as int,
