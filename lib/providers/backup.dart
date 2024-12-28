@@ -1,6 +1,7 @@
 import 'package:dantex/models/backup_data.dart';
 import 'package:dantex/providers/auth.dart';
 import 'package:dantex/providers/book.dart';
+import 'package:dantex/providers/repository.dart';
 import 'package:dantex/repositories/backup_repository.dart';
 import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sign_in_as_googleapis_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,8 +21,14 @@ Future<BackupRepository> backupRepository(Ref ref) async {
   }
 
   final driveApi = DriveApi(httpClient);
+  final bookRepository = ref.watch(bookRepositoryProvider);
+  final bookLabelRepository = ref.watch(bookLabelRepositoryProvider);
 
-  return BackupRepository(driveApi: driveApi);
+  return BackupRepository(
+    driveApi: driveApi,
+    bookRepository: bookRepository,
+    bookLabelRepository: bookLabelRepository,
+  );
 }
 
 @riverpod

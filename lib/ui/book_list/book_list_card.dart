@@ -68,7 +68,7 @@ class _LabelRow extends StatelessWidget {
       padding: const EdgeInsets.only(top: 16),
       child: Wrap(
         spacing: 8,
-        runSpacing: 4,
+        runSpacing: 8,
         children: [
           for (final label in book.labels) BookLabelButton(label: label),
         ],

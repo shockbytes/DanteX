@@ -141,6 +141,7 @@ class DanteLineChart extends StatelessWidget {
   ) {
     return SideTitleWidget(
       axisSide: meta.axisSide,
+      space: 16,
       child: Transform.rotate(
         angle: -0.5,
         child: _buildLegendText(

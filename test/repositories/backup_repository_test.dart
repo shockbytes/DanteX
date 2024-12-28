@@ -1,4 +1,6 @@
 import 'package:dantex/repositories/backup_repository.dart';
+import 'package:dantex/repositories/book_label_repository.dart';
+import 'package:dantex/repositories/book_repository.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:googleapis/drive/v3.dart';
 import 'package:mockito/annotations.dart';
@@ -11,12 +13,23 @@ import 'backup_repository_test.mocks.dart';
   DriveApi,
   FilesResource,
 ])
-void main() {
+void main() async {
+  final mockDatabase = await getMockDatabase();
+  final bookRef = mockDatabase.ref(BookRepository.booksPath('userId'));
+  final bookLabelRef =
+      mockDatabase.ref(BookLabelRepository.labelsPath('userId'));
   final mockDriveApi = MockDriveApi();
   final mockFilesResource = MockFilesResource();
   when(mockDriveApi.files).thenReturn(mockFilesResource);
+  final bookRepository = BookRepository(bookDatabase: bookRef);
+  final bookLabelRepository =
+      BookLabelRepository(bookLabelDatabase: bookLabelRef);
   group('Given a backup repository', () {
-    final backupRepository = BackupRepository(driveApi: mockDriveApi);
+    final backupRepository = BackupRepository(
+      driveApi: mockDriveApi,
+      bookRepository: bookRepository,
+      bookLabelRepository: bookLabelRepository,
+    );
     group('When calling listing backups', () {
       group('And the driveApi response is empty', () {
         test('Then no books are returned', () async {

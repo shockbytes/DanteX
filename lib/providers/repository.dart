@@ -3,6 +3,7 @@ import 'package:dantex/providers/client.dart';
 import 'package:dantex/providers/firebase.dart';
 import 'package:dantex/providers/service.dart';
 import 'package:dantex/repositories/book_image_repository.dart';
+import 'package:dantex/repositories/book_label_repository.dart';
 import 'package:dantex/repositories/book_repository.dart';
 import 'package:dantex/repositories/recommendations_repository.dart';
 import 'package:dantex/repositories/user_image_repository.dart';
@@ -102,4 +103,29 @@ UserSettingsRepository userSettingsRepository(Ref ref) {
   final sharedPreferences = ref.watch(sharedPreferencesProvider);
 
   return UserSettingsRepository(sharedPreferences: sharedPreferences);
+}
+
+@riverpod
+DatabaseReference? bookLabelDatabaseRef(Ref ref) {
+  final database = ref.watch(firebaseDatabaseProvider);
+
+  // Only watch authStateChanges here so that the database reference is only
+  // recreated when the user signs in or out.
+  final userId = ref.watch(authStateChangesProvider).value?.uid;
+  if (userId == null) {
+    return null;
+  }
+
+  return database.ref(BookLabelRepository.labelsPath(userId));
+}
+
+@riverpod
+BookLabelRepository bookLabelRepository(Ref ref) {
+  final bookLabelDatabase = ref.watch(bookLabelDatabaseRefProvider);
+
+  if (bookLabelDatabase == null) {
+    throw Exception('Database reference is null');
+  }
+
+  return BookLabelRepository(bookLabelDatabase: bookLabelDatabase);
 }

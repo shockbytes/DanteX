@@ -203,6 +203,6 @@ BookLabel getMockBookLabel() {
   return const BookLabel(
     id: 'id',
     title: 'Cool Label',
-    hexColor: '#ff4caf50',
+    hexColor: 'FF000000',
   );
 }

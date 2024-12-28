@@ -1,4 +1,5 @@
 import 'package:dantex/models/book.dart';
+import 'package:dantex/models/book_label.dart';
 import 'package:dantex/models/book_state.dart';
 import 'package:dantex/models/page_record.dart';
 import 'package:dantex/util/data.dart';
@@ -39,28 +40,6 @@ class BookRepository {
 
   Future<void> clearBooks() async {
     await _bookDatabase.remove();
-  }
-
-  Future<void> overwriteBooksFromBackup(List<Book> books) async {
-    await clearBooks();
-
-    for (final book in books) {
-      await addBook(book);
-    }
-  }
-
-  Future<void> mergeBooksFromBackup(List<Book> books) async {
-    // Get the ISBN of each book already in the repository.
-    final snapshot = await _bookDatabase.get();
-    final bookMap = snapshot.toMap();
-    final existingBooks =
-        _getBooksFromDataMap(bookMap).map((book) => book.isbn);
-
-    for (final book in books) {
-      if (!existingBooks.contains(book.isbn)) {
-        await addBook(book);
-      }
-    }
   }
 
   Future<void> updatePositions(List<Book> books) async {
@@ -198,6 +177,22 @@ class BookRepository {
       currentPage: currentPage,
       pageCount: pageCount,
       pageRecords: [...book.pageRecords, pageRecord],
+    );
+
+    await updateBook(updatedBook);
+  }
+
+  Future<void> removeBookLabel(Book book, String labelId) async {
+    final updatedBook = book.copyWith(
+      labels: book.labels.where((label) => label.id != labelId).toList(),
+    );
+
+    await updateBook(updatedBook);
+  }
+
+  Future<void> addBookLabel(Book book, BookLabel label) async {
+    final updatedBook = book.copyWith(
+      labels: [...book.labels, label],
     );
 
     await updateBook(updatedBook);

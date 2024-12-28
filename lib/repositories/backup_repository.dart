@@ -6,12 +6,23 @@ import 'package:dantex/models/book_label.dart';
 import 'package:dantex/models/book_state.dart';
 import 'package:dantex/models/dante_language.dart';
 import 'package:dantex/models/page_record.dart';
+import 'package:dantex/repositories/book_label_repository.dart';
+import 'package:dantex/repositories/book_repository.dart';
 import 'package:device_marketing_names/device_marketing_names.dart';
 import 'package:googleapis/drive/v3.dart';
 import 'package:ulid/ulid.dart';
 
 class BackupRepository {
-  const BackupRepository({required DriveApi driveApi}) : _driveApi = driveApi;
+  const BackupRepository({
+    required DriveApi driveApi,
+    required BookRepository bookRepository,
+    required BookLabelRepository bookLabelRepository,
+  })  : _driveApi = driveApi,
+        _bookRepository = bookRepository,
+        _bookLabelRepository = bookLabelRepository;
+
+  final BookRepository _bookRepository;
+  final BookLabelRepository _bookLabelRepository;
 
   final DriveApi _driveApi;
 
@@ -140,6 +151,91 @@ class BackupRepository {
       ),
     );
   }
+
+  Future<void> overwriteBooksFromBackup(List<Book> books) async {
+    await _bookRepository.clearBooks();
+
+    final labels = books.expand((book) => book.labels).toSet();
+    final existingLabels = await _bookLabelRepository.allLabels().first;
+
+    // Check that any of the labels that we are about to add do not already
+    // existing in the repository. We can't use the equality check here because
+    // the labels in the backup may have different IDs.
+    final newLabels = labels.where(
+      (label) => !existingLabels.any(
+        (existingLabel) =>
+            existingLabel.title == label.title &&
+            existingLabel.hexColor == label.hexColor,
+      ),
+    );
+
+    for (final label in newLabels) {
+      await _bookLabelRepository.addLabel(label);
+    }
+
+    final allLabels = await _bookLabelRepository.allLabels().first;
+
+    for (final book in books) {
+      final updatedLabels = <BookLabel>[];
+      // Update each label in the book to use the label from the repository so
+      // that we get the correct IDs.
+      for (final label in book.labels) {
+        final existingLabel = allLabels.firstWhere(
+          (existingLabel) =>
+              existingLabel.title == label.title &&
+              existingLabel.hexColor == label.hexColor,
+          orElse: () => label,
+        );
+
+        updatedLabels.add(existingLabel);
+      }
+      await _bookRepository.addBook(book.copyWith(labels: updatedLabels));
+    }
+  }
+
+  Future<void> mergeBooksFromBackup(List<Book> books) async {
+    // Get the ISBN of each book already in the repository.
+    final allBooks = await _bookRepository.allBooks().first;
+    final existingBooks = allBooks.map((book) => book.isbn);
+    final newBooks = books.where((book) => !existingBooks.contains(book.isbn));
+
+    final labels = newBooks.expand((book) => book.labels).toSet();
+    final existingLabels = await _bookLabelRepository.allLabels().first;
+
+    // Check that any of the labels that we are about to add do not already
+    // existing in the repository. We can't use the equality check here because
+    // the labels in the backup may have different IDs.
+    final newLabels = labels.where(
+      (label) => !existingLabels.any(
+        (existingLabel) =>
+            existingLabel.title == label.title &&
+            existingLabel.hexColor == label.hexColor,
+      ),
+    );
+
+    for (final label in newLabels) {
+      await _bookLabelRepository.addLabel(label);
+    }
+
+    final allLabels = await _bookLabelRepository.allLabels().first;
+
+    for (final book in newBooks) {
+      final updatedLabels = <BookLabel>[];
+      // Update each label in the book to use the label from the repository so
+      // that we get the correct IDs.
+      for (final label in book.labels) {
+        final existingLabel = allLabels.firstWhere(
+          (existingLabel) =>
+              existingLabel.title == label.title &&
+              existingLabel.hexColor == label.hexColor,
+          orElse: () => label,
+        );
+
+        updatedLabels.add(existingLabel);
+      }
+      await _bookRepository.addBook(book.copyWith(labels: updatedLabels));
+    }
+  }
 }
 
 Book _convertLegacyBook(
@@ -196,10 +292,12 @@ PageRecord _convertLegacyPageRecord(Map<String, dynamic> legacyRecord) {
 }
 
 BookLabel _convertLegacyBookLabel(Map<String, dynamic> legacyLabel) {
+  final legacyColor = legacyLabel['hexColor'] as String;
+  final hexColor = legacyColor.replaceAll('#', '');
+
   return BookLabel(
-    // This ID comes from Firebase, so for now can just use -1 as placeholder.
     id: '-1',
-    hexColor: legacyLabel['hexColor'] as String,
+    hexColor: hexColor,
     title: legacyLabel['title'] as String,
   );
 }

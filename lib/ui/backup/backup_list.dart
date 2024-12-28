@@ -3,7 +3,6 @@ import 'package:dantex/models/backup_data.dart';
 import 'package:dantex/models/book_restore_strategy.dart';
 import 'package:dantex/providers/backup.dart';
 import 'package:dantex/providers/book.dart';
-import 'package:dantex/providers/repository.dart';
 import 'package:dantex/providers/service.dart';
 import 'package:dantex/ui/backup/backup_list_card.dart';
 import 'package:dantex/ui/backup/restore_backup_dialog.dart';
@@ -120,7 +119,6 @@ class _BackupListState extends ConsumerState<BackupList>
     }
 
     final logger = ref.read(loggerProvider);
-    final bookRepository = ref.read(bookRepositoryProvider);
     final progressNotifier = ref.read(backupInProgressNotifierProvider.notifier)
       ..start();
 
@@ -131,9 +129,9 @@ class _BackupListState extends ConsumerState<BackupList>
         isLegacyBackup: backup.isLegacyBackup,
       );
       if (restoreStrategy == RestoreStrategy.merge) {
-        await bookRepository.mergeBooksFromBackup(backupBooks);
+        await backupRepository.mergeBooksFromBackup(backupBooks);
       } else {
-        await bookRepository.overwriteBooksFromBackup(backupBooks);
+        await backupRepository.overwriteBooksFromBackup(backupBooks);
       }
       logger.trackEvent(
         DanteEvent.restoreBackupFromGoogleDrive,

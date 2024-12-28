@@ -1,5 +1,5 @@
 import 'package:dantex/models/book_label.dart';
-import 'package:dantex/providers/book.dart';
+import 'package:dantex/providers/book_label.dart';
 import 'package:dantex/ui/shared/book_image.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -24,15 +24,17 @@ class BookLabelButton extends StatelessWidget {
         ),
       ),
       style: OutlinedButton.styleFrom(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         side: BorderSide(color: label.color),
+        minimumSize: Size.zero,
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       ),
       child: Text(
         label.title,
-        style: Theme.of(context)
-            .textTheme
-            .labelLarge
-            ?.copyWith(color: label.color, fontWeight: FontWeight.bold),
+        style: Theme.of(context).textTheme.labelLarge?.copyWith(
+              color: label.color,
+              fontWeight: FontWeight.bold,
+            ),
       ),
     );
   }
@@ -45,12 +47,7 @@ class _BookLabelBottomSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final books = ref.watch(allBooksProvider).value;
-    final booksWithLabel = books?.where((book) => book.labels.contains(label));
-
-    if (booksWithLabel == null) {
-      return const SizedBox.shrink();
-    }
+    final booksWithLabel = ref.watch(booksWithLabelProvider(label.id));
 
     return LayoutBuilder(
       builder: (context, constraints) {

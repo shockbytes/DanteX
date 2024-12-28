@@ -74,4 +74,26 @@ class MockBackupRepository extends _i1.Mock implements _i2.BackupRepository {
         returnValue: _i3.Future<void>.value(),
         returnValueForMissingStub: _i3.Future<void>.value(),
       ) as _i3.Future<void>);
+
+  @override
+  _i3.Future<void> overwriteBooksFromBackup(List<_i5.Book>? books) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #overwriteBooksFromBackup,
+          [books],
+        ),
+        returnValue: _i3.Future<void>.value(),
+        returnValueForMissingStub: _i3.Future<void>.value(),
+      ) as _i3.Future<void>);
+
+  @override
+  _i3.Future<void> mergeBooksFromBackup(List<_i5.Book>? books) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #mergeBooksFromBackup,
+          [books],
+        ),
+        returnValue: _i3.Future<void>.value(),
+        returnValueForMissingStub: _i3.Future<void>.value(),
+      ) as _i3.Future<void>);
 }
