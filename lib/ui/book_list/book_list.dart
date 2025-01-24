@@ -1,4 +1,3 @@
-import 'dart:developer' as developer;
 import 'dart:math';
 
 import 'package:dantex/logger/event.dart';
@@ -27,10 +26,6 @@ class BookList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final realmBooks = ref.watch(realmBookRepositoryProvider).list();
-
-    developer.log('Got realm books: $realmBooks');
-
     final booksForState = ref.watch(booksForStateProvider(bookState));
     final searchTerm = ref.watch(searchTermProvider);
     var showRandomBookWidget = false;

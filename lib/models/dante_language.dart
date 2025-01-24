@@ -1,39 +1,54 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'dante_language.freezed.dart';
 part 'dante_language.g.dart';
 
-@freezed
-class DanteLanguage with _$DanteLanguage {
-  const factory DanteLanguage({
-    required String isoCode,
-    required String name,
-  }) = _DanteLanguage;
+@JsonEnum(alwaysCreate: true)
+enum DanteLanguage {
+  @JsonValue('other')
+  other(isoCode: 'other', name: 'Other'),
+  @JsonValue('en')
+  english(isoCode: 'en', name: 'English'),
+  @JsonValue('de')
+  german(isoCode: 'de', name: 'German'),
+  @JsonValue('it')
+  italian(isoCode: 'it', name: 'Italian'),
+  @JsonValue('fr')
+  french(isoCode: 'fr', name: 'French'),
+  @JsonValue('es')
+  spanish(isoCode: 'es', name: 'Spanish'),
+  @JsonValue('pt')
+  portuguese(isoCode: 'pt', name: 'Portuguese'),
+  @JsonValue('nl')
+  dutch(isoCode: 'nl', name: 'Dutch'),
+  @JsonValue('zh')
+  chinese(isoCode: 'zh', name: 'Chinese'),
+  @JsonValue('ru')
+  russian(isoCode: 'ru', name: 'Russian'),
+  @JsonValue('sv')
+  swedish(isoCode: 'sv', name: 'Swedish'),
+  @JsonValue('no')
+  norwegian(isoCode: 'no', name: 'Norwegian'),
+  @JsonValue('pl')
+  polish(isoCode: 'pl', name: 'Polish'),
+  @JsonValue('ro')
+  romanian(isoCode: 'ro', name: 'Romanian'),
+  @JsonValue('hr')
+  croatian(isoCode: 'hr', name: 'Croatian'),
+  @JsonValue('hu')
+  hungarian(isoCode: 'hu', name: 'Hungarian'),
+  @JsonValue('id')
+  indonesian(isoCode: 'id', name: 'Indonesian'),
+  @JsonValue('th')
+  thai(isoCode: 'th', name: 'Thai');
 
-  factory DanteLanguage.fromJson(Map<String, dynamic> json) =>
-      _$DanteLanguageFromJson(json);
+  const DanteLanguage({
+    required this.isoCode,
+    required this.name,
+  });
 
-  const DanteLanguage._();
-
-  static const other = DanteLanguage(isoCode: 'other', name: 'Other');
-  static const english = DanteLanguage(isoCode: 'en', name: 'English');
-  static const german = DanteLanguage(isoCode: 'de', name: 'German');
-  static const italian = DanteLanguage(isoCode: 'it', name: 'Italian');
-  static const french = DanteLanguage(isoCode: 'fr', name: 'French');
-  static const spanish = DanteLanguage(isoCode: 'es', name: 'Spanish');
-  static const portuguese = DanteLanguage(isoCode: 'pt', name: 'Portuguese');
-  static const dutch = DanteLanguage(isoCode: 'nl', name: 'Dutch');
-  static const chinese = DanteLanguage(isoCode: 'zh', name: 'Chinese');
-  static const russian = DanteLanguage(isoCode: 'ru', name: 'Russian');
-  static const swedish = DanteLanguage(isoCode: 'sv', name: 'Swedish');
-  static const norwegian = DanteLanguage(isoCode: 'no', name: 'Norwegian');
-  static const polish = DanteLanguage(isoCode: 'pl', name: 'Polish');
-  static const romanian = DanteLanguage(isoCode: 'ro', name: 'Romanian');
-  static const croatian = DanteLanguage(isoCode: 'hr', name: 'Croatian');
-  static const hungarian = DanteLanguage(isoCode: 'hu', name: 'Hungarian');
-  static const indonesian = DanteLanguage(isoCode: 'id', name: 'Indonesian');
-  static const thai = DanteLanguage(isoCode: 'th', name: 'Thai');
+  final String isoCode;
+  final String name;
 
   Color get color {
     if (isoCode == 'en') {
@@ -84,46 +99,8 @@ class DanteLanguage with _$DanteLanguage {
 }
 
 DanteLanguage languageFromIsoCode(String? isoCode) {
-  if (isoCode == null) {
-    return DanteLanguage.other;
-  }
-
-  switch (isoCode) {
-    case 'en':
-      return DanteLanguage.english;
-    case 'de':
-      return DanteLanguage.german;
-    case 'it':
-      return DanteLanguage.italian;
-    case 'fr':
-      return DanteLanguage.french;
-    case 'es':
-      return DanteLanguage.spanish;
-    case 'pt':
-      return DanteLanguage.portuguese;
-    case 'nl':
-      return DanteLanguage.dutch;
-    case 'zh':
-      return DanteLanguage.chinese;
-    case 'ru':
-      return DanteLanguage.russian;
-    case 'sv':
-      return DanteLanguage.swedish;
-    case 'no':
-      return DanteLanguage.norwegian;
-    case 'pl':
-      return DanteLanguage.polish;
-    case 'ro':
-      return DanteLanguage.romanian;
-    case 'hr':
-      return DanteLanguage.croatian;
-    case 'hu':
-      return DanteLanguage.hungarian;
-    case 'id':
-      return DanteLanguage.indonesian;
-    case 'th':
-      return DanteLanguage.thai;
-    default:
-      return DanteLanguage.other;
-  }
+  return DanteLanguage.values.firstWhere(
+    (lang) => lang.isoCode == isoCode,
+    orElse: () => DanteLanguage.other,
+  );
 }
