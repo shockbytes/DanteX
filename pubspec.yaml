@@ -12,7 +12,7 @@ dependencies:
   cached_network_image: ^3.4.1
   collection: ^1.18.0
   country_icons: ^3.0.0
-  device_marketing_names: ^0.9.3
+  device_marketing_names: ^1.0.1
   device_preview: ^1.2.0
   dio: ^5.7.0
   easy_localization: ^3.0.7
@@ -25,7 +25,7 @@ dependencies:
   firebase_crashlytics: ^4.1.4
   firebase_database: ^11.1.6
   firebase_storage: ^12.3.7
-  fl_chart: ^0.69.2
+  fl_chart: ^0.70.2
   flex_color_picker: ^3.6.0
   flutter:
     sdk: flutter
