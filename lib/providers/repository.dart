@@ -5,7 +5,6 @@ import 'package:dantex/providers/service.dart';
 import 'package:dantex/repositories/book_image_repository.dart';
 import 'package:dantex/repositories/book_label_repository.dart';
 import 'package:dantex/repositories/book_repository.dart';
-import 'package:dantex/repositories/realm_book_repository.dart';
 import 'package:dantex/repositories/recommendations_repository.dart';
 import 'package:dantex/repositories/user_image_repository.dart';
 import 'package:dantex/repositories/user_settings_repository.dart';
@@ -129,11 +128,4 @@ BookLabelRepository bookLabelRepository(Ref ref) {
   }
 
   return BookLabelRepository(bookLabelDatabase: bookLabelDatabase);
-}
-
-@riverpod
-RealmBookRepository realmBookRepository(Ref ref) {
-  final realm = ref.watch(realmProvider);
-
-  return RealmBookRepository(realm: realm);
 }
