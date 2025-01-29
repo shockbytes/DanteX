@@ -73,7 +73,7 @@ void main() async {
         test('Then the byStartDate timeline sort strategy is returned', () {
           final timelineSortStrategy =
               userSettingsRepository.getTimelineSortStrategy();
-          expect(timelineSortStrategy, TimelineSortStrategy.byStartDate.name);
+          expect(timelineSortStrategy, TimelineSortStrategy.byStartDate);
         });
       });
     });
@@ -84,7 +84,7 @@ void main() async {
         );
         final timelineSortStrategy =
             userSettingsRepository.getTimelineSortStrategy();
-        expect(timelineSortStrategy, TimelineSortStrategy.byStartDate.name);
+        expect(timelineSortStrategy, TimelineSortStrategy.byStartDate);
       });
     });
   });
