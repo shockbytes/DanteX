@@ -38,4 +38,4 @@ jobs:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_DEPLOYMENT_SERVICE_ACCOUNT }}'
           channelId: live
-          projectId: kamuh-app
+          projectId: dante-166506
