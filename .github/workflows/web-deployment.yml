@@ -1,0 +1,41 @@
+name: Deploy Web version to dantebooks.com
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build_and_deploy:
+    runs-on: macos-14
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2.12.0
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Generate code
+        run: flutter pub run build_runner build --delete-conflicting-outputs
+
+      - name: Build Web
+        run: flutter build web
+
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_DEPLOYMENT_SERVICE_ACCOUNT }}'
+          channelId: live
+          projectId: kamuh-app
