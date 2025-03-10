@@ -11,10 +11,11 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'statistics.g.dart';
 
+typedef BookCount = ({int readLaterCount, int readingCount, int readCount});
 const zeroBookCount = (readLaterCount: 0, readingCount: 0, readCount: 0);
 
 @riverpod
-({int readLaterCount, int readingCount, int readCount}) bookCounts(Ref ref) {
+BookCount bookCounts(Ref ref) {
   final books = ref.watch(allBooksProvider);
 
   return books.when(
@@ -37,10 +38,11 @@ const zeroBookCount = (readLaterCount: 0, readingCount: 0, readCount: 0);
   );
 }
 
+typedef PageCount = ({int pagesWaiting, int pagesRead});
 const zeroPageCount = (pagesWaiting: 0, pagesRead: 0);
 
 @riverpod
-({int pagesWaiting, int pagesRead}) pageCounts(Ref ref) {
+PageCount pageCounts(Ref ref) {
   final books = ref.watch(allBooksProvider);
 
   return books.when(
